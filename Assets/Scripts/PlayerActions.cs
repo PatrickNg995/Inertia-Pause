@@ -109,6 +109,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TimePause"",
+                    ""type"": ""Button"",
+                    ""id"": ""8a1b6bdb-9f76-4559-8eef-25d6c0960c3c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -177,6 +186,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""776ca30b-941f-46e5-ae49-dea89283dea1"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame = asset.FindActionMap("Ingame", throwIfNotFound: true);
         m_Ingame_Movement = m_Ingame.FindAction("Movement", throwIfNotFound: true);
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
+        m_Ingame_TimePause = m_Ingame.FindAction("TimePause", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -269,6 +290,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private List<IIngameActions> m_IngameActionsCallbackInterfaces = new List<IIngameActions>();
     private readonly InputAction m_Ingame_Movement;
     private readonly InputAction m_Ingame_Look;
+    private readonly InputAction m_Ingame_TimePause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Ingame".
     /// </summary>
@@ -288,6 +310,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Ingame/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_Ingame_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/TimePause".
+        /// </summary>
+        public InputAction @TimePause => m_Wrapper.m_Ingame_TimePause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -320,6 +346,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @TimePause.started += instance.OnTimePause;
+            @TimePause.performed += instance.OnTimePause;
+            @TimePause.canceled += instance.OnTimePause;
         }
 
         /// <summary>
@@ -337,6 +366,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @TimePause.started -= instance.OnTimePause;
+            @TimePause.performed -= instance.OnTimePause;
+            @TimePause.canceled -= instance.OnTimePause;
         }
 
         /// <summary>
@@ -391,5 +423,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TimePause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTimePause(InputAction.CallbackContext context);
     }
 }

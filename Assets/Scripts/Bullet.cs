@@ -8,6 +8,11 @@ public class Bullet : MonoBehaviour
     // Speed at which the bullet travels
     public float bulletSpeed = 10f; // NOTE this has been slowed for easier observation testing
 
+    // reference time pause script, rigidbody & collider
+    private TimePauseUnpause timePauseScript;
+    private Rigidbody rb;
+    private CapsuleCollider capsuleCollider;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
@@ -18,7 +23,16 @@ public class Bullet : MonoBehaviour
         }
 
         // Set the bullet's velocity to be in the forward direction of its parent
-        GetComponent<Rigidbody>().linearVelocity = transform.parent.forward * bulletSpeed;
+        rb = GetComponent<Rigidbody>();
+        rb.linearVelocity = transform.parent.forward * bulletSpeed;
+
+        // Get collider
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
+        // Connect to pause & unpause functions
+        timePauseScript = GameObject.FindGameObjectWithTag("TimePause").GetComponent<TimePauseUnpause>();
+        timePauseScript.pauseTime.AddListener(pauseBullet);
+        timePauseScript.unpauseTime.AddListener(unpauseBullet);
     }
 
     // This should only be called if this is a piercing bullet, destroy any NPC it hits
@@ -35,4 +49,17 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    // Disable collider on pause
+    private void pauseBullet()
+    {
+        capsuleCollider.enabled = false;
+    }
+
+    // Enable collider on unpause
+    private void unpauseBullet()
+    {
+        capsuleCollider.enabled = true;
+    }
+
 }

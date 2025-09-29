@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2651440927120036450}
   - component: {fileID: 6965351139296787763}
   - component: {fileID: 8353908449060022372}
+  - component: {fileID: 679650210887700583}
   m_Layer: 0
   m_Name: Bullet Model
   m_TagString: Untagged
@@ -151,9 +152,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baa0129b370487044a733b712e308308, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  piercingMaterial: {fileID: 2100000, guid: 09ec01843027b5646a5a493bdafeb5ab, type: 2}
   isPiercing: 0
   bulletSpeed: 10
+--- !u!114 &679650210887700583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353869921827706845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b61eab191c043448b9a4c16b51b86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6560937390844839067
 GameObject:
   m_ObjectHideFlags: 0
