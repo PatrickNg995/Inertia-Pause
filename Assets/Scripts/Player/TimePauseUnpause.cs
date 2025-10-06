@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -14,6 +15,7 @@ public class TimePauseUnpause : MonoBehaviour
 
     // Add start delay to time pause
     public float timePauseDelay;
+    private float timePauseDelayTimer;
 
     // Bool to only pause / unpause once
     private bool hasPaused = false;
@@ -26,10 +28,15 @@ public class TimePauseUnpause : MonoBehaviour
         inputActions = new PlayerActions();
         timePause = inputActions.Ingame.TimePause;
 
+        
+    }
+    private void Start()
+    {
         // make sure it is false
         hasPaused = false;
         hasUnpaused = false;
-}
+        timePauseDelayTimer = timePauseDelay;
+    }
 
     // Enable & disable input actions
     private void OnEnable()
@@ -48,13 +55,15 @@ public class TimePauseUnpause : MonoBehaviour
     void Update()
     {
         // Only done at the beginning
-        while (!hasPaused)
+        if (!hasPaused)
         {
+            Debug.Log(timePauseDelayTimer);
             // Run timer & pause time if timer <= 0
-            timePauseDelay -= Time.deltaTime;
-            if (timePauseDelay <= 0)
+            timePauseDelayTimer -= Time.deltaTime;
+            if (timePauseDelayTimer < 0)
             {
-                hasPaused = true; 
+                hasPaused = true;
+                Time.timeScale = 0;
                 pauseTime.Invoke();
             }
         }
@@ -66,6 +75,7 @@ public class TimePauseUnpause : MonoBehaviour
         if (hasPaused && !hasUnpaused)
         {
             hasUnpaused = true;
+            Time.timeScale = 1;
             unpauseTime.Invoke();
         }
     }

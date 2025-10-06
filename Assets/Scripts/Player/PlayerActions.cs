@@ -118,6 +118,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Restart"",
+                    ""type"": ""Button"",
+                    ""id"": ""633761ad-f8ef-42b4-a297-c5d816366a31"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +206,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""TimePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""26df6b39-f1d2-46d1-b3d4-753c61342485"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Restart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +228,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame_Movement = m_Ingame.FindAction("Movement", throwIfNotFound: true);
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
         m_Ingame_TimePause = m_Ingame.FindAction("TimePause", throwIfNotFound: true);
+        m_Ingame_Restart = m_Ingame.FindAction("Restart", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -291,6 +312,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ingame_Movement;
     private readonly InputAction m_Ingame_Look;
     private readonly InputAction m_Ingame_TimePause;
+    private readonly InputAction m_Ingame_Restart;
     /// <summary>
     /// Provides access to input actions defined in input action map "Ingame".
     /// </summary>
@@ -314,6 +336,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Ingame/TimePause".
         /// </summary>
         public InputAction @TimePause => m_Wrapper.m_Ingame_TimePause;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/Restart".
+        /// </summary>
+        public InputAction @Restart => m_Wrapper.m_Ingame_Restart;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +375,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TimePause.started += instance.OnTimePause;
             @TimePause.performed += instance.OnTimePause;
             @TimePause.canceled += instance.OnTimePause;
+            @Restart.started += instance.OnRestart;
+            @Restart.performed += instance.OnRestart;
+            @Restart.canceled += instance.OnRestart;
         }
 
         /// <summary>
@@ -369,6 +398,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TimePause.started -= instance.OnTimePause;
             @TimePause.performed -= instance.OnTimePause;
             @TimePause.canceled -= instance.OnTimePause;
+            @Restart.started -= instance.OnRestart;
+            @Restart.performed -= instance.OnRestart;
+            @Restart.canceled -= instance.OnRestart;
         }
 
         /// <summary>
@@ -430,5 +462,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTimePause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Restart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRestart(InputAction.CallbackContext context);
     }
 }
