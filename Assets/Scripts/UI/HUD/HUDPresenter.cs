@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class HUDPresenter : MonoBehaviour
 {
+    [Header("View")]
     [SerializeField] private HUDView _view;
 
     // Add models here
+    [Header("Models")]
+    [SerializeField] private FramerateChecker _framerateChecker;
 
+    [Header("Settings")]
     [SerializeField] private Color _interactionNameDefaultColor;
     [SerializeField] private Color _interactionNameInteractingColor;
     [SerializeField] private float _redoUnavailableAlpha;
@@ -31,13 +36,18 @@ public class HUDPresenter : MonoBehaviour
 
     void Start()
     {
-        // TODO: Add listeners here when we have game manager working
-
         _platform = Application.platform.ToString();
         _buildVersion = Application.version;
-        _lastFramerate = 0;
-        _lastLatency = 0;
+        OnFramerateUpdate(0, 0);
 
+        _view.ObjectivesElements.alpha = 0;
+
+        if (_framerateChecker != null )
+        {
+            _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
+        }
+
+        // TODO: Add listeners here when we have game manager working
         // _levelStartController.OnLevelStart += HideObjectives;
 
         // _playerController.OnLookAtInteractable += OnPlayerLookAtInteractable;
@@ -83,6 +93,7 @@ public class HUDPresenter : MonoBehaviour
 
     private void OnLevelStart()
     {
+        _view.ObjectivesElements.alpha = 1;
         _objectivesFadeCoroutine = StartCoroutine(DelayAndFadeObjectives());
     }
 
@@ -108,11 +119,16 @@ public class HUDPresenter : MonoBehaviour
         _view.RedoPrompt.alpha = _redoUnavailableAlpha;
     }
 
-    private void OnTelemetryUpdate(float framerate, float latency)
+    private void OnFramerateUpdate(float framerate, float latency)
     {
         _lastFramerate = framerate;
         _lastLatency = latency;
-        _view.TelemetryText.text = string.Format(TELEMETRY_FORMAT, _platform, _buildVersion, _lastFramerate, _lastLatency);
+
+        float framerateFloored = Mathf.Floor(_lastFramerate);
+        float latencyMilliseconds = _lastLatency * 1000;
+        float latencyMsRounded = (int)(latencyMilliseconds * 10) / 10f;
+
+        _view.TelemetryText.text = string.Format(TELEMETRY_FORMAT, _platform, _buildVersion, Mathf.Floor(_lastFramerate), latencyMsRounded);
     }
 
 
