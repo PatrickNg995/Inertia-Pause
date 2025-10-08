@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HUDView : MonoBehaviour
 {
     [field: Header("Objectives")]
-    [field: SerializeField] public GameObject ObjectivesElements { get; private set; }
+    [field: SerializeField] public CanvasGroup ObjectivesElements { get; private set; }
     [field: SerializeField] public TMP_Text LevelNameText { get; private set; }
     [field: SerializeField] public TMP_Text ScenarioObjectivesText { get; private set; }
     [field: SerializeField] public TMP_Text OptionalObjectivesText { get; private set; }

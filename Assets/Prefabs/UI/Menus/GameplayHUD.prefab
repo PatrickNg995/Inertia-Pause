@@ -564,19 +564,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c92c5b7b370a21648af8350c2a4604be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ObjectivesElements>k__BackingField: {fileID: 7007651588285130021}
+  <ObjectivesElements>k__BackingField: {fileID: 748845900720507078}
   <LevelNameText>k__BackingField: {fileID: 6488383845986825562}
   <ScenarioObjectivesText>k__BackingField: {fileID: 6667565752133524979}
   <OptionalObjectivesText>k__BackingField: {fileID: 4356640050209106441}
-  <ButtonPrompts>k__BackingField: {fileID: 6724579652611375240}
-  <RedoPrompt>k__BackingField: {fileID: 7540317679793726244}
-  <TelemetryText>k__BackingField: {fileID: 4420568841168870898}
-  <ActionsTakenText>k__BackingField: {fileID: 5556635574278986848}
   <DefaultCrosshair>k__BackingField: {fileID: 2407805867313711046}
   <InteractableNameText>k__BackingField: {fileID: 716942806139085358}
   <InteractableActionText>k__BackingField: {fileID: 491027867180838794}
   <PromptsLooking>k__BackingField: {fileID: 5456369537155047585}
   <PromptsInteracting>k__BackingField: {fileID: 4104728406590640701}
+  <ButtonPrompts>k__BackingField: {fileID: 6724579652611375240}
+  <RedoPrompt>k__BackingField: {fileID: 7540317679793726244}
+  <TelemetryText>k__BackingField: {fileID: 4420568841168870898}
+  <ActionsTakenText>k__BackingField: {fileID: 5556635574278986848}
 --- !u!1 &3764193616011809195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,6 +1450,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6611183051247403383}
+  - component: {fileID: 748845900720507078}
   m_Layer: 5
   m_Name: Objectives
   m_TagString: Untagged
@@ -1481,6 +1482,18 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 450, y: 525}
   m_Pivot: {x: 0, y: 1}
+--- !u!225 &748845900720507078
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7007651588285130021}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7120105524642299658
 GameObject:
   m_ObjectHideFlags: 0
