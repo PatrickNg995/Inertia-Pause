@@ -21,7 +21,7 @@ public class FramerateChecker : MonoBehaviour
         }
         else
         {
-            OnFramerateUpdate?.Invoke(_framesRendered / _timeElapsed, 1f / _framesRendered);
+            OnFramerateUpdate?.Invoke(_framesRendered / _timeElapsed, 1f / (_framesRendered / _timeElapsed));
             _timeElapsed = Time.deltaTime;
             _framesRendered = 1;
         }
