@@ -572,7 +572,7 @@ MonoBehaviour:
   <InteractableNameText>k__BackingField: {fileID: 716942806139085358}
   <InteractableActionText>k__BackingField: {fileID: 491027867180838794}
   <PromptsLooking>k__BackingField: {fileID: 5456369537155047585}
-  <PromptsInteracting>k__BackingField: {fileID: 4104728406590640701}
+  <InteractionPrompts>k__BackingField: {fileID: 3764193616011809195}
   <ButtonPrompts>k__BackingField: {fileID: 6724579652611375240}
   <RedoPrompt>k__BackingField: {fileID: 7540317679793726244}
   <TelemetryText>k__BackingField: {fileID: 4420568841168870898}
@@ -587,7 +587,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2296156224202359437}
   m_Layer: 5
-  m_Name: InteractableLooking
+  m_Name: InteractionPrompts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1922,7 +1922,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6024568028619087422}
   m_SourcePrefab: {fileID: 100100000, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
 --- !u!224 &566776200819496560 stripped
 RectTransform:
@@ -1934,6 +1937,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
   m_PrefabInstance: {fileID: 72265977384903213}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &6024568028619087422
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7540317679793726244}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &505772941739490908
 PrefabInstance:
   m_ObjectHideFlags: 0

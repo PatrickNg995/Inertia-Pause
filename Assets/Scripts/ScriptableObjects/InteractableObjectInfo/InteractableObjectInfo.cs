@@ -6,6 +6,6 @@ using UnityEngine;
 public class InteractableObjectInfo : ScriptableObject
 {
     public string ObjectName;
-    public string ObjectInteraction;
+    public string ActionName;
     public TutorialInfo TutorialInfo;
 }
