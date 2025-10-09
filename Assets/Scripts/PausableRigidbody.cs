@@ -11,6 +11,8 @@ public class PausableRigidbody : MonoBehaviour, IPausable
     {
         // Get rigidbody
         rb = GetComponent<Rigidbody>();
+
+        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     // Save velocity & stop movement

@@ -27,6 +27,8 @@ public class Bullet : MonoBehaviour, IPausable
 
         // Get collider
         capsuleCollider = GetComponent<CapsuleCollider>();
+
+        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     // This should only be called if this is a piercing bullet, destroy any NPC it hits

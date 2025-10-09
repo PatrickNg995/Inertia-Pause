@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -19,7 +20,7 @@ public class TimePauseUnpause : MonoBehaviour
     private bool hasPaused = false;
     private bool hasUnpaused = false;
 
-    IPausable[] pausableObjects;
+    List<IPausable> pausableObjects = new List<IPausable>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -68,9 +69,6 @@ public class TimePauseUnpause : MonoBehaviour
     // Get all pausable objects & pause them
     private void PauseObjects()
     {
-        MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
-        pausableObjects = allObjects.OfType<IPausable>().ToArray();
-
         foreach (IPausable pausable in pausableObjects)
         {
             pausable.Pause();
@@ -87,6 +85,15 @@ public class TimePauseUnpause : MonoBehaviour
             {
                 pausable.Unpause();
             }
+        }
+    }
+
+    public void AddPausableObject(IPausable newObject)
+    {
+        pausableObjects.Add(newObject);
+        if (hasPaused && !hasUnpaused)
+        {
+            newObject.Pause();
         }
     }
 }
