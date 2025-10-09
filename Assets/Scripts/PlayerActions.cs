@@ -118,6 +118,33 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""a99c1b61-ef57-4253-879c-fdd530995076"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""86b48182-2260-4e8e-aa9c-bbb6e5ded0d3"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ResetInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""3479cb5b-b920-4a29-b374-bd7f48c98431"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +224,50 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""TimePause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6e658b5e-00c2-46a0-b155-ea42b2b439fb"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e85381cb-d7ab-433d-ae72-66e86fc4194b"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a11e2712-ea36-4ae2-9555-b10e047d585c"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f975ccb8-3c29-436c-99bd-f945e634fc96"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +279,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame_Movement = m_Ingame.FindAction("Movement", throwIfNotFound: true);
         m_Ingame_Look = m_Ingame.FindAction("Look", throwIfNotFound: true);
         m_Ingame_TimePause = m_Ingame.FindAction("TimePause", throwIfNotFound: true);
+        m_Ingame_StartInteract = m_Ingame.FindAction("StartInteract", throwIfNotFound: true);
+        m_Ingame_CancelInteract = m_Ingame.FindAction("CancelInteract", throwIfNotFound: true);
+        m_Ingame_ResetInteract = m_Ingame.FindAction("ResetInteract", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -291,6 +365,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ingame_Movement;
     private readonly InputAction m_Ingame_Look;
     private readonly InputAction m_Ingame_TimePause;
+    private readonly InputAction m_Ingame_StartInteract;
+    private readonly InputAction m_Ingame_CancelInteract;
+    private readonly InputAction m_Ingame_ResetInteract;
     /// <summary>
     /// Provides access to input actions defined in input action map "Ingame".
     /// </summary>
@@ -314,6 +391,18 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Ingame/TimePause".
         /// </summary>
         public InputAction @TimePause => m_Wrapper.m_Ingame_TimePause;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/StartInteract".
+        /// </summary>
+        public InputAction @StartInteract => m_Wrapper.m_Ingame_StartInteract;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/CancelInteract".
+        /// </summary>
+        public InputAction @CancelInteract => m_Wrapper.m_Ingame_CancelInteract;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/ResetInteract".
+        /// </summary>
+        public InputAction @ResetInteract => m_Wrapper.m_Ingame_ResetInteract;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -349,6 +438,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TimePause.started += instance.OnTimePause;
             @TimePause.performed += instance.OnTimePause;
             @TimePause.canceled += instance.OnTimePause;
+            @StartInteract.started += instance.OnStartInteract;
+            @StartInteract.performed += instance.OnStartInteract;
+            @StartInteract.canceled += instance.OnStartInteract;
+            @CancelInteract.started += instance.OnCancelInteract;
+            @CancelInteract.performed += instance.OnCancelInteract;
+            @CancelInteract.canceled += instance.OnCancelInteract;
+            @ResetInteract.started += instance.OnResetInteract;
+            @ResetInteract.performed += instance.OnResetInteract;
+            @ResetInteract.canceled += instance.OnResetInteract;
         }
 
         /// <summary>
@@ -369,6 +467,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @TimePause.started -= instance.OnTimePause;
             @TimePause.performed -= instance.OnTimePause;
             @TimePause.canceled -= instance.OnTimePause;
+            @StartInteract.started -= instance.OnStartInteract;
+            @StartInteract.performed -= instance.OnStartInteract;
+            @StartInteract.canceled -= instance.OnStartInteract;
+            @CancelInteract.started -= instance.OnCancelInteract;
+            @CancelInteract.performed -= instance.OnCancelInteract;
+            @CancelInteract.canceled -= instance.OnCancelInteract;
+            @ResetInteract.started -= instance.OnResetInteract;
+            @ResetInteract.performed -= instance.OnResetInteract;
+            @ResetInteract.canceled -= instance.OnResetInteract;
         }
 
         /// <summary>
@@ -430,5 +537,26 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTimePause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "StartInteract" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnStartInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CancelInteract" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCancelInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ResetInteract" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnResetInteract(InputAction.CallbackContext context);
     }
 }
