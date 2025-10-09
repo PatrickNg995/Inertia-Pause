@@ -27,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
         cancelInteract = actions.Ingame.CancelInteract;
         resetInteract = actions.Ingame.ResetInteract;
 
-        interact.performed += OnInteract;
+        interact.performed += OnStartInteract;
         cancelInteract.performed += OnCancelInteract;
         resetInteract.performed += OnResetInteract;
 
@@ -43,7 +43,7 @@ public class PlayerInteract : MonoBehaviour
         resetInteract.Disable();
     }
 
-    private void OnInteract(InputAction.CallbackContext _)
+    private void OnStartInteract(InputAction.CallbackContext _)
     {
 
         if (isInteracting || obj == null) return;
