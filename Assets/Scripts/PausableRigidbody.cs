@@ -1,9 +1,11 @@
 using UnityEngine;
 
+// Get Rigidbody, then remove & add velocity depending
+// on game state
 public class PausableRigidbody : MonoBehaviour, IPausable
 {
     private Rigidbody rb;
-    private Vector3 savedVelocity;
+    public Vector3 savedVelocity;
 
     void Start()
     {

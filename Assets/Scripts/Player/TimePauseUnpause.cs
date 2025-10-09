@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+// Pause all objects after a delay, & unpause objects on input
 public class TimePauseUnpause : MonoBehaviour
 {
     // For player inputs
@@ -26,8 +27,6 @@ public class TimePauseUnpause : MonoBehaviour
         // Bind time pause input to function
         inputActions = new PlayerActions();
         timePause = inputActions.Ingame.TimePause;
-
-        
     }
     private void Start()
     {
@@ -35,8 +34,6 @@ public class TimePauseUnpause : MonoBehaviour
         hasPaused = false;
         hasUnpaused = false;
         timePauseDelayTimer = timePauseDelay;
-
-        pausableObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IPausable>().ToArray();
     }
 
     // Enable & disable input actions
@@ -63,12 +60,20 @@ public class TimePauseUnpause : MonoBehaviour
             if (timePauseDelayTimer < 0)
             {
                 hasPaused = true;
-                Time.timeScale = 0;
-                foreach(IPausable pausable in pausableObjects)
-                {
-                    pausable.Pause();
-                }
+                PauseObjects();
             }
+        }
+    }
+
+    // Get all pausable objects & pause them
+    private void PauseObjects()
+    {
+        MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
+        pausableObjects = allObjects.OfType<IPausable>().ToArray();
+
+        foreach (IPausable pausable in pausableObjects)
+        {
+            pausable.Pause();
         }
     }
 
@@ -78,7 +83,6 @@ public class TimePauseUnpause : MonoBehaviour
         if (hasPaused && !hasUnpaused)
         {
             hasUnpaused = true;
-            Time.timeScale = 1;
             foreach (IPausable pausable in pausableObjects)
             {
                 pausable.Unpause();

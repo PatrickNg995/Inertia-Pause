@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Get Particle System, then Pause & Play them depending
+// on game state
 public class PausableParticles : MonoBehaviour, IPausable
 {
     private ParticleSystem ps;
@@ -10,7 +12,7 @@ public class PausableParticles : MonoBehaviour, IPausable
     }
     public void Pause()
     {
-        ps.Stop();
+        ps.Pause();
     }
 
     public void Unpause()

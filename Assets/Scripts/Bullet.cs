@@ -12,8 +12,6 @@ public class Bullet : MonoBehaviour, IPausable
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
 
-    private Vector3 currentSpeed;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
@@ -56,8 +54,6 @@ public class Bullet : MonoBehaviour, IPausable
     public void Unpause()
     {
         capsuleCollider.enabled = true;
-        rb.isKinematic = false;
-        rb.linearVelocity = currentSpeed;
     }
 
 }
