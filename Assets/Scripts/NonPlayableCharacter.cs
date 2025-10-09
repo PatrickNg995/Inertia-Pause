@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
+    // Whether the NPC is alive or dead
+    private bool isAlive = true;
+
     public void Start()
     {
         // Start with ragdoll physics disabled
-        setRigidbodyState(true);
-        setColliderState(false);
         GetComponent<Animator>().enabled = true;
+        setRigidbodyState(true);
+        //setColliderState(false);
     }
 
     // If the NPC collides with a lethal object, it dies
     public void OnCollisionEnter(Collision collision)
     {
-        // TODO I think this is redundant with the new bullet hit detection, but leaving it in for now
-        // This is okay for other generic objects but should be replaced by the new generic system for interactable objects
+        // TODO This is redundant with the new bullet hit detection, but leaving it in for now
+        // This is okay for other generic objects but should be replaced by a new generic system for interactable objects
         if (collision.gameObject.tag == "Lethal")
         {
             Die();
@@ -28,7 +31,9 @@ public class NPC : MonoBehaviour
         // Disable animator, enable ragdoll physics
         GetComponent<Animator>().enabled = false;
         setRigidbodyState(false);
-        setColliderState(true);
+        //setColliderState(true);
+
+        isAlive = false;
     }
 
     // Apply an impulse to the ragdoll.
@@ -65,11 +70,11 @@ public class NPC : MonoBehaviour
             rigidbody.isKinematic = state;
         }
 
-        // May or may not need this line, depending on how the NPC model is set up
+        // May or may not need this, depending on how the NPC model is set up
         //GetComponent<Rigidbody>().isKinematic = !state;
     }
 
-
+    // TODO remove if not needed after implementing final models
     void setColliderState(bool state)
     {
 
@@ -80,6 +85,12 @@ public class NPC : MonoBehaviour
             collider.enabled = state;
         }
 
-        GetComponent<Collider>().enabled = !state;
+        // May or may not need this, depending on how the NPC model is set up
+        //GetComponent<Collider>().enabled = !state;
+    }
+
+    public bool IsAlive()
+    {
+        return isAlive;
     }
 }

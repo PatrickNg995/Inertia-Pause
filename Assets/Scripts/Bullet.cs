@@ -31,9 +31,6 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.linearVelocity = transform.parent.forward * bulletSpeed;
 
-        // Get collider
-        capsuleCollider = GetComponent<CapsuleCollider>();
-
         // Connect to pause & unpause functions
         timePauseScript = GameObject.FindGameObjectWithTag("TimePause").GetComponent<TimePauseUnpause>();
         timePauseScript.pauseTime.AddListener(pauseBullet);
@@ -43,24 +40,33 @@ public class Bullet : MonoBehaviour
     // This should only be called if this is a piercing bullet, kill any NPC it hits
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "NPC")
+        // Get root object of whatever was hit
+        GameObject rootObject = other.transform.root.gameObject;
+
+        // If it was an NPC, apply hit
+        if (rootObject.CompareTag("NPC"))
         {
-            NPC npc = other.GetComponentInParent<NPC>();
-            HitNPC(npc, other);
+            // Only hit if NPC is alive, prevents repeated hits with piercing bullets
+            if (rootObject.GetComponentInParent<NPC>().IsAlive())
+            {
+                HitNPC(other.GetComponentInParent<NPC>(), other);
+            }    
         }
     }
 
-    // This should only be called if this isn't a piercing bullet, destroy bullet on impact
+    // This should only be called if this isn't a piercing bullet, kill any NPC and destroy bullet on impact
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "NPC")
-        {
-            Collider collider = collision.collider;
-            NPC npc = collider.GetComponentInParent<NPC>();
+        // Get root object of whatever was hit
+        GameObject rootObject = collision.transform.root.gameObject;
 
-            HitNPC(npc, collider);
+        // If it was an NPC, apply hit
+        if (rootObject.CompareTag("NPC"))
+        {
+            HitNPC(rootObject.GetComponentInParent<NPC>(), collision.collider);
         }
 
+        // Destroy the bullet on impact with anything
         Destroy(gameObject);
     }
 
