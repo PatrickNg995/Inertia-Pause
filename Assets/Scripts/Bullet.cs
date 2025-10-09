@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPausable
 {
     // Whether this bullet can pierce through NPCs
     public bool isPiercing = false;
@@ -26,10 +26,7 @@ public class Bullet : MonoBehaviour
 
         capsuleCollider = GetComponent<CapsuleCollider>();
 
-        // Connect to pause & unpause functions
-        timePauseScript = GameObject.FindGameObjectWithTag("TimePause").GetComponent<TimePauseUnpause>();
-        timePauseScript.pauseTime.AddListener(pauseBullet);
-        timePauseScript.unpauseTime.AddListener(unpauseBullet);
+        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     // Handle collisions with other objects
@@ -71,13 +68,13 @@ public class Bullet : MonoBehaviour
     }
 
     // Disable collider on pause
-    private void pauseBullet()
+    public void Pause()
     {
         capsuleCollider.enabled = false;
     }
 
     // Enable collider on unpause
-    private void unpauseBullet()
+    public void Unpause()
     {
         capsuleCollider.enabled = true;
     }

@@ -1,23 +1,26 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+// Pause all objects after a delay, & unpause objects on input
 public class TimePauseUnpause : MonoBehaviour
 {
     // For player inputs
     private PlayerActions inputActions;
     private InputAction timePause;
 
-    // Events to trigger functions in other scripts
-    public UnityEvent pauseTime;
-    public UnityEvent unpauseTime;
-
     // Add start delay to time pause
     public float timePauseDelay;
+    private float timePauseDelayTimer;
 
     // Bool to only pause / unpause once
     private bool hasPaused = false;
     private bool hasUnpaused = false;
+
+    List<IPausable> pausableObjects = new List<IPausable>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -25,11 +28,14 @@ public class TimePauseUnpause : MonoBehaviour
         // Bind time pause input to function
         inputActions = new PlayerActions();
         timePause = inputActions.Ingame.TimePause;
-
+    }
+    private void Start()
+    {
         // make sure it is false
         hasPaused = false;
         hasUnpaused = false;
-}
+        timePauseDelayTimer = timePauseDelay;
+    }
 
     // Enable & disable input actions
     private void OnEnable()
@@ -48,15 +54,24 @@ public class TimePauseUnpause : MonoBehaviour
     void Update()
     {
         // Only done at the beginning
-        while (!hasPaused)
+        if (!hasPaused)
         {
             // Run timer & pause time if timer <= 0
-            timePauseDelay -= Time.deltaTime;
-            if (timePauseDelay <= 0)
+            timePauseDelayTimer -= Time.deltaTime;
+            if (timePauseDelayTimer < 0)
             {
-                hasPaused = true; 
-                pauseTime.Invoke();
+                hasPaused = true;
+                PauseObjects();
             }
+        }
+    }
+
+    // Get all pausable objects & pause them
+    private void PauseObjects()
+    {
+        foreach (IPausable pausable in pausableObjects)
+        {
+            pausable.Pause();
         }
     }
 
@@ -66,7 +81,19 @@ public class TimePauseUnpause : MonoBehaviour
         if (hasPaused && !hasUnpaused)
         {
             hasUnpaused = true;
-            unpauseTime.Invoke();
+            foreach (IPausable pausable in pausableObjects)
+            {
+                pausable.Unpause();
+            }
+        }
+    }
+
+    public void AddPausableObject(IPausable newObject)
+    {
+        pausableObjects.Add(newObject);
+        if (hasPaused && !hasUnpaused)
+        {
+            newObject.Pause();
         }
     }
 }
