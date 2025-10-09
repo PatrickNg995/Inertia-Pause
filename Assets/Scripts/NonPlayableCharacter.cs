@@ -18,12 +18,14 @@ public class NPC : MonoBehaviour
     // If the NPC collides with a lethal object, it dies
     public void OnCollisionEnter(Collision collision)
     {
-        // TODO This is redundant with the new bullet hit detection, but leaving it in for now
-        // This is okay for other generic objects but should be replaced by a new generic system for interactable objects
-        if (collision.gameObject.tag == "Lethal")
+        // TODO The generic object hit detection has actually broke after recent hitbox changes
+        // Needs to be reworked after interactable objects are implemented
+        /*
+        if (collision.gameObject.CompareTag("Lethal"))
         {
             Die();
         }
+        */
     }
 
     public void Die()
