@@ -1274,6 +1274,8 @@ GameObject:
   - component: {fileID: 1563195856}
   - component: {fileID: 1563195855}
   - component: {fileID: 1563195854}
+  - component: {fileID: 1563195858}
+  - component: {fileID: 1563195857}
   m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
@@ -6097,6 +6099,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563195857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563195853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabd4eb12cda7c44fa250491920d6f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1563195858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563195853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabd4eb12cda7c44fa250491920d6f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1608827918 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1856886816780782117, guid: 8aa33fe5a15acea4e903bcb58fa539a8, type: 3}
@@ -6374,13 +6400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 717fab4fb2feff4409a40d0460374e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseTime:
-    m_PersistentCalls:
-      m_Calls: []
-  unpauseTime:
-    m_PersistentCalls:
-      m_Calls: []
-  timePauseDelay: 0.5
+  timePauseDelay: 0.75
 --- !u!4 &1955793769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3011129407285076544, guid: df24fcd756dd4634094a6a950f6b71d4, type: 3}

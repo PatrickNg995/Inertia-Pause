@@ -126,7 +126,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6560937390844839067, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
   bulletSpawnPoint: {fileID: 8456451079527120552}
-  isPiercingGun: 0
 --- !u!1 &856820353503548020
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +141,7 @@ GameObject:
   - component: {fileID: 260299112074072320}
   - component: {fileID: 736428678910227877}
   - component: {fileID: 3856922530446361466}
+  - component: {fileID: 4273144232724477136}
   m_Layer: 0
   m_Name: (HP Gun) Enemy
   m_TagString: NPC
@@ -296,6 +296,18 @@ MonoBehaviour:
   gun: {fileID: 4979332484510737552}
   target: {fileID: 0}
   totalShots: 1
+--- !u!114 &4273144232724477136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 856820353503548020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1b61eab191c043448b9a4c16b51b86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3986461126625292690
 GameObject:
   m_ObjectHideFlags: 0

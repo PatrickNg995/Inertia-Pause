@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -9,10 +10,6 @@ public class TimePauseUnpause : MonoBehaviour
     private PlayerActions inputActions;
     private InputAction timePause;
 
-    // Events to trigger functions in other scripts
-    public UnityEvent pauseTime;
-    public UnityEvent unpauseTime;
-
     // Add start delay to time pause
     public float timePauseDelay;
     private float timePauseDelayTimer;
@@ -20,6 +17,8 @@ public class TimePauseUnpause : MonoBehaviour
     // Bool to only pause / unpause once
     private bool hasPaused = false;
     private bool hasUnpaused = false;
+
+    IPausable[] pausableObjects;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -36,6 +35,8 @@ public class TimePauseUnpause : MonoBehaviour
         hasPaused = false;
         hasUnpaused = false;
         timePauseDelayTimer = timePauseDelay;
+
+        pausableObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IPausable>().ToArray();
     }
 
     // Enable & disable input actions
@@ -57,14 +58,16 @@ public class TimePauseUnpause : MonoBehaviour
         // Only done at the beginning
         if (!hasPaused)
         {
-            Debug.Log(timePauseDelayTimer);
             // Run timer & pause time if timer <= 0
             timePauseDelayTimer -= Time.deltaTime;
             if (timePauseDelayTimer < 0)
             {
                 hasPaused = true;
                 Time.timeScale = 0;
-                pauseTime.Invoke();
+                foreach(IPausable pausable in pausableObjects)
+                {
+                    pausable.Pause();
+                }
             }
         }
     }
@@ -76,7 +79,10 @@ public class TimePauseUnpause : MonoBehaviour
         {
             hasUnpaused = true;
             Time.timeScale = 1;
-            unpauseTime.Invoke();
+            foreach (IPausable pausable in pausableObjects)
+            {
+                pausable.Unpause();
+            }
         }
     }
 }

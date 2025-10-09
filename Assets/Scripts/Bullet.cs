@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPausable
 {
     // Whether this bullet can pierce through NPCs
     public bool isPiercing = false;
@@ -8,10 +8,11 @@ public class Bullet : MonoBehaviour
     // Speed at which the bullet travels
     public float bulletSpeed = 10f; // NOTE this has been slowed for easier observation testing
 
-    // reference time pause script, rigidbody & collider
-    private TimePauseUnpause timePauseScript;
+    // reference rigidbody & collider
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
+
+    private Vector3 currentSpeed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
@@ -28,11 +29,6 @@ public class Bullet : MonoBehaviour
 
         // Get collider
         capsuleCollider = GetComponent<CapsuleCollider>();
-
-        // Connect to pause & unpause functions
-        timePauseScript = GameObject.FindGameObjectWithTag("TimePause").GetComponent<TimePauseUnpause>();
-        timePauseScript.pauseTime.AddListener(pauseBullet);
-        timePauseScript.unpauseTime.AddListener(unpauseBullet);
     }
 
     // This should only be called if this is a piercing bullet, destroy any NPC it hits
@@ -51,15 +47,17 @@ public class Bullet : MonoBehaviour
     }
 
     // Disable collider on pause
-    private void pauseBullet()
+    public void Pause()
     {
         capsuleCollider.enabled = false;
     }
 
     // Enable collider on unpause
-    private void unpauseBullet()
+    public void Unpause()
     {
         capsuleCollider.enabled = true;
+        rb.isKinematic = false;
+        rb.linearVelocity = currentSpeed;
     }
 
 }
