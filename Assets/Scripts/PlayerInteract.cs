@@ -12,7 +12,7 @@ public class PlayerInteract : MonoBehaviour
     private InputAction cancelInteract;
     private InputAction resetInteract;
     private bool isInteracting = false;
-    private InteractionObject obj;
+    private InteractionObject targetObject;
 
     private void Awake()
     {
@@ -46,31 +46,31 @@ public class PlayerInteract : MonoBehaviour
     private void OnStartInteract(InputAction.CallbackContext _)
     {
 
-        if (isInteracting || obj == null) return;
+        if (isInteracting || targetObject == null) return;
         
-        if (obj.continuousUpdate)
+        if (targetObject.continuousUpdate)
         {
             isInteracting = true;
         }
 
-        obj.OnInteract();
+        targetObject.OnInteract();
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (obj == null) return;
+        if (targetObject == null) return;
 
-        obj.OnResetInteract();
+        targetObject.OnResetInteract();
         isInteracting = false;
     }
 
     private void OnCancelInteract(InputAction.CallbackContext _)
     {
-        if (obj = null) return;
+        if (targetObject = null) return;
 
         if (isInteracting)
         {
-            obj.OnCancelInteract();
+            targetObject.OnCancelInteract();
             isInteracting = false;
         }
     }
@@ -80,16 +80,16 @@ public class PlayerInteract : MonoBehaviour
         bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
         if (!lookingAtObj && !isInteracting)
         {
-            obj = null;
+            targetObject = null;
             return;
         }
 
-        obj = hit.transform.gameObject.GetComponent<InteractionObject>();
+        targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
         if (isInteracting)
         {
             // if the player has already pressed on the object 
-            obj.OnInteract();
+            targetObject.OnInteract();
         }
     }
 }
