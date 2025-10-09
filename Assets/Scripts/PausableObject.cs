@@ -26,6 +26,7 @@ public class PausableObject : MonoBehaviour
     private void pauseObject()
     {
         savedVelocity = rb.linearVelocity;
+        rb.Sleep();
         rb.isKinematic = true;
     }
 
@@ -33,6 +34,7 @@ public class PausableObject : MonoBehaviour
     private void unpauseObject()
     {
         rb.isKinematic = false;
+        rb.WakeUp();
         rb.linearVelocity = savedVelocity;
     }
 }

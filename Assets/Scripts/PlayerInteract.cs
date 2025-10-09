@@ -12,6 +12,7 @@ public class PlayerInteract : MonoBehaviour
     private InputAction cancelInteract;
     private InputAction resetInteract;
     private bool isInteracting = false;
+    private InteractionObject obj;
 
     private void Awake()
     {
@@ -26,6 +27,10 @@ public class PlayerInteract : MonoBehaviour
         cancelInteract = actions.Ingame.CancelInteract;
         resetInteract = actions.Ingame.ResetInteract;
 
+        interact.performed += OnInteract;
+        cancelInteract.performed += OnCancelInteract;
+        resetInteract.performed += OnResetInteract;
+
         interact.Enable();
         cancelInteract.Enable();
         resetInteract.Enable();
@@ -38,41 +43,53 @@ public class PlayerInteract : MonoBehaviour
         resetInteract.Disable();
     }
 
+    private void OnInteract(InputAction.CallbackContext _)
+    {
+
+        if (isInteracting || obj == null) return;
+        
+        if (obj.continuousUpdate)
+        {
+            isInteracting = true;
+        }
+
+        obj.OnInteract();
+    }
+
+    private void OnResetInteract(InputAction.CallbackContext _)
+    {
+        if (obj == null) return;
+
+        obj.OnResetInteract();
+        isInteracting = false;
+    }
+
+    private void OnCancelInteract(InputAction.CallbackContext _)
+    {
+        if (obj = null) return;
+
+        if (isInteracting)
+        {
+            obj.OnCancelInteract();
+            isInteracting = false;
+        }
+    }
+
     void Update()
     {
-        bool[] buttonDown = { interact.ReadValue<float>() != 0,
-            cancelInteract.ReadValue<float>() != 0,
-            resetInteract.ReadValue<float>() != 0
-        };
-
-        Debug.DrawRay(pivot.position, pivot.forward, Color.red);
-
-        if (Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask))
+        bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
+        if (!lookingAtObj && !isInteracting)
         {
-            InteractionObject obj = hit.transform.gameObject.GetComponent<InteractionObject>();
-            // looking at an interactable object
-            if (buttonDown[0] && !isInteracting)
-            {
-                if (obj.continuousUpdate)
-                {
-                    isInteracting = true;
-                }
-                Debug.Log("hit");
-                obj.OnInteract();
-                
-            } else if (buttonDown[1] && isInteracting)
-            {
-                // player was interacting with the object, wants to 
-            } else if (buttonDown[2])
-            {
-                // player wants to reset the object
-                obj.OnResetInteract();
-                isInteracting = false;
-            } else if (isInteracting)
-            {
-                // player is currently interacting with the item
-                obj.OnInteract();
-            }
+            obj = null;
+            return;
+        }
+
+        obj = hit.transform.gameObject.GetComponent<InteractionObject>();
+
+        if (isInteracting)
+        {
+            // if the player has already pressed on the object 
+            obj.OnInteract();
         }
     }
 }

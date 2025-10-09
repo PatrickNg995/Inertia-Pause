@@ -6,12 +6,14 @@ public class ShelfBehaviour : MonoBehaviour, IInteractable
     public float torque;
 
     private Rigidbody rb;
+    private PausableObject po;
     private Vector3 initialLocation;
     private Quaternion initialRotation;
     private bool hasBeenInteracted = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        po = GetComponent<PausableObject>();
         initialLocation = transform.position;
         initialRotation = transform.rotation;
     }
