@@ -21,6 +21,8 @@ public class Bullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
         // Disable collisions if this is a piercing bullet
         if (isPiercing)
         {
