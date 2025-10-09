@@ -20,17 +20,11 @@ public class Bullet : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
     {
-        capsuleCollider = GetComponent<CapsuleCollider>();
-
-        // Disable collisions if this is a piercing bullet
-        if (isPiercing)
-        {
-            GetComponent<CapsuleCollider>().isTrigger = true;
-        }
-
         // Set the bullet's velocity to be in the forward direction of its parent
         rb = GetComponent<Rigidbody>();
         rb.linearVelocity = transform.parent.forward * bulletSpeed;
+
+        capsuleCollider = GetComponent<CapsuleCollider>();
 
         // Connect to pause & unpause functions
         timePauseScript = GameObject.FindGameObjectWithTag("TimePause").GetComponent<TimePauseUnpause>();
