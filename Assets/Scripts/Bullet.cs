@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
@@ -39,7 +38,7 @@ public class Bullet : MonoBehaviour
         timePauseScript.unpauseTime.AddListener(unpauseBullet);
     }
 
-    // This should only be called if this is a piercing bullet, kill any NPC it hits
+    // Handle collisions with other objects
     public void OnTriggerEnter(Collider other)
     {
         // Get root object of whatever was hit
@@ -49,27 +48,18 @@ public class Bullet : MonoBehaviour
         if (rootObject.CompareTag("NPC"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets
-            if (rootObject.GetComponentInParent<NPC>().IsAlive())
+            NPC npc = rootObject.GetComponentInParent<NPC>();
+            if (npc.IsAlive)
             {
-                HitNPC(other.GetComponentInParent<NPC>(), other);
+                HitNPC(npc, other);
             }    
         }
-    }
 
-    // This should only be called if this isn't a piercing bullet, kill any NPC and destroy bullet on impact
-    public void OnCollisionEnter(Collision collision)
-    {
-        // Get root object of whatever was hit
-        GameObject rootObject = collision.transform.root.gameObject;
-
-        // If it was an NPC, apply hit
-        if (rootObject.CompareTag("NPC"))
+        // Destroy the bullet on impact with anything if it isn't piercing
+        if (!isPiercing)
         {
-            HitNPC(rootObject.GetComponentInParent<NPC>(), collision.collider);
+            Destroy(gameObject);
         }
-
-        // Destroy the bullet on impact with anything
-        Destroy(gameObject);
     }
 
     // Apply hit to NPC

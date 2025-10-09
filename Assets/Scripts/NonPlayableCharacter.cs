@@ -5,7 +5,7 @@ using UnityEngine;
 public class NPC : MonoBehaviour
 {
     // Whether the NPC is alive or dead
-    private bool isAlive = true;
+    public bool IsAlive { get; private set; } = true;
 
     public void Start()
     {
@@ -33,7 +33,7 @@ public class NPC : MonoBehaviour
         setRigidbodyState(false);
         //setColliderState(true);
 
-        isAlive = false;
+        IsAlive = false;
     }
 
     // Apply an impulse to the ragdoll.
@@ -87,10 +87,5 @@ public class NPC : MonoBehaviour
 
         // May or may not need this, depending on how the NPC model is set up
         //GetComponent<Collider>().enabled = !state;
-    }
-
-    public bool IsAlive()
-    {
-        return isAlive;
     }
 }
