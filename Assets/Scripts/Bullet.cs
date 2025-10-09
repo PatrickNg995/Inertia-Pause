@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Bullet : MonoBehaviour
 {
@@ -7,6 +8,10 @@ public class Bullet : MonoBehaviour
 
     // Speed at which the bullet travels
     public float bulletSpeed = 10f; // NOTE this has been slowed for easier observation testing
+
+    // Force applied to NPCs on hit
+    private float hitForce = 15f;
+    private float upwardFactor = 0.4f;
 
     // reference time pause script, rigidbody & collider
     private TimePauseUnpause timePauseScript;
@@ -35,19 +40,42 @@ public class Bullet : MonoBehaviour
         timePauseScript.unpauseTime.AddListener(unpauseBullet);
     }
 
-    // This should only be called if this is a piercing bullet, destroy any NPC it hits
+    // This should only be called if this is a piercing bullet, kill any NPC it hits
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "NPC")
         {
-            Destroy(other.gameObject);
+            NPC npc = other.GetComponentInParent<NPC>();
+            HitNPC(npc, other);
         }
     }
 
     // This should only be called if this isn't a piercing bullet, destroy bullet on impact
     public void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.tag == "NPC")
+        {
+            Collider collider = collision.collider;
+            NPC npc = collider.GetComponentInParent<NPC>();
+
+            HitNPC(npc, collider);
+        }
+
         Destroy(gameObject);
+    }
+
+    // Apply hit to NPC
+    public void HitNPC(NPC npc, Collider collider)
+    {
+        if (npc != null)
+        {
+            // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force
+            Vector3 impactDir = transform.parent.forward + Vector3.up * upwardFactor;
+
+            // Use closest point on collider as approximate hit point
+            Vector3 hitPoint = collider.ClosestPoint(transform.position);
+            npc.ApplyHit(impactDir * hitForce, hitPoint);
+        }
     }
 
     // Disable collider on pause

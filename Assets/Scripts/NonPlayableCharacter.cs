@@ -1,22 +1,85 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    // The velocity required to kill the NPC on impact
-    public float VelocityRequiredToKill = 10f; 
+    public void Start()
+    {
+        // Start with ragdoll physics disabled
+        setRigidbodyState(true);
+        setColliderState(false);
+        GetComponent<Animator>().enabled = true;
+    }
 
-    // Check if something collides with the NPC at a high enough velocity to kill it
+    // If the NPC collides with a lethal object, it dies
     public void OnCollisionEnter(Collision collision)
     {
-        // Debug for collision detection and velocity
-        Debug.Log("Collision with " + collision.gameObject.name + "; velocity: " + collision.relativeVelocity.magnitude 
-            + ", " + VelocityRequiredToKill + " needed to kill");
-
-        // If the collisions had sufficient velocity, destroy the NPC
-        if (collision.relativeVelocity.magnitude >= VelocityRequiredToKill)
+        // TODO I think this is redundant with the new bullet hit detection, but leaving it in for now
+        // This is okay for other generic objects but should be replaced by the new generic system for interactable objects
+        if (collision.gameObject.tag == "Lethal")
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    public void Die()
+    {
+        // Disable animator, enable ragdoll physics
+        GetComponent<Animator>().enabled = false;
+        setRigidbodyState(false);
+        setColliderState(true);
+    }
+
+    // Apply an impulse to the ragdoll.
+    public void ApplyHit(Vector3 impulse, Vector3 hitPoint)
+    {
+        // Enable ragdoll
+        Die();
+
+        // Apply impulse to each child rigidbody at the hit point so the ragdoll reacts naturally
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            if (rb != null && !rb.isKinematic)
+            {
+                rb.AddForceAtPosition(impulse, hitPoint, ForceMode.Impulse);
+            }
+        }
+
+        // Also apply to root rigidbody if present and non-kinematic
+        Rigidbody rootRb = GetComponent<Rigidbody>();
+        if (rootRb != null && !rootRb.isKinematic)
+        {
+            rootRb.AddForce(impulse, ForceMode.Impulse);
+        }
+    }
+
+    void setRigidbodyState(bool state)
+    {
+
+        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
+
+        foreach (Rigidbody rigidbody in rigidbodies)
+        {
+            rigidbody.isKinematic = state;
+        }
+
+        // May or may not need this line, depending on how the NPC model is set up
+        //GetComponent<Rigidbody>().isKinematic = !state;
+    }
+
+
+    void setColliderState(bool state)
+    {
+
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = state;
+        }
+
+        GetComponent<Collider>().enabled = !state;
     }
 }
