@@ -72,10 +72,10 @@ public class PlayerInteract : MonoBehaviour
         if (targetObject.continuousUpdate)
         {
             isInteracting = true;
+            OnInteract?.Invoke(targetObject.InteractableInfo);
         }
 
         targetObject.OnInteract();
-        OnInteract?.Invoke(targetObject.InteractableInfo);
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
@@ -117,19 +117,19 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
+        if (isInteracting)
+        {
+            // If the player is currently interacting with an object.
+            targetObject.OnInteract();
+            return;
+        }
+
         targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
         // Looking at nothing then looking at an interactable, or switching from one interactable to another.
         if (previousTarget != targetObject)
         {
             OnLookAtInteractable?.Invoke(targetObject.InteractableInfo);
-        }
-
-
-        if (isInteracting)
-        {
-            // if the player has already pressed on the object 
-            targetObject.OnInteract();
         }
     }
 }
