@@ -34,7 +34,7 @@ public class Bullet : MonoBehaviour, IPausable
     {
         // Get root object of whatever was hit
         GameObject rootObject = other.transform.root.gameObject;
-
+        Debug.Log(rootObject);
         // If it was an NPC, apply hit
         if (rootObject.CompareTag("NPC"))
         {
