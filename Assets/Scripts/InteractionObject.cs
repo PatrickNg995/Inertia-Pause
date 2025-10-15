@@ -11,7 +11,7 @@ public class InteractionObject : MonoBehaviour
     // the script with the behaviour on interactions
     private IInteractable[] interactionBehaviour;
 
-    private InteractableObjectInfo _interactableInfo;
+    [SerializeField] private InteractableObjectInfo _interactableInfo;
 
     private void Start()
     {
