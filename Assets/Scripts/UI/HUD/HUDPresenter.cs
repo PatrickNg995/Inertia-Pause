@@ -27,6 +27,7 @@ public class HUDPresenter : MonoBehaviour
     private WaitForSeconds _objectiveFadeDelay = new (OBJECTIVE_FADE_DELAY);
 
     private bool _isInteracting;
+    private bool _isObjectivesHidden;
     private int _actionsTaken;
 
     // Telemetry
@@ -49,7 +50,8 @@ public class HUDPresenter : MonoBehaviour
         }
 
         // TODO: Add listeners here when we have game manager working
-        // _levelStartController.OnLevelStart += HideObjectives;
+        // _levelStartController.OnLevelStart += OnLevelStart;
+        OnLevelStart();
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
@@ -138,6 +140,11 @@ public class HUDPresenter : MonoBehaviour
 
     private void HideObjectives()
     {
+        if (_isObjectivesHidden)
+        {
+            return;
+        }
+
         if (_objectivesFadeCoroutine != null)
         {
             StopCoroutine(_objectivesFadeCoroutine);
@@ -154,6 +161,7 @@ public class HUDPresenter : MonoBehaviour
 
     private IEnumerator FadeObjectives()
     {
+        _isObjectivesHidden = true;
         float time = 0;
 
         while (time < OBJECTIVE_FADE_DURATION)
