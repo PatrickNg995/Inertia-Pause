@@ -76,6 +76,7 @@ public class PlayerInteract : MonoBehaviour
         }
 
         targetObject.OnInteract();
+        Debug.Log($"Started interacting with {targetObject.name}");
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
@@ -85,6 +86,7 @@ public class PlayerInteract : MonoBehaviour
         targetObject.OnResetInteract();
         isInteracting = false;
         OnEndInteraction?.Invoke(targetObject.InteractableInfo);
+        Debug.Log($"Reset interaction with {targetObject.name}");
     }
 
     private void OnCancelInteract(InputAction.CallbackContext _)
@@ -96,6 +98,7 @@ public class PlayerInteract : MonoBehaviour
             targetObject.OnCancelInteract();
             isInteracting = false;
             OnEndInteraction?.Invoke(targetObject.InteractableInfo);
+            Debug.Log($"Cancelled interaction with {targetObject.name}");
         }
     }
 

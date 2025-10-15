@@ -20,19 +20,16 @@ public class InteractionObject : MonoBehaviour
 
     public void OnInteract()
     {
-        Debug.Log($"{gameObject.name} has been interacted with!");
         foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnInteract();
     }
 
     public void OnCancelInteract()
     {
-        Debug.Log($"{gameObject.name} has had its interaction cancelled!");
         foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnCancelInteract();
     }
 
     public void OnResetInteract()
     {
-        Debug.Log($"{gameObject.name} has been reset!");
         foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnResetInteract();
     }
 }
