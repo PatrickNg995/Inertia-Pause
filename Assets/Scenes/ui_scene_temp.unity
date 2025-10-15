@@ -726,6 +726,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6364142772143625850, guid: 133adff7e6404004389feb029afdca86, type: 3}
+      propertyPath: _framerateChecker
+      value: 
+      objectReference: {fileID: 3246654978603685483}
     - target: {fileID: 6537606586387321016, guid: 133adff7e6404004389feb029afdca86, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -737,10 +741,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3524709020820148407, guid: 133adff7e6404004389feb029afdca86, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 6683745032945553327}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 133adff7e6404004389feb029afdca86, type: 3}
 --- !u!224 &6683745032945553323 stripped
 RectTransform:
@@ -752,40 +753,6 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 6024568028619087422, guid: 133adff7e6404004389feb029afdca86, type: 3}
   m_PrefabInstance: {fileID: 6683745032945553322}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6683745032945553325 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3524709020820148407, guid: 133adff7e6404004389feb029afdca86, type: 3}
-  m_PrefabInstance: {fileID: 6683745032945553322}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6683745032945553326 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3404998877795664497, guid: 133adff7e6404004389feb029afdca86, type: 3}
-  m_PrefabInstance: {fileID: 6683745032945553322}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6683745032945553325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c92c5b7b370a21648af8350c2a4604be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6683745032945553327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6683745032945553325}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae90cac3fd826794f87508c1cea85ebe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _view: {fileID: 6683745032945553326}
-  _framerateChecker: {fileID: 3246654978603685483}
-  _interactionNameDefaultColor: {r: 1, g: 1, b: 1, a: 0}
-  _interactionNameInteractingColor: {r: 0.6392157, g: 0.6745098, b: 0.8627451, a: 0.5019608}
-  _redoUnavailableAlpha: 0.5
-  _redoAvailableAlpha: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
