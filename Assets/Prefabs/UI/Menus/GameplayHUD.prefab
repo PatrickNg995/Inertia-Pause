@@ -457,6 +457,7 @@ GameObject:
   - component: {fileID: 4595406674785999202}
   - component: {fileID: 8230383785611527333}
   - component: {fileID: 6636646627796109082}
+  - component: {fileID: 6364142772143625850}
   - component: {fileID: 3404998877795664497}
   m_Layer: 5
   m_Name: GameplayHUD
@@ -534,7 +535,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6636646627796109082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +553,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6364142772143625850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3524709020820148407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae90cac3fd826794f87508c1cea85ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 3404998877795664497}
+  _framerateChecker: {fileID: 0}
+  _playerInteractModel: {fileID: 0}
+  _interactionNameDefaultColor: {r: 1, g: 1, b: 1, a: 1}
+  _interactionNameInteractingColor: {r: 0.6392157, g: 0.6745098, b: 0.8627451, a: 0.5019608}
+  _redoUnavailableAlpha: 0.5
+  _redoAvailableAlpha: 1
 --- !u!114 &3404998877795664497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,9 +592,10 @@ MonoBehaviour:
   <InteractableNameText>k__BackingField: {fileID: 716942806139085358}
   <InteractableActionText>k__BackingField: {fileID: 491027867180838794}
   <PromptsLooking>k__BackingField: {fileID: 5456369537155047585}
+  <PromptsInteracting>k__BackingField: {fileID: 4104728406590640701}
   <InteractionPrompts>k__BackingField: {fileID: 3764193616011809195}
   <ButtonPrompts>k__BackingField: {fileID: 6724579652611375240}
-  <RedoPrompt>k__BackingField: {fileID: 7540317679793726244}
+  <RedoPrompt>k__BackingField: {fileID: 6024568028619087422}
   <TelemetryText>k__BackingField: {fileID: 4420568841168870898}
   <ActionsTakenText>k__BackingField: {fileID: 5556635574278986848}
 --- !u!1 &3764193616011809195

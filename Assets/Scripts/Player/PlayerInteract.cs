@@ -1,8 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
+    /// <summary>
+    /// Invoked when the player looks at an interactable object.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnLookAtInteractable;
+
+    /// <summary>
+    /// Invoked when the player is looking at an interactable object and then looks away.
+    /// </summary>
+    public Action OnLookAwayFromInteractable;
+
+    /// <summary>
+    /// Invoked when the player starts interacting with an interactable object.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnInteract;
+
+    /// <summary>
+    /// Invoked when the player is interacting with an object and ends (confirms or cancels) the interaction.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnEndInteraction;
+
     public float interactionDistance = 2;
 
     private Transform pivot;
@@ -51,9 +72,11 @@ public class PlayerInteract : MonoBehaviour
         if (targetObject.continuousUpdate)
         {
             isInteracting = true;
+            OnInteract?.Invoke(targetObject.InteractableInfo);
         }
 
         targetObject.OnInteract();
+        Debug.Log($"Started interacting with {targetObject.name}");
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
@@ -62,34 +85,54 @@ public class PlayerInteract : MonoBehaviour
 
         targetObject.OnResetInteract();
         isInteracting = false;
+        OnEndInteraction?.Invoke(targetObject.InteractableInfo);
+        Debug.Log($"Reset interaction with {targetObject.name}");
     }
 
     private void OnCancelInteract(InputAction.CallbackContext _)
     {
-        if (targetObject = null) return;
+        if (targetObject == null) return;
 
         if (isInteracting)
         {
             targetObject.OnCancelInteract();
             isInteracting = false;
+            OnEndInteraction?.Invoke(targetObject.InteractableInfo);
+            Debug.Log($"Cancelled interaction with {targetObject.name}");
         }
     }
 
     void Update()
     {
         bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
+        InteractionObject previousTarget = targetObject;
+
         if (!lookingAtObj && !isInteracting)
         {
             targetObject = null;
+
+            if (previousTarget != null)
+            {
+                // Player was looking at an interactable last frame and is not this frame.
+                OnLookAwayFromInteractable?.Invoke();
+            }
+
+            return;
+        }
+
+        if (isInteracting)
+        {
+            // If the player is currently interacting with an object.
+            targetObject.OnInteract();
             return;
         }
 
         targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
-        if (isInteracting)
+        // Looking at nothing then looking at an interactable, or switching from one interactable to another.
+        if (previousTarget != targetObject)
         {
-            // if the player has already pressed on the object 
-            targetObject.OnInteract();
+            OnLookAtInteractable?.Invoke(targetObject.InteractableInfo);
         }
     }
 }

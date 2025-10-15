@@ -10,6 +10,7 @@ public class HUDPresenter : MonoBehaviour
     // Add models here
     [Header("Models")]
     [SerializeField] private FramerateChecker _framerateChecker;
+    [SerializeField] private PlayerInteract _playerInteractModel;
 
     [Header("Settings")]
     [SerializeField] private Color _interactionNameDefaultColor;
@@ -26,6 +27,7 @@ public class HUDPresenter : MonoBehaviour
     private WaitForSeconds _objectiveFadeDelay = new (OBJECTIVE_FADE_DELAY);
 
     private bool _isInteracting;
+    private bool _isObjectivesHidden;
     private int _actionsTaken;
 
     // Telemetry
@@ -48,11 +50,15 @@ public class HUDPresenter : MonoBehaviour
         }
 
         // TODO: Add listeners here when we have game manager working
-        // _levelStartController.OnLevelStart += HideObjectives;
+        // _levelStartController.OnLevelStart += OnLevelStart;
+        OnLevelStart();
 
-        // _playerController.OnLookAtInteractable += OnPlayerLookAtInteractable;
-        // ...
-        // _playerController.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
+        _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
+        _playerInteractModel.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
+
+        _view.InteractionPrompts.SetActive(false);
     }
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)
@@ -83,12 +89,18 @@ public class HUDPresenter : MonoBehaviour
         _view.InteractableNameText.text = interactable.ObjectName;
         _view.InteractableNameText.color = _interactionNameInteractingColor;
         _view.InteractableActionText.text = interactable.ActionName;
+
+        _view.PromptsLooking.SetActive(false);
+        _view.PromptsInteracting.SetActive(true);
     }
 
     private void OnPlayerEndInteraction(InteractableObjectInfo interactable)
     {
         _isInteracting = false;
         OnPlayerLookAtInteractable(interactable);
+
+        _view.PromptsLooking.SetActive(true);
+        _view.PromptsInteracting.SetActive(false);
     }
 
     private void OnLevelStart()
@@ -134,6 +146,11 @@ public class HUDPresenter : MonoBehaviour
 
     private void HideObjectives()
     {
+        if (_isObjectivesHidden)
+        {
+            return;
+        }
+
         if (_objectivesFadeCoroutine != null)
         {
             StopCoroutine(_objectivesFadeCoroutine);
@@ -150,6 +167,7 @@ public class HUDPresenter : MonoBehaviour
 
     private IEnumerator FadeObjectives()
     {
+        _isObjectivesHidden = true;
         float time = 0;
 
         while (time < OBJECTIVE_FADE_DURATION)
