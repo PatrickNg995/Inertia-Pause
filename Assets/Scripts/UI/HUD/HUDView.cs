@@ -18,6 +18,7 @@ public class HUDView : MonoBehaviour
     [field: SerializeField] public TMP_Text InteractableNameText { get; private set; }
     [field: SerializeField] public TMP_Text InteractableActionText { get; set; }
     [field: SerializeField] public GameObject PromptsLooking { get; private set; }
+    [field: SerializeField] public GameObject PromptsInteracting { get; private set; }
     [field: SerializeField] public GameObject InteractionPrompts { get; private set; }
 
     [field: Header("Others")]

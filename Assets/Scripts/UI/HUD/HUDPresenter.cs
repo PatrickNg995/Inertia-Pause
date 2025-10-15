@@ -89,12 +89,18 @@ public class HUDPresenter : MonoBehaviour
         _view.InteractableNameText.text = interactable.ObjectName;
         _view.InteractableNameText.color = _interactionNameInteractingColor;
         _view.InteractableActionText.text = interactable.ActionName;
+
+        _view.PromptsLooking.SetActive(false);
+        _view.PromptsInteracting.SetActive(true);
     }
 
     private void OnPlayerEndInteraction(InteractableObjectInfo interactable)
     {
         _isInteracting = false;
         OnPlayerLookAtInteractable(interactable);
+
+        _view.PromptsLooking.SetActive(true);
+        _view.PromptsInteracting.SetActive(false);
     }
 
     private void OnLevelStart()
