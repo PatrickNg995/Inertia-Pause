@@ -1,8 +1,29 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
+    /// <summary>
+    /// Invoked when the player looks at an interactable object.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnLookAtInteractable;
+
+    /// <summary>
+    /// Invoked when the player is looking at an interactable object and then looks away.
+    /// </summary>
+    public Action OnLookAwayFromInteractable;
+
+    /// <summary>
+    /// Invoked when the player starts interacting with an interactable object.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnInteract;
+
+    /// <summary>
+    /// Invoked when the player is interacting with an object and ends (confirms or cancels) the interaction.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnEndInteraction;
+
     public float interactionDistance = 2;
 
     private Transform pivot;
@@ -54,6 +75,7 @@ public class PlayerInteract : MonoBehaviour
         }
 
         targetObject.OnInteract();
+        OnInteract?.Invoke(targetObject.InteractableInfo);
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
@@ -62,6 +84,7 @@ public class PlayerInteract : MonoBehaviour
 
         targetObject.OnResetInteract();
         isInteracting = false;
+        OnEndInteraction?.Invoke(targetObject.InteractableInfo);
     }
 
     private void OnCancelInteract(InputAction.CallbackContext _)
@@ -72,19 +95,36 @@ public class PlayerInteract : MonoBehaviour
         {
             targetObject.OnCancelInteract();
             isInteracting = false;
+            OnEndInteraction?.Invoke(targetObject.InteractableInfo);
         }
     }
 
     void Update()
     {
         bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
+        InteractionObject previousTarget = targetObject;
+
         if (!lookingAtObj && !isInteracting)
         {
             targetObject = null;
+
+            if (previousTarget != null)
+            {
+                // Player was looking at an interactable last frame and is not this frame.
+                OnLookAwayFromInteractable?.Invoke();
+            }
+
             return;
         }
 
         targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
+
+        // Looking at nothing then looking at an interactable, or switching from one interactable to another.
+        if (previousTarget != targetObject)
+        {
+            OnLookAtInteractable?.Invoke(targetObject.InteractableInfo);
+        }
+
 
         if (isInteracting)
         {

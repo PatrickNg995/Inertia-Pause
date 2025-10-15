@@ -10,6 +10,7 @@ public class HUDPresenter : MonoBehaviour
     // Add models here
     [Header("Models")]
     [SerializeField] private FramerateChecker _framerateChecker;
+    [SerializeField] private PlayerInteract _playerInteractModel;
 
     [Header("Settings")]
     [SerializeField] private Color _interactionNameDefaultColor;
@@ -50,9 +51,10 @@ public class HUDPresenter : MonoBehaviour
         // TODO: Add listeners here when we have game manager working
         // _levelStartController.OnLevelStart += HideObjectives;
 
-        // _playerController.OnLookAtInteractable += OnPlayerLookAtInteractable;
-        // ...
-        // _playerController.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
+        _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
+        _playerInteractModel.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
     }
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)
