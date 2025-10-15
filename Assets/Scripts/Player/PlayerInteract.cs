@@ -89,7 +89,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnCancelInteract(InputAction.CallbackContext _)
     {
-        if (targetObject = null) return;
+        if (targetObject == null) return;
 
         if (isInteracting)
         {
