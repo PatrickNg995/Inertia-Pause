@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour, IPausable
     // reference time pause script, rigidbody & collider
     private TimePauseUnpause timePauseScript;
     private Rigidbody rb;
-    private CapsuleCollider capsuleCollider;
+    private bool canKill = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Start()
@@ -24,14 +24,13 @@ public class Bullet : MonoBehaviour, IPausable
         rb = GetComponent<Rigidbody>();
         rb.linearVelocity = transform.parent.forward * bulletSpeed;
 
-        capsuleCollider = GetComponent<CapsuleCollider>();
-
         GetComponent<IPausable>().AddToTimePause(this);
     }
 
     // Handle collisions with other objects
     public void OnTriggerEnter(Collider other)
     {
+        if (!canKill) return;
         // Get root object of whatever was hit
         GameObject rootObject = other.transform.root.gameObject;
 
@@ -56,7 +55,7 @@ public class Bullet : MonoBehaviour, IPausable
     // Apply hit to NPC
     public void HitNPC(NPC npc, Collider collider)
     {
-        if (npc != null)
+        if (npc != null && canKill)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force
             Vector3 impactDir = transform.parent.forward + Vector3.up * upwardFactor;
@@ -70,13 +69,13 @@ public class Bullet : MonoBehaviour, IPausable
     // Disable collider on pause
     public void Pause()
     {
-        capsuleCollider.enabled = false;
+        canKill = false;
     }
 
     // Enable collider on unpause
     public void Unpause()
     {
-        capsuleCollider.enabled = true;
+        canKill = true;
     }
 
 }
