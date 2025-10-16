@@ -179,7 +179,13 @@ public class GameManager : MonoBehaviour
         {
             // Load the last object state from the redo stack and push the current state onto the undo stack.
             ObjectState objectState = GetObjectStateFromStacks(_redoStack, _undoStack);
+
+            // Load the saved object state to perform the redo.
             objectState.LoadObjectState();
+
+            // Can use OnInteract to perform the redo instead, better in the case of the shelf but wouldn't work for
+            // moving a bullet back to where you moved it before.
+            //objectState.Object.GetComponent<InteractionObject>().OnInteract();
 
             // Increment action count.
             _actionCount++;
