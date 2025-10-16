@@ -29,6 +29,7 @@ public class HUDPresenter : MonoBehaviour
     private bool _isInteracting;
     private bool _isObjectivesHidden;
     private int _actionsTaken;
+    private int _currentCrosshair;
 
     // Telemetry
     private string _platform;
@@ -63,13 +64,17 @@ public class HUDPresenter : MonoBehaviour
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)
     {
-        if (!_isInteracting)
+        if (_isInteracting)
         {
-            _view.InteractionPrompts.SetActive(true);
-            _view.InteractableNameText.color = _interactionNameDefaultColor;
-            _view.InteractableNameText.text = interactable.ObjectName;
-            _view.InteractableActionText.text = interactable.ActionName;
+            return;
         }
+
+        _view.InteractionPrompts.SetActive(true);
+        _view.InteractableNameText.color = _interactionNameDefaultColor;
+        _view.InteractableNameText.text = interactable.ObjectName;
+        _view.InteractableActionText.text = interactable.ActionName;
+
+        SetCrosshair((int)interactable.Type);
     }
 
     private void OnPlayerLookAwayFromInteractable()
@@ -77,6 +82,7 @@ public class HUDPresenter : MonoBehaviour
         if (!_isInteracting)
         {
             _view.InteractionPrompts.SetActive(false);
+            SetCrosshair(crosshairIndex: 0);
         }
     }
 
@@ -157,6 +163,13 @@ public class HUDPresenter : MonoBehaviour
         }
 
         StartCoroutine(FadeObjectives());
+    }
+
+    private void SetCrosshair(int crosshairIndex)
+    {
+        _view.Crosshairs[_currentCrosshair].SetActive(false);
+        _view.Crosshairs[crosshairIndex].SetActive(true);
+        _currentCrosshair = crosshairIndex;
     }
 
     private IEnumerator DelayAndFadeObjectives()
