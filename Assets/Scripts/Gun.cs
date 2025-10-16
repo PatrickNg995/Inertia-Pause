@@ -2,6 +2,7 @@
 
 public class Gun : MonoBehaviour
 {
+    [Header("Gun Settings")]
     // Bullet prefab to instantiate when shooting.
     [SerializeField] private GameObject _bulletPrefab;
 

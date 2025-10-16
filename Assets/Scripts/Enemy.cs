@@ -3,6 +3,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Enemy Shooting Settings")]
     // The gun the Enemy is holding.
     [SerializeField] private Gun Gun;
 

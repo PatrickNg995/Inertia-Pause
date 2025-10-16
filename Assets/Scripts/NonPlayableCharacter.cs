@@ -1,31 +1,47 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
+    // Distance in meters needed to fall to die.
+    private const float LETHAL_FALL_THRESHOLD = 5f;
+
+    // Force applied when hitting the ground from a fall to simulate impact.
+    private const float FALL_HIT_FORCE = 15f;
+
+    // Initial position to determine fall distance.
+    private Vector3 _initialPosition;
+
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
     private void Start()
     {
+        // Record initial position for determining fall damage.
+        _initialPosition = transform.position;
+
         // Start with ragdoll physics disabled.
         GetComponent<Animator>().enabled = true;
         SetRigidbodyState(true);
-        //setColliderState(false);
+        SetColliderState(false);
     }
 
     // If the NPC collides with a lethal object, it dies.
     private void OnCollisionEnter(Collision collision)
     {
-        // TODO The generic object hit detection has actually broke after recent hitbox changes
-        // Needs to be reworked after interactable objects are implemented
-        /*
+        float fallDistance = _initialPosition.y - transform.position.y;
+
+        // Check for lethal collisions.
         if (collision.gameObject.CompareTag("Lethal"))
         {
             Die();
         }
-        */
+
+        // Check if NPC fell a lethal distance.
+        if (fallDistance > LETHAL_FALL_THRESHOLD)
+        {
+            // Apply downward hit force to simulate impact.
+            ApplyHit(Vector3.down * FALL_HIT_FORCE, transform.position);
+        }
     }
 
     public void Die()
@@ -33,7 +49,7 @@ public class NPC : MonoBehaviour
         // Disable animator, enable ragdoll physics.
         GetComponent<Animator>().enabled = false;
         SetRigidbodyState(false);
-        //setColliderState(true);
+        SetColliderState(true);
 
         IsAlive = false;
     }
@@ -71,23 +87,17 @@ public class NPC : MonoBehaviour
         {
             rigidbody.isKinematic = state;
         }
-
-        // May or may not need this, depending on how the NPC model is set up.
-        //GetComponent<Rigidbody>().isKinematic = !state;
+        GetComponent<Rigidbody>().isKinematic = !state;
     }
 
-    // TODO remove if not needed after implementing final models.
     private void SetColliderState(bool state)
     {
-
         Collider[] colliders = GetComponentsInChildren<Collider>();
 
         foreach (Collider collider in colliders)
         {
             collider.enabled = state;
         }
-
-        // May or may not need this, depending on how the NPC model is set up.
-        //GetComponent<Collider>().enabled = !state;
+        GetComponent<Collider>().enabled = !state;
     }
 }

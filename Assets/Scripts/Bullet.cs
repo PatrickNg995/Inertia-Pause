@@ -2,6 +2,7 @@
 
 public class Bullet : MonoBehaviour, IPausable
 {
+    [Header("Bullet Settings")]
     // Whether this bullet can pierce through NPCs.
     [SerializeField] private bool IsPiercing = false;
 
@@ -9,8 +10,8 @@ public class Bullet : MonoBehaviour, IPausable
     [SerializeField] private float BulletSpeed = 10f; // NOTE this has been slowed for easier observation testing.
 
     // Force applied to NPCs on hit.
-    private float _hitForce = 15f;
-    private float _upwardFactor = 0.4f;
+    private const float HIT_FORCE = 15f;
+    private const float UPWARD_FACTOR = 0.4f;
 
     // reference time pause script, rigidbody & collider.
     private TimePauseUnpause _timePauseScript;
@@ -59,11 +60,11 @@ public class Bullet : MonoBehaviour, IPausable
         if (npc != null)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force.
-            Vector3 impactDir = transform.parent.forward + Vector3.up * _upwardFactor;
+            Vector3 impactDir = transform.parent.forward + Vector3.up * UPWARD_FACTOR;
 
             // Use closest point on collider as approximate hit point.
             Vector3 hitPoint = collider.ClosestPoint(transform.position);
-            npc.ApplyHit(impactDir * _hitForce, hitPoint);
+            npc.ApplyHit(impactDir * HIT_FORCE, hitPoint);
         }
     }
 
