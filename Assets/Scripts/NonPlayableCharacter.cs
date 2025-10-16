@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ public class NPC : MonoBehaviour
     {
         // Start with ragdoll physics disabled
         GetComponent<Animator>().enabled = true;
-        setRigidbodyState(true);
+        SetRigidbodyState(true);
         //setColliderState(false);
     }
 
@@ -32,7 +32,7 @@ public class NPC : MonoBehaviour
     {
         // Disable animator, enable ragdoll physics
         GetComponent<Animator>().enabled = false;
-        setRigidbodyState(false);
+        SetRigidbodyState(false);
         //setColliderState(true);
 
         IsAlive = false;
@@ -62,7 +62,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void setRigidbodyState(bool state)
+    private void SetRigidbodyState(bool state)
     {
 
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -77,7 +77,7 @@ public class NPC : MonoBehaviour
     }
 
     // TODO remove if not needed after implementing final models
-    void setColliderState(bool state)
+    private void SetColliderState(bool state)
     {
 
         Collider[] colliders = GetComponentsInChildren<Collider>();

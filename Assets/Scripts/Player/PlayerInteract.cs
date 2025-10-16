@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +23,11 @@ public class PlayerInteract : MonoBehaviour
     /// Invoked when the player is interacting with an object and ends (confirms or cancels) the interaction.
     /// </summary>
     public Action<InteractableObjectInfo> OnEndInteraction;
+
+    /// <summary>
+    /// Invoked when the player takes an action with an object.
+    /// </summary>
+    public Action<GameObject> OnInteractAction;
 
     public float interactionDistance = 2;
 
@@ -76,6 +81,7 @@ public class PlayerInteract : MonoBehaviour
         }
 
         targetObject.OnInteract();
+        OnInteractAction?.Invoke(targetObject.gameObject);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
 
