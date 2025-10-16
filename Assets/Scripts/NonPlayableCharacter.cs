@@ -1,22 +1,22 @@
-using System;
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    // Whether the NPC is alive or dead
+    // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
-    public void Start()
+    private void Start()
     {
-        // Start with ragdoll physics disabled
+        // Start with ragdoll physics disabled.
         GetComponent<Animator>().enabled = true;
-        setRigidbodyState(true);
+        SetRigidbodyState(true);
         //setColliderState(false);
     }
 
-    // If the NPC collides with a lethal object, it dies
-    public void OnCollisionEnter(Collision collision)
+    // If the NPC collides with a lethal object, it dies.
+    private void OnCollisionEnter(Collision collision)
     {
         // TODO The generic object hit detection has actually broke after recent hitbox changes
         // Needs to be reworked after interactable objects are implemented
@@ -30,9 +30,9 @@ public class NPC : MonoBehaviour
 
     public void Die()
     {
-        // Disable animator, enable ragdoll physics
+        // Disable animator, enable ragdoll physics.
         GetComponent<Animator>().enabled = false;
-        setRigidbodyState(false);
+        SetRigidbodyState(false);
         //setColliderState(true);
 
         IsAlive = false;
@@ -44,7 +44,7 @@ public class NPC : MonoBehaviour
         // Enable ragdoll
         Die();
 
-        // Apply impulse to each child rigidbody at the hit point so the ragdoll reacts naturally
+        // Apply impulse to each child rigidbody at the hit point so the ragdoll reacts naturally.
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
         foreach (Rigidbody rb in rigidbodies)
         {
@@ -54,7 +54,7 @@ public class NPC : MonoBehaviour
             }
         }
 
-        // Also apply to root rigidbody if present and non-kinematic
+        // Also apply to root rigidbody if present and non-kinematic.
         Rigidbody rootRb = GetComponent<Rigidbody>();
         if (rootRb != null && !rootRb.isKinematic)
         {
@@ -62,7 +62,7 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void setRigidbodyState(bool state)
+    private void SetRigidbodyState(bool state)
     {
 
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
@@ -72,12 +72,12 @@ public class NPC : MonoBehaviour
             rigidbody.isKinematic = state;
         }
 
-        // May or may not need this, depending on how the NPC model is set up
+        // May or may not need this, depending on how the NPC model is set up.
         //GetComponent<Rigidbody>().isKinematic = !state;
     }
 
-    // TODO remove if not needed after implementing final models
-    void setColliderState(bool state)
+    // TODO remove if not needed after implementing final models.
+    private void SetColliderState(bool state)
     {
 
         Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -87,7 +87,7 @@ public class NPC : MonoBehaviour
             collider.enabled = state;
         }
 
-        // May or may not need this, depending on how the NPC model is set up
+        // May or may not need this, depending on how the NPC model is set up.
         //GetComponent<Collider>().enabled = !state;
     }
 }
