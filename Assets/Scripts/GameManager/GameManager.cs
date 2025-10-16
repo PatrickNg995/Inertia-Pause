@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
     private List<GameObject> _listOfEnemies = new List<GameObject>();
     private List<GameObject> _listOfAllies = new List<GameObject>();
 
-    // For player inputs
+    // For player input actions.
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;

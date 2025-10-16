@@ -81,6 +81,7 @@ public class PlayerInteract : MonoBehaviour
         }
 
         targetObject.OnInteract();
+        // Event for making an action; added for testing undo/redo
         OnInteractAction?.Invoke(targetObject.gameObject);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
