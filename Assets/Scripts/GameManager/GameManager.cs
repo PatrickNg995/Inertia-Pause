@@ -134,9 +134,6 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    // Known issue: currently does not reset the hasBeenInteracted flag on InteractionObjects.
-    // I think this implementation is flawed, for example need to reset the torque on the shelf specifically.
-    // Will revisit in the future.
     public void RecordAction(GameObject interactObject)
     {
         // Record the current state before an action is performed.
@@ -158,7 +155,10 @@ public class GameManager : MonoBehaviour
         if (_undoStack.Count > 0)
         {
             // Load the last object state from the undo stack and push the current state onto the redo stack.
-            LoadObjectState(_undoStack, _redoStack);
+            ObjectState objectState = GetObjectStateFromStacks(_undoStack, _redoStack);
+
+            // Use the ResetInteract from InteractionObject to perform the undo.
+            objectState.Object.GetComponent<InteractionObject>().OnResetInteract();
 
             // Decrement action count.
             _actionCount--;
@@ -178,7 +178,8 @@ public class GameManager : MonoBehaviour
         if (_redoStack.Count > 0)
         {
             // Load the last object state from the redo stack and push the current state onto the undo stack.
-            LoadObjectState(_redoStack, _undoStack);
+            ObjectState objectState = GetObjectStateFromStacks(_redoStack, _undoStack);
+            objectState.LoadObjectState();
 
             // Increment action count.
             _actionCount++;
@@ -188,13 +189,18 @@ public class GameManager : MonoBehaviour
             if (_redoStack.Count == 0)
             {
                 OnRedoUnavailable?.Invoke();
-            }    
+            }
+            Debug.Log("Action redone. Total actions: " + _actionCount);
         }
-
-        Debug.Log("Action redone. Total actions: " + _actionCount);
     }
 
-    public void LoadObjectState(Stack<ObjectState> loadStack, Stack<ObjectState> pushStack)
+    /// <summary>
+    /// Loads an object state from the load stack and pushes the current state of that object onto the push stack.
+    /// </summary>
+    /// <param name="loadStack">The stack to load an ObjectState from.</param>
+    /// <param name="pushStack">The stack to push the current ObjectState of the loaded object to.</param>
+    /// <returns>The popped ObjectState from the loadStack</returns>
+    public ObjectState GetObjectStateFromStacks(Stack<ObjectState> loadStack, Stack<ObjectState> pushStack)
     {
         // Get the object state to load.
         ObjectState loadObjectState = loadStack.Pop();
@@ -205,7 +211,7 @@ public class GameManager : MonoBehaviour
         pushStack.Push(currentState);
 
         // Load the saved state.
-        loadObjectState.LoadObjectState();
+        return loadObjectState;
     }
 
     private void HandlePlayerInteractAction(GameObject interactObject)
