@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-public class ObjectState
+public struct ObjectState
 {
-    private GameObject Object { get; set; }
-    private Vector3 Location { get; set; }
-    private Quaternion Rotation { get; set; }
+    public GameObject Object;
+    public Vector3 Location;
+    public Quaternion Rotation;
 
     public ObjectState(GameObject gameObject, Vector3 location, Quaternion rotation)
     {
