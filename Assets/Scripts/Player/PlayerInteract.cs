@@ -68,7 +68,7 @@ public class PlayerInteract : MonoBehaviour
     {
 
         if (isInteracting || targetObject == null) return;
-        
+
         if (targetObject.continuousUpdate)
         {
             isInteracting = true;
@@ -104,7 +104,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
+        bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask, QueryTriggerInteraction.Collide);
         InteractionObject previousTarget = targetObject;
 
         if (!lookingAtObj && !isInteracting)
