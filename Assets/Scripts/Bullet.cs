@@ -1,28 +1,28 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
     // Whether this bullet can pierce through NPCs
-    public bool isPiercing = false;
+    [SerializeField] private bool IsPiercing = false;
 
     // Speed at which the bullet travels
-    public float bulletSpeed = 10f; // NOTE this has been slowed for easier observation testing
+    // (NOTE this has been slowed for easier observation testing)
+    [SerializeField] private float BulletSpeed = 10f;
 
     // Force applied to NPCs on hit
-    private float hitForce = 15f;
-    private float upwardFactor = 0.4f;
+    private float _hitForce = 15f;
+    private float _upwardFactor = 0.4f;
 
     // reference time pause script, rigidbody & collider
     private TimePauseUnpause timePauseScript;
     private Rigidbody rb;
     private CapsuleCollider capsuleCollider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Start()
+    private void Start()
     {
         // Set the bullet's velocity to be in the forward direction of its parent
         rb = GetComponent<Rigidbody>();
-        rb.linearVelocity = transform.parent.forward * bulletSpeed;
+        rb.linearVelocity = transform.parent.forward * BulletSpeed;
 
         capsuleCollider = GetComponent<CapsuleCollider>();
 
@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour, IPausable
         GameObject rootObject = other.transform.root.gameObject;
 
         // If it was an NPC, apply hit
-        if (rootObject.CompareTag("NPC"))
+        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets
             NPC npc = rootObject.GetComponentInParent<NPC>();
@@ -47,7 +47,7 @@ public class Bullet : MonoBehaviour, IPausable
         }
 
         // Destroy the bullet on impact with anything if it isn't piercing
-        if (!isPiercing)
+        if (!IsPiercing)
         {
             Destroy(gameObject);
         }
@@ -59,11 +59,11 @@ public class Bullet : MonoBehaviour, IPausable
         if (npc != null)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force
-            Vector3 impactDir = transform.parent.forward + Vector3.up * upwardFactor;
+            Vector3 impactDir = transform.parent.forward + Vector3.up * _upwardFactor;
 
             // Use closest point on collider as approximate hit point
             Vector3 hitPoint = collider.ClosestPoint(transform.position);
-            npc.ApplyHit(impactDir * hitForce, hitPoint);
+            npc.ApplyHit(impactDir * _hitForce, hitPoint);
         }
     }
 
