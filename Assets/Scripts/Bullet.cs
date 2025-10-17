@@ -7,15 +7,13 @@ public class Bullet : MonoBehaviour, IPausable
     [SerializeField] private bool IsPiercing = false;
 
     // Speed at which the bullet travels.
-    // (NOTE this has been slowed for easier observation testing)
-    [SerializeField] private float BulletSpeed = 10f;
+    [SerializeField] private float BulletSpeed = 15f;
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
     // reference time pause script, rigidbody & collider.
-    private TimePauseUnpause _timePauseScript;
     private Rigidbody _rb;
     private CapsuleCollider _capsuleCollider;
 
