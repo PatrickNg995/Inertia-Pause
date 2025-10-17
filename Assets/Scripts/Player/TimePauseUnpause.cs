@@ -43,7 +43,6 @@ public class TimePauseUnpause : MonoBehaviour
         timePause.performed += checkUnpause;
         timePause.Enable();
     }
-
     private void OnDisable()
     {
         timePause.performed -= checkUnpause;
@@ -69,6 +68,7 @@ public class TimePauseUnpause : MonoBehaviour
     // Get all pausable objects & pause them
     private void PauseObjects()
     {
+        Debug.Log("Pause");
         foreach (IPausable pausable in pausableObjects)
         {
             pausable.Pause();
