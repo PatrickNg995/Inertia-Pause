@@ -6,6 +6,9 @@ using UnityEngine;
 public class InteractableObjectInfo : ScriptableObject
 {
     public string ObjectName;
+    public InteractableType Type;
     public string ActionName;
     public TutorialInfo TutorialInfo;
+
+    public enum InteractableType { Default, Movable, Rotatable, Interactable };
 }

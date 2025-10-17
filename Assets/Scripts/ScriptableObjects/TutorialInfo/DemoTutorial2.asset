@@ -9,10 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d820911f75d784d88b7935af443866, type: 3}
-  m_Name: DemoInteractable
+  m_Script: {fileID: 11500000, guid: 803afbcde9d9d424aab91b2f1d21860b, type: 3}
+  m_Name: DemoTutorial2
   m_EditorClassIdentifier: 
-  ObjectName: Demo Object
-  Type: 3
-  ActionName: Rest Awhile
-  TutorialInfo: {fileID: 11400000, guid: dcc1cf9514724a441b1a89be1c887a42, type: 2}
+  ObjectName: Another Demo Object
+  Pages:
+  - Content: This is page 1 of the tutorial
+    Image: {fileID: 0}
+  - Content: This is page 2 of the tutorial
+    Image: {fileID: 0}

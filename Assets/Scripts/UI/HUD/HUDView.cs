@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,13 +12,14 @@ public class HUDView : MonoBehaviour
     [field: SerializeField] public TMP_Text OptionalObjectivesText { get; private set; }
 
     [field: Header("Crosshairs")]
-    [field: SerializeField] public Image DefaultCrosshair { get; private set; }
+    [field: SerializeField] public List<GameObject> Crosshairs { get; private set; }
 
 
     [field: Header("Interaction Prompts")]
     [field: SerializeField] public TMP_Text InteractableNameText { get; private set; }
     [field: SerializeField] public TMP_Text InteractableActionText { get; set; }
     [field: SerializeField] public GameObject PromptsLooking { get; private set; }
+    [field: SerializeField] public GameObject PromptsInteracting { get; private set; }
     [field: SerializeField] public GameObject InteractionPrompts { get; private set; }
 
     [field: Header("Others")]
