@@ -2,8 +2,12 @@
 
 public class NPC : MonoBehaviour
 {
+    [Header("NPC Look Target")]
+    // The object the NPC should be facing.
+    [SerializeField] private GameObject LookTarget;
+
     // Distance in meters needed to fall to die.
-    private const float LETHAL_FALL_THRESHOLD = 5f;
+    private const float LETHAL_FALL_THRESHOLD = 3f;
 
     // Force applied when hitting the ground from a fall to simulate impact.
     private const float FALL_HIT_FORCE = 15f;
@@ -23,9 +27,14 @@ public class NPC : MonoBehaviour
         GetComponent<Animator>().enabled = true;
         SetRigidbodyState(true);
         SetColliderState(false);
+
+        // If there is a look target, make NPC face it.
+        if (LookTarget != null)
+        {
+            transform.LookAt(LookTarget.transform);
+        }
     }
 
-    // If the NPC collides with a lethal object, it dies.
     private void OnCollisionEnter(Collision collision)
     {
         float fallDistance = _initialPosition.y - transform.position.y;
@@ -54,7 +63,6 @@ public class NPC : MonoBehaviour
         IsAlive = false;
     }
 
-    // Apply an impulse to the ragdoll.
     public void ApplyHit(Vector3 impulse, Vector3 hitPoint)
     {
         // Enable ragdoll
