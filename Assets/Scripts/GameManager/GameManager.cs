@@ -49,19 +49,8 @@ public class GameManager : MonoBehaviour
     // Whether the level has been won, for future use.
     public bool LevelWon { get; private set; } = false;
 
-    // Make GameManager a singleton.
-    public static GameManager Instance { get; private set; }
-
     private void Awake()
     {
-        // Singleton pattern implementation.
-        if (Instance != null && Instance != this)
-        {
-            // Destroy duplicate GameManagers.
-            Destroy(gameObject); 
-        }
-        Instance = this;
-
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
@@ -87,7 +76,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Subscribe to player interact action event.
-        PlayerInteract.OnInteractAction += HandlePlayerInteractAction;
+        PlayerInteract.OnActionTaken += HandlePlayerInteractAction;
 
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -142,6 +131,7 @@ public class GameManager : MonoBehaviour
 
         // Clear the redo stack since a new action has been performed.
         _redoStack.Clear();
+        OnRedoUnavailable?.Invoke();
 
         // Update action count.
         _actionCount++;

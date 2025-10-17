@@ -27,7 +27,7 @@ public class PlayerInteract : MonoBehaviour
     /// <summary>
     /// Invoked when the player takes an action with an object.
     /// </summary>
-    public Action<GameObject> OnInteractAction;
+    public Action<GameObject> OnActionTaken;
 
     public float interactionDistance = 2;
 
@@ -81,8 +81,9 @@ public class PlayerInteract : MonoBehaviour
         }
 
         targetObject.OnInteract();
-        // Event for making an action; added for testing undo/redo
-        OnInteractAction?.Invoke(targetObject.gameObject);
+        // Event for taking an action; added here for testing undo/redo, needs to be updated
+        // to prevent multiple calls for interacting with the same object.
+        OnActionTaken?.Invoke(targetObject.gameObject);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
 
