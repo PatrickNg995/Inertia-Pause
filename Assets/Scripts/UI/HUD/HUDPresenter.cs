@@ -9,15 +9,15 @@ public class HUDPresenter : MonoBehaviour
 
     // Add models here
     [Header("Models")]
-    [SerializeField] private GameManager GameManager;
-    [SerializeField] private FramerateChecker FramerateChecker;
-    [SerializeField] private PlayerInteract PlayerInteractModel;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private FramerateChecker _framerateChecker;
+    [SerializeField] private PlayerInteract _playerInteractModel;
 
     [Header("Settings")]
-    [SerializeField] private Color InteractionNameDefaultColor;
-    [SerializeField] private Color InteractionNameInteractingColor;
-    [SerializeField] private float RedoUnavailableAlpha;
-    [SerializeField] private float RedoAvailableAlpha;
+    [SerializeField] private Color _interactionNameDefaultColor;
+    [SerializeField] private Color _interactionNameInteractingColor;
+    [SerializeField] private float _redoUnavailableAlpha;
+    [SerializeField] private float _redoAvailableAlpha;
 
     private const float OBJECTIVE_FADE_DELAY = 10f;
     private const float OBJECTIVE_FADE_DURATION = 2f;
@@ -45,20 +45,20 @@ public class HUDPresenter : MonoBehaviour
 
         View.ObjectivesElements.alpha = 0;
 
-        if (FramerateChecker != null )
+        if (_framerateChecker != null )
         {
-            FramerateChecker.OnFramerateUpdate += OnFramerateUpdate;
+            _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
         }
 
-        GameManager.OnLevelStart += OnLevelStart;
-        GameManager.OnActionUpdate += OnActionCounterUpdate;
-        GameManager.OnRedoAvailable += OnRedoAvailable;
-        GameManager.OnRedoUnavailable += OnRedoUnavailable;
+        _gameManager.OnLevelStart += OnLevelStart;
+        _gameManager.OnActionUpdate += OnActionCounterUpdate;
+        _gameManager.OnRedoAvailable += OnRedoAvailable;
+        _gameManager.OnRedoUnavailable += OnRedoUnavailable;
 
-        PlayerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
-        PlayerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
-        PlayerInteractModel.OnInteract += OnPlayerInteract;
-        PlayerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
+        _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
+        _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
+        _playerInteractModel.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         View.InteractionPrompts.SetActive(false);
     }
@@ -71,7 +71,7 @@ public class HUDPresenter : MonoBehaviour
         }
 
         View.InteractionPrompts.SetActive(true);
-        View.InteractableNameText.color = InteractionNameDefaultColor;
+        View.InteractableNameText.color = _interactionNameDefaultColor;
         View.InteractableNameText.text = interactable.ObjectName;
         View.InteractableActionText.text = interactable.ActionName;
 
@@ -94,7 +94,7 @@ public class HUDPresenter : MonoBehaviour
 
         View.InteractionPrompts.SetActive(true);
         View.InteractableNameText.text = interactable.ObjectName;
-        View.InteractableNameText.color = InteractionNameInteractingColor;
+        View.InteractableNameText.color = _interactionNameInteractingColor;
         View.InteractableActionText.text = interactable.ActionName;
 
         View.PromptsLooking.SetActive(false);
@@ -123,12 +123,12 @@ public class HUDPresenter : MonoBehaviour
 
     private void OnRedoAvailable()
     {
-        View.RedoPrompt.alpha = RedoAvailableAlpha;
+        View.RedoPrompt.alpha = _redoAvailableAlpha;
     }
 
     private void OnRedoUnavailable()
     {
-        View.RedoPrompt.alpha = RedoUnavailableAlpha;
+        View.RedoPrompt.alpha = _redoUnavailableAlpha;
     }
 
     private void OnFramerateUpdate(float framerate, float latency)
