@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IPausable
 {
     [Header("NPC Look Target")]
     // The object the NPC should be facing.
@@ -15,6 +15,9 @@ public class NPC : MonoBehaviour
     // Initial position to determine fall distance.
     private Vector3 _initialPosition;
 
+    // Reference to the Rigidbody.
+    private Rigidbody _rb;
+
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
@@ -22,6 +25,9 @@ public class NPC : MonoBehaviour
     {
         // Record initial position for determining fall damage.
         _initialPosition = transform.position;
+
+        _rb = GetComponent<Rigidbody>();
+        GetComponent<IPausable>().AddToTimePause(this);
 
         // Start with ragdoll physics disabled.
         GetComponent<Animator>().enabled = true;
@@ -51,6 +57,18 @@ public class NPC : MonoBehaviour
             // Apply downward hit force to simulate impact.
             ApplyHit(Vector3.down * FALL_HIT_FORCE, transform.position);
         }
+    }
+
+    public void Pause()
+    {
+        // Make rigidbody kinematic to pause physics.
+        _rb.isKinematic = true;
+    }
+
+    public void Unpause()
+    {
+        // Restore rigidbody physics.
+        _rb.isKinematic = false;
     }
 
     public void Die()

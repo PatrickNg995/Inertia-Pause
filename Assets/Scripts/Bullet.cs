@@ -6,8 +6,9 @@ public class Bullet : MonoBehaviour, IPausable
     // Whether this bullet can pierce through NPCs.
     [SerializeField] private bool IsPiercing = false;
 
-    // Speed at which the bullet travels
-    [SerializeField] private float BulletSpeed = 10f; // NOTE this has been slowed for easier observation testing.
+    // Speed at which the bullet travels.
+    // (NOTE this has been slowed for easier observation testing)
+    [SerializeField] private float BulletSpeed = 10f;
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 15f;
@@ -18,8 +19,7 @@ public class Bullet : MonoBehaviour, IPausable
     private Rigidbody _rb;
     private CapsuleCollider _capsuleCollider;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created.
-    public void Start()
+    private void Start()
     {
         // Set the bullet's velocity to be in the forward direction of its parent.
         _rb = GetComponent<Rigidbody>();
@@ -36,8 +36,8 @@ public class Bullet : MonoBehaviour, IPausable
         // Get root object of whatever was hit.
         GameObject rootObject = other.transform.root.gameObject;
 
-        // If it was an NPC, apply hit.
-        if (rootObject.CompareTag("NPC"))
+        // If it was an Ally or Enemy, apply hit
+        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
             NPC npc = rootObject.GetComponentInParent<NPC>();
