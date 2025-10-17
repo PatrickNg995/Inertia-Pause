@@ -5,19 +5,19 @@ using UnityEngine;
 public class HUDPresenter : MonoBehaviour
 {
     [Header("View")]
-    [SerializeField] private HUDView _view;
+    [SerializeField] private HUDView View;
 
     // Add models here
     [Header("Models")]
-    [SerializeField] private GameManager _gameManager;
-    [SerializeField] private FramerateChecker _framerateChecker;
-    [SerializeField] private PlayerInteract _playerInteractModel;
+    [SerializeField] private GameManager GameManager;
+    [SerializeField] private FramerateChecker FramerateChecker;
+    [SerializeField] private PlayerInteract PlayerInteractModel;
 
     [Header("Settings")]
-    [SerializeField] private Color _interactionNameDefaultColor;
-    [SerializeField] private Color _interactionNameInteractingColor;
-    [SerializeField] private float _redoUnavailableAlpha;
-    [SerializeField] private float _redoAvailableAlpha;
+    [SerializeField] private Color InteractionNameDefaultColor;
+    [SerializeField] private Color InteractionNameInteractingColor;
+    [SerializeField] private float RedoUnavailableAlpha;
+    [SerializeField] private float RedoAvailableAlpha;
 
     private const float OBJECTIVE_FADE_DELAY = 10f;
     private const float OBJECTIVE_FADE_DURATION = 2f;
@@ -29,7 +29,6 @@ public class HUDPresenter : MonoBehaviour
 
     private bool _isInteracting;
     private bool _isObjectivesHidden;
-    private int _actionsTaken;
     private int _currentCrosshair;
 
     // Telemetry
@@ -44,24 +43,24 @@ public class HUDPresenter : MonoBehaviour
         _buildVersion = Application.version;
         OnFramerateUpdate(0, 0);
 
-        _view.ObjectivesElements.alpha = 0;
+        View.ObjectivesElements.alpha = 0;
 
-        if (_framerateChecker != null )
+        if (FramerateChecker != null )
         {
-            _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
+            FramerateChecker.OnFramerateUpdate += OnFramerateUpdate;
         }
 
-        _gameManager.OnLevelStart += OnLevelStart;
-        _gameManager.OnActionUpdate += OnActionCounterUpdate;
-        _gameManager.OnRedoAvailable += OnRedoAvailable;
-        _gameManager.OnRedoUnavailable += OnRedoUnavailable;
+        GameManager.OnLevelStart += OnLevelStart;
+        GameManager.OnActionUpdate += OnActionCounterUpdate;
+        GameManager.OnRedoAvailable += OnRedoAvailable;
+        GameManager.OnRedoUnavailable += OnRedoUnavailable;
 
-        _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
-        _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
-        _playerInteractModel.OnInteract += OnPlayerInteract;
-        _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
+        PlayerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
+        PlayerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
+        PlayerInteractModel.OnInteract += OnPlayerInteract;
+        PlayerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
-        _view.InteractionPrompts.SetActive(false);
+        View.InteractionPrompts.SetActive(false);
     }
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)
@@ -71,10 +70,10 @@ public class HUDPresenter : MonoBehaviour
             return;
         }
 
-        _view.InteractionPrompts.SetActive(true);
-        _view.InteractableNameText.color = _interactionNameDefaultColor;
-        _view.InteractableNameText.text = interactable.ObjectName;
-        _view.InteractableActionText.text = interactable.ActionName;
+        View.InteractionPrompts.SetActive(true);
+        View.InteractableNameText.color = InteractionNameDefaultColor;
+        View.InteractableNameText.text = interactable.ObjectName;
+        View.InteractableActionText.text = interactable.ActionName;
 
         SetCrosshair((int)interactable.Type);
     }
@@ -83,7 +82,7 @@ public class HUDPresenter : MonoBehaviour
     {
         if (!_isInteracting)
         {
-            _view.InteractionPrompts.SetActive(false);
+            View.InteractionPrompts.SetActive(false);
             SetCrosshair(crosshairIndex: 0);
         }
     }
@@ -93,13 +92,13 @@ public class HUDPresenter : MonoBehaviour
         HideObjectives();
         _isInteracting = true;
 
-        _view.InteractionPrompts.SetActive(true);
-        _view.InteractableNameText.text = interactable.ObjectName;
-        _view.InteractableNameText.color = _interactionNameInteractingColor;
-        _view.InteractableActionText.text = interactable.ActionName;
+        View.InteractionPrompts.SetActive(true);
+        View.InteractableNameText.text = interactable.ObjectName;
+        View.InteractableNameText.color = InteractionNameInteractingColor;
+        View.InteractableActionText.text = interactable.ActionName;
 
-        _view.PromptsLooking.SetActive(false);
-        _view.PromptsInteracting.SetActive(true);
+        View.PromptsLooking.SetActive(false);
+        View.PromptsInteracting.SetActive(true);
     }
 
     private void OnPlayerEndInteraction(InteractableObjectInfo interactable)
@@ -107,29 +106,29 @@ public class HUDPresenter : MonoBehaviour
         _isInteracting = false;
         OnPlayerLookAtInteractable(interactable);
 
-        _view.PromptsLooking.SetActive(true);
-        _view.PromptsInteracting.SetActive(false);
+        View.PromptsLooking.SetActive(true);
+        View.PromptsInteracting.SetActive(false);
     }
 
     private void OnLevelStart()
     {
-        _view.ObjectivesElements.alpha = 1;
+        View.ObjectivesElements.alpha = 1;
         _objectivesFadeCoroutine = StartCoroutine(DelayAndFadeObjectives());
     }
 
     private void OnActionCounterUpdate(int actionsTaken)
     {
-        _view.ActionsTakenText.text = actionsTaken.ToString();
+        View.ActionsTakenText.text = actionsTaken.ToString();
     }
 
     private void OnRedoAvailable()
     {
-        _view.RedoPrompt.alpha = _redoAvailableAlpha;
+        View.RedoPrompt.alpha = RedoAvailableAlpha;
     }
 
     private void OnRedoUnavailable()
     {
-        _view.RedoPrompt.alpha = _redoUnavailableAlpha;
+        View.RedoPrompt.alpha = RedoUnavailableAlpha;
     }
 
     private void OnFramerateUpdate(float framerate, float latency)
@@ -141,7 +140,7 @@ public class HUDPresenter : MonoBehaviour
         float latencyMilliseconds = _lastLatency * 1000;
         float latencyMsRounded = (int)(latencyMilliseconds * 10) / 10f;
 
-        _view.TelemetryText.text = string.Format(TELEMETRY_FORMAT, _platform, _buildVersion, Mathf.Floor(_lastFramerate), latencyMsRounded);
+        View.TelemetryText.text = string.Format(TELEMETRY_FORMAT, _platform, _buildVersion, Mathf.Floor(_lastFramerate), latencyMsRounded);
     }
 
 
@@ -162,8 +161,8 @@ public class HUDPresenter : MonoBehaviour
 
     private void SetCrosshair(int crosshairIndex)
     {
-        _view.Crosshairs[_currentCrosshair].SetActive(false);
-        _view.Crosshairs[crosshairIndex].SetActive(true);
+        View.Crosshairs[_currentCrosshair].SetActive(false);
+        View.Crosshairs[crosshairIndex].SetActive(true);
         _currentCrosshair = crosshairIndex;
     }
 
@@ -181,10 +180,10 @@ public class HUDPresenter : MonoBehaviour
         while (time < OBJECTIVE_FADE_DURATION)
         {
             time += Time.deltaTime;
-            _view.ObjectivesElements.alpha = 1.0f - (time / OBJECTIVE_FADE_DURATION);
+            View.ObjectivesElements.alpha = 1.0f - (time / OBJECTIVE_FADE_DURATION);
             yield return null;
         }
 
-        _view.ObjectivesElements.alpha = 0;
+        View.ObjectivesElements.alpha = 0;
     }
 }
