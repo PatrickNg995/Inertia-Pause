@@ -15,22 +15,29 @@ public class NPC : MonoBehaviour, IPausable
     // Initial position to determine fall distance.
     private Vector3 _initialPosition;
 
-    // Reference to the Rigidbody.
+    // References to components.
     private Rigidbody _rb;
+    private Animator _animator;
+    private Collider _collider;
 
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
     private void Start()
     {
+        // Required for time pausing; remove/rework when the time pausing system gets reworked.
+        GetComponent<IPausable>().AddToTimePause(this);
+
+        // Cache references to components.
+        _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider>();
+
         // Record initial position for determining fall damage.
         _initialPosition = transform.position;
 
-        _rb = GetComponent<Rigidbody>();
-        GetComponent<IPausable>().AddToTimePause(this);
-
         // Start with ragdoll physics disabled.
-        GetComponent<Animator>().enabled = true;
+        _animator.enabled = true;
         SetRigidbodyState(true);
         SetColliderState(false);
 
@@ -52,7 +59,7 @@ public class NPC : MonoBehaviour, IPausable
         }
 
         // Check if NPC fell a lethal distance.
-        if (fallDistance > LETHAL_FALL_THRESHOLD)
+        if (fallDistance >= LETHAL_FALL_THRESHOLD)
         {
             // Apply downward hit force to simulate impact.
             ApplyHit(Vector3.down * FALL_HIT_FORCE, transform.position);
@@ -74,7 +81,7 @@ public class NPC : MonoBehaviour, IPausable
     public void Die()
     {
         // Disable animator, enable ragdoll physics.
-        GetComponent<Animator>().enabled = false;
+        _animator.enabled = false;
         SetRigidbodyState(false);
         SetColliderState(true);
 
@@ -113,7 +120,7 @@ public class NPC : MonoBehaviour, IPausable
         {
             rigidbody.isKinematic = state;
         }
-        GetComponent<Rigidbody>().isKinematic = !state;
+        _rb.isKinematic = !state;
     }
 
     private void SetColliderState(bool state)
@@ -124,6 +131,6 @@ public class NPC : MonoBehaviour, IPausable
         {
             collider.enabled = state;
         }
-        GetComponent<Collider>().enabled = !state;
+        _collider.enabled = !state;
     }
 }
