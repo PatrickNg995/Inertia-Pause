@@ -13,11 +13,10 @@ GameObject:
   - component: {fileID: 1831377930021380578}
   - component: {fileID: 2651440927120036450}
   - component: {fileID: 6965351139296787763}
-  - component: {fileID: 8353908449060022372}
-  - component: {fileID: 6210164958702035387}
+  - component: {fileID: 2361889290641702826}
   m_Layer: 0
   m_Name: Bullet Model
-  m_TagString: Lethal
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 644efa03aa820f7409d2abf34618dfe4, type: 2}
+  - {fileID: 2100000, guid: 09ec01843027b5646a5a493bdafeb5ab, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,7 +139,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8353908449060022372
+--- !u!114 &2361889290641702826
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,24 +148,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5353869921827706845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baa0129b370487044a733b712e308308, type: 3}
+  m_Script: {fileID: 11500000, guid: 57b09116bbf93da44aae88c7dfc57eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPiercing: 0
-  bulletSpeed: 10
---- !u!114 &6210164958702035387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5353869921827706845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1b61eab191c043448b9a4c16b51b86d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  savedVelocity: {x: 0, y: 0, z: 0}
+  IsPiercing: 1
+  BulletSpeed: 10
 --- !u!1 &6560937390844839067
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,8 +163,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5502536431060230654}
   m_Layer: 0
-  m_Name: Hollow Point Bullet
-  m_TagString: Untagged
+  m_Name: Reworked Piercing Bullet
+  m_TagString: Lethal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
