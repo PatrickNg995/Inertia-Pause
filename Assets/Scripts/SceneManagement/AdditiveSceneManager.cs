@@ -35,6 +35,7 @@ public class AdditiveSceneManager : MonoBehaviour
     /// </summary>
     public void LoadMainMenu()
     {
+        Debug.Log("Loading main menu scenes");
         _loadedScenarioAssetsSceneName = MAIN_MENU_SCENARIO;
         StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(MAIN_MENU_UI, MAIN_MENU_ENVIRONMENT, MAIN_MENU_SCENARIO)));
     }
@@ -47,6 +48,7 @@ public class AdditiveSceneManager : MonoBehaviour
     /// <param name="scenarioAssetsSceneName">A reference to the scenario assets scene to be loaded, which consists of puzzle objects and scripting.</param>
     public void LoadScenario(string environmentSceneName, string scenarioAssetsSceneName)
     {
+        Debug.Log($"Loading scenario scenes: {environmentSceneName}, {scenarioAssetsSceneName}");
         _loadedScenarioAssetsSceneName = scenarioAssetsSceneName;
         StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(scenarioAssetsSceneName, environmentSceneName)));
     }
@@ -56,6 +58,7 @@ public class AdditiveSceneManager : MonoBehaviour
     /// </summary>
     public void ReloadScenario()
     {
+        Debug.Log($"Reloading scenario scene {_loadedScenarioAssetsSceneName}");
         StartCoroutine(WithLoadingScreen(ReloadScenarioAssets()));
     }
 
@@ -84,6 +87,13 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         IEnumerable<string> currentlyLoadedScenes = GetAllLoadedScenes().Where(scene => scene != _additiveScene).Select(scene => scene.name);
         IEnumerable<string> scenesToUnload = currentlyLoadedScenes.Except(scenes);
+
+        IEnumerable<string> alreadyLoadedScenes = currentlyLoadedScenes.Intersect(scenes);
+        if (alreadyLoadedScenes.Any())
+        {
+            Debug.Log($"Scenes are already loaded: {string.Join(", ", alreadyLoadedScenes)}");
+        }
+
         if (scenesToUnload.Any())
         {
             yield return UnloadScenesAsync(scenesToUnload);
@@ -116,6 +126,7 @@ public class AdditiveSceneManager : MonoBehaviour
 
         for (int i = 0; i < scenes.Count(); i++)
         {
+            Debug.Log($"Unload scene {scenes.ElementAt(i)}");
             operations[i] = SceneManager.UnloadSceneAsync(scenes.ElementAt(i));
         }
 
@@ -134,6 +145,7 @@ public class AdditiveSceneManager : MonoBehaviour
         for (int i = 0; i < scenes.Count(); i++)
         {
             string scene = scenes.ElementAt(i);
+            Debug.Log($"Load scene {scene}");
             operations[i] = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             operations[i].allowSceneActivation = false;
         }
