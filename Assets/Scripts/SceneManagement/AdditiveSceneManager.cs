@@ -17,38 +17,38 @@ public class AdditiveSceneManager : MonoBehaviour
     /// </summary>
     public Action OnEndLoad;
 
-    private Scene _additiveScene;
-    private Scene _menuUIScene;
+    private const string MAIN_MENU_UI = "MainMenu";
+    private const string MAIN_MENU_ENVIRONMENT = "2-office";
+    private const string MAIN_MENU_SCENARIO = "MainMenuScenario";
 
-    private Scene _loadedScenarioAssetsScene;
+    private Scene _additiveScene;
+    private string _loadedScenarioAssetsSceneName;
 
     void Start()
     {
-        _additiveScene = SceneManager.GetSceneByName("AdditiveUI");
-        _menuUIScene = SceneManager.GetSceneByName("MainMenu");
+        _additiveScene = SceneManager.GetActiveScene();
+        LoadMainMenu();
     }
 
     /// <summary>
-    /// Unloads all scenes, then loads the main menu, which consists of the UI scene, environment scene and assets scene.
+    /// Unloads all scenes, then loads the main menu and its environment and asset scenes.
     /// </summary>
-    /// <param name="environmentScene">A reference to the environment scene to be loaded, which consists of the level environment, terrain, and lighting.</param>
-    /// <param name="scenarioAssetsScene">A reference to the scenario assets scene to be loaded, which consists of puzzle objects and dynamic camera angles.</param>
-    public void LoadMainMenu(Scene environmentScene, Scene scenarioAssetsScene)
+    public void LoadMainMenu()
     {
-        _loadedScenarioAssetsScene = scenarioAssetsScene;
-        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(_menuUIScene, environmentScene, scenarioAssetsScene)));
+        _loadedScenarioAssetsSceneName = MAIN_MENU_SCENARIO;
+        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(MAIN_MENU_UI, MAIN_MENU_ENVIRONMENT, MAIN_MENU_SCENARIO)));
     }
 
     /// <summary>
     /// Unloads all scenes, then loads a scenario, which consists of an environment scene and assets scene. If the scenes are already loaded, they are
     /// not loaded again.
     /// </summary>
-    /// <param name="environmentScene">A reference to the environment scene to be loaded, which consists of the level environment, terrain, and lighting.</param>
-    /// <param name="scenarioAssetsScene">A reference to the scenario assets scene to be loaded, which consists of puzzle objects and scripting.</param>
-    public void LoadScenario(Scene environmentScene, Scene scenarioAssetsScene)
+    /// <param name="environmentSceneName">A reference to the environment scene to be loaded, which consists of the level environment, terrain, and lighting.</param>
+    /// <param name="scenarioAssetsSceneName">A reference to the scenario assets scene to be loaded, which consists of puzzle objects and scripting.</param>
+    public void LoadScenario(string environmentSceneName, string scenarioAssetsSceneName)
     {
-        _loadedScenarioAssetsScene = scenarioAssetsScene;
-        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(environmentScene, scenarioAssetsScene)));
+        _loadedScenarioAssetsSceneName = scenarioAssetsSceneName;
+        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(environmentSceneName, scenarioAssetsSceneName)));
     }
 
     /// <summary>
@@ -79,13 +79,13 @@ public class AdditiveSceneManager : MonoBehaviour
     }
 
     // Unloads all scenes except those that are going to be loaded, then load the scenes requested.
-    private IEnumerator LoadScenesOnlyAsync(params Scene[] scenes)
+    private IEnumerator LoadScenesOnlyAsync(params string[] scenes)
     {
-        IEnumerable<Scene> currentlyLoadedScenes = GetAllLoadedScenes().Where(scene => scene != _additiveScene);
-        IEnumerable<Scene> scenesToUnload = currentlyLoadedScenes.Except(scenes);
+        IEnumerable<string> currentlyLoadedScenes = GetAllLoadedScenes().Where(scene => scene != _additiveScene).Select(scene => scene.name);
+        IEnumerable<string> scenesToUnload = currentlyLoadedScenes.Except(scenes);
         yield return UnloadScenesAsync(scenesToUnload);
 
-        IEnumerable<Scene> scenesToLoad = scenes.Except(currentlyLoadedScenes);
+        IEnumerable<string> scenesToLoad = scenes.Except(currentlyLoadedScenes);
         yield return LoadScenesAsync(scenesToLoad);
     }
 
@@ -103,14 +103,13 @@ public class AdditiveSceneManager : MonoBehaviour
     }
 
     // Unloads multiple scenes concurrently.
-    private IEnumerator UnloadScenesAsync(IEnumerable<Scene> scenes)
+    private IEnumerator UnloadScenesAsync(IEnumerable<string> scenes)
     {
         AsyncOperation[] operations = new AsyncOperation[scenes.Count()];
 
         for (int i = 0; i < scenes.Count(); i++)
         {
-            Scene scene = scenes.ElementAt(i);
-            operations[i] = SceneManager.UnloadSceneAsync(scene);
+            operations[i] = SceneManager.UnloadSceneAsync(scenes.ElementAt(i));
         }
 
         foreach (AsyncOperation operation in operations)
@@ -120,14 +119,14 @@ public class AdditiveSceneManager : MonoBehaviour
     }
 
     // Loads multiple scenes concurrently.
-    private IEnumerator LoadScenesAsync(IEnumerable<Scene> scenes)
+    private IEnumerator LoadScenesAsync(IEnumerable<string> scenes)
     {
         AsyncOperation[] operations = new AsyncOperation[scenes.Count()];
 
         for (int i = 0; i < scenes.Count(); i++)
         {
-            Scene scene = scenes.ElementAt(i);
-            operations[i] = SceneManager.LoadSceneAsync(scene.buildIndex, LoadSceneMode.Additive);
+            string scene = scenes.ElementAt(i);
+            operations[i] = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
             operations[i].allowSceneActivation = false;
         }
 
@@ -141,7 +140,7 @@ public class AdditiveSceneManager : MonoBehaviour
     // Unloads the scenario assets scene then loads it again.
     private IEnumerator ReloadScenarioAssets()
     {
-        List<Scene> scene = new () { _loadedScenarioAssetsScene };
+        List<string> scene = new () { _loadedScenarioAssetsSceneName };
 
         yield return UnloadScenesAsync(scene);
         yield return LoadScenesAsync(scene);
