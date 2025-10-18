@@ -14,6 +14,8 @@ public class NewEnemy : MonoBehaviour
     // Bullet Prefab Object
     public Transform Bullet;
 
+    [SerializeField]
+    private bool _isBulletDistanceOn;
     // Distance between bullet & target by percentage (1 == bullet is on target)
     [SerializeField]
     [Range(0f, 1f)]
@@ -22,7 +24,12 @@ public class NewEnemy : MonoBehaviour
     // Runs whenever a value changes
     void OnValidate()
     {
-        if (Target != null && Bullet != null)
+        if (!_isBulletDistanceOn)
+        {
+            return;
+        }
+
+        if (Target != null && Bullet != null && BulletSpawnPoint != null)
         {
             // Enemy & Bullet face the enemy
             transform.LookAt(Target.transform);
