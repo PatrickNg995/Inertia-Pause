@@ -9,10 +9,10 @@ public class NewPlayerMovement : MonoBehaviour
     [Space]
 
     // Movement variables
-    [SerializeField] private float movementSpeed = 5;
-    [SerializeField] private float gravity = -9.81f;
-    [SerializeField] private float climbSpeed = 4f;
-    [SerializeField] private float ladderTopJump = 4; // seems to be the magic number with movementSpeed 5
+    [SerializeField] private float MovementSpeed = 5f;
+    [SerializeField] private float Gravity = -9.81f;
+    [SerializeField] private float ClimbSpeed = 4f;
+    [SerializeField] private float LadderTopJump = 4f; // seems to be the magic number with movementSpeed 5
 
     // Player input
     private PlayerActions inputActions;
@@ -66,7 +66,7 @@ public class NewPlayerMovement : MonoBehaviour
 
         // Move player based on input & direction they are facing
         Vector3 moveVector = transform.TransformDirection(velocity);
-        controller.Move(movementSpeed * Time.unscaledDeltaTime * moveVector);
+        controller.Move(MovementSpeed * Time.unscaledDeltaTime * moveVector);
 
         // Zero out velocity & check for gravity
         velocity = Vector3.zero;
@@ -76,7 +76,7 @@ public class NewPlayerMovement : MonoBehaviour
         }
         else
         {
-            velocity.y -= gravity * -2f * Time.unscaledDeltaTime;
+            velocity.y -= Gravity * -2f * Time.unscaledDeltaTime;
         }
 
         // Move player down by gravity
@@ -87,7 +87,7 @@ public class NewPlayerMovement : MonoBehaviour
     {
         // Move vertically when on ladder
         Vector3 climbDirection = new Vector3(0, v2.y, 0);
-        controller.Move(climbSpeed * Time.unscaledDeltaTime * climbDirection);
+        controller.Move(ClimbSpeed * Time.unscaledDeltaTime * climbDirection);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -110,7 +110,7 @@ public class NewPlayerMovement : MonoBehaviour
         if (!controller.isGrounded)
         {
             // Jumps to prevent jittering at the top of the ladder while trying to go from in front of the ladder to above and behind it
-            controller.Move((ladderTopJump * movementSpeed * transform.forward + Vector3.up) * Time.unscaledDeltaTime);
+            controller.Move((LadderTopJump * MovementSpeed * transform.forward + Vector3.up) * Time.unscaledDeltaTime);
         }
     }
 
