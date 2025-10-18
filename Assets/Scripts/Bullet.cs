@@ -1,81 +1,81 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
-    // Whether this bullet can pierce through NPCs
-    public bool isPiercing = false;
+    [Header("Bullet Settings")]
+    // Whether this bullet can pierce through NPCs.
+    [SerializeField] private bool IsPiercing = false;
 
-    // Speed at which the bullet travels
-    public float bulletSpeed = 10f; // NOTE this has been slowed for easier observation testing
+    // Speed at which the bullet travels.
+    [SerializeField] private float BulletSpeed = 15f;
 
-    // Force applied to NPCs on hit
-    private float hitForce = 15f;
-    private float upwardFactor = 0.4f;
+    // Force applied to NPCs on hit.
+    private const float HIT_FORCE = 15f;
+    private const float UPWARD_FACTOR = 0.4f;
 
-    // reference time pause script, rigidbody & collider
-    private TimePauseUnpause timePauseScript;
-    private Rigidbody rb;
-    private bool canKill = true;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public void Start()
+    // reference time pause script, rigidbody & collider.
+    private Rigidbody _rb;
+    private bool _canKill = true;
+
+    private void Start()
     {
-        // Set the bullet's velocity to be in the forward direction of its parent
-        rb = GetComponent<Rigidbody>();
-        rb.linearVelocity = transform.parent.forward * bulletSpeed;
+        // Set the bullet's velocity to be in the forward direction of its parent.
+        _rb = GetComponent<Rigidbody>();
+        _rb.linearVelocity = transform.parent.forward * BulletSpeed;
 
         GetComponent<IPausable>().AddToTimePause(this);
     }
 
-    // Handle collisions with other objects
+    // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
-        if (!canKill) return;
+        if (!_canKill) return;
         // Get root object of whatever was hit
         GameObject rootObject = other.transform.root.gameObject;
 
-        // If it was an NPC, apply hit
-        if (rootObject.CompareTag("NPC"))
+        // If it was an Ally or Enemy, apply hit
+        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
         {
-            // Only hit if NPC is alive, prevents repeated hits with piercing bullets
+            // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
             NPC npc = rootObject.GetComponentInParent<NPC>();
             if (npc.IsAlive)
             {
                 HitNPC(npc, other);
-            }    
+            }
         }
 
-        // Destroy the bullet on impact with anything if it isn't piercing
-        if (!isPiercing)
+        // Destroy the bullet on impact with anything if it isn't piercing.
+        if (!IsPiercing)
         {
             Destroy(gameObject);
         }
     }
 
-    // Apply hit to NPC
+    // Apply hit to NPC.
     public void HitNPC(NPC npc, Collider collider)
     {
-        if (npc != null && canKill)
+        if (npc != null && _canKill)
         {
-            // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force
-            Vector3 impactDir = transform.parent.forward + Vector3.up * upwardFactor;
+            // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force.
+            Vector3 impactDir = transform.parent.forward + Vector3.up * UPWARD_FACTOR;
 
-            // Use closest point on collider as approximate hit point
+            // Use closest point on collider as approximate hit point.
             Vector3 hitPoint = collider.ClosestPoint(transform.position);
-            npc.ApplyHit(impactDir * hitForce, hitPoint);
+            npc.ApplyHit(impactDir * HIT_FORCE, hitPoint);
         }
     }
 
-    // Disable collider on pause
+    // Disable collider on pause.
     public void Pause()
     {
-        canKill = false;
+        _canKill = false;
     }
 
-    // Enable collider on unpause
+    // Enable collider on unpause.
     public void Unpause()
     {
-        canKill = true;
+        _canKill = true;
     }
 
 }
