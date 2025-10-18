@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +7,26 @@ using UnityEngine.SceneManagement;
 
 public class AdditiveSceneManager : MonoBehaviour
 {
-    [SerializeField] private Scene _additiveScene;
-    [SerializeField] private Scene _menuUIScene;
+    /// <summary>
+    /// Invoked when loading starts.
+    /// </summary>
+    public Action OnStartLoad;
+
+    /// <summary>
+    /// Invoked when all scenes have finished loading.
+    /// </summary>
+    public Action OnEndLoad;
+
+    private Scene _additiveScene;
+    private Scene _menuUIScene;
 
     private Scene _loadedScenarioAssetsScene;
+
+    void Start()
+    {
+        _additiveScene = SceneManager.GetSceneByName("AdditiveUI");
+        _menuUIScene = SceneManager.GetSceneByName("MainMenu");
+    }
 
     /// <summary>
     /// Unloads all scenes, then loads the main menu, which consists of the UI scene, environment scene and assets scene.
@@ -52,13 +69,13 @@ public class AdditiveSceneManager : MonoBehaviour
     // Shows loading screen.
     private void StartLoad()
     {
-        // Show loading screen
+        OnStartLoad?.Invoke();
     }
 
     // Hides loading screen.
     private void EndLoad()
     {
-        // Hide loading screen
+        OnEndLoad?.Invoke();
     }
 
     // Unloads all scenes except those that are going to be loaded, then load the scenes requested.
