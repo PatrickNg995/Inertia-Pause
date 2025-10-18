@@ -3,51 +3,64 @@ using System.Collections.Generic;
 
 public class BulletBehaviour : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Transform playerCamera;
-    [SerializeField] private float dragSpeed = 10f;
+    [SerializeField] private Transform PlayerCamera;
+    [SerializeField] private float DragSpeed = 10f;
 
-    private bool isDragging = false;
-    private Vector3 targetPosition;
-    private Vector3 initialPosition = new Vector3();
-    private float currentDragDistance;
-    private float yPosition;
+    private bool _isDragging = false;
+    private Vector3 _targetPosition;
+    private Vector3 _resetPosition;
+    private Vector3 _cancelPosition;
+    private float _currentDragDistance;
+    private float _yPosition;
 
     private void Awake()
     {
-        playerCamera = Camera.main.transform;
+        PlayerCamera = Camera.main.transform;
+        _resetPosition = transform.position;
     }
 
-    public void OnInteract()
+    public void OnStartInteract()
     {
-        // When the player starts interacting
-        if (!isDragging)
+        if (!_isDragging)
         {
-            isDragging = true;
+            _isDragging = true;
 
-            yPosition = transform.position.y;
+            _yPosition = transform.position.y;
+
+            _cancelPosition = transform.position;
 
             // Calculate and store the distance from camera to object
-            currentDragDistance = Vector3.Distance(playerCamera.position, transform.position);
+            _currentDragDistance = Vector3.Distance(PlayerCamera.position, transform.position);
         }
+    }
 
+    public void OnHoldInteract()
+    {
         // Calculate position in front of camera
-        targetPosition = playerCamera.position + playerCamera.forward * currentDragDistance;
+        _targetPosition = PlayerCamera.position + PlayerCamera.forward * _currentDragDistance;
 
-        targetPosition.y = yPosition;
+        _targetPosition.y = _yPosition;
 
         // Move object to target position
-        transform.position = Vector3.Lerp(transform.position, targetPosition, dragSpeed * Time.unscaledDeltaTime);
+        transform.position = Vector3.Lerp(transform.position, _targetPosition, DragSpeed * Time.unscaledDeltaTime);
+    }
+
+    public void OnEndInteract()
+    {
+        _isDragging = false;
     }
 
     public void OnCancelInteract()
     {
-        isDragging = false;
+        transform.position = _cancelPosition;
+
+        _isDragging = false;
     }
 
     public void OnResetInteract()
     {
-        transform.position = initialPosition;
+        transform.position = _resetPosition;
 
-        OnCancelInteract();
+        _isDragging = false;
     }
 }
