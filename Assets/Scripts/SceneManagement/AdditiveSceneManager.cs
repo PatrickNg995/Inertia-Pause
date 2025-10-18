@@ -48,7 +48,7 @@ public class AdditiveSceneManager : MonoBehaviour
     public void LoadScenario(string environmentSceneName, string scenarioAssetsSceneName)
     {
         _loadedScenarioAssetsSceneName = scenarioAssetsSceneName;
-        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(environmentSceneName, scenarioAssetsSceneName)));
+        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(scenarioAssetsSceneName, environmentSceneName)));
     }
 
     /// <summary>
@@ -83,10 +83,16 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         IEnumerable<string> currentlyLoadedScenes = GetAllLoadedScenes().Where(scene => scene != _additiveScene).Select(scene => scene.name);
         IEnumerable<string> scenesToUnload = currentlyLoadedScenes.Except(scenes);
-        yield return UnloadScenesAsync(scenesToUnload);
+        if (scenesToUnload.Any())
+        {
+            yield return UnloadScenesAsync(scenesToUnload);
+        }
 
         IEnumerable<string> scenesToLoad = scenes.Except(currentlyLoadedScenes);
-        yield return LoadScenesAsync(scenesToLoad);
+        if (scenesToLoad.Any())
+        {
+            yield return LoadScenesAsync(scenesToLoad);
+        }
     }
 
     // Gets a list of all loaded scenes.
@@ -123,6 +129,7 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         AsyncOperation[] operations = new AsyncOperation[scenes.Count()];
 
+        // Start loading all scenes.
         for (int i = 0; i < scenes.Count(); i++)
         {
             string scene = scenes.ElementAt(i);
@@ -130,11 +137,21 @@ public class AdditiveSceneManager : MonoBehaviour
             operations[i].allowSceneActivation = false;
         }
 
+        // Wait for all scenes to finish loading.
         foreach (AsyncOperation operation in operations)
         {
             yield return new WaitUntil(() => operation.progress >= 0.9f);
+        }
+
+        // Activate all scenes at the same time.
+        foreach (AsyncOperation operation in operations)
+        {
             operation.allowSceneActivation = true;
         }
+
+        // Set the first scene as the active scene after it is activated.
+        yield return new WaitUntil(() => operations[0].isDone);
+        SceneManager.SetActiveScene(SceneManager.GetSceneAt(0));
     }
 
     // Unloads the scenario assets scene then loads it again.
