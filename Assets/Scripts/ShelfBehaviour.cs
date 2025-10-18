@@ -27,13 +27,23 @@ public class ShelfBehaviour : MonoBehaviour, IInteractable
         throw new System.NotImplementedException();
     }
 
-    public void OnInteract()
+    public void OnStartInteract()
     {
         if (hasBeenInteracted) { return; }
 
         // right is the direction the object is facing
         rb.AddTorque(transform.right * torque);
         hasBeenInteracted = true;
+    }
+
+    public void OnHoldInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnEndInteract()
+    {
+        throw new System.NotImplementedException();
     }
 
     public void OnResetInteract()

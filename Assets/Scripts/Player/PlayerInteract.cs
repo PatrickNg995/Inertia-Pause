@@ -31,93 +31,102 @@ public class PlayerInteract : MonoBehaviour
 
     public float interactionDistance = 2;
 
-    private Transform pivot;
-    private LayerMask layerMask;
-    private PlayerActions actions;
-    private InputAction interact;
-    private InputAction cancelInteract;
-    private InputAction resetInteract;
-    private bool isInteracting = false;
-    private InteractionObject targetObject;
+    private Transform _pivot;
+    private LayerMask _layerMask;
+    private PlayerActions _actions;
+    private InputAction _interact;
+    private InputAction _cancelInteract;
+    private InputAction _resetInteract;
+    private bool _isInteracting = false;
+    private InteractionObject _targetObject;
 
     private void Awake()
     {
-        pivot = GetComponent<Transform>();
-        layerMask = LayerMask.GetMask("InteractionObjects");
-        actions = new PlayerActions();
+        _pivot = GetComponent<Transform>();
+        _layerMask = LayerMask.GetMask("InteractionObjects");
+        _actions = new PlayerActions();
     }
 
     private void OnEnable()
     {
-        interact = actions.Ingame.StartInteract;
-        cancelInteract = actions.Ingame.CancelInteract;
-        resetInteract = actions.Ingame.ResetInteract;
+        _interact = _actions.Ingame.StartInteract;
+        _cancelInteract = _actions.Ingame.CancelInteract;
+        _resetInteract = _actions.Ingame.ResetInteract;
 
-        interact.performed += OnStartInteract;
-        cancelInteract.performed += OnCancelInteract;
-        resetInteract.performed += OnResetInteract;
+        _interact.performed += OnStartInteract;
+        _cancelInteract.performed += OnCancelInteract;
+        _resetInteract.performed += OnResetInteract;
 
-        interact.Enable();
-        cancelInteract.Enable();
-        resetInteract.Enable();
+        _interact.Enable();
+        _cancelInteract.Enable();
+        _resetInteract.Enable();
     }
 
     private void OnDisable()
     {
-        interact.Disable();
-        cancelInteract.Disable();
-        resetInteract.Disable();
+        _interact.Disable();
+        _cancelInteract.Disable();
+        _resetInteract.Disable();
     }
 
     private void OnStartInteract(InputAction.CallbackContext _)
     {
 
-        if (isInteracting || targetObject == null) return;
-        
-        if (targetObject.continuousUpdate)
+        if (_targetObject == null) return;
+
+        if (_isInteracting)
         {
-            isInteracting = true;
-            OnInteract?.Invoke(targetObject.InteractableInfo);
+            _targetObject.OnEndInteract();
+            OnInteract?.Invoke(_targetObject.InteractableInfo);
+            Debug.Log($"Ended interaction with {_targetObject.name}");
+            _isInteracting = false;
+            return;
         }
 
-        targetObject.OnInteract();
+        if (_targetObject.continuousUpdate)
+        {
+            _isInteracting = true;
+            OnInteract?.Invoke(_targetObject.InteractableInfo);
+        }
+
+        _targetObject.OnStartInteract();
         // Event for taking an action; added here for testing undo/redo, needs to be updated
         // to prevent multiple calls for interacting with the same object.
-        OnActionTaken?.Invoke(targetObject.gameObject);
-        Debug.Log($"Started interacting with {targetObject.name}");
+        OnActionTaken?.Invoke(_targetObject.gameObject);
+        Debug.Log($"Started interacting with {_targetObject.name}");
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (targetObject == null) return;
+        if (_targetObject == null) return;
 
-        targetObject.OnResetInteract();
-        isInteracting = false;
-        OnEndInteraction?.Invoke(targetObject.InteractableInfo);
-        Debug.Log($"Reset interaction with {targetObject.name}");
+        _targetObject.OnResetInteract();
+        _isInteracting = false;
+        OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
+        Debug.Log($"Reset interaction with {_targetObject.name}");
     }
 
     private void OnCancelInteract(InputAction.CallbackContext _)
     {
-        if (targetObject == null) return;
+        if (_targetObject == null) return;
 
-        if (isInteracting)
+        if (_isInteracting)
         {
-            targetObject.OnCancelInteract();
-            isInteracting = false;
-            OnEndInteraction?.Invoke(targetObject.InteractableInfo);
-            Debug.Log($"Cancelled interaction with {targetObject.name}");
+            _targetObject.OnCancelInteract();
+            _isInteracting = false;
+            OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
+            Debug.Log($"Cancelled interaction with {_targetObject.name}");
         }
     }
 
     void Update()
     {
-        bool lookingAtObj = Physics.Raycast(pivot.position, pivot.forward, out RaycastHit hit, interactionDistance, layerMask);
-        InteractionObject previousTarget = targetObject;
+        bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, interactionDistance, _layerMask, QueryTriggerInteraction.Collide);
+        InteractionObject previousTarget = _targetObject;
 
-        if (!lookingAtObj && !isInteracting)
+        if (!lookingAtObj && !_isInteracting)
         {
-            targetObject = null;
+            _targetObject = null;
 
             if (previousTarget != null)
             {
@@ -128,19 +137,19 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
-        if (isInteracting)
+        if (_isInteracting)
         {
             // If the player is currently interacting with an object.
-            targetObject.OnInteract();
+            _targetObject.OnHoldInteract();
             return;
         }
 
-        targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
+        _targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
         // Looking at nothing then looking at an interactable, or switching from one interactable to another.
-        if (previousTarget != targetObject)
+        if (previousTarget != _targetObject)
         {
-            OnLookAtInteractable?.Invoke(targetObject.InteractableInfo);
+            OnLookAtInteractable?.Invoke(_targetObject.InteractableInfo);
         }
     }
 }

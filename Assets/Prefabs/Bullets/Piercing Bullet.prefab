@@ -15,7 +15,9 @@ GameObject:
   - component: {fileID: 6965351139296787763}
   - component: {fileID: 8353908449060022372}
   - component: {fileID: 8117616626669647295}
-  m_Layer: 0
+  - component: {fileID: 4246458234095365061}
+  - component: {fileID: 1472129356251015413}
+  m_Layer: 6
   m_Name: Bullet Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,6 +168,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b61eab191c043448b9a4c16b51b86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savedVelocity: {x: 0, y: 0, z: 0}
+--- !u!114 &4246458234095365061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353869921827706845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51247aface79a741a481ae61a25187f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
+  dragSpeed: 10
+--- !u!114 &1472129356251015413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353869921827706845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7869197d8a2557742981a733df5aa962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continuousUpdate: 1
+  _interactableInfo: {fileID: 11400000, guid: 5552d5fbb680bf746b749308f9b5932e, type: 2}
 --- !u!1 &6560937390844839067
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5502536431060230654}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Piercing Bullet
   m_TagString: Lethal
   m_Icon: {fileID: 0}

@@ -9,27 +9,37 @@ public class InteractionObject : MonoBehaviour
     public bool continuousUpdate;
 
     // the script with the behaviour on interactions
-    private IInteractable[] interactionBehaviour;
+    private IInteractable[] InteractionBehaviour;
 
     [SerializeField] private InteractableObjectInfo _interactableInfo;
 
     private void Start()
     {
-        interactionBehaviour = GetComponents<IInteractable>();
+        InteractionBehaviour = GetComponents<IInteractable>();
     }
 
-    public void OnInteract()
+    public void OnStartInteract()
     {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnInteract();
+        foreach (IInteractable behaviour in InteractionBehaviour) behaviour.OnStartInteract();
+    }
+
+    public void OnHoldInteract()
+    {
+        foreach (IInteractable behaviour in InteractionBehaviour) behaviour.OnHoldInteract();
+    }
+
+    public void OnEndInteract()
+    {
+        foreach (IInteractable behaviour in InteractionBehaviour) behaviour.OnEndInteract();
     }
 
     public void OnCancelInteract()
     {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnCancelInteract();
+        foreach (IInteractable behaviour in InteractionBehaviour) behaviour.OnCancelInteract();
     }
 
     public void OnResetInteract()
     {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnResetInteract();
+        foreach (IInteractable behaviour in InteractionBehaviour) behaviour.OnResetInteract();
     }
 }

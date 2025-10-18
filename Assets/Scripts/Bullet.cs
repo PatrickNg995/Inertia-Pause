@@ -13,9 +13,10 @@ public class Bullet : MonoBehaviour, IPausable
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
+
     // reference time pause script, rigidbody & collider.
     private Rigidbody _rb;
-    private CapsuleCollider _capsuleCollider;
+    private bool _canKill = true;
 
     private void Start()
     {
@@ -23,15 +24,14 @@ public class Bullet : MonoBehaviour, IPausable
         _rb = GetComponent<Rigidbody>();
         _rb.linearVelocity = transform.parent.forward * BulletSpeed;
 
-        _capsuleCollider = GetComponent<CapsuleCollider>();
-
         GetComponent<IPausable>().AddToTimePause(this);
     }
 
     // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
-        // Get root object of whatever was hit.
+        if (!_canKill) return;
+        // Get root object of whatever was hit
         GameObject rootObject = other.transform.root.gameObject;
 
         // If it was an Ally or Enemy, apply hit
@@ -42,7 +42,7 @@ public class Bullet : MonoBehaviour, IPausable
             if (npc.IsAlive)
             {
                 HitNPC(npc, other);
-            }    
+            }
         }
 
         // Destroy the bullet on impact with anything if it isn't piercing.
@@ -55,7 +55,7 @@ public class Bullet : MonoBehaviour, IPausable
     // Apply hit to NPC.
     public void HitNPC(NPC npc, Collider collider)
     {
-        if (npc != null)
+        if (npc != null && _canKill)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force.
             Vector3 impactDir = transform.parent.forward + Vector3.up * UPWARD_FACTOR;
@@ -69,13 +69,13 @@ public class Bullet : MonoBehaviour, IPausable
     // Disable collider on pause.
     public void Pause()
     {
-        _capsuleCollider.enabled = false;
+        _canKill = false;
     }
 
     // Enable collider on unpause.
     public void Unpause()
     {
-        _capsuleCollider.enabled = true;
+        _canKill = true;
     }
 
 }
