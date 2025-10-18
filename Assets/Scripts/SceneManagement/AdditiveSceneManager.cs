@@ -59,6 +59,7 @@ public class AdditiveSceneManager : MonoBehaviour
         StartCoroutine(WithLoadingScreen(ReloadScenarioAssets()));
     }
 
+    // Runs loadingRoutine with a loading screen.
     private IEnumerator WithLoadingScreen(IEnumerator loadingRoutine)
     {
         StartLoad();
@@ -151,7 +152,7 @@ public class AdditiveSceneManager : MonoBehaviour
 
         // Set the first scene as the active scene after it is activated.
         yield return new WaitUntil(() => operations[0].isDone);
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt(0));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(scenes.First()));
     }
 
     // Unloads the scenario assets scene then loads it again.
