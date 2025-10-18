@@ -6,37 +6,37 @@ public class NewEnemy : MonoBehaviour
     [ExecuteInEditMode]
 
     // The target the Enemy should shoot at
-    public Transform target;
+    public Transform Target;
 
     // Origin Point of the bullet
-    public Transform bulletSpawnPoint;
+    public Transform BulletSpawnPoint;
 
     // Bullet Prefab Object
-    public Transform bullet;
+    public Transform Bullet;
 
     // Distance between bullet & target by percentage (1 == bullet is on target)
     [SerializeField]
     [Range(0f, 1f)]
-    private float BulletDistance;
+    private float _bulletDistance;
 
     // Runs whenever a value changes
     void OnValidate()
     {
-        if (target != null)
+        if (Target != null && Bullet != null)
         {
             // Enemy & Bullet face the enemy
-            transform.LookAt(target.transform);
-            bullet.transform.forward = bulletSpawnPoint.forward;
+            transform.LookAt(Target.transform);
+            Bullet.transform.forward = BulletSpawnPoint.forward;
 
             // Set correct y position
-            float targetYPosition = target.position.y + bulletSpawnPoint.position.y;
-            Vector3 targetPosition = new Vector3(target.position.x, targetYPosition, target.position.z);
+            float targetYPosition = Target.position.y + BulletSpawnPoint.position.y;
+            Vector3 targetPosition = new Vector3(Target.position.x, targetYPosition, Target.position.z);
 
             // Get the distance between the bullet & the target
-            Vector3 maxDistance = bulletSpawnPoint.position - targetPosition;
+            Vector3 maxDistance = BulletSpawnPoint.position - targetPosition;
 
             // Change the bullet's position depending on the BulletDistance modifier
-            bullet.position = bulletSpawnPoint.position - (maxDistance * BulletDistance);
+            Bullet.position = BulletSpawnPoint.position - (maxDistance * _bulletDistance);
         }
     }
 }

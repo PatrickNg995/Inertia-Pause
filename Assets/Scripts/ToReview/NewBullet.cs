@@ -19,7 +19,6 @@ public class NewBullet : MonoBehaviour, IPausable
     // save velocity
     private Vector3 _savedVelocity;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void Awake()
     {
         // Set the bullet's velocity to be in the forward direction of its parent
@@ -27,6 +26,15 @@ public class NewBullet : MonoBehaviour, IPausable
         _rb.linearVelocity = transform.parent.forward * BulletSpeed;
 
         _capsuleCollider = GetComponent<CapsuleCollider>();
+    }
+
+    public void Start()
+    {
+        // Make sure bullet is separated from any parents
+        if (transform.parent.parent != null)
+        {
+            transform.parent.parent = null;
+        }
     }
 
     // Handle collisions with other objects
