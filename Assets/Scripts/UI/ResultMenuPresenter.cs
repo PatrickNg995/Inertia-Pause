@@ -28,12 +28,9 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
-        _view.RestartButton.onClick.AddListener(
-            () => AdditiveSceneManager.Instance.ReloadScenario());
-        _view.NextButton.onClick.AddListener(
-            () => AdditiveSceneManager.Instance.LoadScenario(scenarioInfo.NextEnvironmentSceneName, scenarioInfo.NextScenarioAssetsSceneName));
-        _view.MainMenuButton.onClick.AddListener(
-            () => AdditiveSceneManager.Instance.LoadMainMenu());
+        _view.RestartButton.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
+        _view.NextButton.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
+        _view.MainMenuButton.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
         // TODO: Call DisplayLevelStats and OpenMenu after level is complete.
         // _gameManager.OnLevelComplete += DisplayLevelStats;
@@ -109,5 +106,17 @@ public class ResultMenuPresenter : MonoBehaviour
         rowView.ObjectiveNameText.color = textColor;
         rowView.ObjectiveStatusText.color = textColor;
         rowView.gameObject.SetActive(true);
+    }
+
+    private void OnNextButtonClicked(ScenarioInfo scenarioInfo)
+    {
+        if (scenarioInfo.NextEnvironmentSceneName != null && scenarioInfo.NextScenarioAssetsSceneName != null)
+        {
+            AdditiveSceneManager.Instance.LoadScenario(scenarioInfo.NextEnvironmentSceneName, scenarioInfo.NextScenarioAssetsSceneName);
+        }
+        else
+        {
+            AdditiveSceneManager.Instance.LoadMainMenu();
+        }
     }
 }
