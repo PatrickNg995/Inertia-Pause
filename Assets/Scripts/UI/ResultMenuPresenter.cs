@@ -39,7 +39,7 @@ public class ResultMenuPresenter : MonoBehaviour
             CiviliansRescued = 2,
             AlliesSaved = 6,
             EnemiesKilled = 15,
-            OptionalObjectivesComplete = new bool[1] { false },
+            OptionalObjectivesComplete = new bool[2] { false, true },
             ActionsTaken = 5
         };
         DisplayLevelStats(results);
