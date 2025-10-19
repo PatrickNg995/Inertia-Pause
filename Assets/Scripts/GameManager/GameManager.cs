@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -49,8 +50,21 @@ public class GameManager : MonoBehaviour
     // Whether the level has been won, for future use.
     public bool LevelWon { get; private set; } = false;
 
+    // Make GameManager a singleton.
+    public static GameManager Instance { get; private set; }
+
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            // Destroy if duplicate GameManager.
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
@@ -75,9 +89,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Subscribe to player interact action event.
-        _playerInteract.OnActionTaken += HandlePlayerActionTaken;
-
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         _listOfAllies.AddRange(GameObject.FindGameObjectsWithTag("Ally"));
@@ -110,17 +121,23 @@ public class GameManager : MonoBehaviour
             Debug.Log("Level lost!");
         }
     }
-
-    private bool CheckNPCsDead(List<GameObject> listOfNPCs)
+    public void RecordAndExecuteCommand(ICommand command)
     {
-        foreach (GameObject npc in listOfNPCs)
-        {
-            if (npc.GetComponent<NPC>().IsAlive)
-            {
-                return false;
-            }
-        }
-        return true;
+        // Execute the command.
+        command.Execute();
+
+        // Push the action object's command onto the undo stack.
+        _undoStack.Push(command);
+
+        // Clear the redo stack since a new action has been performed.
+        _redoStack.Clear();
+        OnRedoUnavailable?.Invoke();
+
+        // Update action count.
+        _actionCount++;
+        OnActionUpdate?.Invoke(_actionCount);
+
+        Debug.Log("Action recorded. Total actions: " + _actionCount);
     }
 
     public void Undo(InputAction.CallbackContext context)
@@ -128,22 +145,44 @@ public class GameManager : MonoBehaviour
         if (_undoStack.Count > 0)
         {
             // Pop the next command to undo from the undo stack and push it onto the redo stack.
-            ICommand undoObject = _undoStack.Pop();
-            _redoStack.Push(undoObject);
+            ICommand undoCommand = _undoStack.Pop();
 
-            // Use Undo() from ICommand to perform the undo.
-            undoObject.Undo();
+            // Undo the command and update stacks.
+            UndoAndPushToRedoStack(undoCommand);
 
-            // Decrement action count.
-            _actionCount--;
-            OnActionUpdate?.Invoke(_actionCount);
-
-            // Notify if redo is now available.
-            if (_redoStack.Count == 1)
-            {
-                OnRedoAvailable?.Invoke();
-            }
             Debug.Log("Action undone. Total actions: " + _actionCount);
+        }
+    }
+
+    /// <summary>
+    /// Undo a specific command, picking it out from the undo stack.
+    /// Used for resetting interactions outside of the normal undo/redo order.
+    /// </summary>
+    /// <param name="command">The command to be undone.</param>
+    public void UndoSpecificCommand(ICommand command)
+    {
+        Stack<ICommand> tempStack = new Stack<ICommand>();
+
+        while (_undoStack.Count > 0)
+        {
+            // Pop commands until we find the specific command to undo.
+            ICommand poppedCommand = _undoStack.Pop();
+            if (!poppedCommand.Equals(command))
+            {
+                tempStack.Push(poppedCommand);
+            }
+            else
+            {
+                // Found the specific command, perform the undo and update stacks.
+                UndoAndPushToRedoStack(poppedCommand);
+                Debug.Log("Specific action undone. Total actions: " + _actionCount);
+            }
+        }
+
+        // Restore the other commands back to the undo stack.
+        while (tempStack.Count > 0)
+        {
+            _undoStack.Push(tempStack.Pop());
         }
     }
 
@@ -152,11 +191,11 @@ public class GameManager : MonoBehaviour
         if (_redoStack.Count > 0)
         {
             // Pop the next command to redo from the redo stack and push it onto the undo stack.
-            ICommand redoObject = _redoStack.Pop();
-            _undoStack.Push(redoObject);
+            ICommand redoCommand = _redoStack.Pop();
+            _undoStack.Push(redoCommand);
 
             // Use Execute() from ICommand to perform the redo.
-            redoObject.Execute();
+            redoCommand.Execute();
 
             // Increment action count.
             _actionCount++;
@@ -171,20 +210,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandlePlayerActionTaken(GameObject actionObject)
+    /// <summary>
+    /// Helper function to undo a command and push it to the redo stack, and update action count.
+    /// </summary>
+    /// <param name="command">Command to undo.</param>
+    private void UndoAndPushToRedoStack(ICommand command)
     {
-        // Push the action object's command onto the undo stack.
-        _undoStack.Push(actionObject.GetComponent<ICommand>());
+        // Use Undo() from ICommand to perform the undo.
+        command.Undo();
 
-        // Clear the redo stack since a new action has been performed.
-        _redoStack.Clear();
-        OnRedoUnavailable?.Invoke();
+        // Push the command onto the redo stack.
+        _redoStack.Push(command);
 
-        // Update action count.
-        _actionCount++;
+        // Decrement action count.
+        _actionCount--;
         OnActionUpdate?.Invoke(_actionCount);
 
-        Debug.Log("Action recorded. Total actions: " + _actionCount);
+        // Notify if redo is now available.
+        if (_redoStack.Count == 1)
+        {
+            OnRedoAvailable?.Invoke();
+        }
+    }
+
+    private bool CheckNPCsDead(List<GameObject> listOfNPCs)
+    {
+        foreach (GameObject npc in listOfNPCs)
+        {
+            if (npc.GetComponent<NPC>().IsAlive)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
