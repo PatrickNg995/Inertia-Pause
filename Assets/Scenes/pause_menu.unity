@@ -348,6 +348,7 @@ GameObject:
   - component: {fileID: 205857232}
   - component: {fileID: 205857237}
   - component: {fileID: 205857238}
+  - component: {fileID: 205857239}
   m_Layer: 0
   m_Name: PlayerCapsule
   m_TagString: Untagged
@@ -510,6 +511,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &205857239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205857231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf862855db0090a40956b2a9c6c1cc7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameManager: {fileID: 135810361}
+  _playerMovement: {fileID: 0}
+  _playerInteract: {fileID: 1781819748}
+  _playerLook: {fileID: 1781819747}
+  _timePauseUnpause: {fileID: 0}
 --- !u!224 &245727556 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6159475857033245362, guid: 133adff7e6404004389feb029afdca86, type: 3}

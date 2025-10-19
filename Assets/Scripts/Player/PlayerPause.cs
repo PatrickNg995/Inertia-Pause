@@ -20,17 +20,27 @@ public class PlayerPause : MonoBehaviour
 
     private void OnGamePause()
     {
-        _playerMovement.enabled = false;
-        _playerInteract.enabled = false;
-        _playerLook.enabled = false;
-        _timePauseUnpause.enabled = false;
+        SetComponentEnabled(_playerMovement, false);
+        SetComponentEnabled(_playerInteract, false);
+        SetComponentEnabled(_playerLook, false);
+        SetComponentEnabled(_timePauseUnpause, false);
     }
 
     private void OnGameResume()
     {
-        _playerMovement.enabled = true;
-        _playerInteract.enabled = true;
-        _playerLook.enabled = true;
-        _timePauseUnpause.enabled = true;
+        SetComponentEnabled(_playerMovement, true);
+        SetComponentEnabled(_playerInteract, true);
+        SetComponentEnabled(_playerLook, true);
+        SetComponentEnabled(_timePauseUnpause, true);
+    }
+
+    private void SetComponentEnabled(MonoBehaviour component, bool enabled)
+    {
+        // We don't really need a null check here but since some components are missing in testing,
+        // this is only to prevent NREs until the Player prefab is up.
+        if (component != null)
+        {
+            component.enabled = enabled;
+        }
     }
 }
