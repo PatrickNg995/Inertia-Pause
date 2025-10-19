@@ -1,7 +1,7 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ShelfBehaviour : MonoBehaviour, IInteractable
+public class ShelfBehaviour : MonoBehaviour, IInteractable, ICommand
 {
     public float torque;
 
@@ -9,6 +9,7 @@ public class ShelfBehaviour : MonoBehaviour, IInteractable
     private Vector3 initialLocation;
     private Quaternion initialRotation;
     private bool hasBeenInteracted = false;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -41,5 +42,15 @@ public class ShelfBehaviour : MonoBehaviour, IInteractable
         transform.position = initialLocation;
         transform.rotation = initialRotation;
         hasBeenInteracted = false;  
+    }
+
+    public void Execute()
+    {
+        OnInteract();
+    }
+
+    public void Undo()
+    {
+        OnResetInteract();
     }
 }

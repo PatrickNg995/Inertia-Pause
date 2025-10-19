@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
     private int _actionCount = 0;
 
     // Stack holding the state of objects prior to an action.
-    private Stack<ObjectState> _undoStack = new Stack<ObjectState>();
+    private Stack<ICommand> _undoStack = new Stack<ICommand>();
 
     // Stack holding the state of objects prior to an undo.
-    private Stack<ObjectState> _redoStack = new Stack<ObjectState>();
+    private Stack<ICommand> _redoStack = new Stack<ICommand>();
 
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
@@ -126,8 +126,7 @@ public class GameManager : MonoBehaviour
     public void RecordAction(GameObject interactObject)
     {
         // Record the current state before an action is performed.
-        ObjectState currentState = new ObjectState(interactObject, interactObject.transform.position, interactObject.transform.rotation);
-        _undoStack.Push(currentState);
+        _undoStack.Push(interactObject.GetComponent<ICommand>());
 
         // Clear the redo stack since a new action has been performed.
         _redoStack.Clear();
@@ -144,11 +143,12 @@ public class GameManager : MonoBehaviour
     {
         if (_undoStack.Count > 0)
         {
-            // Load the last object state from the undo stack and push the current state onto the redo stack.
-            ObjectState objectState = GetObjectStateFromStacks(_undoStack, _redoStack);
+            // Pop the next object to undo from the undo stack and push it onto the redo stack.
+            ICommand undoObject = _undoStack.Pop();
+            _redoStack.Push(undoObject);
 
-            // Use the ResetInteract from InteractionObject to perform the undo.
-            objectState.Object.GetComponent<InteractionObject>().OnResetInteract();
+            // Use Undo() from ICommand to perform the undo.
+            undoObject.Undo();
 
             // Decrement action count.
             _actionCount--;
@@ -167,15 +167,12 @@ public class GameManager : MonoBehaviour
     {
         if (_redoStack.Count > 0)
         {
-            // Load the last object state from the redo stack and push the current state onto the undo stack.
-            ObjectState objectState = GetObjectStateFromStacks(_redoStack, _undoStack);
+            // Pop the next object to redo from the redo stack and push it onto the undo stack.
+            ICommand redoObject = _redoStack.Pop();
+            _undoStack.Push(redoObject);
 
-            // Load the saved object state to perform the redo.
-            objectState.LoadObjectState();
-
-            // Can use OnInteract to perform the redo instead, better in the case of the shelf but wouldn't work for
-            // moving a bullet back to where you moved it before.
-            //objectState.Object.GetComponent<InteractionObject>().OnInteract();
+            // Use Execute() from ICommand to perform the undo.
+            redoObject.Execute();
 
             // Increment action count.
             _actionCount++;
@@ -188,26 +185,6 @@ public class GameManager : MonoBehaviour
             }
             Debug.Log("Action redone. Total actions: " + _actionCount);
         }
-    }
-
-    /// <summary>
-    /// Loads an object state from the load stack and pushes the current state of that object onto the push stack.
-    /// </summary>
-    /// <param name="loadStack">The stack to load an ObjectState from.</param>
-    /// <param name="pushStack">The stack to push the current ObjectState of the loaded object to.</param>
-    /// <returns>The popped ObjectState from the loadStack</returns>
-    public ObjectState GetObjectStateFromStacks(Stack<ObjectState> loadStack, Stack<ObjectState> pushStack)
-    {
-        // Get the object state to load.
-        ObjectState loadObjectState = loadStack.Pop();
-        GameObject gameObject = loadObjectState.Object;
-
-        // Save the current state before loading, push onto the push stack.
-        ObjectState currentState = new ObjectState(gameObject, gameObject.transform.position, gameObject.transform.rotation);
-        pushStack.Push(currentState);
-
-        // Load the saved state.
-        return loadObjectState;
     }
 
     private void HandlePlayerInteractAction(GameObject interactObject)
