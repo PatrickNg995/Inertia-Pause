@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     [Header("Player Interact")]
     [SerializeField] private PlayerInteract PlayerInteract;
 
+    [field: Header("Scenario Information")]
+    [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
+
     /// <summary>
     /// Invoked when the level starts.
     /// </summary>

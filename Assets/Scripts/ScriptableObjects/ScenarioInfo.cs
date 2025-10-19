@@ -18,7 +18,7 @@ public class ScenarioInfo : ScriptableObject
 [Serializable]
 public class ScenarioObjectives
 {
-    public List<string> PrimaryObjectives;
-    public List<string> SecondaryObjectives;
+    public List<string> MainObjectives;
+    public List<string> OptionalObjectives;
     public int ActionLimit;
 }
