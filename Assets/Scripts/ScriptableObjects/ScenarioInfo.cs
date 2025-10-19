@@ -7,10 +7,15 @@ using UnityEngine;
 public class ScenarioInfo : ScriptableObject
 {
     public string ScenarioName;
-    [TextArea]public string Description;
+    [TextArea] public string Description;
     public Sprite Thumbnail;
     public ScenarioDifficulty Difficulty;
     public ScenarioObjectives Objectives;
+    public int NumberOfCivilians;
+    public int NumberOfAllies;
+    public int NumberOfEnemies;
+
+    public string NextSceneName;
 
     public enum ScenarioDifficulty { Normal, Hard }
 }
