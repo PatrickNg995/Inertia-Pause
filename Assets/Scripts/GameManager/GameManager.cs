@@ -29,6 +29,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action OnRedoUnavailable;
 
+    /// <summary>
+    /// Invoked when the player resumes the game after pausing it.
+    /// </summary>
+    public Action OnGameResume;
+
+    /// <summary>
+    /// Invoked when the player pauses the game.
+    /// </summary>
+    public Action OnGamePause;
+
     // Count of actions taken in the current level.
     private int _actionCount = 0;
 
@@ -46,9 +56,15 @@ public class GameManager : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;
+    private InputAction _pauseMenu;
 
     // Whether the level has been won, for future use.
     public bool LevelWon { get; private set; } = false;
+
+    /// <summary>
+    /// Number of actions taken in the current level.
+    /// </summary>
+    public int ActionCount => _actionCount;
 
     // Make GameManager a singleton.
     public static GameManager Instance { get; private set; }
@@ -69,22 +85,29 @@ public class GameManager : MonoBehaviour
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
+        _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
     private void OnEnable()
     {
         _undo.performed += Undo;
         _redo.performed += Redo;
+        _pauseMenu.performed += PauseMenu;
+
         _undo.Enable();
         _redo.Enable();
+        _pauseMenu.Enable();
     }
 
     private void OnDisable()
     {
         _undo.performed -= Undo;
         _redo.performed -= Redo;
+        _pauseMenu.performed -= PauseMenu;
+
         _undo.Disable();
         _redo.Disable();
+        _pauseMenu.Disable();
     }
 
     private void Start()
@@ -243,6 +266,22 @@ public class GameManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void ResumeFromPauseMenu()
+    {
+        _inputActions.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+
+        OnGameResume?.Invoke();
+    }
+
+    private void PauseMenu(InputAction.CallbackContext context)
+    {
+        _inputActions.Disable();
+        Cursor.lockState = CursorLockMode.None;
+
+        OnGamePause?.Invoke();
     }
 }
 
