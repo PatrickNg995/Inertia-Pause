@@ -25,11 +25,6 @@ public class PlayerInteract : MonoBehaviour
     public Action<InteractableObjectInfo> OnEndInteraction;
 
     /// <summary>
-    /// Invoked when the player takes an action with an object.
-    /// </summary>
-    public Action<InteractionObject> OnActionTaken;
-
-    /// <summary>
     /// Invoked when the player resets an interaction with an object.
     /// </summary>
     public Action<ICommand> OnInteractReset;
