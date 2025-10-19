@@ -9,6 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerInteract PlayerInteract;
 
     /// <summary>
+    /// Number of actions taken in the current level.
+    /// </summary>
+    public int ActionCount => _actionCount;
+
+    /// <summary>
     /// Invoked when the level starts.
     /// </summary>
     public Action OnLevelStart;
