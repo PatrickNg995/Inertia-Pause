@@ -15,7 +15,8 @@ public class ScenarioInfo : ScriptableObject
     public int NumberOfAllies;
     public int NumberOfEnemies;
 
-    public string NextSceneName;
+    public string NextEnvironmentSceneName;
+    public string NextScenarioAssetsSceneName;
 
     public enum ScenarioDifficulty { Normal, Hard }
 }
