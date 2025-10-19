@@ -44,7 +44,7 @@ public class NewBullet : MonoBehaviour, IPausable
         GameObject rootObject = other.transform.root.gameObject;
 
         // If it was an NPC, apply hit
-        if (rootObject.CompareTag("NPC"))
+        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets
             NPC npc = rootObject.GetComponentInParent<NPC>();

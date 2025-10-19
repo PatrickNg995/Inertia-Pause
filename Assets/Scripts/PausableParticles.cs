@@ -9,8 +9,6 @@ public class PausableParticles : MonoBehaviour, IPausable
     private void Awake()
     {
         ps = GetComponent<ParticleSystem>();
-
-        GetComponent<IPausable>().AddToTimePause(this);
     }
     public void Pause()
     {

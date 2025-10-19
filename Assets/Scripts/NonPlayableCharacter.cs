@@ -23,11 +23,8 @@ public class NPC : MonoBehaviour, IPausable
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
-    private void Start()
+    private void Awake()
     {
-        // Required for time pausing; remove/rework when the time pausing system gets reworked.
-        GetComponent<IPausable>().AddToTimePause(this);
-
         // Cache references to components.
         _rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
@@ -46,6 +43,11 @@ public class NPC : MonoBehaviour, IPausable
         {
             transform.LookAt(LookTarget.transform);
         }
+    }
+
+    private void Start()
+    {
+
     }
 
     // Temp function for Debugging

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NewEnemy : MonoBehaviour
+public class BulletPositioning : MonoBehaviour
 {
     // Only done while in the editor
     [ExecuteInEditMode]
