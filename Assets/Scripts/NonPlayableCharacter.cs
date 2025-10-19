@@ -48,6 +48,16 @@ public class NPC : MonoBehaviour, IPausable
         }
     }
 
+    // Temp function for Debugging
+    void OnDrawGizmos()
+    {
+        if (LookTarget)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, LookTarget.transform.position);
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         float fallDistance = _initialPosition.y - transform.position.y;
