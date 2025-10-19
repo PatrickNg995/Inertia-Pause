@@ -21,14 +21,12 @@ public class PauseMenuPresenter : MonoBehaviour
         _view.QuitScenarioButton.onClick.AddListener(OnQuitPressed);
         _view.BackButton.onClick.AddListener(OnBackPressed);
 
-        // TODO: Add callbacks here
-        // _gameManager.OnPause += OpenMenu;
+        _gameManager.OnPause += OpenMenu;
     }
 
     public void OpenMenu()
     {
         gameObject.SetActive(true);
-
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
     }
 
