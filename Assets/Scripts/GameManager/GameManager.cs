@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour
     public Action OnRedoUnavailable;
 
     /// <summary>
+    /// Invoked when the player resumes the game after pausing it.
+    /// </summary>
+    public Action OnResume;
+
+    /// <summary>
     /// Invoked when the player pauses the game.
     /// </summary>
     public Action OnPause;
@@ -233,9 +238,15 @@ public class GameManager : MonoBehaviour
         RecordAction(interactObject);
     }
 
+    public void ResumeFromPauseMenu()
+    {
+        _inputActions.Enable();
+        OnResume?.Invoke();
+    }
+
     private void PauseMenu(InputAction.CallbackContext context)
     {
-        Debug.Log("Request pause");
+        _inputActions.Disable();
         OnPause?.Invoke();
     }
 }

@@ -38,6 +38,7 @@ public class PauseMenuPresenter : MonoBehaviour
     private void OnResumePressed()
     {
         CloseMenu();
+        _gameManager.ResumeFromPauseMenu();
     }
 
     private void OnRestartPressed()
