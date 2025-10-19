@@ -7,7 +7,7 @@ using UnityEngine;
 public class ScenarioInfo : ScriptableObject
 {
     public string ScenarioName;
-    public string Description;
+    [TextArea]public string Description;
     public Sprite Thumbnail;
     public ScenarioDifficulty Difficulty;
     public ScenarioObjectives Objectives;
