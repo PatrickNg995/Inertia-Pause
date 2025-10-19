@@ -9,6 +9,7 @@ public class HUDPresenter : MonoBehaviour
 
     // Add models here
     [Header("Models")]
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private FramerateChecker _framerateChecker;
     [SerializeField] private PlayerInteract _playerInteractModel;
 
@@ -28,7 +29,6 @@ public class HUDPresenter : MonoBehaviour
 
     private bool _isInteracting;
     private bool _isObjectivesHidden;
-    private int _actionsTaken;
     private int _currentCrosshair;
 
     // Telemetry
@@ -50,9 +50,10 @@ public class HUDPresenter : MonoBehaviour
             _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
         }
 
-        // TODO: Add listeners here when we have game manager working
-        // _levelStartController.OnLevelStart += OnLevelStart;
-        OnLevelStart();
+        _gameManager.OnLevelStart += OnLevelStart;
+        _gameManager.OnActionUpdate += OnActionCounterUpdate;
+        _gameManager.OnRedoAvailable += OnRedoAvailable;
+        _gameManager.OnRedoUnavailable += OnRedoUnavailable;
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
@@ -115,16 +116,9 @@ public class HUDPresenter : MonoBehaviour
         _objectivesFadeCoroutine = StartCoroutine(DelayAndFadeObjectives());
     }
 
-    private void OnActionTaken()
+    private void OnActionCounterUpdate(int actionsTaken)
     {
-        _actionsTaken++;
-        _view.ActionsTakenText.text = _actionsTaken.ToString();
-    }
-
-    private void OnActionUndo()
-    {
-        _actionsTaken--;
-        _view.ActionsTakenText.text = _actionsTaken.ToString();
+        _view.ActionsTakenText.text = actionsTaken.ToString();
     }
 
     private void OnRedoAvailable()
