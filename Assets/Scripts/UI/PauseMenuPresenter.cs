@@ -4,6 +4,7 @@ public class PauseMenuPresenter : MonoBehaviour
 {
     [Header("View")]
     [SerializeField] private PauseMenuView _view;
+    [SerializeField] private OptionsMenuView _optionsView;
 
     [Header("Models")]
     [SerializeField] private GameManager _gameManager;
@@ -15,24 +16,31 @@ public class PauseMenuPresenter : MonoBehaviour
 
         // TODO: Get scenario objectives here
 
+        // Pause menu
         _view.ResumeButton.onClick.AddListener(OnResumePressed);
         _view.RestartButton.onClick.AddListener(OnRestartPressed);
         _view.OptionsButton.onClick.AddListener(OnOptionsPressed);
         _view.QuitScenarioButton.onClick.AddListener(OnQuitPressed);
-        _view.BackButton.onClick.AddListener(OnBackPressed);
+        _view.BackButton.onClick.AddListener(OnResumePressed);
+
+        // Options menu
+        _optionsView.BackButton.onClick.AddListener(OnBackFromOptionsPressed);
 
         _gameManager.OnGamePause += OpenMenu;
     }
 
     public void OpenMenu()
     {
-        gameObject.SetActive(true);
+        _view.gameObject.SetActive(true);
+        _optionsView.gameObject.SetActive(false);
+
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
     }
 
     public void CloseMenu()
     {
-        gameObject.SetActive(false);
+        _view.gameObject.SetActive(false);
+        _optionsView.gameObject.SetActive(false);
     }
 
     private void OnResumePressed()
@@ -49,17 +57,19 @@ public class PauseMenuPresenter : MonoBehaviour
 
     private void OnOptionsPressed()
     {
-        // TODO: Add options here.
+        _view.gameObject.SetActive(false);
+        _optionsView.gameObject.SetActive(true);
+    }
+
+    private void OnBackFromOptionsPressed()
+    {
+        _view.gameObject.SetActive(true);
+        _optionsView.gameObject.SetActive(false);
     }
 
     private void OnQuitPressed()
     {
         // TODO: Add a popup here.
         AdditiveSceneManager.Instance.LoadMainMenu();
-    }
-
-    private void OnBackPressed()
-    {
-        OnResumePressed();
     }
 }
