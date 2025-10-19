@@ -241,12 +241,16 @@ public class GameManager : MonoBehaviour
     public void ResumeFromPauseMenu()
     {
         _inputActions.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+
         OnResume?.Invoke();
     }
 
     private void PauseMenu(InputAction.CallbackContext context)
     {
         _inputActions.Disable();
+        Cursor.lockState = CursorLockMode.None;
+
         OnPause?.Invoke();
     }
 }
