@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     [Header("Player Interact")]
-    [SerializeField] private PlayerInteract PlayerInteract;
+    [SerializeField] private PlayerInteract _playerInteract;
 
     /// <summary>
     /// Invoked when the level starts.
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Subscribe to player interact action event.
-        PlayerInteract.OnActionTaken += HandlePlayerInteractAction;
+        _playerInteract.OnActionTaken += HandlePlayerActionTaken;
 
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
@@ -123,27 +123,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    public void RecordAction(GameObject interactObject)
-    {
-        // Record the current state before an action is performed.
-        _undoStack.Push(interactObject.GetComponent<ICommand>());
-
-        // Clear the redo stack since a new action has been performed.
-        _redoStack.Clear();
-        OnRedoUnavailable?.Invoke();
-
-        // Update action count.
-        _actionCount++;
-        OnActionUpdate?.Invoke(_actionCount);
-
-        Debug.Log("Action recorded. Total actions: " + _actionCount);
-    }
-
     public void Undo(InputAction.CallbackContext context)
     {
         if (_undoStack.Count > 0)
         {
-            // Pop the next object to undo from the undo stack and push it onto the redo stack.
+            // Pop the next command to undo from the undo stack and push it onto the redo stack.
             ICommand undoObject = _undoStack.Pop();
             _redoStack.Push(undoObject);
 
@@ -167,11 +151,11 @@ public class GameManager : MonoBehaviour
     {
         if (_redoStack.Count > 0)
         {
-            // Pop the next object to redo from the redo stack and push it onto the undo stack.
+            // Pop the next command to redo from the redo stack and push it onto the undo stack.
             ICommand redoObject = _redoStack.Pop();
             _undoStack.Push(redoObject);
 
-            // Use Execute() from ICommand to perform the undo.
+            // Use Execute() from ICommand to perform the redo.
             redoObject.Execute();
 
             // Increment action count.
@@ -187,9 +171,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandlePlayerInteractAction(GameObject interactObject)
+    private void HandlePlayerActionTaken(GameObject actionObject)
     {
-        RecordAction(interactObject);
+        // Push the action object's command onto the undo stack.
+        _undoStack.Push(actionObject.GetComponent<ICommand>());
+
+        // Clear the redo stack since a new action has been performed.
+        _redoStack.Clear();
+        OnRedoUnavailable?.Invoke();
+
+        // Update action count.
+        _actionCount++;
+        OnActionUpdate?.Invoke(_actionCount);
+
+        Debug.Log("Action recorded. Total actions: " + _actionCount);
     }
 }
 
