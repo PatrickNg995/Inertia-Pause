@@ -31,12 +31,12 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Invoked when the player resumes the game after pausing it.
     /// </summary>
-    public Action OnResume;
+    public Action OnGameResume;
 
     /// <summary>
     /// Invoked when the player pauses the game.
     /// </summary>
-    public Action OnPause;
+    public Action OnGamePause;
 
     // Count of actions taken in the current level.
     private int _actionCount = 0;
@@ -243,7 +243,7 @@ public class GameManager : MonoBehaviour
         _inputActions.Enable();
         Cursor.lockState = CursorLockMode.Locked;
 
-        OnResume?.Invoke();
+        OnGameResume?.Invoke();
     }
 
     private void PauseMenu(InputAction.CallbackContext context)
@@ -251,7 +251,7 @@ public class GameManager : MonoBehaviour
         _inputActions.Disable();
         Cursor.lockState = CursorLockMode.None;
 
-        OnPause?.Invoke();
+        OnGamePause?.Invoke();
     }
 }
 

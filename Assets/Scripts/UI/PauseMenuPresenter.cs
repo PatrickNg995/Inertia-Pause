@@ -21,7 +21,7 @@ public class PauseMenuPresenter : MonoBehaviour
         _view.QuitScenarioButton.onClick.AddListener(OnQuitPressed);
         _view.BackButton.onClick.AddListener(OnBackPressed);
 
-        _gameManager.OnPause += OpenMenu;
+        _gameManager.OnGamePause += OpenMenu;
     }
 
     public void OpenMenu()
