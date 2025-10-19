@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
+  m_Name: Alpha1
+  m_EditorClassIdentifier: 
+  ScenarioName: Office (A)
+  Description: ICPD Unit 5 is called for a raid on an office where a rival company
+    decides to eliminate their competition.
+  Thumbnail: {fileID: 0}
+  Difficulty: 0
+  Objectives:
+    MainObjectives:
+    - Rescue all civilians
+    - Save all allies
+    - Eliminate all enemies
+    OptionalObjectives:
+    - Kill two enemies with bookshelves
+    ActionLimit: 10
+  NumberOfCivilians: 3
+  NumberOfAllies: 0
+  NumberOfEnemies: 4
+  NextEnvironmentSceneName: 2-office
+  NextScenarioAssetsSceneName: 2-office-s2

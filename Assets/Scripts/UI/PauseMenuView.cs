@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PauseMenuView : MonoBehaviour
 {
     [field: Header("Information")]
+    [field: SerializeField] public TMP_Text LevelNameText { get; private set; }
     [field: SerializeField] public TMP_Text ScenarioObjectivesText { get; private set; }
     [field: SerializeField] public TMP_Text OptionalObjectivesText { get; private set; }
     [field: SerializeField] public TMP_Text ActionsTakenText { get; private set; }
