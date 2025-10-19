@@ -54,6 +54,8 @@ public class HUDPresenter : MonoBehaviour
         _gameManager.OnActionUpdate += OnActionCounterUpdate;
         _gameManager.OnRedoAvailable += OnRedoAvailable;
         _gameManager.OnRedoUnavailable += OnRedoUnavailable;
+        _gameManager.OnGamePause += CloseMenu;
+        _gameManager.OnGameResume += OpenMenu;
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
@@ -61,6 +63,16 @@ public class HUDPresenter : MonoBehaviour
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         _view.InteractionPrompts.SetActive(false);
+    }
+
+    private void OpenMenu()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void CloseMenu()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)
