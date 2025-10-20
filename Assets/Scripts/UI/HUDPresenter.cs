@@ -62,6 +62,7 @@ public class HUDPresenter : MonoBehaviour
         _gameManager.OnRedoUnavailable += OnRedoUnavailable;
         _gameManager.OnGamePause += CloseMenu;
         _gameManager.OnGameResume += OpenMenu;
+        _gameManager.OnLevelComplete += _ => CloseMenu();
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;

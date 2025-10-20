@@ -32,17 +32,7 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.NextButton.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
         _view.MainMenuButton.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
-        // TODO: Call DisplayLevelStats and OpenMenu after level is complete.
-        // _gameManager.OnLevelComplete += DisplayLevelStats;
-        LevelResults results = new()
-        {
-            CiviliansRescued = 2,
-            AlliesSaved = 6,
-            EnemiesKilled = 15,
-            OptionalObjectivesComplete = new bool[2] { false, true },
-            ActionsTaken = 5
-        };
-        DisplayLevelStats(results);
+        _gameManager.OnLevelComplete += OnLevelComplete;
 
         CloseMenu();
     }
@@ -55,6 +45,12 @@ public class ResultMenuPresenter : MonoBehaviour
     private void CloseMenu()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnLevelComplete(LevelResults results)
+    {
+        OpenMenu();
+        DisplayLevelStats(results);
     }
 
     private void DisplayLevelStats(LevelResults results)
@@ -110,7 +106,7 @@ public class ResultMenuPresenter : MonoBehaviour
 
     private void OnNextButtonClicked(ScenarioInfo scenarioInfo)
     {
-        if (scenarioInfo.NextEnvironmentSceneName != null && scenarioInfo.NextScenarioAssetsSceneName != null)
+        if (scenarioInfo.NextEnvironmentSceneName != string.Empty && scenarioInfo.NextScenarioAssetsSceneName != string.Empty)
         {
             AdditiveSceneManager.Instance.LoadScenario(scenarioInfo.NextEnvironmentSceneName, scenarioInfo.NextScenarioAssetsSceneName);
         }
