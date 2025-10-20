@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-
+﻿// Abstract base class for all commands that count as Actions in-game.
 public abstract class ActionCommand : ICommand
 {
     /// <summary>
