@@ -1,19 +1,15 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ShelfBehaviour : MonoBehaviour, IInteractable
+public class ShelfBehaviour : InteractionObject
 {
-    public float torque;
+    [SerializeField] private float _torque = 2000f;
 
-    private Rigidbody rb;
-    private Vector3 initialLocation;
-    private Quaternion initialRotation;
-    private bool hasBeenInteracted = false;
+    private Rigidbody _rb;
+
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        initialLocation = transform.position;
-        initialRotation = transform.rotation;
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -21,25 +17,23 @@ public class ShelfBehaviour : MonoBehaviour, IInteractable
         // TODO: notification logic to show how / if it'll fall
     }
 
-    public void OnCancelInteract()
+    public override void OnCancelInteract()
     {
         // this should only be thrown due to a logic error in PlayerInteract
         throw new System.NotImplementedException();
     }
 
-    public void OnInteract()
+    public override void OnInteract()
     {
-        if (hasBeenInteracted) { return; }
+        if (HasTakenAction) { return; }
 
-        // right is the direction the object is facing
-        rb.AddTorque(transform.right * torque);
-        hasBeenInteracted = true;
+        // Set up and execute the topple command, in the right direction.
+        ActionCommand = new ToppleCommand(this, _rb, transform.right, _torque);
+        GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
-    public void OnResetInteract()
+    public override void OnResetInteract()
     {
-        transform.position = initialLocation;
-        transform.rotation = initialRotation;
-        hasBeenInteracted = false;  
+        GameManager.Instance.UndoSpecificCommand(ActionCommand);
     }
 }
