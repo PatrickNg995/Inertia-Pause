@@ -66,7 +66,8 @@ public class HUDPresenter : MonoBehaviour
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
-        _playerInteractModel.OnInteract += OnPlayerInteract;
+        _playerInteractModel.OnContinuousInteract += OnPlayerInteract;
+        _playerInteractModel.OnOneShotInteract += _ => HideObjectives();
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         _view.InteractionPrompts.SetActive(false);
