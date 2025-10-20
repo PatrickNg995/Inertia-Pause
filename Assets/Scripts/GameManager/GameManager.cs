@@ -138,7 +138,8 @@ public class GameManager : MonoBehaviour
     {
         // Delay checking for victory to let objects interact first.
         // TODO: Should make this to check after an ending camera pan around or something.
-        Invoke("TempDelayedCheckVictory", 3f);
+        Invoke(nameof(TempDelayedCheckVictory), 3f);
+        Debug.Log("Checking victory after short delay...");
     }
 
     private void TempDelayedCheckVictory()

@@ -33,9 +33,7 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.MainMenuButton.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
         // TODO: Call DisplayLevelStats and OpenMenu after level is complete.
-        _gameManager.OnLevelComplete += DisplayLevelStats;
-
-        /*
+        // _gameManager.OnLevelComplete += DisplayLevelStats;
         LevelResults results = new()
         {
             CiviliansRescued = 2,
@@ -45,7 +43,6 @@ public class ResultMenuPresenter : MonoBehaviour
             ActionsTaken = 5
         };
         DisplayLevelStats(results);
-        */
 
         CloseMenu();
     }
@@ -99,8 +96,6 @@ public class ResultMenuPresenter : MonoBehaviour
             Color textColor = isComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
-        // Added for testing.
-        OpenMenu();
     }
 
     private void AddObjectiveRow(string objectiveName, string objectiveStatus, Color textColor)
