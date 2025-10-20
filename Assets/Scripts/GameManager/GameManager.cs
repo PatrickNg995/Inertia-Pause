@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -41,6 +42,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action OnGamePause;
 
+    /// <summary>
+    /// Invoked when the level is completed.
+    /// </summary>
+    public Action<LevelResults> OnLevelComplete;
+
     // Count of actions taken in the current level.
     private int _actionCount = 0;
 
@@ -58,6 +64,7 @@ public class GameManager : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;
+    private InputAction _unpause;
     private InputAction _pauseMenu;
 
     // Whether the level has been won, for future use.
@@ -87,6 +94,7 @@ public class GameManager : MonoBehaviour
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
+        _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
@@ -94,10 +102,12 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed += Undo;
         _redo.performed += Redo;
+        _unpause.performed += CheckVictoryCondition;
         _pauseMenu.performed += PauseMenu;
 
         _undo.Enable();
         _redo.Enable();
+        _unpause.Enable();
         _pauseMenu.Enable();
     }
 
@@ -105,10 +115,12 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed -= Undo;
         _redo.performed -= Redo;
+        _unpause.performed -= CheckVictoryCondition;
         _pauseMenu.performed -= PauseMenu;
 
         _undo.Disable();
         _redo.Disable();
+        _unpause.Disable();
         _pauseMenu.Disable();
     }
 
@@ -122,21 +134,22 @@ public class GameManager : MonoBehaviour
         OnLevelStart?.Invoke();
     }
 
-    private void Update()
+    private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
-        // All the code in this method is temporary for testing.
-
-        // Press space to check victory.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CheckVictoryCondition();
-        }
+        // Delay checking for victory to let objects interact first.
+        // TODO: Should make this to check after an ending camera pan around or something.
+        Invoke(nameof(TempDelayedCheckVictory), 3f);
+        Debug.Log("Checking victory after short delay...");
     }
 
-    public void CheckVictoryCondition()
+    private void TempDelayedCheckVictory()
     {
-        // Check if level hasn't been won yet and all enemies are dead and no allies are dead.
-        if (CheckNPCsDead(_listOfEnemies) && !CheckNPCsDead(_listOfAllies))
+        // The following logic should be in CheckVictoryCondition when properly implemented.
+        int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);
+        int alliesAlive = GetNumNPCsAlive(_listOfAllies);
+
+        // Check if there are no enemies alive and all allies are alive.
+        if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
         {
             LevelWon = true;
             Debug.Log("Level won!");
@@ -145,6 +158,31 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Level lost!");
         }
+
+        LevelResults results = new()
+        {
+            CiviliansRescued = alliesAlive,
+            AlliesSaved = 0,
+            EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
+            // TODO: Optional objectives.
+            OptionalObjectivesComplete = new bool[2] { true, false },
+            ActionsTaken = _actionCount
+        };
+
+        // Call level complete after determining victory.
+        OnLevelComplete?.Invoke(results);
+    }
+    private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
+    {
+        int numAlive = 0;
+        foreach (GameObject npc in listOfNPCs)
+        {
+            if (npc.GetComponent<NPC>().IsAlive)
+            {
+                numAlive++;
+            }
+        }
+        return numAlive;
     }
 
     public void RecordAndExecuteCommand(ActionCommand command)
@@ -296,18 +334,6 @@ public class GameManager : MonoBehaviour
         list.RemoveAt(lastIndex);
 
         return command;
-    }
-
-    private bool CheckNPCsDead(List<GameObject> listOfNPCs)
-    {
-        foreach (GameObject npc in listOfNPCs)
-        {
-            if (npc.GetComponent<NPC>().IsAlive)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void ResumeFromPauseMenu()
