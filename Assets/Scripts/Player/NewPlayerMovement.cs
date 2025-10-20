@@ -1,38 +1,42 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(CharacterController))]
 public class NewPlayerMovement : MonoBehaviour
 {
     // Get character controller to move
-    [SerializeField] private CharacterController controller;
+    [SerializeField] private CharacterController _controller;
     [Space]
 
     // Movement variables
-    [SerializeField] private float movementSpeed;
-    [SerializeField] private float gravity = -9.81f;
+    [SerializeField] private float _movementSpeed = 5f;
+    [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private float _climbSpeed = 4f;
+    [SerializeField] private float _ladderTopJump = 4f; // seems to be the magic number with movementSpeed 5
 
     // Player input
-    private PlayerActions inputActions;
-    private InputAction movement;
+    private PlayerActions _inputActions;
+    private InputAction _movement;
 
+    private bool _isOnLadder = false;
 
     // Get character controller & player inputs
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
-        inputActions = new PlayerActions();
+        _controller = GetComponent<CharacterController>();
+        _inputActions = new PlayerActions();
     }
 
     // Enable & disable input
     private void OnEnable()
     {
-        movement = inputActions.Ingame.Movement;
-        movement.Enable();
+        _movement = _inputActions.Ingame.Movement;
+        _movement.Enable();
     }
 
     private void OnDisable()
     {
-        movement.Disable();
+        _movement.Disable();
     }
 
 
@@ -45,25 +49,76 @@ public class NewPlayerMovement : MonoBehaviour
     private void MovePlayer()
     {
         // Get input & put it into vector 3
-        Vector2 v2 = movement.ReadValue<Vector2>();
+        Vector2 v2 = _movement.ReadValue<Vector2>();
+        if (_isOnLadder)
+        {
+            HandleLadderMovement(v2);
+        }
+        else
+        {
+            HandleGroundMovement(v2);
+        }
+    }
+
+    private void HandleGroundMovement(Vector2 v2)
+    {
         Vector3 velocity = new Vector3(v2.x, 0, v2.y);
 
         // Move player based on input & direction they are facing
         Vector3 moveVector = transform.TransformDirection(velocity);
-        controller.Move(moveVector * movementSpeed * Time.unscaledDeltaTime);
+        _controller.Move(_movementSpeed * Time.unscaledDeltaTime * moveVector);
 
         // Zero out velocity & check for gravity
         velocity = Vector3.zero;
-        if (controller.isGrounded)
+        if (_controller.isGrounded)
         {
             velocity.y = -1f;
         }
         else
         {
-            velocity.y -= gravity * -2f * Time.unscaledDeltaTime;
+            velocity.y -= _gravity * -2f * Time.unscaledDeltaTime;
         }
 
         // Move player down by gravity
-        controller.Move(velocity);
+        _controller.Move(velocity);
+    }
+
+    private void HandleLadderMovement(Vector2 v2)
+    {
+        // Move vertically when on ladder
+        Vector3 climbDirection = new Vector3(0, v2.y, 0);
+        _controller.Move(_climbSpeed * Time.unscaledDeltaTime * climbDirection);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            _isOnLadder = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            _isOnLadder = false;
+        }
+
+        // assumes that the player isn't grounded when they reach the top of a ladder
+        // this should always be the case with how the ladder logic and collision detection works
+        if (!_controller.isGrounded)
+        {
+            // Jumps to prevent jittering at the top of the ladder while trying to go from in front of the ladder to above and behind it
+            _controller.Move((_ladderTopJump * _movementSpeed * transform.forward + Vector3.up) * Time.unscaledDeltaTime);
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit _)
+    {
+        if (_controller.isGrounded && _isOnLadder)
+        {
+            _isOnLadder = false;
+        }
     }
 }
