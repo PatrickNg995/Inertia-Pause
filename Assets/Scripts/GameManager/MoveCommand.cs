@@ -1,48 +1,57 @@
 ﻿using UnityEngine;
 
-public class MoveCommand : ICommand
+public class MoveCommand : ActionCommand
 {
-    // References to the interaction object being moved and its transform.
-    private InteractionObject _interactionObject;
+    // Transform to move.
     private Transform _transform;
 
     // Initial location and rotation of the object.
-    private Vector3 _initialLocation;
+    private Vector3 _initialPosition;
     private Quaternion _initialRotation;
 
     // Target location and rotation of the object.
-    private Vector3 _targetLocation;
+    private Vector3 _targetPosition;
     private Quaternion _targetRotation;
 
-    public MoveCommand(InteractionObject interactionObject,
-                       Vector3 targetLocation, Quaternion targetRotation)
+    public MoveCommand(InteractionObject interactionObject, Vector3 initialPosition, Quaternion initialRotation,
+                       Vector3 targetPosition, Quaternion targetRotation, bool willCountAsAction)
     {
-        _interactionObject = interactionObject;
+        ActionObject = interactionObject;
         _transform = interactionObject.transform;
 
-        _initialLocation = _transform.position;
-        _initialRotation = _transform.rotation;
+        _initialPosition = initialPosition;
+        _initialRotation = initialRotation;
 
-        _targetLocation = targetLocation;
-        _targetRotation = targetRotation;   
+        _targetPosition = targetPosition;
+        _targetRotation = targetRotation;
+
+        WillCountAsAction = willCountAsAction;
     }
-    public void Execute()
+    public override void Execute()
     {
         // Move the object to the target location and rotation.
-        _transform.position = _targetLocation;
+        _transform.position = _targetPosition;
         _transform.rotation = _targetRotation;
 
-        // Mark the interaction object as having taken an action.
-        _interactionObject.HasTakenAction = true;
+        // If this command counted as an action,
+        // mark the interaction object as having taken an action.
+        if (WillCountAsAction)
+        {
+            ActionObject.HasTakenAction = true;
+        }
     }
 
-    public void Undo()
+    public override void Undo()
     {
         // Revert the object to its initial location and rotation.
-        _transform.position = _initialLocation;
+        _transform.position = _initialPosition;
         _transform.rotation = _initialRotation;
 
-        // Mark the interaction object as not having taken an action.
-        _interactionObject.HasTakenAction = false;
+        // If this command counted as an action,
+        // mark the interaction object as not having taken an action.
+        if (WillCountAsAction)
+        {
+            ActionObject.HasTakenAction = false;
+        }
     }
 }

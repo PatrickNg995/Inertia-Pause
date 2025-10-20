@@ -42,10 +42,10 @@ public class GameManager : MonoBehaviour
     private int _actionCount = 0;
 
     // Stack holding the state of objects prior to an action.
-    private Stack<ICommand> _undoStack = new Stack<ICommand>();
+    private List<ActionCommand> _undoCommandList = new List<ActionCommand>();
 
     // Stack holding the state of objects prior to an undo.
-    private Stack<ICommand> _redoStack = new Stack<ICommand>();
+    private List<ActionCommand> _redoCommandList = new List<ActionCommand>();
 
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
@@ -143,88 +143,93 @@ public class GameManager : MonoBehaviour
             Debug.Log("Level lost!");
         }
     }
-    public void RecordAndExecuteCommand(ICommand command)
+
+    public void RecordAndExecuteCommand(ActionCommand command)
     {
         // Execute the command.
         command.Execute();
 
-        // Push the action object's command onto the undo stack.
-        _undoStack.Push(command);
+        // Add the command to the undo list.
+        _undoCommandList.Add(command);
 
-        // Clear the redo stack since a new action has been performed.
-        _redoStack.Clear();
+        // Clear the redo list since a new action has been performed.
+        _redoCommandList.Clear();
         OnRedoUnavailable?.Invoke();
 
-        // Update action count.
-        _actionCount++;
-        OnActionUpdate?.Invoke(_actionCount);
+        if (command.WillCountAsAction)
+        {
+            // Update action count.
+            _actionCount++;
+            OnActionUpdate?.Invoke(_actionCount);
+        }
 
         Debug.Log("Action recorded. Total actions: " + _actionCount);
     }
 
+    public void ResetObjectCommands(InteractionObject interactionObject, ActionCommand redoCommand)
+    {
+        // Remove all the commands of the reset object from both lists.
+        RemoveCommandsOfObjectFromLists(interactionObject);
+
+        // Add the redo command to the redo list.
+        _redoCommandList.Add(redoCommand);
+
+        // Notify if redo is now available.
+        if (_redoCommandList.Count == 1)
+        {
+            OnRedoAvailable?.Invoke();
+        }
+    }
+
     public void Undo(InputAction.CallbackContext context)
     {
-        if (_undoStack.Count > 0)
+        if (_undoCommandList.Count > 0)
         {
-            // Pop the next command to undo from the undo stack and push it onto the redo stack.
-            ICommand undoCommand = _undoStack.Pop();
+            // Pop the next command to undo from the undo list and add it to the redo list.
+            ActionCommand undoCommand = PopList(_undoCommandList);
 
-            // Undo the command and update stacks.
-            UndoAndPushToRedoStack(undoCommand);
+            // Undo the command and add to redo list.
+            UndoAndAddToRedoList(undoCommand);
 
             Debug.Log("Action undone. Total actions: " + _actionCount);
         }
     }
 
-    /// <summary>
-    /// Undo a specific command, picking it out from the undo stack.
-    /// Used for resetting interactions outside of the normal undo/redo order.
-    /// </summary>
-    /// <param name="command">The command to be undone.</param>
-    public void UndoSpecificCommand(ICommand command)
+    public void UndoSpecificCommand(ActionCommand command)
     {
-        Stack<ICommand> tempStack = new Stack<ICommand>();
+        int removeIndex = _undoCommandList.IndexOf(command);
 
-        while (_undoStack.Count > 0)
-        {
-            // Pop commands until we find the specific command to undo.
-            ICommand poppedCommand = _undoStack.Pop();
-            if (!poppedCommand.Equals(command))
-            {
-                tempStack.Push(poppedCommand);
-            }
-            else
-            {
-                // Found the specific command, perform the undo and update stacks.
-                UndoAndPushToRedoStack(poppedCommand);
-                Debug.Log("Specific action undone. Total actions: " + _actionCount);
-            }
-        }
+        // Undo the specific command and add to redo list.
+        UndoAndAddToRedoList(_undoCommandList[removeIndex]);
 
-        // Restore the other commands back to the undo stack.
-        while (tempStack.Count > 0)
-        {
-            _undoStack.Push(tempStack.Pop());
-        }
+        // Remove Command from undo list.
+        _undoCommandList.RemoveAt(removeIndex);
+
+        Debug.Log("Specific action undone. Total actions: " + _actionCount);
     }
 
     public void Redo(InputAction.CallbackContext context)
     {
-        if (_redoStack.Count > 0)
+        if (_redoCommandList.Count > 0)
         {
-            // Pop the next command to redo from the redo stack and push it onto the undo stack.
-            ICommand redoCommand = _redoStack.Pop();
-            _undoStack.Push(redoCommand);
+            // Pop the next command to redo from the redo list.
+            ActionCommand redoCommand = PopList(_redoCommandList);
+
+            // Add command to the undo list.
+            _undoCommandList.Add(redoCommand);
 
             // Use Execute() from ICommand to perform the redo.
             redoCommand.Execute();
 
-            // Increment action count.
-            _actionCount++;
-            OnActionUpdate?.Invoke(_actionCount);
+            if (redoCommand.WillCountAsAction)
+            {
+                // Increment action count.
+                _actionCount++;
+                OnActionUpdate?.Invoke(_actionCount);
+            }
 
             // Notify if no more redos are available.
-            if (_redoStack.Count == 0)
+            if (_redoCommandList.Count == 0)
             {
                 OnRedoUnavailable?.Invoke();
             }
@@ -236,23 +241,58 @@ public class GameManager : MonoBehaviour
     /// Helper function to undo a command and push it to the redo stack, and update action count.
     /// </summary>
     /// <param name="command">Command to undo.</param>
-    private void UndoAndPushToRedoStack(ICommand command)
+    private void UndoAndAddToRedoList(ActionCommand command)
     {
         // Use Undo() from ICommand to perform the undo.
         command.Undo();
 
-        // Push the command onto the redo stack.
-        _redoStack.Push(command);
+        // Add the command to the redo list.
+        _redoCommandList.Add(command);
+
+        if (command.WillCountAsAction)
+        {
+            // Decrement action count.
+            _actionCount--;
+            OnActionUpdate?.Invoke(_actionCount);
+        }
+
+        // Notify if redo is now available.
+        if (_redoCommandList.Count == 1)
+        {
+            OnRedoAvailable?.Invoke();
+        }
+    }
+
+    /// <summary>
+    /// Removes all the commands in both the undo and redo lists that affect a specified object.
+    /// </summary>
+    /// <param name="interactionObject">The object whose commands will be removed.</param>
+    private void RemoveCommandsOfObjectFromLists(InteractionObject interactionObject)
+    {
+        // Remove all the commands of the object from both the undo and redo lists.
+        _undoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
+        _redoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
 
         // Decrement action count.
         _actionCount--;
         OnActionUpdate?.Invoke(_actionCount);
 
-        // Notify if redo is now available.
-        if (_redoStack.Count == 1)
+        // Notify if no more redos are available.
+        if (_redoCommandList.Count == 0)
         {
-            OnRedoAvailable?.Invoke();
+            OnRedoUnavailable?.Invoke();
         }
+        Debug.Log("Commands of an object removed. Total actions: " + _actionCount);
+    }
+
+    private ActionCommand PopList(List<ActionCommand> list)
+    {
+        int lastIndex = list.Count - 1;
+
+        ActionCommand command = list[lastIndex];
+        list.RemoveAt(lastIndex);
+
+        return command;
     }
 
     private bool CheckNPCsDead(List<GameObject> listOfNPCs)

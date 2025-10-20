@@ -1,19 +1,19 @@
 ﻿using UnityEngine;
 
 // Abstract base class for all interactable objects in the game.
-public abstract class InteractionObject : MonoBehaviour
+public abstract class InteractionObject : MonoBehaviour, IInteractable
 {
     public InteractableObjectInfo InteractableInfo => _interactableInfo;
     [SerializeField] private InteractableObjectInfo _interactableInfo;
 
     // Whether the object has had its action taken.
-    public bool HasTakenAction = false;
+    public bool HasTakenAction { get; set; } = false;
 
     // If the interaction should run once on press or per frame.
-    public bool IsContinuousUpdate { get; protected set; }
+    public bool IsContinuousUpdate { get; protected set; } = false;
 
     // Command to be executed on action.
-    public ICommand ActionCommand { get; protected set; }
+    public ActionCommand ActionCommand { get; protected set; }
 
     public abstract void OnInteract();
 
