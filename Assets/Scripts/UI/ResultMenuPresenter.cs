@@ -106,7 +106,7 @@ public class ResultMenuPresenter : MonoBehaviour
 
     private void OnNextButtonClicked(ScenarioInfo scenarioInfo)
     {
-        if (scenarioInfo.NextEnvironmentSceneName != null && scenarioInfo.NextScenarioAssetsSceneName != null)
+        if (scenarioInfo.NextEnvironmentSceneName != string.Empty && scenarioInfo.NextScenarioAssetsSceneName != string.Empty)
         {
             AdditiveSceneManager.Instance.LoadScenario(scenarioInfo.NextEnvironmentSceneName, scenarioInfo.NextScenarioAssetsSceneName);
         }
