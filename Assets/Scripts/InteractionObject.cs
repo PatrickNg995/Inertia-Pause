@@ -1,35 +1,23 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-// class is used as the interaction handler; actual interaction logic is in other scripts
-public class InteractionObject : MonoBehaviour
+// Abstract base class for all interactable objects in the game.
+public abstract class InteractionObject : MonoBehaviour, IInteractable
 {
     public InteractableObjectInfo InteractableInfo => _interactableInfo;
-
-    // if the interaction should run once on press or per frame
-    public bool continuousUpdate;
-
-    // the script with the behaviour on interactions
-    private IInteractable[] interactionBehaviour;
-
     [SerializeField] private InteractableObjectInfo _interactableInfo;
 
-    private void Start()
-    {
-        interactionBehaviour = GetComponents<IInteractable>();
-    }
+    // Whether the object has had its action taken.
+    public bool HasTakenAction { get; set; } = false;
 
-    public void OnInteract()
-    {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnInteract();
-    }
+    // If the interaction should run once on press or per frame.
+    public bool IsContinuousUpdate { get; protected set; } = false;
 
-    public void OnCancelInteract()
-    {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnCancelInteract();
-    }
+    // Command to be executed on action.
+    public ActionCommand ActionCommand { get; protected set; }
 
-    public void OnResetInteract()
-    {
-        foreach (IInteractable behaviour in interactionBehaviour) behaviour.OnResetInteract();
-    }
+    public abstract void OnInteract();
+
+    public abstract void OnCancelInteract();
+
+    public abstract void OnResetInteract();
 }

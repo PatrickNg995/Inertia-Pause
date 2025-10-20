@@ -25,9 +25,9 @@ public class PlayerInteract : MonoBehaviour
     public Action<InteractableObjectInfo> OnEndInteraction;
 
     /// <summary>
-    /// Invoked when the player takes an action with an object.
+    /// Invoked when the player resets an interaction with an object.
     /// </summary>
-    public Action<GameObject> OnActionTaken;
+    public Action<ICommand> OnInteractReset;
 
     public float interactionDistance = 2;
 
@@ -74,16 +74,13 @@ public class PlayerInteract : MonoBehaviour
 
         if (isInteracting || targetObject == null) return;
         
-        if (targetObject.continuousUpdate)
+        if (targetObject.IsContinuousUpdate)
         {
             isInteracting = true;
             OnInteract?.Invoke(targetObject.InteractableInfo);
         }
 
         targetObject.OnInteract();
-        // Event for taking an action; added here for testing undo/redo, needs to be updated
-        // to prevent multiple calls for interacting with the same object.
-        OnActionTaken?.Invoke(targetObject.gameObject);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
 
@@ -92,6 +89,7 @@ public class PlayerInteract : MonoBehaviour
         if (targetObject == null) return;
 
         targetObject.OnResetInteract();
+
         isInteracting = false;
         OnEndInteraction?.Invoke(targetObject.InteractableInfo);
         Debug.Log($"Reset interaction with {targetObject.name}");
