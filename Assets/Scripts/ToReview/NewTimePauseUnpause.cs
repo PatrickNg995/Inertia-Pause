@@ -37,17 +37,17 @@ public class NewTimePauseUnpause : MonoBehaviour
     // Enable & disable input actions.
     private void OnEnable()
     {
-        _timePause.performed += checkUnpause;
+        _timePause.performed += CheckUnpause;
         _timePause.Enable();
     }
     private void OnDisable()
     {
-        _timePause.performed -= checkUnpause;
+        _timePause.performed -= CheckUnpause;
         _timePause.Disable();
     }
 
     // Unpause time if time has been paused.
-    private void checkUnpause(InputAction.CallbackContext context)
+    private void CheckUnpause(InputAction.CallbackContext context)
     {
         if (!_hasUnpaused)
         {
