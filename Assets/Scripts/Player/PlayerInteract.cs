@@ -82,10 +82,14 @@ public class PlayerInteract : MonoBehaviour
         if (targetObject.IsContinuousUpdate)
         {
             isInteracting = true;
+            OnContinuousInteract?.Invoke(targetObject.InteractableInfo);
+        }
+        else
+        {
+            OnOneShotInteract?.Invoke(targetObject.InteractableInfo);
         }
 
         targetObject.OnInteract();
-        OnContinuousInteract?.Invoke(targetObject.InteractableInfo);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
 
