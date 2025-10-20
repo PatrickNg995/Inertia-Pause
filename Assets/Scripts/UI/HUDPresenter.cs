@@ -20,8 +20,8 @@ public class HUDPresenter : MonoBehaviour
     [SerializeField] private float _redoUnavailableAlpha;
     [SerializeField] private float _redoAvailableAlpha;
 
-    private const float OBJECTIVE_FADE_DELAY = 10f;
-    private const float OBJECTIVE_FADE_DURATION = 2f;
+    private const float OBJECTIVE_FADE_DELAY = 5f;
+    private const float OBJECTIVE_FADE_DURATION = 1f;
 
     private const string TELEMETRY_FORMAT = "{0} V{1} - {2} FPS - {3} ms";
 
@@ -79,6 +79,7 @@ public class HUDPresenter : MonoBehaviour
     private void CloseMenu()
     {
         gameObject.SetActive(false);
+        _view.ObjectivesElements.alpha = 0;
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
