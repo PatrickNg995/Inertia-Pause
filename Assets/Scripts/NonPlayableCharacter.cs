@@ -45,11 +45,6 @@ public class NPC : MonoBehaviour, IPausable
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     // Temp function for Debugging
     void OnDrawGizmos()
     {

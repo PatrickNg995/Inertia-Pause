@@ -4,18 +4,18 @@ using UnityEngine.InputSystem;
 
 public class NewTimePauseUnpause : MonoBehaviour
 {
-    // For player inputs
+    // For player inputs.
     private PlayerActions _inputActions;
     private InputAction _timePause;
 
-    // Bool to only unpause once
+    // Bool to only unpause once.
     private bool _hasUnpaused = false;
 
     private IPausable[] _pausableObjects;
 
     void Awake()
     {
-        // Bind time pause input to function
+        // Bind time pause input to function.
         _inputActions = new PlayerActions();
         _timePause = _inputActions.Ingame.TimePause;
     }
@@ -24,7 +24,7 @@ public class NewTimePauseUnpause : MonoBehaviour
     {
         _hasUnpaused = false;
 
-        // Pause all pausable objects
+        // Pause all pausable objects.
         MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
         _pausableObjects = allObjects.OfType<IPausable>().ToArray();
 
@@ -34,7 +34,7 @@ public class NewTimePauseUnpause : MonoBehaviour
         }
     }
 
-    // Enable & disable input actions
+    // Enable & disable input actions.
     private void OnEnable()
     {
         _timePause.performed += checkUnpause;
@@ -46,7 +46,7 @@ public class NewTimePauseUnpause : MonoBehaviour
         _timePause.Disable();
     }
 
-    // Unpause time if time has been paused
+    // Unpause time if time has been paused.
     private void checkUnpause(InputAction.CallbackContext context)
     {
         if (!_hasUnpaused)
