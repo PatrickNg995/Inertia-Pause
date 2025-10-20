@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviour
         OnLevelComplete?.Invoke(results);
 
         // Allow player to click on results screen buttons.
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
     }
     private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
