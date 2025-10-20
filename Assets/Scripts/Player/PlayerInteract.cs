@@ -77,13 +77,13 @@ public class PlayerInteract : MonoBehaviour
         if (targetObject.continuousUpdate)
         {
             isInteracting = true;
-            OnInteract?.Invoke(targetObject.InteractableInfo);
         }
 
         targetObject.OnInteract();
         // Event for taking an action; added here for testing undo/redo, needs to be updated
         // to prevent multiple calls for interacting with the same object.
         OnActionTaken?.Invoke(targetObject.gameObject);
+        OnInteract?.Invoke(targetObject.InteractableInfo);
         Debug.Log($"Started interacting with {targetObject.name}");
     }
 
