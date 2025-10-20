@@ -186,6 +186,9 @@ public class GameManager : MonoBehaviour
 
     public void RecordAndExecuteCommand(ActionCommand command)
     {
+        // Execute the command.
+        command.Execute();
+
         // Add the command to the undo list.
         _undoCommandList.Add(command);
 
@@ -330,18 +333,6 @@ public class GameManager : MonoBehaviour
         list.RemoveAt(lastIndex);
 
         return command;
-    }
-
-    private bool CheckNPCsDead(List<GameObject> listOfNPCs)
-    {
-        foreach (GameObject npc in listOfNPCs)
-        {
-            if (npc.GetComponent<NPC>().IsAlive)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 
     public void ResumeFromPauseMenu()
