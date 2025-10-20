@@ -16,6 +16,8 @@ public class PlayerPause : MonoBehaviour
     {
         _gameManager.OnGamePause += OnGamePause;
         _gameManager.OnGameResume += OnGameResume;
+
+        _gameManager.OnLevelComplete += _ => OnGamePause();
     }
 
     private void OnGamePause()

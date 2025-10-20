@@ -171,6 +171,9 @@ public class GameManager : MonoBehaviour
 
         // Call level complete after determining victory.
         OnLevelComplete?.Invoke(results);
+
+        // Allow player to click on results screen buttons.
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
