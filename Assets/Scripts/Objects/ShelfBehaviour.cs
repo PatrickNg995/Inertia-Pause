@@ -1,20 +1,44 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ShelfBehaviour : InteractionObject
+public class ShelfBehaviour : InteractionObject, IPausable
 {
     [SerializeField] private float _torque = 2000f;
+    // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
+    [SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
+    private bool _paused = false;
+    private Vector3 _rotationalVelocity;
+    private Vector3 _velocity;
+    private float _timeSincePause;
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        if (_rb == null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+
+        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     private void Update()
     {
-        // TODO: notification logic to show how / if it'll fall
+        if (_paused && HasTakenAction && _timeSincePause >= 0)
+        {
+            _timeSincePause += Time.deltaTime;
+        }
+
+        if (_paused && _timeSincePause >= _timeToTilt)
+        {
+            _rotationalVelocity = _rb.angularVelocity;
+            _velocity = _rb.linearVelocity;
+
+            _rb.isKinematic = true;
+            // for the guard position to not modify the velocities
+            _timeSincePause = -1;
+        }
     }
 
     public override void OnCancelInteract()
@@ -25,6 +49,7 @@ public class ShelfBehaviour : InteractionObject
 
     public override void OnInteract()
     {
+        Debug.Log("Shoved");
         if (HasTakenAction) { return; }
 
         // Set up and execute the topple command, in the right direction.
@@ -35,5 +60,27 @@ public class ShelfBehaviour : InteractionObject
     public override void OnResetInteract()
     {
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
+    }
+
+    public void Pause()
+    {
+        // necessity found empirically
+        if (_rb == null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+
+        _timeSincePause = 0f;
+
+        _paused = true;
+    }
+
+    public void Unpause()
+    {
+        _rb.linearVelocity = _velocity;
+        _rb.angularVelocity = _rotationalVelocity;
+
+        _rb.isKinematic = false;
+        _paused = false;
     }
 }
