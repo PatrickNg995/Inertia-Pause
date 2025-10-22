@@ -13,9 +13,9 @@ public class Bullet : MonoBehaviour, IPausable
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
-    // Reference rigidbody & collider.
+    // Reference rigidbody.
     private Rigidbody _rb;
-    private CapsuleCollider _capsuleCollider;
+    private bool _canKill = true;
 
     // Saved velocity.
     private Vector3 _savedVelocity;
@@ -25,8 +25,6 @@ public class Bullet : MonoBehaviour, IPausable
         // Set the bullet's velocity to be in the forward direction of its parent.
         _rb = GetComponent<Rigidbody>();
         _rb.linearVelocity = transform.parent.forward * _bulletSpeed;
-
-        _capsuleCollider = GetComponent<CapsuleCollider>();
     }
 
     public void Start()
@@ -41,14 +39,14 @@ public class Bullet : MonoBehaviour, IPausable
     // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
-        // Get root object of whatever was hit.
-        GameObject rootObject = other.transform.root.gameObject;
+
+        if (!_canKill) return;
 
         // If it was an NPC, apply hit.
-        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
+        if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
-            NPC npc = rootObject.GetComponentInParent<NPC>();
+            NPC npc = other.GetComponentInParent<NPC>();
             if (npc.IsAlive)
             {
                 HitNPC(npc, other);
@@ -65,7 +63,7 @@ public class Bullet : MonoBehaviour, IPausable
     // Apply hit to NPC.
     public void HitNPC(NPC npc, Collider collider)
     {
-        if (npc != null)
+        if (npc != null && _canKill)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force.
             Vector3 impactDir = transform.parent.forward + Vector3.up * UPWARD_FACTOR;
@@ -79,6 +77,8 @@ public class Bullet : MonoBehaviour, IPausable
     // Disable collider on pause.
     public void Pause()
     {
+        _canKill = false;
+
         if (_rb.linearVelocity == Vector3.zero)
         {
             _savedVelocity = transform.parent.forward * _bulletSpeed;
@@ -90,15 +90,14 @@ public class Bullet : MonoBehaviour, IPausable
         }
 
         _rb.isKinematic = true;
-        _capsuleCollider.enabled = false;
     }
 
     // Enable collider on unpause.
     public void Unpause()
     {
-        _capsuleCollider.enabled = true;
+        _canKill = true;
+
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
     }
-
 }

@@ -14,6 +14,10 @@ public class ToppleCommand : ActionCommand
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
 
+    private bool _hasFinalRotation;
+    private Vector3 _finalPosition;
+    private Quaternion _finalRotation;
+
     public ToppleCommand(InteractionObject interactionObject, Rigidbody rb,
                          Vector3 direction, float torque)
     {
@@ -35,10 +39,22 @@ public class ToppleCommand : ActionCommand
 
         // Mark the interaction object as having taken an action.
         ActionObject.HasTakenAction = true;
+
+        if (!_hasFinalRotation) return;
+
+        _transform.position = _finalPosition;
+        _transform.rotation = _finalRotation;
     }
 
     public override void Undo()
     {
+        if (_transform.position != _initialPosition || _transform.rotation != _initialRotation)
+        {
+            _hasFinalRotation = true;
+            _finalPosition = _transform.position;
+            _finalRotation = _transform.rotation;
+        }
+
         // Revert the object to its initial location and rotation.
         _transform.position = _initialPosition;
         _transform.rotation = _initialRotation;

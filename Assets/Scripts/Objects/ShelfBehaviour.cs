@@ -19,8 +19,6 @@ public class ShelfBehaviour : InteractionObject, IPausable
         {
             _rb = GetComponent<Rigidbody>();
         }
-
-        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     private void Update()
@@ -47,9 +45,8 @@ public class ShelfBehaviour : InteractionObject, IPausable
         throw new System.NotImplementedException();
     }
 
-    public override void OnInteract()
+    public override void OnStartInteract()
     {
-        Debug.Log("Shoved");
         if (HasTakenAction) { return; }
 
         // Set up and execute the topple command, in the right direction.
@@ -57,9 +54,21 @@ public class ShelfBehaviour : InteractionObject, IPausable
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
+    public override void OnHoldInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnEndInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnResetInteract()
     {
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
+        _timeSincePause = 0f;
+        _rb.isKinematic = false;
     }
 
     public void Pause()
@@ -77,10 +86,11 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public void Unpause()
     {
+        _rb.isKinematic = false;
+
         _rb.linearVelocity = _velocity;
         _rb.angularVelocity = _rotationalVelocity;
 
-        _rb.isKinematic = false;
         _paused = false;
     }
 }

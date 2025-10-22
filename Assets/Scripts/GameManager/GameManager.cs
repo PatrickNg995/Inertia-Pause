@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("Player Interact")]
     [SerializeField] private PlayerInteract _playerInteract;
 
+    // Toggle disabling player interaction after pausing; may be useful for testing.
+    [SerializeField] private bool _isInputDisabledAfterLevelComplete = true;
+
     [field: Header("Scenario Information")]
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
 
@@ -127,15 +130,43 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-        _listOfAllies.AddRange(GameObject.FindGameObjectsWithTag("Ally"));
+        _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
+        _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
 
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
     }
 
+    private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
+    {
+        List<GameObject> childList = new List<GameObject>();
+
+        foreach (Transform childTransform in parentObject.transform)
+        {
+            childList.Add(childTransform.gameObject);
+        }
+
+        return childList;
+    }
+
     private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
+        if (_isInputDisabledAfterLevelComplete)
+        {
+            // Prevent players from interacting with objects after unpausing.
+            _playerInteract.enabled = false;
+            Debug.Log("Player Interact disabled");
+
+            // Disable collisions on the player.
+            // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
+            // controller in the editor too.
+            _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+
+            // Clear undo/redo command lists to prevent players from using them after unpausing.
+            _undoCommandList.Clear();
+            _redoCommandList.Clear();
+        }
+
         // Delay checking for victory to let objects interact first.
         // TODO: Should make this to check after an ending camera pan around or something.
         Invoke(nameof(TempDelayedCheckVictory), 3f);
