@@ -8,6 +8,11 @@ using UnityEngine.SceneManagement;
 public class AdditiveSceneManager : MonoBehaviour
 {
     /// <summary>
+    /// The instance of the AdditiveSceneManager which is used to load and unload scenes dynamically.
+    /// </summary>
+    public static AdditiveSceneManager Instance { get; private set; }
+
+    /// <summary>
     /// Invoked when loading starts.
     /// </summary>
     public Action OnStartLoad;
@@ -28,6 +33,8 @@ public class AdditiveSceneManager : MonoBehaviour
     {
         _additiveScene = SceneManager.GetActiveScene();
         LoadMainMenu();
+
+        Instance = this;
     }
 
     /// <summary>

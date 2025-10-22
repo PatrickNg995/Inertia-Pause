@@ -25,11 +25,11 @@ public class PlayerInteract : MonoBehaviour
     public Action<InteractableObjectInfo> OnEndInteraction;
 
     /// <summary>
-    /// Invoked when the player takes an action with an object.
+    /// Invoked when the player resets an interaction with an object.
     /// </summary>
-    public Action<GameObject> OnActionTaken;
+    public Action<ICommand> OnInteractReset;
 
-    public float interactionDistance = 2;
+    public float InteractionDistance = 2;
 
     private Transform _pivot;
     private LayerMask _layerMask;
@@ -71,7 +71,6 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnStartInteract(InputAction.CallbackContext _)
     {
-
         if (_targetObject == null) return;
 
         if (_isInteracting)
@@ -83,24 +82,23 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
-        if (_targetObject.continuousUpdate)
+        if (_targetObject.IsContinuousUpdate)
         {
             _isInteracting = true;
             OnInteract?.Invoke(_targetObject.InteractableInfo);
         }
 
         _targetObject.OnStartInteract();
-        // Event for taking an action; added here for testing undo/redo, needs to be updated
-        // to prevent multiple calls for interacting with the same object.
-        OnActionTaken?.Invoke(_targetObject.gameObject);
+        OnInteract?.Invoke(_targetObject.InteractableInfo);
         Debug.Log($"Started interacting with {_targetObject.name}");
     }
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (_targetObject == null) return;
+        if (_targetObject == null) return;  
 
         _targetObject.OnResetInteract();
+
         _isInteracting = false;
         OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
         Debug.Log($"Reset interaction with {_targetObject.name}");
@@ -121,7 +119,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, interactionDistance, _layerMask, QueryTriggerInteraction.Collide);
+        bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, InteractionDistance, _layerMask, QueryTriggerInteraction.Collide);
         InteractionObject previousTarget = _targetObject;
 
         if (!lookingAtObj && !_isInteracting)

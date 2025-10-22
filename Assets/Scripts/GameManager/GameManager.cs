@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,7 +7,10 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     [Header("Player Interact")]
-    [SerializeField] private PlayerInteract PlayerInteract;
+    [SerializeField] private PlayerInteract _playerInteract;
+
+    [field: Header("Scenario Information")]
+    [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
 
     /// <summary>
     /// Invoked when the level starts.
@@ -28,14 +32,29 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action OnRedoUnavailable;
 
+    /// <summary>
+    /// Invoked when the player resumes the game after pausing it.
+    /// </summary>
+    public Action OnGameResume;
+
+    /// <summary>
+    /// Invoked when the player pauses the game.
+    /// </summary>
+    public Action OnGamePause;
+
+    /// <summary>
+    /// Invoked when the level is completed.
+    /// </summary>
+    public Action<LevelResults> OnLevelComplete;
+
     // Count of actions taken in the current level.
     private int _actionCount = 0;
 
     // Stack holding the state of objects prior to an action.
-    private Stack<ObjectState> _undoStack = new Stack<ObjectState>();
+    private List<ActionCommand> _undoCommandList = new List<ActionCommand>();
 
     // Stack holding the state of objects prior to an undo.
-    private Stack<ObjectState> _redoStack = new Stack<ObjectState>();
+    private List<ActionCommand> _redoCommandList = new List<ActionCommand>();
 
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
@@ -45,39 +64,68 @@ public class GameManager : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;
+    private InputAction _unpause;
+    private InputAction _pauseMenu;
 
     // Whether the level has been won, for future use.
     public bool LevelWon { get; private set; } = false;
 
+    /// <summary>
+    /// Number of actions taken in the current level.
+    /// </summary>
+    public int ActionCount => _actionCount;
+
+    // Make GameManager a singleton.
+    public static GameManager Instance { get; private set; }
+
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            // Destroy if duplicate GameManager.
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
+        _unpause = _inputActions.Ingame.TimePause;
+        _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
     private void OnEnable()
     {
         _undo.performed += Undo;
         _redo.performed += Redo;
+        _unpause.performed += CheckVictoryCondition;
+        _pauseMenu.performed += PauseMenu;
+
         _undo.Enable();
         _redo.Enable();
+        _unpause.Enable();
+        _pauseMenu.Enable();
     }
 
     private void OnDisable()
     {
         _undo.performed -= Undo;
         _redo.performed -= Redo;
+        _unpause.performed -= CheckVictoryCondition;
+        _pauseMenu.performed -= PauseMenu;
+
         _undo.Disable();
         _redo.Disable();
+        _unpause.Disable();
+        _pauseMenu.Disable();
     }
 
     private void Start()
     {
-        // Subscribe to player interact action event.
-        PlayerInteract.OnActionTaken += HandlePlayerInteractAction;
-
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         _listOfAllies.AddRange(GameObject.FindGameObjectsWithTag("Ally"));
@@ -86,21 +134,22 @@ public class GameManager : MonoBehaviour
         OnLevelStart?.Invoke();
     }
 
-    private void Update()
+    private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
-        // All the code in this method is temporary for testing.
-
-        // Press space to check victory.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CheckVictoryCondition();
-        }
+        // Delay checking for victory to let objects interact first.
+        // TODO: Should make this to check after an ending camera pan around or something.
+        Invoke(nameof(TempDelayedCheckVictory), 3f);
+        Debug.Log("Checking victory after short delay...");
     }
 
-    public void CheckVictoryCondition()
+    private void TempDelayedCheckVictory()
     {
-        // Check if level hasn't been won yet and all enemies are dead and no allies are dead.
-        if (CheckNPCsDead(_listOfEnemies) && !CheckNPCsDead(_listOfAllies))
+        // The following logic should be in CheckVictoryCondition when properly implemented.
+        int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);
+        int alliesAlive = GetNumNPCsAlive(_listOfAllies);
+
+        // Check if there are no enemies alive and all allies are alive.
+        if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
         {
             LevelWon = true;
             Debug.Log("Level won!");
@@ -109,80 +158,122 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Level lost!");
         }
-    }
 
-    private bool CheckNPCsDead(List<GameObject> listOfNPCs)
+        LevelResults results = new()
+        {
+            CiviliansRescued = alliesAlive,
+            AlliesSaved = 0,
+            EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
+            // TODO: Optional objectives.
+            OptionalObjectivesComplete = new bool[2] { true, false },
+            ActionsTaken = _actionCount
+        };
+
+        // Call level complete after determining victory.
+        OnLevelComplete?.Invoke(results);
+
+        // Allow player to click on results screen buttons.
+        Cursor.lockState = CursorLockMode.None;
+    }
+    private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
+        int numAlive = 0;
         foreach (GameObject npc in listOfNPCs)
         {
             if (npc.GetComponent<NPC>().IsAlive)
             {
-                return false;
+                numAlive++;
             }
         }
-        return true;
+        return numAlive;
     }
 
-    public void RecordAction(GameObject interactObject)
+    public void RecordAndExecuteCommand(ActionCommand command)
     {
-        // Record the current state before an action is performed.
-        ObjectState currentState = new ObjectState(interactObject, interactObject.transform.position, interactObject.transform.rotation);
-        _undoStack.Push(currentState);
+        // Execute the command.
+        command.Execute();
 
-        // Clear the redo stack since a new action has been performed.
-        _redoStack.Clear();
+        // Add the command to the undo list.
+        _undoCommandList.Add(command);
+
+        // Clear the redo list since a new action has been performed.
+        _redoCommandList.Clear();
         OnRedoUnavailable?.Invoke();
 
-        // Update action count.
-        _actionCount++;
-        OnActionUpdate?.Invoke(_actionCount);
+        if (command.WillCountAsAction)
+        {
+            // Update action count.
+            _actionCount++;
+            OnActionUpdate?.Invoke(_actionCount);
+        }
 
         Debug.Log("Action recorded. Total actions: " + _actionCount);
     }
 
+    public void ResetObjectCommands(InteractionObject interactionObject, ActionCommand redoCommand)
+    {
+        // Remove all the commands of the reset object from both lists.
+        RemoveCommandsOfObjectFromLists(interactionObject);
+
+        // Add the redo command to the redo list.
+        _redoCommandList.Add(redoCommand);
+
+        // Notify if redo is now available.
+        if (_redoCommandList.Count == 1)
+        {
+            OnRedoAvailable?.Invoke();
+        }
+    }
+
     public void Undo(InputAction.CallbackContext context)
     {
-        if (_undoStack.Count > 0)
+        if (_undoCommandList.Count > 0)
         {
-            // Load the last object state from the undo stack and push the current state onto the redo stack.
-            ObjectState objectState = GetObjectStateFromStacks(_undoStack, _redoStack);
+            // Pop the next command to undo from the undo list and add it to the redo list.
+            ActionCommand undoCommand = PopList(_undoCommandList);
 
-            // Use the ResetInteract from InteractionObject to perform the undo.
-            objectState.Object.GetComponent<InteractionObject>().OnResetInteract();
+            // Undo the command and add to redo list.
+            UndoAndAddToRedoList(undoCommand);
 
-            // Decrement action count.
-            _actionCount--;
-            OnActionUpdate?.Invoke(_actionCount);
-
-            // Notify if redo is now available.
-            if (_redoStack.Count == 1)
-            {
-                OnRedoAvailable?.Invoke();
-            }
             Debug.Log("Action undone. Total actions: " + _actionCount);
         }
     }
 
+    public void UndoSpecificCommand(ActionCommand command)
+    {
+        int removeIndex = _undoCommandList.IndexOf(command);
+
+        // Undo the specific command and add to redo list.
+        UndoAndAddToRedoList(_undoCommandList[removeIndex]);
+
+        // Remove Command from undo list.
+        _undoCommandList.RemoveAt(removeIndex);
+
+        Debug.Log("Specific action undone. Total actions: " + _actionCount);
+    }
+
     public void Redo(InputAction.CallbackContext context)
     {
-        if (_redoStack.Count > 0)
+        if (_redoCommandList.Count > 0)
         {
-            // Load the last object state from the redo stack and push the current state onto the undo stack.
-            ObjectState objectState = GetObjectStateFromStacks(_redoStack, _undoStack);
+            // Pop the next command to redo from the redo list.
+            ActionCommand redoCommand = PopList(_redoCommandList);
 
-            // Load the saved object state to perform the redo.
-            objectState.LoadObjectState();
+            // Add command to the undo list.
+            _undoCommandList.Add(redoCommand);
 
-            // Can use OnInteract to perform the redo instead, better in the case of the shelf but wouldn't work for
-            // moving a bullet back to where you moved it before.
-            //objectState.Object.GetComponent<InteractionObject>().OnInteract();
+            // Use Execute() from ICommand to perform the redo.
+            redoCommand.Execute();
 
-            // Increment action count.
-            _actionCount++;
-            OnActionUpdate?.Invoke(_actionCount);
+            if (redoCommand.WillCountAsAction)
+            {
+                // Increment action count.
+                _actionCount++;
+                OnActionUpdate?.Invoke(_actionCount);
+            }
 
             // Notify if no more redos are available.
-            if (_redoStack.Count == 0)
+            if (_redoCommandList.Count == 0)
             {
                 OnRedoUnavailable?.Invoke();
             }
@@ -191,28 +282,77 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Loads an object state from the load stack and pushes the current state of that object onto the push stack.
+    /// Helper function to undo a command and push it to the redo stack, and update action count.
     /// </summary>
-    /// <param name="loadStack">The stack to load an ObjectState from.</param>
-    /// <param name="pushStack">The stack to push the current ObjectState of the loaded object to.</param>
-    /// <returns>The popped ObjectState from the loadStack</returns>
-    public ObjectState GetObjectStateFromStacks(Stack<ObjectState> loadStack, Stack<ObjectState> pushStack)
+    /// <param name="command">Command to undo.</param>
+    private void UndoAndAddToRedoList(ActionCommand command)
     {
-        // Get the object state to load.
-        ObjectState loadObjectState = loadStack.Pop();
-        GameObject gameObject = loadObjectState.Object;
+        // Use Undo() from ICommand to perform the undo.
+        command.Undo();
 
-        // Save the current state before loading, push onto the push stack.
-        ObjectState currentState = new ObjectState(gameObject, gameObject.transform.position, gameObject.transform.rotation);
-        pushStack.Push(currentState);
+        // Add the command to the redo list.
+        _redoCommandList.Add(command);
 
-        // Load the saved state.
-        return loadObjectState;
+        if (command.WillCountAsAction)
+        {
+            // Decrement action count.
+            _actionCount--;
+            OnActionUpdate?.Invoke(_actionCount);
+        }
+
+        // Notify if redo is now available.
+        if (_redoCommandList.Count == 1)
+        {
+            OnRedoAvailable?.Invoke();
+        }
     }
 
-    private void HandlePlayerInteractAction(GameObject interactObject)
+    /// <summary>
+    /// Removes all the commands in both the undo and redo lists that affect a specified object.
+    /// </summary>
+    /// <param name="interactionObject">The object whose commands will be removed.</param>
+    private void RemoveCommandsOfObjectFromLists(InteractionObject interactionObject)
     {
-        RecordAction(interactObject);
+        // Remove all the commands of the object from both the undo and redo lists.
+        _undoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
+        _redoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
+
+        // Decrement action count.
+        _actionCount--;
+        OnActionUpdate?.Invoke(_actionCount);
+
+        // Notify if no more redos are available.
+        if (_redoCommandList.Count == 0)
+        {
+            OnRedoUnavailable?.Invoke();
+        }
+        Debug.Log("Commands of an object removed. Total actions: " + _actionCount);
+    }
+
+    private ActionCommand PopList(List<ActionCommand> list)
+    {
+        int lastIndex = list.Count - 1;
+
+        ActionCommand command = list[lastIndex];
+        list.RemoveAt(lastIndex);
+
+        return command;
+    }
+
+    public void ResumeFromPauseMenu()
+    {
+        _inputActions.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+
+        OnGameResume?.Invoke();
+    }
+
+    private void PauseMenu(InputAction.CallbackContext context)
+    {
+        _inputActions.Disable();
+        Cursor.lockState = CursorLockMode.None;
+
+        OnGamePause?.Invoke();
     }
 }
 

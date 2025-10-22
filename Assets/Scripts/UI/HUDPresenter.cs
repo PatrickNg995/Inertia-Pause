@@ -1,5 +1,6 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class HUDPresenter : MonoBehaviour
@@ -19,8 +20,8 @@ public class HUDPresenter : MonoBehaviour
     [SerializeField] private float _redoUnavailableAlpha;
     [SerializeField] private float _redoAvailableAlpha;
 
-    private const float OBJECTIVE_FADE_DELAY = 10f;
-    private const float OBJECTIVE_FADE_DURATION = 2f;
+    private const float OBJECTIVE_FADE_DELAY = 5f;
+    private const float OBJECTIVE_FADE_DURATION = 1f;
 
     private const string TELEMETRY_FORMAT = "{0} V{1} - {2} FPS - {3} ms";
 
@@ -45,6 +46,11 @@ public class HUDPresenter : MonoBehaviour
 
         _view.ObjectivesElements.alpha = 0;
 
+        if (_gameManager.ScenarioInfo != null)
+        {
+            DisplayScenarioInfo(_gameManager.ScenarioInfo);
+        }
+
         if (_framerateChecker != null )
         {
             _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
@@ -54,6 +60,9 @@ public class HUDPresenter : MonoBehaviour
         _gameManager.OnActionUpdate += OnActionCounterUpdate;
         _gameManager.OnRedoAvailable += OnRedoAvailable;
         _gameManager.OnRedoUnavailable += OnRedoUnavailable;
+        _gameManager.OnGamePause += CloseMenu;
+        _gameManager.OnGameResume += OpenMenu;
+        _gameManager.OnLevelComplete += _ => CloseMenu();
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
@@ -61,6 +70,28 @@ public class HUDPresenter : MonoBehaviour
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         _view.InteractionPrompts.SetActive(false);
+    }
+
+    private void OpenMenu()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void CloseMenu()
+    {
+        gameObject.SetActive(false);
+        _view.ObjectivesElements.alpha = 0;
+    }
+
+    private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
+    {
+        _view.LevelNameText.text = $"\"{scenarioInfo.ScenarioName}\"";
+
+        IEnumerable<string> scenarioObjectivesBulletPoints = scenarioInfo.Objectives.MainObjectives.Select(objective => $"- {objective}");
+        _view.ScenarioObjectivesText.text = string.Join("\n", scenarioObjectivesBulletPoints);
+
+        IEnumerable<string> optionalObjectivesBulletPoints = scenarioInfo.Objectives.OptionalObjectives.Select(objective => $"- {objective}");
+        _view.OptionalObjectivesText.text = string.Join("\n", optionalObjectivesBulletPoints);
     }
 
     private void OnPlayerLookAtInteractable(InteractableObjectInfo interactable)

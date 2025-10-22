@@ -1,0 +1,77 @@
+using UnityEngine;
+
+public class DragCommand : ActionCommand
+{
+    private Transform _transform;
+    private Transform _playerCamera;
+    private Vector3 _initialPosition;
+    private Vector3 _finalPosition;
+
+    private float _dragSpeed;
+    private float _dragDistance;
+    private float _yPosition;
+    private bool _isActiveDrag;
+
+    public DragCommand(InteractionObject interactionObject, Transform playerCamera, float dragSpeed)
+    {
+        ActionObject = interactionObject;
+        _transform = interactionObject.transform;
+        _playerCamera = playerCamera;
+        _dragSpeed = dragSpeed;
+
+        _initialPosition = _transform.position;
+        _yPosition = _transform.position.y;
+
+        _dragDistance = Vector3.Distance(_playerCamera.position, _transform.position);
+
+        _isActiveDrag = true;
+    }
+
+    // to allow for a reset command to be made
+    public DragCommand(InteractionObject interactionObject, Vector3 initialPosition, Vector3 finalPosition)
+    {
+        ActionObject = interactionObject;
+        _initialPosition = initialPosition;
+        _finalPosition = finalPosition;
+    }
+
+    public void UpdateDrag()
+    {
+        if (!_isActiveDrag) return;
+
+        // Calculate position in front of camera
+        Vector3 targetPosition = _playerCamera.position + _playerCamera.forward * _dragDistance;
+        targetPosition.y = _yPosition;
+
+        // Move object to target position
+        _transform.position = Vector3.Lerp(_transform.position, targetPosition, _dragSpeed * Time.unscaledDeltaTime);
+    }
+
+    public void FinalizeDrag()
+    {
+        _isActiveDrag = false;
+        _finalPosition = _transform.position;
+    }
+
+    public void CancelDrag()
+    {
+        _isActiveDrag = false;
+        _transform.position = _initialPosition;
+    }
+
+    public override void Execute()
+    {
+        Debug.Log("Executing command");
+        _transform.position = _finalPosition;
+    }
+
+    public override void Undo()
+    {
+        Debug.Log($"Resetting the position of {_transform.gameObject.name}");
+        // Revert the object to its initial position before the drag
+        _transform.position = _initialPosition;
+
+        // Mark the interaction object as not having taken an action
+        ActionObject.HasTakenAction = false;
+    }
+}
