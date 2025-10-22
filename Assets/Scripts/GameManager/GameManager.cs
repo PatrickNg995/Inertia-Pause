@@ -144,6 +144,11 @@ public class GameManager : MonoBehaviour
             _playerInteract.enabled = false;
             Debug.Log("Player Interact disabled");
 
+            // Disable collisions on the player.
+            // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
+            // controller in the editor too.
+            _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+
             // Clear undo/redo command lists to prevent players from using them after unpausing.
             _undoCommandList.Clear();
             _redoCommandList.Clear();
