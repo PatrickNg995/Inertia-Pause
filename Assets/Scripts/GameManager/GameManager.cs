@@ -129,11 +129,23 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-        _listOfAllies.AddRange(GameObject.FindGameObjectsWithTag("Ally"));
+        _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
+        _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
 
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
+    }
+
+    private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
+    {
+        List<GameObject> childList = new List<GameObject>();
+
+        foreach (Transform childTransform in parentObject.transform)
+        {
+            childList.Add(childTransform.gameObject);
+        }
+
+        return childList;
     }
 
     private void CheckVictoryCondition(InputAction.CallbackContext context)
