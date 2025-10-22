@@ -3,7 +3,6 @@ using UnityEngine;
 public class DragCommand : ActionCommand
 {
     private Transform _transform;
-    private Transform _playerCamera;
     private Vector3 _initialPosition;
     private Vector3 _finalPosition;
 

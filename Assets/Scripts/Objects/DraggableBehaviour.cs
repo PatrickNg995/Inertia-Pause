@@ -4,10 +4,8 @@ public class DraggableBehaviour : InteractionObject
 {
     [SerializeField] private Transform _playerCamera;
     [SerializeField] private float _dragSpeed = 10f;
+    [SerializeField] private float MaxDragDistance = 1f;
 
-    public float MaxDragDistance = 1f;
-
-    private DragCommand _currentDragCommand;
     private Vector3 _resetPosition;
     private Vector3 _moveStartPosition;
     private bool _dragging;
