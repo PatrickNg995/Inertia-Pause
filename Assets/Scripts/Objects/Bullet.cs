@@ -4,27 +4,37 @@ public class Bullet : MonoBehaviour, IPausable
 {
     [Header("Bullet Settings")]
     // Whether this bullet can pierce through NPCs.
-    [SerializeField] private bool IsPiercing = false;
+    [SerializeField] private bool _isPiercing = false;
 
     // Speed at which the bullet travels.
-    [SerializeField] private float BulletSpeed = 15f;
+    [SerializeField] private float _bulletSpeed = 20f;
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
-
-    // reference time pause script, rigidbody & collider.
+    // Reference rigidbody.
     private Rigidbody _rb;
     private bool _canKill = true;
 
-    private void Start()
+    // Saved velocity.
+    private Vector3 _savedVelocity;
+
+    public void Awake()
     {
         // Set the bullet's velocity to be in the forward direction of its parent.
         _rb = GetComponent<Rigidbody>();
-        _rb.linearVelocity = transform.parent.forward * BulletSpeed;
-
+        _rb.linearVelocity = transform.parent.forward * _bulletSpeed;
         GetComponent<IPausable>().AddToTimePause(this);
+    }
+
+    public void Start()
+    {
+        // Make sure bullet is separated from any parents.
+        if (transform.parent.parent != null)
+        {
+            transform.parent.parent = null;
+        }
     }
 
     // Handle collisions with other objects.
@@ -34,7 +44,7 @@ public class Bullet : MonoBehaviour, IPausable
         // Get root object of whatever was hit
         GameObject rootObject = other.transform.root.gameObject;
 
-        // If it was an Ally or Enemy, apply hit
+        // If it was an NPC, apply hit.
         if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
@@ -46,7 +56,7 @@ public class Bullet : MonoBehaviour, IPausable
         }
 
         // Destroy the bullet on impact with anything if it isn't piercing.
-        if (!IsPiercing)
+        if (!_isPiercing)
         {
             Destroy(gameObject);
         }
@@ -70,12 +80,27 @@ public class Bullet : MonoBehaviour, IPausable
     public void Pause()
     {
         _canKill = false;
+
+        if (_rb.linearVelocity == Vector3.zero)
+        {
+            _savedVelocity = transform.parent.forward * _bulletSpeed;
+        }
+
+        else
+        {
+            _savedVelocity = _rb.linearVelocity;
+        }
+
+        _rb.isKinematic = true;
     }
 
     // Enable collider on unpause.
     public void Unpause()
     {
         _canKill = true;
+
+        _rb.isKinematic = false;
+        _rb.linearVelocity = _savedVelocity;
     }
 
 }

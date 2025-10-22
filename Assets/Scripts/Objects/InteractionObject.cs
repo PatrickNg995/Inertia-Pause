@@ -16,9 +16,9 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     public ActionCommand ActionCommand { get; protected set; }
 
     public abstract void OnStartInteract();
-    
+
     public abstract void OnHoldInteract();
-    
+
     public abstract void OnEndInteract();
 
     public abstract void OnCancelInteract();

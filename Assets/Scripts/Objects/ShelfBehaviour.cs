@@ -41,6 +41,7 @@ public class ShelfBehaviour : InteractionObject
     {
         throw new System.NotImplementedException();
     }
+
     public override void OnResetInteract()
     {
         GameManager.Instance.UndoSpecificCommand(ActionCommand);

@@ -15,9 +15,14 @@ public class PlayerInteract : MonoBehaviour
     public Action OnLookAwayFromInteractable;
 
     /// <summary>
-    /// Invoked when the player starts interacting with an interactable object.
+    /// Invoked when the player starts interacting with a continuous interactable object.
     /// </summary>
-    public Action<InteractableObjectInfo> OnInteract;
+    public Action<InteractableObjectInfo> OnContinuousInteract;
+
+    /// <summary>
+    /// Invoked when the player starts interacting with a one-shot interactable object.
+    /// </summary>
+    public Action<InteractableObjectInfo> OnOneShotInteract;
 
     /// <summary>
     /// Invoked when the player is interacting with an object and ends (confirms or cancels) the interaction.
@@ -76,7 +81,7 @@ public class PlayerInteract : MonoBehaviour
         if (_isInteracting)
         {
             _targetObject.OnEndInteract();
-            OnInteract?.Invoke(_targetObject.InteractableInfo);
+            OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
             Debug.Log($"Ended interaction with {_targetObject.name}");
             _isInteracting = false;
             return;
@@ -85,11 +90,14 @@ public class PlayerInteract : MonoBehaviour
         if (_targetObject.IsContinuousUpdate)
         {
             _isInteracting = true;
-            OnInteract?.Invoke(_targetObject.InteractableInfo);
+            OnContinuousInteract?.Invoke(_targetObject.InteractableInfo);
+        }
+        else
+        {
+            OnOneShotInteract?.Invoke(_targetObject.InteractableInfo);
         }
 
         _targetObject.OnStartInteract();
-        OnInteract?.Invoke(_targetObject.InteractableInfo);
         Debug.Log($"Started interacting with {_targetObject.name}");
     }
 
