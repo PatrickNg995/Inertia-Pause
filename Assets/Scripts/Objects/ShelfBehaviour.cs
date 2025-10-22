@@ -66,6 +66,8 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public override void OnResetInteract()
     {
+        if (!HasTakenAction) return;
+
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
         _timeSincePause = 0f;
         _rb.isKinematic = false;
