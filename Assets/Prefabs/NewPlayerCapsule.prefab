@@ -65,9 +65,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5793c8b6dac5d5647ad389b1c896cf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InteractionDistance: 2
+  _interactionDistance: 2
 --- !u!1 &6756344988865638443
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +256,7 @@ GameObject:
   - component: {fileID: 7435245800304058660}
   - component: {fileID: 1533144783071031188}
   - component: {fileID: 3883919546492660774}
+  - component: {fileID: 8635211160177374458}
   m_Layer: 0
   m_Name: NewPlayerCapsule
   m_TagString: Untagged
@@ -387,3 +388,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8071910c38e95914d999d9d4b618fd9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8635211160177374458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8660373911842123714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf862855db0090a40956b2a9c6c1cc7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gameManager: {fileID: 0}
+  _playerMovement: {fileID: 1533144783071031188}
+  _playerInteract: {fileID: 1158339374760374881}
+  _playerLook: {fileID: 2631448409324157298}
+  _timePauseUnpause: {fileID: 4655338148302631641}
