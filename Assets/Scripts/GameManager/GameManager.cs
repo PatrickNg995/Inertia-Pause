@@ -170,6 +170,10 @@ public class GameManager : MonoBehaviour
         if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
         {
             LevelWon = true;
+            foreach(var ally in _listOfAllies)
+            {
+                ally.GetComponent<Ally>().PlayRelievedAnimation();
+            }
             Debug.Log("Level won!");
         }
         else
