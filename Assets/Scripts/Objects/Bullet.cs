@@ -97,5 +97,4 @@ public class Bullet : MonoBehaviour, IPausable
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
     }
-
 }
