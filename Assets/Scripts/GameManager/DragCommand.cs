@@ -11,13 +11,15 @@ public class DragCommand : ActionCommand
     private float _dragDistance;
     private float _yPosition;
     private bool _isActiveDrag;
+    private float _maxDragDistance;
 
-    public DragCommand(InteractionObject interactionObject, Transform playerCamera, float dragSpeed)
+    public DragCommand(InteractionObject interactionObject, Transform playerCamera, float dragSpeed, float maxDistance)
     {
         ActionObject = interactionObject;
         _transform = interactionObject.transform;
         _playerCamera = playerCamera;
         _dragSpeed = dragSpeed;
+        _maxDragDistance = maxDistance;
 
         _initialPosition = _transform.position;
         _yPosition = _transform.position.y;
@@ -43,8 +45,14 @@ public class DragCommand : ActionCommand
         Vector3 targetPosition = _playerCamera.position + _playerCamera.forward * _dragDistance;
         targetPosition.y = _yPosition;
 
-        // Move object to target position
-        _transform.position = Vector3.Lerp(_transform.position, targetPosition, _dragSpeed * Time.unscaledDeltaTime);
+        Vector3 nextPosition = Vector3.Lerp(_transform.position, targetPosition, _dragSpeed * Time.unscaledDeltaTime);
+
+
+        // Move object to next position if less than the max distance away from the initial position
+        if (Mathf.Abs(Vector3.Distance(_initialPosition, nextPosition)) <= _maxDragDistance)
+        {
+            _transform.position = nextPosition;
+        }
     }
 
     public void FinalizeDrag()

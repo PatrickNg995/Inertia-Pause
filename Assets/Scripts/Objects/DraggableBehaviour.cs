@@ -5,6 +5,8 @@ public class DraggableBehaviour : InteractionObject
     [SerializeField] private Transform PlayerCamera;
     [SerializeField] private float DragSpeed = 10f;
 
+    public float MaxDragDistance = 1f;
+
     private DragCommand _currentDragCommand;
     private Vector3 _initialPosition;
 
@@ -19,7 +21,7 @@ public class DraggableBehaviour : InteractionObject
     public override void OnStartInteract()
     {
         // Create a new drag command when interaction starts
-        _currentDragCommand = new DragCommand(this, PlayerCamera, DragSpeed);
+        _currentDragCommand = new DragCommand(this, PlayerCamera, DragSpeed, MaxDragDistance);
     }
 
     public override void OnHoldInteract()
