@@ -55,8 +55,9 @@ public class DraggableBehaviour : InteractionObject
 
     public override void OnResetInteract()
     {
-        transform.position = _initialPosition;
         // command added sets the position the current, before the above assignment, on execute, and to _initialPosition on undo
-        GameManager.Instance.ResetObjectCommands(this, new DragCommand(this, _initialPosition, transform.position));
+        DragCommand command = new DragCommand(this, _initialPosition, transform.position);
+        GameManager.Instance.ResetObjectCommands(this, command);
+        transform.position = _initialPosition;
     }
 }

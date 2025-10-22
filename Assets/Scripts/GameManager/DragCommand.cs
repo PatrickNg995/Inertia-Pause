@@ -33,6 +33,7 @@ public class DragCommand : ActionCommand
     public DragCommand(InteractionObject interactionObject, Vector3 initialPosition, Vector3 finalPosition)
     {
         ActionObject = interactionObject;
+        _transform = interactionObject.transform;
         _initialPosition = initialPosition;
         _finalPosition = finalPosition;
     }
@@ -69,13 +70,11 @@ public class DragCommand : ActionCommand
 
     public override void Execute()
     {
-        Debug.Log("Executing command");
         _transform.position = _finalPosition;
     }
 
     public override void Undo()
     {
-        Debug.Log($"Resetting the position of {_transform.gameObject.name}");
         // Revert the object to its initial position before the drag
         _transform.position = _initialPosition;
 
