@@ -103,7 +103,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (_targetObject == null) return;  
+        if (_targetObject == null || _isInteracting) return;  
 
         _targetObject.OnResetInteract();
 
