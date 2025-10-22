@@ -15,11 +15,15 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     // Command to be executed on action.
     public ActionCommand ActionCommand { get; protected set; }
 
+<<<<<<< HEAD
     public abstract void OnStartInteract();
 
     public abstract void OnHoldInteract();
 
     public abstract void OnEndInteract();
+=======
+    public abstract void OnInteract();
+>>>>>>> main
 
     public abstract void OnCancelInteract();
 

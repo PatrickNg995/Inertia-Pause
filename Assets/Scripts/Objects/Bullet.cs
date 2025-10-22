@@ -13,7 +13,11 @@ public class Bullet : MonoBehaviour, IPausable
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
+<<<<<<< HEAD
     // Reference rigidbody.
+=======
+    // Reference rigidbody & collider.
+>>>>>>> main
     private Rigidbody _rb;
     private bool _canKill = true;
 
@@ -25,7 +29,21 @@ public class Bullet : MonoBehaviour, IPausable
         // Set the bullet's velocity to be in the forward direction of its parent.
         _rb = GetComponent<Rigidbody>();
         _rb.linearVelocity = transform.parent.forward * _bulletSpeed;
+<<<<<<< HEAD
         GetComponent<IPausable>().AddToTimePause(this);
+=======
+
+        _capsuleCollider = GetComponent<CapsuleCollider>();
+    }
+
+    public void Start()
+    {
+        // Make sure bullet is separated from any parents.
+        if (transform.parent.parent != null)
+        {
+            transform.parent.parent = null;
+        }
+>>>>>>> main
     }
 
     public void Start()
@@ -79,8 +97,11 @@ public class Bullet : MonoBehaviour, IPausable
     // Disable collider on pause.
     public void Pause()
     {
+<<<<<<< HEAD
         _canKill = false;
 
+=======
+>>>>>>> main
         if (_rb.linearVelocity == Vector3.zero)
         {
             _savedVelocity = transform.parent.forward * _bulletSpeed;
@@ -92,13 +113,21 @@ public class Bullet : MonoBehaviour, IPausable
         }
 
         _rb.isKinematic = true;
+<<<<<<< HEAD
+=======
+        _capsuleCollider.enabled = false;
+>>>>>>> main
     }
 
     // Enable collider on unpause.
     public void Unpause()
     {
+<<<<<<< HEAD
         _canKill = true;
 
+=======
+        _capsuleCollider.enabled = true;
+>>>>>>> main
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
     }

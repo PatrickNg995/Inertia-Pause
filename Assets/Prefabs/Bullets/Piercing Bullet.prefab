@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 7768169104762669007}
   - component: {fileID: 1990096117524533918}
   - component: {fileID: 7106489116394423504}
-  - component: {fileID: 868929506360829982}
+  - component: {fileID: 429094307197950686}
   m_Layer: 6
   m_Name: Bullet Model
   m_TagString: Untagged
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPiercing: 1
   _bulletSpeed: 20
---- !u!114 &868929506360829982
+--- !u!114 &429094307197950686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -201,3 +201,4 @@ MonoBehaviour:
   _interactableInfo: {fileID: 0}
   PlayerCamera: {fileID: 0}
   DragSpeed: 10
+  MaxDragDistance: 1
