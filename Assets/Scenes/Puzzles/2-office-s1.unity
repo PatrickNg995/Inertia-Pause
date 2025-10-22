@@ -502,11 +502,15 @@ PrefabInstance:
     - target: {fileID: 4873247840989585158, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: _playerInteractModel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1261581704}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: PlayerInteract
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _playerInteract
+      value: 
+      objectReference: {fileID: 1261581704}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: <ScenarioInfo>k__BackingField
       value: 
@@ -529,6 +533,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7023822205290785839, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7622493295068876249, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8312854286941353256, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
@@ -874,6 +882,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+--- !u!114 &1261581704 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1158339374760374881, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 1261581703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5793c8b6dac5d5647ad389b1c896cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1273873975
 PrefabInstance:
   m_ObjectHideFlags: 0
