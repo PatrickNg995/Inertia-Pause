@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BulletBehaviour : InteractionObject
+public class DraggableBehaviour : InteractionObject
 {
     [SerializeField] private Transform PlayerCamera;
     [SerializeField] private float DragSpeed = 10f;
