@@ -25,7 +25,6 @@ public class Bullet : MonoBehaviour, IPausable
         // Set the bullet's velocity to be in the forward direction of its parent.
         _rb = GetComponent<Rigidbody>();
         _rb.linearVelocity = transform.parent.forward * _bulletSpeed;
-        GetComponent<IPausable>().AddToTimePause(this);
     }
 
     public void Start()
