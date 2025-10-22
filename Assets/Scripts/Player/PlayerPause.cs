@@ -9,7 +9,7 @@ public class PlayerPause : MonoBehaviour
     [SerializeField] private NewPlayerMovement _playerMovement;
     [SerializeField] private PlayerInteract _playerInteract;
     [SerializeField] private PlayerLook _playerLook;
-    [SerializeField] private TimePauseUnpause _timePauseUnpause;
+    [SerializeField] private NewTimePauseUnpause _timePauseUnpause;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

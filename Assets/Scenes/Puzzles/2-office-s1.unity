@@ -930,6 +930,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+--- !u!114 &729609918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+  m_PrefabInstance: {fileID: 729609917}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219f89a8e54c2ca49ac18f0e012748b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &942342333
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1376,6 +1387,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8635211160177374458, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+      propertyPath: _gameManager
+      value: 
+      objectReference: {fileID: 729609918}
     - target: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_Name
       value: NewPlayerCapsule
