@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2053965373457779075}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Piercing Bullet
   m_TagString: Lethal
   m_Icon: {fileID: 0}
@@ -46,7 +46,8 @@ GameObject:
   - component: {fileID: 7768169104762669007}
   - component: {fileID: 1990096117524533918}
   - component: {fileID: 7106489116394423504}
-  m_Layer: 0
+  - component: {fileID: 429094307197950686}
+  m_Layer: 6
   m_Name: Bullet Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,3 +186,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isPiercing: 1
   _bulletSpeed: 20
+--- !u!114 &429094307197950686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5605987893829964928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c51247aface79a741a481ae61a25187f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactableInfo: {fileID: 0}
+  PlayerCamera: {fileID: 0}
+  DragSpeed: 10
+  MaxDragDistance: 5

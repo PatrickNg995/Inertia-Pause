@@ -34,9 +34,19 @@ public class TempMoveBehaviour : InteractionObject
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
-    public override void OnInteract()
+    public override void OnStartInteract()
     {
         
+    }
+
+    public override void OnHoldInteract()
+    {
+
+    }
+
+    public override void OnEndInteract()
+    {
+
     }
 
     public override void OnResetInteract()
