@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 359772073405883180}
   - component: {fileID: 8400189107563773090}
   - component: {fileID: 5705059440300774495}
-  - component: {fileID: 9140752017809563218}
+  - component: {fileID: 7124345376795106647}
   m_Layer: 6
   m_Name: TempBox
   m_TagString: Untagged
@@ -135,9 +135,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &9140752017809563218
+--- !u!114 &7124345376795106647
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,7 +146,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 621103586943969613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd188ef990784074d9ec029d4e9142d3, type: 3}
+  m_Script: {fileID: 11500000, guid: c51247aface79a741a481ae61a25187f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 528767957454dca4aad427b937fde8ce, type: 2}
+  _dragSpeed: 10
+  _maxDragDistance: 3
