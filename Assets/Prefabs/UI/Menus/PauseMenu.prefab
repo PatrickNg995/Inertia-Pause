@@ -490,7 +490,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &383282548246560527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,7 +2501,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2509,7 +2509,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2549,11 +2549,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 850
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2574,6 +2574,10 @@ PrefabInstance:
     - target: {fileID: 8838533352746954797, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_Name
       value: OptionsButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8838533352746954797, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -685,7 +685,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &6636646627796109082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +2300,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HighlightButtonPrompt
       objectReference: {fileID: 0}
+    - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8800576670886779681, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_text
       value: MMB
@@ -2860,7 +2864,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3105,6 +3109,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HelpPrompt
       objectReference: {fileID: 0}
+    - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8800576670886779681, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_text
       value: Tab
@@ -3222,6 +3230,10 @@ PrefabInstance:
     - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_Name
       value: HelpPrompt
+      objectReference: {fileID: 0}
+    - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8800576670886779681, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_text
