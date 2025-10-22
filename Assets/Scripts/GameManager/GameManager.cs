@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerInteract _playerInteract;
 
     // Toggle disabling player interaction after pausing; may be useful for testing.
-    [SerializeField] private bool _canDisablePlayerInteract = true;
+    [SerializeField] private bool _isInputDisabledAfterLevelComplete = true;
 
     [field: Header("Scenario Information")]
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
-        if (_canDisablePlayerInteract)
+        if (_isInputDisabledAfterLevelComplete)
         {
             // Prevent players from interacting with objects after unpausing.
             _playerInteract.enabled = false;
