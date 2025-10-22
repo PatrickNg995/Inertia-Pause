@@ -39,15 +39,14 @@ public class Bullet : MonoBehaviour, IPausable
     // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
+
         if (!_canKill) return;
-        // Get root object of whatever was hit
-        GameObject rootObject = other.transform.root.gameObject;
 
         // If it was an NPC, apply hit.
-        if (rootObject.CompareTag("Ally") || rootObject.CompareTag("Enemy"))
+        if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
         {
             // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
-            NPC npc = rootObject.GetComponentInParent<NPC>();
+            NPC npc = other.GetComponentInParent<NPC>();
             if (npc.IsAlive)
             {
                 HitNPC(npc, other);
@@ -101,5 +100,4 @@ public class Bullet : MonoBehaviour, IPausable
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
     }
-
 }
