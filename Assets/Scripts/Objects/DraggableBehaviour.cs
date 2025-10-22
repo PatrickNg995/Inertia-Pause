@@ -2,62 +2,86 @@ using UnityEngine;
 
 public class DraggableBehaviour : InteractionObject
 {
-    [SerializeField] private Transform PlayerCamera;
-    [SerializeField] private float DragSpeed = 10f;
+    [SerializeField] private Transform _playerCamera;
+    [SerializeField] private float _dragSpeed = 10f;
 
     public float MaxDragDistance = 1f;
 
     private DragCommand _currentDragCommand;
-    private Vector3 _initialPosition;
+    private Vector3 _resetPosition;
+    private Vector3 _moveStartPosition;
+    private bool _dragging;
+    private float _dragDistance;
+    private float _yPosition;
 
     private void Awake()
     {
         IsContinuousUpdate = true;
 
-        PlayerCamera = Camera.main.transform;
-        _initialPosition = transform.position;
+        _playerCamera = Camera.main.transform;
+        _resetPosition = transform.position;
     }
 
     public override void OnStartInteract()
     {
-        // Create a new drag command when interaction starts
-        _currentDragCommand = new DragCommand(this, PlayerCamera, DragSpeed, MaxDragDistance);
+        if (_dragging == true) return;
+
+        _dragging = true;
+        
+        _dragDistance = Vector3.Distance(_playerCamera.position, transform.position);
+        
+        _moveStartPosition = transform.position;
+        
+        _yPosition = transform.position.y;
     }
 
     public override void OnHoldInteract()
     {
-        // Update the drag position through the command
-        _currentDragCommand?.UpdateDrag();
+        if (!_dragging) return;
+
+        // Calculate position in front of camera
+        Vector3 targetPosition = _playerCamera.position + _playerCamera.forward * _dragDistance;
+        targetPosition.y = _yPosition;
+
+        Vector3 nextPosition = Vector3.Lerp(transform.position, targetPosition, _dragSpeed * Time.unscaledDeltaTime);
+
+
+        // Move object to next position if less than the max distance away from the initial position
+        if (Mathf.Abs(Vector3.Distance(_resetPosition, nextPosition)) <= MaxDragDistance)
+        {
+            transform.position = nextPosition;
+        }
     }
 
     public override void OnEndInteract()
     {
-        if (_currentDragCommand == null) return;
+        if (!_dragging) return;
 
-        // Finalize the drag to store the final position
-        _currentDragCommand.FinalizeDrag();
 
         // Record and execute the command
-        ActionCommand = _currentDragCommand;
+        ActionCommand = new DragCommand(this, _moveStartPosition, transform.position, !HasTakenAction);
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
-
-        _currentDragCommand = null;
+        
+        HasTakenAction = true;
+        _dragging = false;
     }
 
     public override void OnCancelInteract()
     {
-        if (_currentDragCommand == null) return;
+        if (!_dragging) return;
 
-        // Cancel the drag without recording it
-        _currentDragCommand.CancelDrag();
-        _currentDragCommand = null;
+        _dragging = false;
+
+        transform.position = _moveStartPosition;
     }
 
     public override void OnResetInteract()
     {
+        if (_resetPosition == transform.position) return;
         // command added sets the position the current, before the above assignment, on execute, and to _initialPosition on undo
-        DragCommand command = new DragCommand(this, _initialPosition, transform.position);
-        GameManager.Instance.ResetObjectCommands(this, command);
-        transform.position = _initialPosition;
+        ActionCommand = new DragCommand(this, _resetPosition, transform.position, true);
+        GameManager.Instance.ResetObjectCommands(this, ActionCommand);
+        transform.position = _resetPosition;
+        HasTakenAction = false;
     }
 }
