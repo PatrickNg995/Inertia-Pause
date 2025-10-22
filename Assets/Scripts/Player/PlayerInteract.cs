@@ -127,7 +127,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
-        bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, InteractionDistance, _layerMask, QueryTriggerInteraction.Collide);
+        bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, _interactionDistance, _layerMask, QueryTriggerInteraction.Collide);
         InteractionObject previousTarget = _targetObject;
 
         if (!lookingAtObj && !_isInteracting)
