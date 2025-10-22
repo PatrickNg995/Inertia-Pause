@@ -34,7 +34,7 @@ public class PlayerInteract : MonoBehaviour
     /// </summary>
     public Action<ICommand> OnInteractReset;
 
-    public float InteractionDistance = 2;
+    [SerializeField] private float _interactionDistance = 2;
 
     private Transform _pivot;
     private LayerMask _layerMask;

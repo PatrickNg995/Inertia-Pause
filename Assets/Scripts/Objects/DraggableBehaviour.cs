@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class DraggableBehaviour : InteractionObject
 {
-    [SerializeField] private Transform _playerCamera;
     [SerializeField] private float _dragSpeed = 10f;
-    [SerializeField] private float MaxDragDistance = 1f;
+    [SerializeField] private float _maxDragDistance = 1f;
 
+    private Transform _playerCamera;
     private Vector3 _resetPosition;
     private Vector3 _moveStartPosition;
     private bool _dragging;
@@ -45,7 +45,7 @@ public class DraggableBehaviour : InteractionObject
 
 
         // Move object to next position if less than the max distance away from the initial position
-        if (Mathf.Abs(Vector3.Distance(_resetPosition, nextPosition)) <= MaxDragDistance)
+        if (Mathf.Abs(Vector3.Distance(_resetPosition, nextPosition)) <= _maxDragDistance)
         {
             transform.position = nextPosition;
         }
