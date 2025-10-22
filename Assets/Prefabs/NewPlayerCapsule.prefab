@@ -147,6 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7832957200253900222}
   - component: {fileID: 2631448409324157298}
+  - component: {fileID: 1158339374760374881}
   m_Layer: 0
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -184,6 +185,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sensitivity: 0.5
   playerBody: {fileID: 5847679658841637956}
+--- !u!114 &1158339374760374881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5447469437499574271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5793c8b6dac5d5647ad389b1c896cf27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionDistance: 3
 --- !u!1 &6756344988865638443
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,9 +394,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7372703d0cef6854a8ed5afc18f3ac22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 7435245800304058660}
-  movementSpeed: 5
-  gravity: -9.81
+  _controller: {fileID: 7435245800304058660}
+  _movementSpeed: 5
+  _gravity: -9.81
+  _climbSpeed: 4
+  _ladderTopJump: 4
 --- !u!114 &3883919546492660774
 MonoBehaviour:
   m_ObjectHideFlags: 0
