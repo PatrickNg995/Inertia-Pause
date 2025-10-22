@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PauseableAnimator : MonoBehaviour, IPausable
 {
-    [SerializeField] Animator _animator;
+    [SerializeField] private Animator _animator;
 
     private void Awake()
     {
