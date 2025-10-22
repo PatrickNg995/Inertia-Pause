@@ -254,7 +254,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""776ca30b-941f-46e5-ae49-dea89283dea1"",
                     ""path"": ""<Keyboard>/t"",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""TimePause"",
@@ -297,22 +297,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""f975ccb8-3c29-436c-99bd-f945e634fc96"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""ResetInteract"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""26df6b39-f1d2-46d1-b3d4-753c61342485"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Restart"",
+                    ""action"": ""ResetInteract"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
