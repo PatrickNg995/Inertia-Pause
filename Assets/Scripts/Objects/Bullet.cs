@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour, IPausable
     private const float UPWARD_FACTOR = 0.4f;
 
     // Reference rigidbody.
-    private Rigidbody _rb;
+    [SerializeField] private Rigidbody _rb;
     private bool _canKill = true;
 
     // Saved velocity.
@@ -22,18 +22,8 @@ public class Bullet : MonoBehaviour, IPausable
 
     public void Awake()
     {
-        // Set the bullet's velocity to be in the forward direction of its parent.
-        _rb = GetComponent<Rigidbody>();
-        _rb.linearVelocity = transform.parent.forward * _bulletSpeed;
-    }
-
-    public void Start()
-    {
-        // Make sure bullet is separated from any parents.
-        if (transform.parent.parent != null)
-        {
-            transform.parent.parent = null;
-        }
+        // Set the bullet's velocity to be in the forward direction.
+        _rb.linearVelocity = transform.forward * _bulletSpeed;
     }
 
     // Handle collisions with other objects.
@@ -66,7 +56,7 @@ public class Bullet : MonoBehaviour, IPausable
         if (npc != null && _canKill)
         {
             // Make the impact direction the forward direction of the bullet parent, plus a bit of upward force.
-            Vector3 impactDir = transform.parent.forward + Vector3.up * UPWARD_FACTOR;
+            Vector3 impactDir = transform.forward + Vector3.up * UPWARD_FACTOR;
 
             // Use closest point on collider as approximate hit point.
             Vector3 hitPoint = collider.ClosestPoint(transform.position);
@@ -81,7 +71,7 @@ public class Bullet : MonoBehaviour, IPausable
 
         if (_rb.linearVelocity == Vector3.zero)
         {
-            _savedVelocity = transform.parent.forward * _bulletSpeed;
+            _savedVelocity = transform.forward * _bulletSpeed;
         }
 
         else
