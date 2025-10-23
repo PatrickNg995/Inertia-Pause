@@ -1,8 +1,8 @@
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class NewTimePauseUnpause : MonoBehaviour
+public class TimePauseUnpause : MonoBehaviour
 {
     // For player inputs.
     private PlayerActions _inputActions;
