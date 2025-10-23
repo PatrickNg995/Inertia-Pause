@@ -1,31 +1,23 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // Get Rigidbody, then remove & add velocity depending
 // on game state
 public class PausableRigidbody : MonoBehaviour, IPausable
 {
-    private Rigidbody rb;
-    public Vector3 savedVelocity;
-
-    void Start()
-    {
-        // Get rigidbody
-        rb = GetComponent<Rigidbody>();
-
-        GetComponent<IPausable>().AddToTimePause(this);
-    }
+    [SerializeField] private Rigidbody _rb;
+    private Vector3 _savedVelocity;
 
     // Save velocity & stop movement
     public void Pause()
     {
-        savedVelocity = rb.linearVelocity;
-        rb.isKinematic = true;
+        _rb.isKinematic = true;
+        _savedVelocity = _rb.linearVelocity;
     }
 
     // Start movement & add back saved velocity
     public void Unpause()
     {
-        rb.isKinematic = false;
-        rb.linearVelocity = savedVelocity;
+        _rb.isKinematic = false;
+        _rb.linearVelocity = _savedVelocity;
     }
 }
