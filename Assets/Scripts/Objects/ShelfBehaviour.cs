@@ -8,10 +8,11 @@ public class ShelfBehaviour : InteractionObject, IPausable
     [SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
-    private bool _paused = false;
-    private Vector3 _rotationalVelocity;
-    private Vector3 _velocity;
-    private float _timeSincePause;
+    //private bool _paused = false;
+    //private Vector3 _rotationalVelocity;
+    //private Vector3 _velocity;
+    //private float _timeSincePause;
+    public bool IsToppled { get; set; }
 
     private void Start()
     {
@@ -23,20 +24,20 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     private void Update()
     {
-        if (_paused && HasTakenAction && _timeSincePause >= 0)
-        {
-            _timeSincePause += Time.deltaTime;
-        }
+        //if (_paused && HasTakenAction && _timeSincePause >= 0)
+        //{
+        //    _timeSincePause += Time.deltaTime;
+        //}
 
-        if (_paused && _timeSincePause >= _timeToTilt)
-        {
-            _rotationalVelocity = _rb.angularVelocity;
-            _velocity = _rb.linearVelocity;
+        //if (_paused && _timeSincePause >= _timeToTilt)
+        //{
+        //    _rotationalVelocity = _rb.angularVelocity;
+        //    _velocity = _rb.linearVelocity;
 
-            _rb.isKinematic = true;
-            // for the guard position to not modify the velocities
-            _timeSincePause = -1;
-        }
+        //    _rb.isKinematic = true;
+        //    // for the guard position to not modify the velocities
+        //    _timeSincePause = -1;
+        //}
     }
 
     public override void OnCancelInteract()
@@ -69,9 +70,14 @@ public class ShelfBehaviour : InteractionObject, IPausable
         if (!HasTakenAction) return;
 
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
-        _timeSincePause = 0f;
-        _rb.isKinematic = false;
+        //_timeSincePause = 0f;
     }
+
+    //public override void OnCommandUndo()
+    //{
+    //    _timeSincePause = 0f;
+    //    _rb.isKinematic = false;
+    //}
 
     public void Pause()
     {
@@ -81,18 +87,22 @@ public class ShelfBehaviour : InteractionObject, IPausable
             _rb = GetComponent<Rigidbody>();
         }
 
-        _timeSincePause = 0f;
+        _rb.isKinematic = true;
+        
+        //_timeSincePause = 0f;
 
-        _paused = true;
+        //_paused = true;
     }
 
     public void Unpause()
     {
         _rb.isKinematic = false;
 
-        _rb.linearVelocity = _velocity;
-        _rb.angularVelocity = _rotationalVelocity;
+        //_rb.linearVelocity = _velocity;
+        //_rb.angularVelocity = _rotationalVelocity;
 
-        _paused = false;
+        //_paused = false;
+
+        if (IsToppled) _rb.AddForce(transform.forward * _torque);
     }
 }
