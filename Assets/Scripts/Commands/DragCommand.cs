@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DragCommand : ActionCommand
 {
@@ -19,10 +19,24 @@ public class DragCommand : ActionCommand
     public override void Execute()
     {
         _transform.position = _finalPosition;
+
+        // If this command counted as an action,
+        // mark the interaction object as having taken an action.
+        if (WillCountAsAction)
+        {
+            ActionObject.HasTakenAction = true;
+        }
     }
 
     public override void Undo()
     {
         _transform.position = _initialPosition;
+
+        // If this command counted as an action,
+        // mark the interaction object as not having taken an action.
+        if (WillCountAsAction)
+        {
+            ActionObject.HasTakenAction = false;
+        }
     }
 }
