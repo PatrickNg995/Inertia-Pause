@@ -5,7 +5,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 {
     [SerializeField] private float _torque = 2000f;
     // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
-    [SerializeField] private float _timeToTilt = 0.1f;
+    //[SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
     //private bool _paused = false;
