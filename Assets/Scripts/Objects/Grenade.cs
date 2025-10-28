@@ -7,17 +7,17 @@ public class Grenade : MonoBehaviour, IPausable
     // Initial speed at which the grenade travels.
     [SerializeField] private float _grenadeInitialSpeed = 10f;
 
-    // Time before grenade explodes
+    // Time before grenade explodes.
     [SerializeField] private float _grenadeExplosionDelay = 1.5f;
 
     [Header("Components")]
-    // Reference components
+    // Reference components.
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
 
-    // Check if timer can start counting down before exploding grenade
+    // Check if timer can start counting down before exploding grenade.
     private bool _canExplode;
 
     // Saved velocity.
@@ -25,23 +25,22 @@ public class Grenade : MonoBehaviour, IPausable
 
     public void Awake()
     {
-        // Stop explosions immediately
+        // Stop explosions immediately.
         _canExplode = false;
 
         // Set the grenade's initial velocity to be in the forward direction.
         _rb.linearVelocity = transform.forward * _grenadeInitialSpeed;
 
-        // Get components in case they are not set
+        // Get components in case they are not set.
         _rb = GetComponent<Rigidbody>();
         _sphereCollider = GetComponent<SphereCollider>();
         _meshRenderer = GetComponent<MeshRenderer>();
         _explosionScript = GetComponentInChildren<Explosion>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // Explode grenade after countdown after unpausing
+        // Explode grenade after countdown after unpausing.
         if (_canExplode)
         {
             _grenadeExplosionDelay -= Time.deltaTime;
@@ -56,7 +55,7 @@ public class Grenade : MonoBehaviour, IPausable
         }
     }
 
-    // Stop timer countdown on pause
+    // Stop timer countdown on pause.
     public void Pause()
     {
         _canExplode = false;
@@ -74,7 +73,7 @@ public class Grenade : MonoBehaviour, IPausable
         _sphereCollider.isTrigger = true;
     }
 
-    // Start grenade explosion countdown on unpause
+    // Start grenade explosion countdown on unpause.
     public void Unpause()
     {
         _canExplode = true;

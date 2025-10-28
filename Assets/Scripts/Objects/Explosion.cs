@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
-    // Collider to hit other objects
+    // Collider to hit other objects.
     [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private ParticleSystem _ps;
 
@@ -12,7 +12,7 @@ public class Explosion : MonoBehaviour
 
     public void Awake()
     {
-        // Get components in case they are not set
+        // Get components in case they are not set.
         _sphereCollider = GetComponent<SphereCollider>();
         _ps = GetComponentInChildren<ParticleSystem>();
         _sphereCollider.enabled = false;
@@ -20,6 +20,7 @@ public class Explosion : MonoBehaviour
 
     public void StartExplosion()
     {
+        // Enable collider & play particle system effect.
         _sphereCollider.enabled = true;
         _ps.Play();
     }
@@ -29,7 +30,7 @@ public class Explosion : MonoBehaviour
         // If it was an NPC, apply hit.
         if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
         {
-            // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
+            // Only hit if NPC is alive.
             NPC npc = other.GetComponentInParent<NPC>();
             if (npc.IsAlive)
             {
