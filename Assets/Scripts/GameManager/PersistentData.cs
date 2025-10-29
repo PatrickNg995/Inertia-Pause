@@ -18,7 +18,7 @@ public class PersistentData : MonoBehaviour
     /// </summary>
     public static PersistentData Instance { get; private set; }
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null && Instance != this)
         {

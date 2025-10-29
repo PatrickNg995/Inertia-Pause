@@ -70,7 +70,9 @@ public class GameManager : MonoBehaviour
     private InputAction _unpause;
     private InputAction _pauseMenu;
 
-    // Whether the level has been won, for future use.
+    /// <summary>
+    /// Whether the level has been won.
+    /// </summary>
     public bool LevelWon { get; private set; } = false;
 
     /// <summary>
@@ -78,7 +80,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public int ActionCount => _actionCount;
 
-    // Make GameManager a singleton.
+    /// <summary>
+    /// Instance of the GameManager singleton used to access GameManager functionality.
+    /// </summary>
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -106,6 +110,7 @@ public class GameManager : MonoBehaviour
         // For testing: toggle loading previous attempt with L key.
         if (Keyboard.current.lKey.wasPressedThisFrame)
         {
+            // TODO: should have a "Retry with current actions" button that sets this to true and reloads the scene.
             PersistentData.Instance.WillLoadPreviousAttempt = !PersistentData.Instance.WillLoadPreviousAttempt;
             Debug.Log("Toggled WillLoadPreviousAttempt to " + PersistentData.Instance.WillLoadPreviousAttempt);
         }
