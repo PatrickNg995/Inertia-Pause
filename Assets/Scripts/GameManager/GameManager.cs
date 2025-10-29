@@ -146,12 +146,13 @@ public class GameManager : MonoBehaviour
         // Check if we need to load a previous attempt.
         if (PersistentData.Instance.WillLoadPreviousAttempt)
         {
+            Debug.Log("Loading previous attempt's commands...");
+
             // Load previous attempt's commands.
             foreach (ActionCommand command in PersistentData.Instance.PreviousAttemptCommandList)
             {
                 // Relink the ActionObject reference for the command.
                 command.RelinkActionObjectReference();
-                Debug.Log("Re-executing command on object: " + command.ObjectNameID);
 
                 // Record and execute the command, putting it back into the undo command list.
                 RecordAndExecuteCommand(command);
@@ -195,10 +196,10 @@ public class GameManager : MonoBehaviour
             // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
             // controller in the editor too.
             _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
-
-            // Save the command list for this attempt to PersistentData for potential use.
-            PersistentData.Instance.PreviousAttemptCommandList = new List<ActionCommand>(_undoCommandList);
         }
+
+        // Save the current attempt's commands for potential reloading next time.
+        PersistentData.Instance.PreviousAttemptCommandList = new List<ActionCommand>(_undoCommandList);
 
         // Delay checking for victory to let objects interact first.
         // TODO: Should make this to check after an ending camera pan around or something.

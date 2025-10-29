@@ -14,9 +14,8 @@ public class MoveCommand : ActionCommand
     private Quaternion _targetRotation;
 
     public MoveCommand(InteractionObject interactionObject, Vector3 initialPosition, Quaternion initialRotation,
-                       Vector3 targetPosition, Quaternion targetRotation, bool willCountAsAction)
+                       Vector3 targetPosition, Quaternion targetRotation, bool willCountAsAction) : base(interactionObject)
     {
-        ActionObject = interactionObject;
         _transform = interactionObject.transform;
 
         _initialPosition = initialPosition;
@@ -26,8 +25,6 @@ public class MoveCommand : ActionCommand
         _targetRotation = targetRotation;
 
         WillCountAsAction = willCountAsAction;
-
-        ObjectNameID = interactionObject.name;
     }
 
     public override void RelinkActionObjectReference()
