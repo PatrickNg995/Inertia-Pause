@@ -67,6 +67,7 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
     private void TriggerExplosion()
     {
         // Cleanup barrel without removing it & start explosion.
+        _canExplode = false;
         _triggerCollider.enabled = false;
         _meshRenderer.enabled = false;
         _rb.isKinematic = true;
