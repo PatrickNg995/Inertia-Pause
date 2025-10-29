@@ -14,6 +14,14 @@ public class DragCommand : ActionCommand
         _initialPosition = initialPosition;
         _finalPosition = finalPosition;
         WillCountAsAction = willCountAsAction;
+
+        ObjectNameID = interactionObject.name;
+    }
+
+    public override void RelinkActionObjectReference()
+    {
+        base.RelinkActionObjectReference();
+        _transform = ActionObject.transform;
     }
 
     public override void Execute()

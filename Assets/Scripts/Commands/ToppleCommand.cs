@@ -30,6 +30,14 @@ public class ToppleCommand : ActionCommand
 
         _initialPosition = _transform.position;
         _initialRotation = _transform.rotation;
+
+        ObjectNameID = interactionObject.name;
+    }
+
+    public override void RelinkActionObjectReference()
+    {
+        base.RelinkActionObjectReference();
+        _transform = ActionObject.transform;
     }
 
     public override void Execute()

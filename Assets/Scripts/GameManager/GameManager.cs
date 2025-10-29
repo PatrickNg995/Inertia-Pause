@@ -101,6 +101,16 @@ public class GameManager : MonoBehaviour
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
+    private void Update()
+    {
+        // For testing: toggle loading previous attempt with L key.
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            PersistentData.Instance.WillLoadPreviousAttempt = !PersistentData.Instance.WillLoadPreviousAttempt;
+            Debug.Log("Toggled WillLoadPreviousAttempt to " + PersistentData.Instance.WillLoadPreviousAttempt);
+        }
+    }
+
     private void OnEnable()
     {
         _undo.performed += Undo;
@@ -133,6 +143,25 @@ public class GameManager : MonoBehaviour
         _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
         _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
 
+        // Check if we need to load a previous attempt.
+        if (PersistentData.Instance.WillLoadPreviousAttempt)
+        {
+            // Load previous attempt's commands.
+            foreach (ActionCommand command in PersistentData.Instance.PreviousAttemptCommandList)
+            {
+                // Relink the ActionObject reference for the command.
+                command.RelinkActionObjectReference();
+                Debug.Log("Re-executing command on object: " + command.ObjectNameID);
+
+                // Record and execute the command, putting it back into the undo command list.
+                RecordAndExecuteCommand(command);
+            }
+
+            // Clear previous attempt data when finished reloading.
+            PersistentData.Instance.PreviousAttemptCommandList.Clear();
+            PersistentData.Instance.WillLoadPreviousAttempt = false;
+        }
+
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
     }
@@ -157,14 +186,18 @@ public class GameManager : MonoBehaviour
             _playerInteract.enabled = false;
             Debug.Log("Player Interact disabled");
 
+            // Disable undo/redo/unpause inputs.
+            _undo.Disable();
+            _redo.Disable();
+            _unpause.Disable();
+
             // Disable collisions on the player.
             // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
             // controller in the editor too.
             _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
 
-            // Clear undo/redo command lists to prevent players from using them after unpausing.
-            _undoCommandList.Clear();
-            _redoCommandList.Clear();
+            // Save the command list for this attempt to PersistentData for potential use.
+            PersistentData.Instance.PreviousAttemptCommandList = new List<ActionCommand>(_undoCommandList);
         }
 
         // Delay checking for victory to let objects interact first.

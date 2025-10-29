@@ -26,7 +26,16 @@ public class MoveCommand : ActionCommand
         _targetRotation = targetRotation;
 
         WillCountAsAction = willCountAsAction;
+
+        ObjectNameID = interactionObject.name;
     }
+
+    public override void RelinkActionObjectReference()
+    {
+        base.RelinkActionObjectReference();
+        _transform = ActionObject.transform;
+    }
+
     public override void Execute()
     {
         // Move the object to the target location and rotation.
