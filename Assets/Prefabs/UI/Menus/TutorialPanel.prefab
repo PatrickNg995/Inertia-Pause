@@ -385,6 +385,7 @@ MonoBehaviour:
   <Header>k__BackingField: {fileID: 1206018033855290667}
   <ContentText>k__BackingField: {fileID: 7149882154584105659}
   <ContentImage>k__BackingField: {fileID: 3127376851440610604}
+  <PageText>k__BackingField: {fileID: 0}
   <NextPageButton>k__BackingField: {fileID: 4874543090045720816}
   <PrevPageButton>k__BackingField: {fileID: 1275792315878371332}
   <BackButton>k__BackingField: {fileID: 4695349200779513555}
@@ -552,9 +553,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 413115161608995559}
   - {fileID: 7576772632671315529}
   - {fileID: 4266958164422725309}
-  - {fileID: 413115161608995559}
   m_Father: {fileID: 6427168497833721425}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -795,7 +796,7 @@ GameObject:
   - component: {fileID: 2663928146770771}
   - component: {fileID: 4825112003520512014}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PageNumberText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -848,7 +849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1/1
+  m_text: 1 / 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eeb6f756dc295b649b42f99a42b5d4d5, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 633f3cf55596d6d4daa2400a911455d3, type: 2}

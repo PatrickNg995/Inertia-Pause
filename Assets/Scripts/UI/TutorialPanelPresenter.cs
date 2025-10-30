@@ -5,6 +5,8 @@ public class TutorialPanelPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private TutorialPanelView _view;
 
+    private const string PAGE_NUMBER_FORMAT = "{0} / {1}";
+
     private TutorialInfo _currentTutorial;
     private int _currentPageIndex;
 
@@ -29,9 +31,10 @@ public class TutorialPanelPresenter : MonoBehaviour
 
     public void SetTutorial(TutorialInfo tutorial)
     {
-        _currentPageIndex = 0;
         _currentTutorial = tutorial;
         _view.Header.text = tutorial.ObjectName;
+
+        DisplayPage(0);
     }
 
     private void DisplayPage(int index)
@@ -45,6 +48,8 @@ public class TutorialPanelPresenter : MonoBehaviour
 
         _view.PrevPageButton.gameObject.SetActive(!isFirstPage);
         _view.NextPageButton.gameObject.SetActive(!isLastPage);
+
+        _view.PageText.text = string.Format(PAGE_NUMBER_FORMAT, _currentPageIndex + 1, _currentTutorial.Pages.Count);
     }
 
     private void OnPrevClicked()
