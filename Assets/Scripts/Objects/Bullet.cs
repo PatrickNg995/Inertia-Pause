@@ -43,8 +43,8 @@ public class Bullet : MonoBehaviour, IPausable
             }
         }
 
-        // Destroy the bullet on impact with anything if it isn't piercing.
-        if (!_isPiercing)
+        // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
+        if (!_isPiercing || other.CompareTag("Unpierceable"))
         {
             Destroy(gameObject);
         }
