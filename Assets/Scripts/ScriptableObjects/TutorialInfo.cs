@@ -13,6 +13,6 @@ public class TutorialInfo : ScriptableObject
 [Serializable]
 public struct TutorialPage
 {
-    public string Content;
+    [TextArea(4, 10)] public string Content;
     public Sprite Image;
 }
