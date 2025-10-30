@@ -12,9 +12,6 @@ public class Explosion : MonoBehaviour
 
     public void Awake()
     {
-        // Get components in case they are not set.
-        _sphereCollider = GetComponent<SphereCollider>();
-        _ps = GetComponentInChildren<ParticleSystem>();
         _sphereCollider.enabled = false;
     }
 

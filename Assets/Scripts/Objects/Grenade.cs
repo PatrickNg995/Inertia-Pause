@@ -30,12 +30,6 @@ public class Grenade : MonoBehaviour, IPausable
 
         // Set the grenade's initial velocity to be in the forward direction.
         _rb.linearVelocity = transform.forward * _grenadeInitialSpeed;
-
-        // Get components in case they are not set.
-        _rb = GetComponent<Rigidbody>();
-        _sphereCollider = GetComponent<SphereCollider>();
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _explosionScript = GetComponentInChildren<Explosion>();
     }
 
     void Update()

@@ -23,11 +23,6 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
 
     public void Awake()
     {
-        // Get components in case they are not set.
-        _rb = GetComponent<Rigidbody>();
-        _meshRenderer = GetComponent<MeshRenderer>();
-        _explosionScript = GetComponentInChildren<Explosion>();
-
         // Set colliders properly.
         _triggerCollider.isTrigger = true;
         _collisionCollider.isTrigger = false;
