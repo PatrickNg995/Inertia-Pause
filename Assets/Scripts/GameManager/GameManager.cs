@@ -36,14 +36,14 @@ public class GameManager : MonoBehaviour
     public Action OnRedoUnavailable;
 
     /// <summary>
-    /// Invoked when the player returns to the game after a blocking menu.
-    /// </summary>
-    public Action OnAnyBlockingMenuClose;
-
-    /// <summary>
     /// Invoked when the player opens any blocking menu (pause, tutorial, etc).
     /// </summary>
     public Action OnAnyBlockingMenuOpen;
+
+    /// <summary>
+    /// Invoked when the player returns to the game after a blocking menu.
+    /// </summary>
+    public Action OnAnyBlockingMenuClose;
 
     /// <summary>
     /// Invoked when the player pauses the game.
@@ -375,20 +375,20 @@ public class GameManager : MonoBehaviour
         return command;
     }
 
-    public void AnyBlockingMenuClosed()
-    {
-        _inputActions.Enable();
-        Cursor.lockState = CursorLockMode.Locked;
-
-        OnAnyBlockingMenuClose?.Invoke();
-    }
-
     public void AnyBlockingMenuOpened()
     {
         _inputActions.Disable();
         Cursor.lockState = CursorLockMode.None;
 
         OnAnyBlockingMenuOpen?.Invoke();
+    }
+
+    public void AnyBlockingMenuClosed()
+    {
+        _inputActions.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+
+        OnAnyBlockingMenuClose?.Invoke();
     }
 
     private void PauseMenu(InputAction.CallbackContext context)
