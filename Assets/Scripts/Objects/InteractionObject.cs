@@ -4,7 +4,9 @@
 public abstract class InteractionObject : MonoBehaviour, IInteractable
 {
     public InteractableObjectInfo InteractableInfo => _interactableInfo;
+    public TutorialInfo TutorialInfo => _tutorialInfo;
     [SerializeField] private InteractableObjectInfo _interactableInfo;
+    [SerializeField] private TutorialInfo _tutorialInfo;
 
     // Whether the object has had its action taken.
     public bool HasTakenAction { get; set; } = false;
