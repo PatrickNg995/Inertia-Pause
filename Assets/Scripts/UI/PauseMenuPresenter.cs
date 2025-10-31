@@ -31,7 +31,8 @@ public class PauseMenuPresenter : MonoBehaviour
         // Options menu
         _optionsView.BackButton.onClick.AddListener(OnBackFromOptionsPressed);
 
-        _gameManager.OnGamePause += OpenMenu;
+        // GameManager
+        _gameManager.OnPauseMenuOpen += OpenMenu;
     }
 
     public void OpenMenu()
@@ -63,7 +64,7 @@ public class PauseMenuPresenter : MonoBehaviour
     private void OnResumePressed()
     {
         CloseMenu();
-        _gameManager.ResumeFromPauseMenu();
+        _gameManager.AnyBlockingMenuClosed();
     }
 
     private void OnRestartPressed()
