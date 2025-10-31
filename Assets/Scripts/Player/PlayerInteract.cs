@@ -139,7 +139,7 @@ public class PlayerInteract : MonoBehaviour
     {
         if (_targetObject == null) return;
 
-        OnTutorialOpen?.Invoke(_targetObject.TutorialInfo);
+        OnTutorialOpen?.Invoke(_targetObject.InteractableInfo.TutorialInfo);
     }
 
     void Update()
