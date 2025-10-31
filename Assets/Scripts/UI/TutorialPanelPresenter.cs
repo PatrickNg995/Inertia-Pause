@@ -5,6 +5,9 @@ public class TutorialPanelPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private TutorialPanelView _view;
 
+    [Header("Models")]
+    [SerializeField] private PlayerInteract _playerInteractModel;
+
     private const string PAGE_NUMBER_FORMAT = "{0} / {1}";
 
     private TutorialInfo _currentTutorial;
@@ -17,6 +20,8 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.BackButton.onClick.AddListener(OnBackClicked);
         _view.PrevPageButton.onClick.AddListener(OnPrevClicked);
         _view.NextPageButton.onClick.AddListener(OnNextClicked);
+
+        _playerInteractModel.OnTutorialOpen += OnTutorialOpen;
     }
 
     public void OpenMenu()
@@ -35,6 +40,17 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.Header.text = tutorial.ObjectName;
 
         DisplayPage(0);
+    }
+
+    private void OnTutorialOpen(TutorialInfo tutorial)
+    {
+        if (tutorial == null)
+        {
+            Debug.LogWarning("This object does not have a tutorial!");
+            return;
+        }
+        SetTutorial(tutorial);
+        OpenMenu();
     }
 
     private void DisplayPage(int index)
