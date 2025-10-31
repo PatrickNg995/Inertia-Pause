@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PauseMenuPresenter : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class PauseMenuPresenter : MonoBehaviour
         _view.gameObject.SetActive(false);
         _optionsView.gameObject.SetActive(false);
         _inputActions.UI.Cancel.Disable();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
@@ -78,7 +80,7 @@ public class PauseMenuPresenter : MonoBehaviour
 
     private void OnRestartPressed()
     {
-        // TODO: Add a popup here.
+        CloseMenu();
         AdditiveSceneManager.Instance.ReloadScenario();
     }
 
@@ -96,7 +98,7 @@ public class PauseMenuPresenter : MonoBehaviour
 
     private void OnQuitPressed()
     {
-        // TODO: Add a popup here.
+        CloseMenu();
         AdditiveSceneManager.Instance.LoadMainMenu();
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TutorialPanelPresenter : MonoBehaviour
 {
@@ -43,6 +44,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.gameObject.SetActive(false);
         _gameManager.AnyBlockingMenuClosed();
         _inputActions.UI.Disable();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void SetTutorial(TutorialInfo tutorial)
