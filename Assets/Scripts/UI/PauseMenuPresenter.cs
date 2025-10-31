@@ -41,6 +41,13 @@ public class PauseMenuPresenter : MonoBehaviour
         // UI
         _inputActions = new PlayerActions();
         _inputActions.UI.Cancel.performed += _ => OnResumePressed();
+        _inputActions.UI.Navigate.performed += _ =>
+        {
+            if (EventSystem.current.currentSelectedGameObject == null)
+            {
+                _view.ResumeButton.Select();
+            }
+        };
     }
 
     public void OpenMenu()
@@ -49,14 +56,14 @@ public class PauseMenuPresenter : MonoBehaviour
         _optionsView.gameObject.SetActive(false);
 
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
-        _inputActions.UI.Cancel.Enable();
+        _inputActions.UI.Enable();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
         _optionsView.gameObject.SetActive(false);
-        _inputActions.UI.Cancel.Disable();
+        _inputActions.UI.Disable();
         EventSystem.current.SetSelectedGameObject(null);
     }
 
