@@ -181,6 +181,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ContextualHelp"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5f960fa-44f4-45d1-9e0a-bca920f3c986"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -337,6 +346,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""PauseMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e0d1f40-df45-46af-994b-e7ce0de83cf3"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ContextualHelp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -355,6 +375,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame_Undo = m_Ingame.FindAction("Undo", throwIfNotFound: true);
         m_Ingame_Redo = m_Ingame.FindAction("Redo", throwIfNotFound: true);
         m_Ingame_PauseMenu = m_Ingame.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Ingame_ContextualHelp = m_Ingame.FindAction("ContextualHelp", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -445,6 +466,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ingame_Undo;
     private readonly InputAction m_Ingame_Redo;
     private readonly InputAction m_Ingame_PauseMenu;
+    private readonly InputAction m_Ingame_ContextualHelp;
     /// <summary>
     /// Provides access to input actions defined in input action map "Ingame".
     /// </summary>
@@ -496,6 +518,10 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Ingame/PauseMenu".
         /// </summary>
         public InputAction @PauseMenu => m_Wrapper.m_Ingame_PauseMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "Ingame/ContextualHelp".
+        /// </summary>
+        public InputAction @ContextualHelp => m_Wrapper.m_Ingame_ContextualHelp;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -552,6 +578,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @PauseMenu.started += instance.OnPauseMenu;
             @PauseMenu.performed += instance.OnPauseMenu;
             @PauseMenu.canceled += instance.OnPauseMenu;
+            @ContextualHelp.started += instance.OnContextualHelp;
+            @ContextualHelp.performed += instance.OnContextualHelp;
+            @ContextualHelp.canceled += instance.OnContextualHelp;
         }
 
         /// <summary>
@@ -593,6 +622,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @PauseMenu.started -= instance.OnPauseMenu;
             @PauseMenu.performed -= instance.OnPauseMenu;
             @PauseMenu.canceled -= instance.OnPauseMenu;
+            @ContextualHelp.started -= instance.OnContextualHelp;
+            @ContextualHelp.performed -= instance.OnContextualHelp;
+            @ContextualHelp.canceled -= instance.OnContextualHelp;
         }
 
         /// <summary>
@@ -703,5 +735,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPauseMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ContextualHelp" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnContextualHelp(InputAction.CallbackContext context);
     }
 }
