@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectName: Penetrating Bullet
   Pages:
-  - Content: 'Bullets can be moved in any direction within 5 meters of the starting
+  - Content: 'Bullets can be moved in any direction within 4 meters of the starting
       point, but cannot be rotated.
 
 
@@ -25,5 +25,7 @@ MonoBehaviour:
 
 
       Penetrating bullets will inflict damage on every object
-      in its trajectory.'
+      in its trajectory and pass through glass until it hits a wall or part of the
+      environment. Certain impenetrable objects, such as boxes, can also stop penetrating
+      bullets.'
     Image: {fileID: 21300000, guid: 424c0fd1a3de34848af3270e7c6137c7, type: 3}
