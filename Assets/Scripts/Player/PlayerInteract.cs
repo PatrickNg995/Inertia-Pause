@@ -73,6 +73,7 @@ public class PlayerInteract : MonoBehaviour
         _interact.Enable();
         _cancelInteract.Enable();
         _resetInteract.Enable();
+        _contextualHelp.Enable();
     }
 
     private void OnDisable()
@@ -80,6 +81,7 @@ public class PlayerInteract : MonoBehaviour
         _interact.Disable();
         _cancelInteract.Disable();
         _resetInteract.Disable();
+        _contextualHelp.Disable();
     }
 
     private void OnStartInteract(InputAction.CallbackContext _)
