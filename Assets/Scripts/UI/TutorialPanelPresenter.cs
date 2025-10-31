@@ -68,7 +68,14 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.PrevPageButton.gameObject.SetActive(!isFirstPage);
         _view.NextPageButton.gameObject.SetActive(!isLastPage);
 
-        _view.PageText.text = string.Format(PAGE_NUMBER_FORMAT, _currentPageIndex + 1, _currentTutorial.Pages.Count);
+        if (_currentTutorial.Pages.Count > 1)
+        {
+            _view.PageText.text = string.Format(PAGE_NUMBER_FORMAT, _currentPageIndex + 1, _currentTutorial.Pages.Count);
+        }
+        else
+        {
+            _view.PageText.text = string.Empty;
+        }
     }
 
     private void OnPrevClicked()
