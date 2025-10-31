@@ -6,6 +6,7 @@ public class TutorialPanelPresenter : MonoBehaviour
     [SerializeField] private TutorialPanelView _view;
 
     [Header("Models")]
+    [SerializeField] private GameManager _gameManager;
     [SerializeField] private PlayerInteract _playerInteractModel;
 
     private const string PAGE_NUMBER_FORMAT = "{0} / {1}";
@@ -15,7 +16,7 @@ public class TutorialPanelPresenter : MonoBehaviour
 
     void Start()
     {
-        CloseMenu();
+        _view.gameObject.SetActive(false);
 
         _view.BackButton.onClick.AddListener(OnBackClicked);
         _view.PrevPageButton.onClick.AddListener(OnPrevClicked);
@@ -27,11 +28,13 @@ public class TutorialPanelPresenter : MonoBehaviour
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
+        _gameManager.AnyBlockingMenuOpened();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
+        _gameManager.AnyBlockingMenuClosed();
     }
 
     public void SetTutorial(TutorialInfo tutorial)
