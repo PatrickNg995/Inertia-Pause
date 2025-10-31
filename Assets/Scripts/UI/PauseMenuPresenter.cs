@@ -11,10 +11,13 @@ public class PauseMenuPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private GameManager _gameManager;
 
+    private PlayerActions _inputActions;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CloseMenu();
+        _view.gameObject.SetActive(false);
+        _optionsView.gameObject.SetActive(false);
 
         if (_gameManager.ScenarioInfo != null)
         {
@@ -33,6 +36,10 @@ public class PauseMenuPresenter : MonoBehaviour
 
         // GameManager
         _gameManager.OnPauseMenuOpen += OpenMenu;
+
+        // UI
+        _inputActions = new PlayerActions();
+        _inputActions.UI.Cancel.performed += _ => OnResumePressed();
     }
 
     public void OpenMenu()
@@ -41,12 +48,14 @@ public class PauseMenuPresenter : MonoBehaviour
         _optionsView.gameObject.SetActive(false);
 
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
+        _inputActions.UI.Cancel.Enable();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
         _optionsView.gameObject.SetActive(false);
+        _inputActions.UI.Cancel.Disable();
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
