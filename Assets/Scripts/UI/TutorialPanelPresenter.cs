@@ -15,7 +15,7 @@ public class TutorialPanelPresenter : MonoBehaviour
 
     void Start()
     {
-        _view.gameObject.SetActive(false);
+        CloseMenu();
 
         _view.BackButton.onClick.AddListener(OnBackClicked);
         _view.PrevPageButton.onClick.AddListener(OnPrevClicked);
