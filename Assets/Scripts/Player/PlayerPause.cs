@@ -14,8 +14,8 @@ public class PlayerPause : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _gameManager.OnGamePause += DisablePlayerInput;
-        _gameManager.OnGameResume += EnablePlayerInput;
+        _gameManager.OnAnyBlockingMenuOpen += DisablePlayerInput;
+        _gameManager.OnAnyBlockingMenuClose += EnablePlayerInput;
 
         _gameManager.OnLevelComplete += _ => DisablePlayerInput();
     }

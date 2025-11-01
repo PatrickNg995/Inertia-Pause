@@ -34,6 +34,11 @@ public class PlayerInteract : MonoBehaviour
     /// </summary>
     public Action<ICommand> OnInteractReset;
 
+    /// <summary>
+    /// Invoked when the player looks at an interactable object and presses the Help button.
+    /// </summary>
+    public Action<TutorialInfo> OnTutorialOpen;
+
     [SerializeField] private float _interactionDistance = 2;
 
     private Transform _pivot;
@@ -42,6 +47,7 @@ public class PlayerInteract : MonoBehaviour
     private InputAction _interact;
     private InputAction _cancelInteract;
     private InputAction _resetInteract;
+    private InputAction _contextualHelp;
     private bool _isInteracting = false;
     private InteractionObject _targetObject;
 
@@ -57,14 +63,17 @@ public class PlayerInteract : MonoBehaviour
         _interact = _actions.Ingame.StartInteract;
         _cancelInteract = _actions.Ingame.CancelInteract;
         _resetInteract = _actions.Ingame.ResetInteract;
+        _contextualHelp = _actions.Ingame.ContextualHelp;
 
         _interact.performed += OnStartInteract;
         _cancelInteract.performed += OnCancelInteract;
         _resetInteract.performed += OnResetInteract;
+        _contextualHelp.performed += OnContextualHelpPressed;
 
         _interact.Enable();
         _cancelInteract.Enable();
         _resetInteract.Enable();
+        _contextualHelp.Enable();
     }
 
     private void OnDisable()
@@ -72,6 +81,7 @@ public class PlayerInteract : MonoBehaviour
         _interact.Disable();
         _cancelInteract.Disable();
         _resetInteract.Disable();
+        _contextualHelp.Disable();
     }
 
     private void OnStartInteract(InputAction.CallbackContext _)
@@ -123,6 +133,13 @@ public class PlayerInteract : MonoBehaviour
             OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
             Debug.Log($"Cancelled interaction with {_targetObject.name}");
         }
+    }
+
+    private void OnContextualHelpPressed(InputAction.CallbackContext _)
+    {
+        if (_targetObject == null) return;
+
+        OnTutorialOpen?.Invoke(_targetObject.InteractableInfo.TutorialInfo);
     }
 
     void Update()
