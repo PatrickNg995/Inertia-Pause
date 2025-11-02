@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("NPC Lists")]
+    [SerializeField] private GameObject _enemies;
+    [SerializeField] private GameObject _allies;
+    [SerializeField] private GameObject _civilians;
+
     [Header("Player Interact")]
     [SerializeField] private PlayerInteract _playerInteract;
 
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
     private List<GameObject> _listOfAllies = new List<GameObject>();
+    private List<GameObject> _listOfCivilians = new List<GameObject>();
 
     // For player input actions.
     private PlayerActions _inputActions;
@@ -135,8 +141,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
-        _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
+        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
+        _listOfAllies = GetDirectChildrenOfObject(_allies);
+        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
 
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
@@ -183,9 +190,11 @@ public class GameManager : MonoBehaviour
         // The following logic should be in CheckVictoryCondition when properly implemented.
         int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);
         int alliesAlive = GetNumNPCsAlive(_listOfAllies);
+        int civiliansAlive = GetNumNPCsAlive(_listOfCivilians);
+        Debug.Log($"Enemies alive: {enemiesAlive}, Allies alive: {alliesAlive}, Civilians alive: {civiliansAlive}");
 
-        // Check if there are no enemies alive and all allies are alive.
-        if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
+        // Check if there are no enemies alive and all allies and civilians are alive.
+        if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
             Debug.Log("Level won!");
@@ -197,8 +206,8 @@ public class GameManager : MonoBehaviour
 
         LevelResults results = new()
         {
-            CiviliansRescued = alliesAlive,
-            AlliesSaved = 0,
+            CiviliansRescued = civiliansAlive,
+            AlliesSaved = alliesAlive,
             EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
             // TODO: Optional objectives.
             OptionalObjectivesComplete = new bool[2] { true, false },
@@ -214,9 +223,17 @@ public class GameManager : MonoBehaviour
     private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
         int numAlive = 0;
-        foreach (GameObject npc in listOfNPCs)
+        foreach (GameObject gameObject in listOfNPCs)
         {
-            if (npc.GetComponent<NPC>().IsAlive)
+            NPC npc = gameObject.GetComponent<NPC>();
+
+            // If NPC component is not on the parent object, check children.
+            if (npc == null)
+            {
+                npc = gameObject.GetComponentInChildren<NPC>();
+            }
+
+            if (npc.IsAlive)
             {
                 numAlive++;
             }

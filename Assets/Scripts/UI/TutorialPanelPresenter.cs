@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TutorialPanelPresenter : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class TutorialPanelPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private GameManager _gameManager;
     [SerializeField] private PlayerInteract _playerInteractModel;
+
+    private PlayerActions _inputActions;
 
     private const string PAGE_NUMBER_FORMAT = "{0} / {1}";
 
@@ -23,18 +26,25 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.NextPageButton.onClick.AddListener(OnNextClicked);
 
         _playerInteractModel.OnTutorialOpen += OnTutorialOpen;
+
+        // UI
+        _inputActions = new PlayerActions();
+        _inputActions.UI.Cancel.performed += _ => OnBackClicked();
     }
 
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
         _gameManager.AnyBlockingMenuOpened();
+        _inputActions.UI.Enable();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
         _gameManager.AnyBlockingMenuClosed();
+        _inputActions.UI.Disable();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void SetTutorial(TutorialInfo tutorial)
