@@ -43,7 +43,7 @@ public class Grenade : MonoBehaviour, IPausable
                 _canExplode = false;
                 _sphereCollider.enabled = false;
                 _meshRenderer.enabled = false;
-                _rb.isKinematic = true;
+                Destroy(_rb);
                 _explosionScript.StartExplosion();
             }
         }

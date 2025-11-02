@@ -64,8 +64,9 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
         // Cleanup barrel without removing it & start explosion.
         _canExplode = false;
         _triggerCollider.enabled = false;
+        _collisionCollider.enabled = false;
         _meshRenderer.enabled = false;
-        _rb.isKinematic = true;
+        Destroy(_rb);
         _explosionScript.StartExplosion();
     }
 
