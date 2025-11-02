@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ResultMenuPresenter : MonoBehaviour
 {
@@ -45,6 +46,7 @@ public class ResultMenuPresenter : MonoBehaviour
     private void CloseMenu()
     {
         gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     private void OnLevelComplete(LevelResults results)
