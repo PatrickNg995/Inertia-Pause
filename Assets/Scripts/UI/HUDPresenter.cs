@@ -17,8 +17,8 @@ public class HUDPresenter : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private Color _interactionNameDefaultColor;
     [SerializeField] private Color _interactionNameInteractingColor;
-    [SerializeField] private float _redoUnavailableAlpha;
-    [SerializeField] private float _redoAvailableAlpha;
+    [SerializeField] private float _promptUnavailableAlpha;
+    [SerializeField] private float _promptAvailableAlpha;
 
     private const float OBJECTIVE_FADE_DELAY = 5f;
     private const float OBJECTIVE_FADE_DURATION = 1f;
@@ -51,7 +51,7 @@ public class HUDPresenter : MonoBehaviour
             DisplayScenarioInfo(_gameManager.ScenarioInfo);
         }
 
-        if (_framerateChecker != null )
+        if (_framerateChecker != null)
         {
             _framerateChecker.OnFramerateUpdate += OnFramerateUpdate;
         }
@@ -71,6 +71,7 @@ public class HUDPresenter : MonoBehaviour
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         _view.InteractionPrompts.SetActive(false);
+        OnRedoUnavailable();
     }
 
     private void OpenMenu()
@@ -155,12 +156,22 @@ public class HUDPresenter : MonoBehaviour
 
     private void OnRedoAvailable()
     {
-        _view.RedoPrompt.alpha = _redoAvailableAlpha;
+        _view.RedoPrompt.alpha = _promptAvailableAlpha;
     }
 
     private void OnRedoUnavailable()
     {
-        _view.RedoPrompt.alpha = _redoUnavailableAlpha;
+        _view.RedoPrompt.alpha = _promptUnavailableAlpha;
+    }
+
+    private void OnUndoAvailable()
+    {
+        _view.UndoPrompt.alpha = _promptAvailableAlpha;
+    }
+
+    private void OnUndoUnavailable()
+    {
+        _view.UndoPrompt.alpha = _promptUnavailableAlpha;
     }
 
     private void OnFramerateUpdate(float framerate, float latency)
