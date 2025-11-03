@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class NewPlayerMovement : MonoBehaviour
     [SerializeField] private float _gravity = -9.81f;
     [SerializeField] private float _climbSpeed = 4f;
     [SerializeField] private float _ladderTopJump = 4f; // seems to be the magic number with movementSpeed 5
+    private float fallingVelocity = 0f; // Save variable for when player falls
 
     // Player input
     private PlayerActions _inputActions;
@@ -25,6 +27,7 @@ public class NewPlayerMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _inputActions = new PlayerActions();
+        fallingVelocity = 0f;
     }
 
     // Enable & disable input
@@ -72,11 +75,15 @@ public class NewPlayerMovement : MonoBehaviour
         velocity = Vector3.zero;
         if (_controller.isGrounded)
         {
-            velocity.y = -1f;
+            // Reset falling velocity
+            velocity.y = -2f;
+            fallingVelocity = 0f;
         }
         else
         {
-            velocity.y -= _gravity * -2f * Time.unscaledDeltaTime;
+            // Accumulate falling velocity & set the current velocity
+            fallingVelocity += _gravity * Time.unscaledDeltaTime;
+            velocity.y = fallingVelocity;
         }
 
         // Move player down by gravity
