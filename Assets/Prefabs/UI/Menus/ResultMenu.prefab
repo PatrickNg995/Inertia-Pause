@@ -692,9 +692,9 @@ MonoBehaviour:
   <ActionCountText>k__BackingField: {fileID: 6501228961131742431}
   <NewRecord>k__BackingField: {fileID: 9207433913897657473}
   <ObjectiveRowContainer>k__BackingField: {fileID: 7399099630258936675}
-  <NextButton>k__BackingField: {fileID: 3729212274845794180}
-  <RestartButton>k__BackingField: {fileID: 7043194687131865721}
-  <MainMenuButton>k__BackingField: {fileID: 6205104842666539186}
+  <NextButton>k__BackingField: {fileID: 1304021096132436380}
+  <RestartButton>k__BackingField: {fileID: 4640527071759207521}
+  <MainMenuButton>k__BackingField: {fileID: 8630294859603945130}
   <DescriptionText>k__BackingField: {fileID: 6651759884898168476}
 --- !u!1 &7399099630258936675
 GameObject:
@@ -1346,9 +1346,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+      propertyPath: _hint
+      value: Retry this scenario.
+      objectReference: {fileID: 0}
     - target: {fileID: 7562854513032163516, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_text
-      value: Restart
+      value: Retry
       objectReference: {fileID: 0}
     - target: {fileID: 8838533352746954797, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_Name
@@ -1364,15 +1368,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
   m_PrefabInstance: {fileID: 1181625432144218226}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7043194687131865721 stripped
+--- !u!114 &4640527071759207521 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8204307627127069195, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
   m_PrefabInstance: {fileID: 1181625432144218226}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: fe3e7e2c1f0c0ff49a4d0e99f22ee1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2866395666439873209
@@ -1463,6 +1467,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+      propertyPath: _hint
+      value: Return to the main menu. Your progress will be saved.
+      objectReference: {fileID: 0}
     - target: {fileID: 7562854513032163516, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_text
       value: Main Menu
@@ -1481,15 +1489,15 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 669086478712949830, guid: b567044ef4180bb4499271e431f01b67, type: 3}
   m_PrefabInstance: {fileID: 2866395666439873209}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6205104842666539186 stripped
+--- !u!114 &8630294859603945130 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8204307627127069195, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
   m_PrefabInstance: {fileID: 2866395666439873209}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: fe3e7e2c1f0c0ff49a4d0e99f22ee1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3160242545055596244
@@ -1826,6 +1834,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+      propertyPath: _hint
+      value: Start the next scenario.
+      objectReference: {fileID: 0}
     - target: {fileID: 7562854513032163516, guid: b567044ef4180bb4499271e431f01b67, type: 3}
       propertyPath: m_text
       value: Next
@@ -1839,15 +1851,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b567044ef4180bb4499271e431f01b67, type: 3}
---- !u!114 &3729212274845794180 stripped
+--- !u!114 &1304021096132436380 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8204307627127069195, guid: b567044ef4180bb4499271e431f01b67, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5765606811303183379, guid: b567044ef4180bb4499271e431f01b67, type: 3}
   m_PrefabInstance: {fileID: 4763502872213742991}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: fe3e7e2c1f0c0ff49a4d0e99f22ee1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &5427486283098859977 stripped
