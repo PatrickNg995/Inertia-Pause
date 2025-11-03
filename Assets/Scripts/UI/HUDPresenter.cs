@@ -58,6 +58,8 @@ public class HUDPresenter : MonoBehaviour
 
         _gameManager.OnLevelStart += OnLevelStart;
         _gameManager.OnActionUpdate += OnActionCounterUpdate;
+        _gameManager.OnUndoAvailable += OnUndoAvailable;
+        _gameManager.OnUndoUnavailable += OnUndoUnavailable;
         _gameManager.OnRedoAvailable += OnRedoAvailable;
         _gameManager.OnRedoUnavailable += OnRedoUnavailable;
         _gameManager.OnAnyBlockingMenuOpen += CloseMenu;
@@ -71,6 +73,7 @@ public class HUDPresenter : MonoBehaviour
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
 
         _view.InteractionPrompts.SetActive(false);
+        OnUndoUnavailable();
         OnRedoUnavailable();
     }
 
