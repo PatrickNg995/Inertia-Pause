@@ -14,6 +14,6 @@ public class ExtraTagComponent : MonoBehaviour
 
     public bool HasTag(string tagName)
     {
-        return _tags.Exists(tagInList => tagInList.Name == tagName);
+        return _tags.Exists(tagInList => tagInList.Name.Equals(tagName, System.StringComparison.InvariantCultureIgnoreCase));
     }
 }
