@@ -31,6 +31,16 @@ public class GameManager : MonoBehaviour
     public Action<int> OnActionUpdate;
 
     /// <summary>
+    /// Invoked when an undo becomes available (after any action).
+    /// </summary>
+    public Action OnUndoAvailable;
+
+    /// <summary>
+    /// Invoked when no undos are available (after undoing all actions).
+    /// </summary>
+    public Action OnUndoUnavailable;
+
+    /// <summary>
     /// Invoked when a redo becomes available (after an undo).
     /// </summary>
     public Action OnRedoAvailable;
@@ -249,6 +259,9 @@ public class GameManager : MonoBehaviour
         // Add the command to the undo list.
         _undoCommandList.Add(command);
 
+        // Notify that undo is now available.
+        OnUndoAvailable?.Invoke();
+
         // Clear the redo list since a new action has been performed.
         _redoCommandList.Clear();
         OnRedoUnavailable?.Invoke();
@@ -271,6 +284,12 @@ public class GameManager : MonoBehaviour
         // Add the redo command to the redo list.
         _redoCommandList.Add(redoCommand);
 
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
+
         // Notify if redo is now available.
         if (_redoCommandList.Count == 1)
         {
@@ -288,6 +307,12 @@ public class GameManager : MonoBehaviour
             // Undo the command and add to redo list.
             UndoAndAddToRedoList(undoCommand);
 
+            // Notify if there are no more actions to undo.
+            if (_undoCommandList.Count == 0)
+            {
+                OnUndoUnavailable?.Invoke();
+            }
+
             Debug.Log("Action undone. Total actions: " + _actionCount);
         }
     }
@@ -301,6 +326,12 @@ public class GameManager : MonoBehaviour
 
         // Remove Command from undo list.
         _undoCommandList.RemoveAt(removeIndex);
+
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
 
         Debug.Log("Specific action undone. Total actions: " + _actionCount);
     }
@@ -324,6 +355,9 @@ public class GameManager : MonoBehaviour
                 _actionCount++;
                 OnActionUpdate?.Invoke(_actionCount);
             }
+
+            // Notify that undo is now available.
+            OnUndoAvailable?.Invoke();
 
             // Notify if no more redos are available.
             if (_redoCommandList.Count == 0)

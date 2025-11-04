@@ -26,11 +26,17 @@ public class PauseMenuPresenter : MonoBehaviour
         }
 
         // Pause menu
-        _view.ResumeButton.onClick.AddListener(OnResumePressed);
-        _view.RestartButton.onClick.AddListener(OnRestartPressed);
-        _view.OptionsButton.onClick.AddListener(OnOptionsPressed);
-        _view.QuitScenarioButton.onClick.AddListener(OnQuitPressed);
-        _view.BackButton.onClick.AddListener(OnResumePressed);
+        _view.ResumeButton.Button.onClick.AddListener(OnResumePressed);
+        _view.RestartButton.Button.onClick.AddListener(OnRestartPressed);
+        _view.OptionsButton.Button.onClick.AddListener(OnOptionsPressed);
+        _view.QuitScenarioButton.Button.onClick.AddListener(OnQuitPressed);
+        _view.BackButton.Button.onClick.AddListener(OnResumePressed);
+
+        _view.ResumeButton.OnHover += ChangeHint;
+        _view.RestartButton.OnHover += ChangeHint;
+        _view.OptionsButton.OnHover += ChangeHint;
+        _view.QuitScenarioButton.OnHover += ChangeHint;
+        _view.BackButton.OnHover += ChangeHint;
 
         // Options menu
         _optionsView.BackButton.onClick.AddListener(OnBackFromOptionsPressed);
@@ -45,7 +51,7 @@ public class PauseMenuPresenter : MonoBehaviour
         {
             if (EventSystem.current.currentSelectedGameObject == null)
             {
-                _view.ResumeButton.Select();
+                _view.ResumeButton.Button.Select();
             }
         };
     }
@@ -56,6 +62,7 @@ public class PauseMenuPresenter : MonoBehaviour
         _optionsView.gameObject.SetActive(false);
 
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
+        _view.DescriptionText.text = string.Empty;
         _inputActions.UI.Enable();
     }
 
@@ -65,6 +72,11 @@ public class PauseMenuPresenter : MonoBehaviour
         _optionsView.gameObject.SetActive(false);
         _inputActions.UI.Disable();
         EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
