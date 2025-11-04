@@ -66,23 +66,26 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void HandleGroundMovement(Vector2 v2)
     {
+        // Vector 3 without y velocity.
         Vector3 velocity = new Vector3(v2.x, 0, v2.y);
 
-        // Move player based on input & direction they are facing
-        Vector3 moveVector = transform.TransformDirection(velocity);
-        _controller.Move(_movementSpeed * Time.unscaledDeltaTime * moveVector);
+        // Change velocity based on direction the player is facing.
+        velocity = transform.TransformDirection(velocity);
 
-        // Zero out velocity & check for gravity
-        velocity = Vector3.zero;
+        // Add movement speed to x & z velocity.
+        velocity.x *= _movementSpeed * Time.unscaledDeltaTime;
+        velocity.z *= _movementSpeed * Time.unscaledDeltaTime;
+
+        // Check if player is on the ground.
         if (_controller.isGrounded)
         {
-            // Reset falling velocity
-            velocity.y = -2f;
+            // Reset falling velocity & stick player to the ground.
+            velocity.y = -0.05f;
             _fallingVelocity = 0f;
         }
         else
         {
-            // Accumulate falling velocity & set the current velocity
+            // Accumulate falling velocity & set the current velocity.
             _fallingVelocity += _gravity * Time.unscaledDeltaTime;
             if (_fallingVelocity < _maxFallSpeed)
             {
@@ -91,7 +94,7 @@ public class NewPlayerMovement : MonoBehaviour
             velocity.y = _fallingVelocity;
         }
 
-        // Move player down by gravity
+        // Move player
         _controller.Move(velocity);
     }
 
