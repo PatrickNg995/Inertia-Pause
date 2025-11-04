@@ -356,7 +356,7 @@ CharacterController:
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
-  m_SkinWidth: 0.08
+  m_SkinWidth: 0.1
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1533144783071031188
@@ -373,7 +373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _controller: {fileID: 7435245800304058660}
   _movementSpeed: 5
-  _gravity: -9.81
+  _gravity: -0.5
+  _maxFallSpeed: -0.5
   _climbSpeed: 4
   _ladderTopJump: 4
 --- !u!114 &3883919546492660774
