@@ -11,10 +11,11 @@ public class NewPlayerMovement : MonoBehaviour
 
     // Movement variables
     [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private float _gravity = -0.4f;
+    [SerializeField] private float _maxFallSpeed = -0.4f;
     [SerializeField] private float _climbSpeed = 4f;
     [SerializeField] private float _ladderTopJump = 4f; // seems to be the magic number with movementSpeed 5
-    private float fallingVelocity = 0f; // Save variable for when player falls
+    private float _fallingVelocity = 0f; // Save variable for when player falls
 
     // Player input
     private PlayerActions _inputActions;
@@ -27,7 +28,7 @@ public class NewPlayerMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _inputActions = new PlayerActions();
-        fallingVelocity = 0f;
+        _fallingVelocity = 0f;
     }
 
     // Enable & disable input
@@ -77,13 +78,17 @@ public class NewPlayerMovement : MonoBehaviour
         {
             // Reset falling velocity
             velocity.y = -2f;
-            fallingVelocity = 0f;
+            _fallingVelocity = 0f;
         }
         else
         {
             // Accumulate falling velocity & set the current velocity
-            fallingVelocity += _gravity * Time.unscaledDeltaTime;
-            velocity.y = fallingVelocity;
+            _fallingVelocity += _gravity * Time.unscaledDeltaTime;
+            if (_fallingVelocity < _maxFallSpeed)
+            {
+                _fallingVelocity = _maxFallSpeed;
+            }
+            velocity.y = _fallingVelocity;
         }
 
         // Move player down by gravity
