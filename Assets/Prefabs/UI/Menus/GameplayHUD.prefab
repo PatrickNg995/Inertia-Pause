@@ -721,8 +721,8 @@ MonoBehaviour:
   _playerInteractModel: {fileID: 0}
   _interactionNameDefaultColor: {r: 1, g: 1, b: 1, a: 1}
   _interactionNameInteractingColor: {r: 0.6392157, g: 0.6745098, b: 0.8627451, a: 0.5019608}
-  _redoUnavailableAlpha: 0.5
-  _redoAvailableAlpha: 1
+  _promptUnavailableAlpha: 0.25
+  _promptAvailableAlpha: 1
 --- !u!114 &3404998877795664497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -750,6 +750,7 @@ MonoBehaviour:
   <PromptsInteracting>k__BackingField: {fileID: 4104728406590640701}
   <InteractionPrompts>k__BackingField: {fileID: 3764193616011809195}
   <ButtonPrompts>k__BackingField: {fileID: 6724579652611375240}
+  <UndoPrompt>k__BackingField: {fileID: 656613646853223740}
   <RedoPrompt>k__BackingField: {fileID: 6024568028619087422}
   <TelemetryText>k__BackingField: {fileID: 4420568841168870898}
   <ActionsTakenText>k__BackingField: {fileID: 5556635574278986848}
@@ -935,8 +936,8 @@ RectTransform:
   m_Children:
   - {fileID: 1825925825934026718}
   - {fileID: 2111257734912076638}
-  - {fileID: 3652994251731727815}
   - {fileID: 6315338656400454799}
+  - {fileID: 3652994251731727815}
   m_Father: {fileID: 2296156224202359437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
@@ -2746,7 +2747,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -100
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3113,10 +3114,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: HelpPrompt
       objectReference: {fileID: 0}
-    - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8800576670886779681, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_text
       value: Tab
@@ -3213,7 +3210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -100
       objectReference: {fileID: 0}
     - target: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3234,10 +3231,6 @@ PrefabInstance:
     - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_Name
       value: HelpPrompt
-      objectReference: {fileID: 0}
-    - target: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8800576670886779681, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
       propertyPath: m_text
@@ -3364,8 +3357,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 656613646853223740}
   m_SourcePrefab: {fileID: 100100000, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+--- !u!1 &2128127473350049620 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7612257084874965257, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}
+  m_PrefabInstance: {fileID: 8371219558063357533}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &656613646853223740
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128127473350049620}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!224 &8282578900367264256 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 494598218825495645, guid: 84866cc6c00119e48a4f7fd9610311ca, type: 3}

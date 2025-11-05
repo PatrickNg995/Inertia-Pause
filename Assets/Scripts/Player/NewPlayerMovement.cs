@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,9 +11,11 @@ public class NewPlayerMovement : MonoBehaviour
 
     // Movement variables
     [SerializeField] private float _movementSpeed = 5f;
-    [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private float _gravity = -0.4f;
+    [SerializeField] private float _maxFallSpeed = -0.4f;
     [SerializeField] private float _climbSpeed = 4f;
     [SerializeField] private float _ladderTopJump = 4f; // seems to be the magic number with movementSpeed 5
+    private float _fallingVelocity = 0f; // Save variable for when player falls
 
     // Player input
     private PlayerActions _inputActions;
@@ -25,6 +28,7 @@ public class NewPlayerMovement : MonoBehaviour
     {
         _controller = GetComponent<CharacterController>();
         _inputActions = new PlayerActions();
+        _fallingVelocity = 0f;
     }
 
     // Enable & disable input
@@ -62,24 +66,35 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void HandleGroundMovement(Vector2 v2)
     {
+        // Vector 3 without y velocity.
         Vector3 velocity = new Vector3(v2.x, 0, v2.y);
 
-        // Move player based on input & direction they are facing
-        Vector3 moveVector = transform.TransformDirection(velocity);
-        _controller.Move(_movementSpeed * Time.unscaledDeltaTime * moveVector);
+        // Change velocity based on direction the player is facing.
+        velocity = transform.TransformDirection(velocity);
 
-        // Zero out velocity & check for gravity
-        velocity = Vector3.zero;
+        // Add movement speed to x & z velocity.
+        velocity.x *= _movementSpeed * Time.unscaledDeltaTime;
+        velocity.z *= _movementSpeed * Time.unscaledDeltaTime;
+
+        // Check if player is on the ground.
         if (_controller.isGrounded)
         {
-            velocity.y = -1f;
+            // Reset falling velocity & stick player to the ground.
+            velocity.y = -0.05f;
+            _fallingVelocity = 0f;
         }
         else
         {
-            velocity.y -= _gravity * -2f * Time.unscaledDeltaTime;
+            // Accumulate falling velocity & set the current velocity.
+            _fallingVelocity += _gravity * Time.unscaledDeltaTime;
+            if (_fallingVelocity < _maxFallSpeed)
+            {
+                _fallingVelocity = _maxFallSpeed;
+            }
+            velocity.y = _fallingVelocity;
         }
 
-        // Move player down by gravity
+        // Move player
         _controller.Move(velocity);
     }
 

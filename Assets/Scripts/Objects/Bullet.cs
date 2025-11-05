@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
@@ -43,10 +44,19 @@ public class Bullet : MonoBehaviour, IPausable
             }
         }
 
-        // Destroy the bullet on impact with anything if it isn't piercing.
-        if (!_isPiercing)
+        // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
+        if (!_isPiercing || other.CompareTag("Unpierceable"))
         {
             Destroy(gameObject);
+        }
+
+        // Check Extra Tag Component if object is unpierceable.
+        if (other.TryGetComponent<ExtraTagComponent>(out var tags))
+        {
+            if (tags.HasTag("Unpierceable"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("NPC Lists")]
+    [SerializeField] private GameObject _enemies;
+    [SerializeField] private GameObject _allies;
+    [SerializeField] private GameObject _civilians;
+
     [Header("Player Interact")]
     [SerializeField] private PlayerInteract _playerInteract;
 
@@ -26,6 +31,16 @@ public class GameManager : MonoBehaviour
     public Action<int> OnActionUpdate;
 
     /// <summary>
+    /// Invoked when an undo becomes available (after any action).
+    /// </summary>
+    public Action OnUndoAvailable;
+
+    /// <summary>
+    /// Invoked when no undos are available (after undoing all actions).
+    /// </summary>
+    public Action OnUndoUnavailable;
+
+    /// <summary>
     /// Invoked when a redo becomes available (after an undo).
     /// </summary>
     public Action OnRedoAvailable;
@@ -36,14 +51,19 @@ public class GameManager : MonoBehaviour
     public Action OnRedoUnavailable;
 
     /// <summary>
-    /// Invoked when the player resumes the game after pausing it.
+    /// Invoked when the player opens any blocking menu (pause, tutorial, etc).
     /// </summary>
-    public Action OnGameResume;
+    public Action OnAnyBlockingMenuOpen;
+
+    /// <summary>
+    /// Invoked when the player returns to the game after a blocking menu.
+    /// </summary>
+    public Action OnAnyBlockingMenuClose;
 
     /// <summary>
     /// Invoked when the player pauses the game.
     /// </summary>
-    public Action OnGamePause;
+    public Action OnPauseMenuOpen;
 
     /// <summary>
     /// Invoked when the level is completed.
@@ -62,6 +82,7 @@ public class GameManager : MonoBehaviour
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
     private List<GameObject> _listOfAllies = new List<GameObject>();
+    private List<GameObject> _listOfCivilians = new List<GameObject>();
 
     // For player input actions.
     private PlayerActions _inputActions;
@@ -145,8 +166,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
-        _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
+        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
+        _listOfAllies = GetDirectChildrenOfObject(_allies);
+        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
 
         // Check if we need to load a previous attempt.
         if (PersistentData.Instance.WillLoadPreviousAttempt)
@@ -217,9 +239,11 @@ public class GameManager : MonoBehaviour
         // The following logic should be in CheckVictoryCondition when properly implemented.
         int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);
         int alliesAlive = GetNumNPCsAlive(_listOfAllies);
+        int civiliansAlive = GetNumNPCsAlive(_listOfCivilians);
+        Debug.Log($"Enemies alive: {enemiesAlive}, Allies alive: {alliesAlive}, Civilians alive: {civiliansAlive}");
 
-        // Check if there are no enemies alive and all allies are alive.
-        if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
+        // Check if there are no enemies alive and all allies and civilians are alive.
+        if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
             Debug.Log("Level won!");
@@ -231,8 +255,8 @@ public class GameManager : MonoBehaviour
 
         LevelResults results = new()
         {
-            CiviliansRescued = alliesAlive,
-            AlliesSaved = 0,
+            CiviliansRescued = civiliansAlive,
+            AlliesSaved = alliesAlive,
             EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
             // TODO: Optional objectives.
             OptionalObjectivesComplete = new bool[2] { true, false },
@@ -248,9 +272,17 @@ public class GameManager : MonoBehaviour
     private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
         int numAlive = 0;
-        foreach (GameObject npc in listOfNPCs)
+        foreach (GameObject gameObject in listOfNPCs)
         {
-            if (npc.GetComponent<NPC>().IsAlive)
+            NPC npc = gameObject.GetComponent<NPC>();
+
+            // If NPC component is not on the parent object, check children.
+            if (npc == null)
+            {
+                npc = gameObject.GetComponentInChildren<NPC>();
+            }
+
+            if (npc.IsAlive)
             {
                 numAlive++;
             }
@@ -265,6 +297,9 @@ public class GameManager : MonoBehaviour
 
         // Add the command to the undo list.
         _undoCommandList.Add(command);
+
+        // Notify that undo is now available.
+        OnUndoAvailable?.Invoke();
 
         // Clear the redo list since a new action has been performed.
         _redoCommandList.Clear();
@@ -288,6 +323,12 @@ public class GameManager : MonoBehaviour
         // Add the redo command to the redo list.
         _redoCommandList.Add(redoCommand);
 
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
+
         // Notify if redo is now available.
         if (_redoCommandList.Count == 1)
         {
@@ -305,6 +346,12 @@ public class GameManager : MonoBehaviour
             // Undo the command and add to redo list.
             UndoAndAddToRedoList(undoCommand);
 
+            // Notify if there are no more actions to undo.
+            if (_undoCommandList.Count == 0)
+            {
+                OnUndoUnavailable?.Invoke();
+            }
+
             Debug.Log("Action undone. Total actions: " + _actionCount);
         }
     }
@@ -318,6 +365,12 @@ public class GameManager : MonoBehaviour
 
         // Remove Command from undo list.
         _undoCommandList.RemoveAt(removeIndex);
+
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
 
         Debug.Log("Specific action undone. Total actions: " + _actionCount);
     }
@@ -341,6 +394,9 @@ public class GameManager : MonoBehaviour
                 _actionCount++;
                 OnActionUpdate?.Invoke(_actionCount);
             }
+
+            // Notify that undo is now available.
+            OnUndoAvailable?.Invoke();
 
             // Notify if no more redos are available.
             if (_redoCommandList.Count == 0)
@@ -409,20 +465,26 @@ public class GameManager : MonoBehaviour
         return command;
     }
 
-    public void ResumeFromPauseMenu()
-    {
-        _inputActions.Enable();
-        Cursor.lockState = CursorLockMode.Locked;
-
-        OnGameResume?.Invoke();
-    }
-
-    private void PauseMenu(InputAction.CallbackContext context)
+    public void AnyBlockingMenuOpened()
     {
         _inputActions.Disable();
         Cursor.lockState = CursorLockMode.None;
 
-        OnGamePause?.Invoke();
+        OnAnyBlockingMenuOpen?.Invoke();
+    }
+
+    public void AnyBlockingMenuClosed()
+    {
+        _inputActions.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+
+        OnAnyBlockingMenuClose?.Invoke();
+    }
+
+    private void PauseMenu(InputAction.CallbackContext context)
+    {
+        OnPauseMenuOpen?.Invoke();
+        AnyBlockingMenuOpened();
     }
 }
 
