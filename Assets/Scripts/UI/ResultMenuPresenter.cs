@@ -34,6 +34,7 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
         _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
+        _view.RewindButton.OnHover += ChangeHint;
         _view.RestartButton.OnHover += ChangeHint;
         _view.NextButton.OnHover += ChangeHint;
         _view.MainMenuButton.OnHover += ChangeHint;
