@@ -33,37 +33,38 @@ public class ToppleCommand : ActionCommand
 
     public override void Execute()
     {
-        // Apply torque to the rigidbody to topple the object.
-        //if (!_hasFinalRotation)
-        //{
-        //    _rb.AddTorque(_direction * _torque);
-        //}
-        //else
-        //{
-        //    _transform.position = _finalPosition;
-        //    _transform.rotation = _finalRotation;
-        //}
-        
+        //Apply torque to the rigidbody to topple the object.
+        if (!_hasFinalRotation)
+        {
+            _rb.AddTorque(_direction * _torque);
+        }
+        else
+        {
+            _transform.position = _finalPosition;
+            _transform.rotation = _finalRotation;
+        }
+
         // Mark the interaction object as having taken an action.
         ActionObject.HasTakenAction = true;
-        _transform.Rotate(Vector3.right, 5f);
-        _transform.Translate(_direction * 0.15f);
+        //_transform.Rotate(Vector3.right, 5f);
+        //_transform.Translate(_direction * 0.15f);
 
         if (ActionObject is ShelfBehaviour behaviour)
         {
             behaviour.IsToppled = true;
         }
 
+        ActionObject.OnCommandRedo();
     }
 
     public override void Undo()
     {
-        //if ((_transform.position != _initialPosition || _transform.rotation != _initialRotation) && !_hasFinalRotation)
-        //{
-        //    _hasFinalRotation = true;
-        //    _finalPosition = _transform.position;
-        //    _finalRotation = _transform.rotation;
-        //}
+        if ((_transform.position != _initialPosition || _transform.rotation != _initialRotation) && !_hasFinalRotation)
+        {
+            _hasFinalRotation = true;
+            _finalPosition = _transform.position;
+            _finalRotation = _transform.rotation;
+        }
 
         // Revert the object to its initial location and rotation.
         _transform.position = _initialPosition;
