@@ -1,3 +1,4 @@
+﻿using Unity.Mathematics;
 using UnityEngine;
 
 public class ExplosiveBarrel : MonoBehaviour, IPausable
@@ -20,6 +21,9 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
 
     // Bool for exploding the barrel
     private bool _canExplode = false;
+
+    private Vector3 _pausedPosition;
+    private quaternion _pausedRotation;
 
     public void Awake()
     {
@@ -66,7 +70,7 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
         _triggerCollider.enabled = false;
         _collisionCollider.enabled = false;
         _meshRenderer.enabled = false;
-        Destroy(_rb);
+        //Destroy(_rb);
         _explosionScript.StartExplosion();
     }
 
@@ -81,9 +85,24 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
     // Start movement & add back saved velocity
     public void Unpause()
     {
+        _pausedPosition = transform.position;
+        _pausedRotation = transform.rotation;
+
         _canExplode = true;
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
         _initialPosition = transform.position;
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reset the barrel.
+        _triggerCollider.enabled = true;
+        _collisionCollider.enabled = true;
+        _meshRenderer.enabled = true;
+        _explosionScript.ResetExplosion();
+
+        transform.position = _pausedPosition;
+        transform.rotation = _pausedRotation;
     }
 }

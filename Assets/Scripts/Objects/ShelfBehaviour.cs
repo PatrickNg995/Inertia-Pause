@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Unity.Mathematics;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ShelfBehaviour : InteractionObject, IPausable
@@ -8,6 +9,8 @@ public class ShelfBehaviour : InteractionObject, IPausable
     //[SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
+    private Vector3 _pausedPosition;
+    private quaternion _pausedRotation;
     //private bool _paused = false;
     //private Vector3 _rotationalVelocity;
     //private Vector3 _velocity;
@@ -96,6 +99,9 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public void Unpause()
     {
+        _pausedPosition = transform.position;
+        _pausedRotation = transform.rotation;
+
         _rb.isKinematic = false;
 
         //_rb.linearVelocity = _velocity;
@@ -104,5 +110,12 @@ public class ShelfBehaviour : InteractionObject, IPausable
         //_paused = false;
 
         if (IsToppled) _rb.AddForce(transform.forward * _torque);
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reset position and rotation to pre-unpause state.
+        transform.position = _pausedPosition;
+        transform.rotation = _pausedRotation;
     }
 }

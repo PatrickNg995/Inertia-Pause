@@ -438,6 +438,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+--- !u!114 &28056092 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 716899449919019142, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 28056091}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28056093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa265d314faf8c48a781e45147211c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &28056093 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 28056091}
+  m_PrefabAsset: {fileID: 0}
+--- !u!143 &28056094 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 7435245800304058660, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 28056091}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &28367721
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3106,6 +3127,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1814251043}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 28056093}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: _enemies
       value: 
       objectReference: {fileID: 1855320164}
@@ -3117,6 +3142,14 @@ PrefabInstance:
       propertyPath: _playerInteract
       value: 
       objectReference: {fileID: 83284446}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 28056094}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _timePauseUnpause
+      value: 
+      objectReference: {fileID: 28056092}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: <ScenarioInfo>k__BackingField
       value: 

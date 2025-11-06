@@ -1545,7 +1545,7 @@ PrefabInstance:
       objectReference: {fileID: 1524108360}
     - target: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_Name
-      value: NewPlayerCapsule
+      value: PlayerCapsule
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1563,6 +1563,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5793c8b6dac5d5647ad389b1c896cf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1018923619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 1018923617}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1018923620 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 716899449919019142, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 1018923617}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1018923619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa265d314faf8c48a781e45147211c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!143 &1018923621 stripped
+CharacterController:
+  m_CorrespondingSourceObject: {fileID: 7435245800304058660, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+  m_PrefabInstance: {fileID: 1018923617}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1065219393
 Mesh:
   m_ObjectHideFlags: 0
@@ -2519,6 +2540,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 142890113}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 1018923619}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: _enemies
       value: 
       objectReference: {fileID: 1868528870}
@@ -2534,6 +2559,14 @@ PrefabInstance:
       propertyPath: _playerInteract
       value: 
       objectReference: {fileID: 1018923618}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _playerController
+      value: 
+      objectReference: {fileID: 1018923621}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _timePauseUnpause
+      value: 
+      objectReference: {fileID: 1018923620}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: <ScenarioInfo>k__BackingField
       value: 

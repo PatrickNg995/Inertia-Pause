@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
@@ -20,6 +20,13 @@ public class Explosion : MonoBehaviour
         // Enable collider & play particle system effect.
         _sphereCollider.enabled = true;
         _ps.Play();
+    }
+
+    public void ResetExplosion()
+    {
+        // Disable collider & stop particle system effect.
+        _sphereCollider.enabled = false;
+        _ps.Stop();
     }
 
     public void OnTriggerEnter(Collider other)

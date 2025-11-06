@@ -15,12 +15,6 @@ public class DragCommand : ActionCommand
         WillCountAsAction = willCountAsAction;
     }
 
-    public override void RelinkActionObjectReference()
-    {
-        base.RelinkActionObjectReference();
-        _transform = ActionObject.transform;
-    }
-
     public override void Execute()
     {
         _transform.position = _finalPosition;

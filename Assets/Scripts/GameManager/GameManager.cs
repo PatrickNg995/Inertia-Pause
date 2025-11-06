@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Time Pausing")]
+    [SerializeField] private TimePauseUnpause _timePauseUnpause;
+
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
     [SerializeField] private GameObject _allies;
     [SerializeField] private GameObject _civilians;
 
-    [Header("Player Interact")]
+    [Header("Player")]
+    [SerializeField] private GameObject _player;
     [SerializeField] private PlayerInteract _playerInteract;
+    [SerializeField] private CharacterController _playerController;
 
     // Toggle disabling player interaction after pausing; may be useful for testing.
     [SerializeField] private bool _isInputDisabledAfterLevelComplete = true;
@@ -91,6 +95,10 @@ public class GameManager : MonoBehaviour
     private InputAction _unpause;
     private InputAction _pauseMenu;
 
+    // Store initial player position and rotation for resetting level.
+    private Vector3 _initialPlayerPosition;
+    private Quaternion _initialPlayerRotation;
+
     /// <summary>
     /// Whether the level has been won.
     /// </summary>
@@ -118,6 +126,15 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        // Store initial player position and rotation for resetting level.
+        _initialPlayerPosition = _player.transform.position;
+        _initialPlayerRotation = _player.transform.rotation;
+
+        // Get list of enemies and allies in the scene for use in determining victory.
+        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
+        _listOfAllies = GetDirectChildrenOfObject(_allies);
+        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
+
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
@@ -128,12 +145,15 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // For testing: toggle loading previous attempt with L key.
+        // For testing reset level before unpause with L key.
+        // Will remove after PR is approved.
         if (Keyboard.current.lKey.wasPressedThisFrame)
         {
-            // TODO: should have a "Retry with current actions" button that sets this to true and reloads the scene.
-            PersistentData.Instance.WillLoadPreviousAttempt = !PersistentData.Instance.WillLoadPreviousAttempt;
-            Debug.Log("Toggled WillLoadPreviousAttempt to " + PersistentData.Instance.WillLoadPreviousAttempt);
+            RewindLevel();
+
+            // Bootleg measure to re-enable input after rewinding for testing.
+            AnyBlockingMenuClosed();
+            GameObject.Find("ResultMenu").SetActive(false);
         }
     }
 
@@ -165,31 +185,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
-        _listOfAllies = GetDirectChildrenOfObject(_allies);
-        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
-
-        // Check if we need to load a previous attempt.
-        if (PersistentData.Instance.WillLoadPreviousAttempt)
-        {
-            Debug.Log("Loading previous attempt's commands...");
-
-            // Load previous attempt's commands.
-            foreach (ActionCommand command in PersistentData.Instance.PreviousAttemptCommandList)
-            {
-                // Relink the ActionObject reference for the command.
-                command.RelinkActionObjectReference();
-
-                // Record and execute the command, putting it back into the undo command list.
-                RecordAndExecuteCommand(command);
-            }
-
-            // Clear previous attempt data when finished reloading.
-            PersistentData.Instance.PreviousAttemptCommandList.Clear();
-            PersistentData.Instance.WillLoadPreviousAttempt = false;
-        }
-
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
     }
@@ -206,6 +201,30 @@ public class GameManager : MonoBehaviour
         return childList;
     }
 
+    public void RewindLevel()
+    {
+        // Reset player position and rotation.
+        _playerController.enabled = false;
+        _player.transform.position = _initialPlayerPosition;
+        _player.transform.rotation = _initialPlayerRotation;
+        _playerController.enabled = true;
+
+        // Reset all object states to before unpause, then pause objects again.
+        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
+        _timePauseUnpause.PauseAllObjects();
+
+        // Re-enable player interaction.
+        _playerInteract.enabled = true;
+
+        // Re-enable undo/redo/unpause inputs.
+        _undo.Enable();
+        _redo.Enable();
+        _unpause.Enable();
+
+        // Re-enable collisions on the player.
+        _playerController.detectCollisions = false;
+    }
+
     private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
         if (_isInputDisabledAfterLevelComplete)
@@ -220,13 +239,8 @@ public class GameManager : MonoBehaviour
             _unpause.Disable();
 
             // Disable collisions on the player.
-            // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
-            // controller in the editor too.
-            _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+            _playerController.detectCollisions = false;
         }
-
-        // Save the current attempt's commands for potential reloading next time.
-        PersistentData.Instance.PreviousAttemptCommandList = new List<ActionCommand>(_undoCommandList);
 
         // Delay checking for victory to let objects interact first.
         // TODO: Should make this to check after an ending camera pan around or something.

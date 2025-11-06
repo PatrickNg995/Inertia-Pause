@@ -31,12 +31,6 @@ public class ToppleCommand : ActionCommand
         _initialRotation = _transform.rotation;
     }
 
-    public override void RelinkActionObjectReference()
-    {
-        base.RelinkActionObjectReference();
-        _transform = ActionObject.transform;
-    }
-
     public override void Execute()
     {
         // Apply torque to the rigidbody to topple the object.

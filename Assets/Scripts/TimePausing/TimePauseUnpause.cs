@@ -28,10 +28,7 @@ public class TimePauseUnpause : MonoBehaviour
         MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
         _pausableObjects = allObjects.OfType<IPausable>().ToArray();
 
-        foreach (IPausable pausable in _pausableObjects)
-        {
-            pausable.Pause();
-        }
+        PauseAllObjects();
     }
 
     // Enable & disable input actions.
@@ -44,6 +41,24 @@ public class TimePauseUnpause : MonoBehaviour
     {
         _timePause.performed -= CheckUnpause;
         _timePause.Disable();
+    }
+
+    public void PauseAllObjects()
+    {
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.Pause();
+        }
+    }
+
+    public void ResetAllObjectStatesBeforeUnpause()
+    {
+        _hasUnpaused = false;
+
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.ResetStateBeforeUnpause();
+        }
     }
 
     // Unpause time if time has been paused.
