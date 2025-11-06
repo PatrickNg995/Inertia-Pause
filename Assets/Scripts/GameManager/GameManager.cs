@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         _unpause.Enable();
 
         // Re-enable collisions on the player.
-        _playerController.detectCollisions = false;
+        _playerController.detectCollisions = true;
     }
 
     private void CheckVictoryCondition(InputAction.CallbackContext context)

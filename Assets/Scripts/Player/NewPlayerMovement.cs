@@ -59,8 +59,7 @@ public class NewPlayerMovement : MonoBehaviour
     public void ResetPlayerPosition()
     {
         _controller.enabled = false;
-        transform.position = _initialPlayerPosition;
-        transform.rotation = _initialPlayerRotation;
+        transform.SetPositionAndRotation(_initialPlayerPosition, _initialPlayerRotation);
         _controller.enabled = true;
     }
 

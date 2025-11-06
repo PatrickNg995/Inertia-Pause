@@ -1,11 +1,10 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class NPC : MonoBehaviour, IPausable
 {
     [Header("NPC Look Target")]
     // The object the NPC should be facing.
-    [SerializeField] private GameObject LookTarget;
+    [SerializeField] private GameObject _lookTarget;
 
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
@@ -18,7 +17,7 @@ public class NPC : MonoBehaviour, IPausable
 
     // Position and rotation of the NPC before unpausing.
     private Vector3 _pausedPosition;
-    private quaternion _pausedRotation;
+    private Quaternion _pausedRotation;
 
     // References to components.
     private Rigidbody _rb;
@@ -44,19 +43,19 @@ public class NPC : MonoBehaviour, IPausable
         SetColliderState(false);
 
         // If there is a look target, make NPC face it.
-        if (LookTarget != null)
+        if (_lookTarget != null)
         {
-            transform.LookAt(LookTarget.transform);
+            transform.LookAt(_lookTarget.transform);
         }
     }
 
     // Temp function for Debugging
     private void OnDrawGizmos()
     {
-        if (LookTarget)
+        if (_lookTarget)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, LookTarget.transform.position);
+            Gizmos.DrawLine(transform.position, _lookTarget.transform.position);
         }
     }
 
@@ -97,8 +96,7 @@ public class NPC : MonoBehaviour, IPausable
     public void ResetStateBeforeUnpause()
     {
         // Reset position and rotation to pre-unpause state.
-        transform.position = _pausedPosition;
-        transform.rotation = _pausedRotation;
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
 
         // Disable ragdoll physics.
         _animator.enabled = true;

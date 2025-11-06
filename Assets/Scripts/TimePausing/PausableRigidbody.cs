@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Get Rigidbody, then remove & add velocity depending
 // on game state
@@ -9,7 +8,7 @@ public class PausableRigidbody : MonoBehaviour, IPausable
     private Vector3 _savedVelocity;
 
     private Vector3 _pausedPosition;
-    private quaternion _pausedRotation;
+    private Quaternion _pausedRotation;
 
     // Save velocity & stop movement
     public void Pause()
@@ -31,7 +30,6 @@ public class PausableRigidbody : MonoBehaviour, IPausable
     public void ResetStateBeforeUnpause()
     {
         // Reset position and rotation to pre-unpause state.
-        transform.position = _pausedPosition;
-        transform.rotation = _pausedRotation;
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 }

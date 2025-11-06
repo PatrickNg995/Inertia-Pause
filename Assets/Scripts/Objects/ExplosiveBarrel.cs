@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ExplosiveBarrel : MonoBehaviour, IPausable
 {
@@ -23,7 +22,7 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
     private bool _canExplode = false;
 
     private Vector3 _pausedPosition;
-    private quaternion _pausedRotation;
+    private Quaternion _pausedRotation;
 
     public void Awake()
     {
@@ -102,7 +101,6 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
         _meshRenderer.enabled = true;
         _explosionScript.ResetExplosion();
 
-        transform.position = _pausedPosition;
-        transform.rotation = _pausedRotation;
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 }

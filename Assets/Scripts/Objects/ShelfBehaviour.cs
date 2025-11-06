@@ -1,5 +1,4 @@
-﻿using Unity.Mathematics;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ShelfBehaviour : InteractionObject, IPausable
@@ -10,7 +9,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     private Rigidbody _rb;
     private Vector3 _pausedPosition;
-    private quaternion _pausedRotation;
+    private Quaternion _pausedRotation;
     //private bool _paused = false;
     //private Vector3 _rotationalVelocity;
     //private Vector3 _velocity;
@@ -115,7 +114,6 @@ public class ShelfBehaviour : InteractionObject, IPausable
     public void ResetStateBeforeUnpause()
     {
         // Reset position and rotation to pre-unpause state.
-        transform.position = _pausedPosition;
-        transform.rotation = _pausedRotation;
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 }

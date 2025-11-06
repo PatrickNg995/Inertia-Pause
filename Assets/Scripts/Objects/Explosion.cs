@@ -56,5 +56,4 @@ public class Explosion : MonoBehaviour
             npc.ApplyHit(impactDir * HIT_FORCE, hitPoint);
         }
     }
-
 }
