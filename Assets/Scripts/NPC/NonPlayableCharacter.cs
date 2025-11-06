@@ -4,7 +4,7 @@ public class NPC : MonoBehaviour, IPausable
 {
     [Header("NPC Look Target")]
     // The object the NPC should be facing.
-    [SerializeField] private GameObject LookTarget;
+    [SerializeField] private GameObject _lookTarget;
 
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
@@ -12,8 +12,12 @@ public class NPC : MonoBehaviour, IPausable
     // Force applied when hitting the ground from a fall to simulate impact.
     private const float FALL_HIT_FORCE = 15f;
 
-    // Initial position to determine fall distance.
+    // Initial position of the NPC, for determining fall death.
     private Vector3 _initialPosition;
+
+    // Position and rotation of the NPC before unpausing.
+    private Vector3 _pausedPosition;
+    private Quaternion _pausedRotation;
 
     // References to components.
     private Rigidbody _rb;
@@ -30,7 +34,7 @@ public class NPC : MonoBehaviour, IPausable
         _animator = GetComponent<Animator>();
         _collider = GetComponent<Collider>();
 
-        // Record initial position for determining fall damage.
+        // Record initial position for determining fall death.
         _initialPosition = transform.position;
 
         // Start with ragdoll physics disabled.
@@ -39,19 +43,19 @@ public class NPC : MonoBehaviour, IPausable
         SetColliderState(false);
 
         // If there is a look target, make NPC face it.
-        if (LookTarget != null)
+        if (_lookTarget != null)
         {
-            transform.LookAt(LookTarget.transform);
+            transform.LookAt(_lookTarget.transform);
         }
     }
 
     // Temp function for Debugging
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        if (LookTarget)
+        if (_lookTarget)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, LookTarget.transform.position);
+            Gizmos.DrawLine(transform.position, _lookTarget.transform.position);
         }
     }
 
@@ -81,8 +85,29 @@ public class NPC : MonoBehaviour, IPausable
 
     public void Unpause()
     {
+        // Save position and rotation before unpausing.
+        _pausedPosition = transform.position;
+        _pausedRotation = transform.rotation;
+
         // Restore rigidbody physics.
         _rb.isKinematic = false;
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reset position and rotation to pre-unpause state.
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
+
+        // Disable ragdoll physics.
+        _animator.enabled = true;
+        SetRigidbodyState(true);
+        SetColliderState(false);
+
+        // Revive NPC if dead.
+        if (!IsAlive)
+        {
+            IsAlive = true;
+        }
     }
 
     public void Die()

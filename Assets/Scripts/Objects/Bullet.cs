@@ -11,7 +11,7 @@ public class Bullet : MonoBehaviour, IPausable
     [SerializeField] private float _bulletSpeed = 20f;
 
     // Force applied to NPCs on hit.
-    private const float HIT_FORCE = 15f;
+    private const float HIT_FORCE = 10f;
     private const float UPWARD_FACTOR = 0.4f;
 
     // Reference rigidbody.
@@ -20,6 +20,9 @@ public class Bullet : MonoBehaviour, IPausable
 
     // Saved velocity.
     private Vector3 _savedVelocity;
+
+    // Position before unpausing.
+    private Vector3 _pausedPosition;
 
     public void Awake()
     {
@@ -47,7 +50,7 @@ public class Bullet : MonoBehaviour, IPausable
         // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
         if (!_isPiercing || other.CompareTag("Unpierceable"))
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         // Check Extra Tag Component if object is unpierceable.
@@ -55,7 +58,7 @@ public class Bullet : MonoBehaviour, IPausable
         {
             if (tags.HasTag("Unpierceable"))
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
     }
@@ -95,9 +98,20 @@ public class Bullet : MonoBehaviour, IPausable
     // Enable collider on unpause.
     public void Unpause()
     {
+        _pausedPosition = transform.position;
+
         _canKill = true;
 
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reactivate the bullet.
+        gameObject.SetActive(true);
+
+        // Reset position to pre-unpause state.
+        transform.position = _pausedPosition;
     }
 }

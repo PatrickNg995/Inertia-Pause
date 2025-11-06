@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 // Get Particle System, then Pause & Play them depending
 // on game state
@@ -18,5 +18,10 @@ public class PausableParticles : MonoBehaviour, IPausable
     public void Unpause()
     {
         ps.Play();
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        
     }
 }

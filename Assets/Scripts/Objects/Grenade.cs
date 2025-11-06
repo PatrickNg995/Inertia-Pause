@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Grenade : MonoBehaviour, IPausable
 {
@@ -22,6 +22,10 @@ public class Grenade : MonoBehaviour, IPausable
     // Saved velocity.
     private Vector3 _savedVelocity;
 
+    // Position and rotation before unpausing.
+    private Vector3 _pausedPosition;
+    private Quaternion _pausedRotation;
+
     public void Awake()
     {
         // Stop explosions immediately.
@@ -42,7 +46,7 @@ public class Grenade : MonoBehaviour, IPausable
                 _canExplode = false;
                 _sphereCollider.enabled = false;
                 _meshRenderer.enabled = false;
-                Destroy(_rb);
+                //Destroy(_rb);
                 _explosionScript.StartExplosion();
             }
         }
@@ -69,11 +73,24 @@ public class Grenade : MonoBehaviour, IPausable
     // Start grenade explosion countdown on unpause.
     public void Unpause()
     {
+        _pausedPosition = transform.position;
+        _pausedRotation = transform.rotation;
+
         _canExplode = true;
 
         _rb.isKinematic = false;
         _sphereCollider.isTrigger = false;
 
         _rb.linearVelocity = _savedVelocity;
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reset the grenade.
+        _sphereCollider.enabled = true;
+        _meshRenderer.enabled = true;
+        _explosionScript.ResetExplosion();
+
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 }

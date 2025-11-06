@@ -19,9 +19,8 @@ public class ToppleCommand : ActionCommand
     private Quaternion _finalRotation;
 
     public ToppleCommand(InteractionObject interactionObject, Rigidbody rb,
-                         Vector3 direction, float torque)
+                         Vector3 direction, float torque) : base(interactionObject)
     {
-        ActionObject = interactionObject;
         _rb = rb;
         _transform = interactionObject.transform;
 

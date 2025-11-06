@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Time Pausing")]
+    [SerializeField] private TimePauseUnpause _timePauseUnpause;
+
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
     [SerializeField] private GameObject _allies;
     [SerializeField] private GameObject _civilians;
 
-    [Header("Player Interact")]
+    [Header("Player")]
+    [SerializeField] private NewPlayerMovement _playerMovement;
     [SerializeField] private PlayerInteract _playerInteract;
+    [SerializeField] private CharacterController _playerController;
 
     // Toggle disabling player interaction after pausing; may be useful for testing.
     [SerializeField] private bool _isInputDisabledAfterLevelComplete = true;
@@ -91,7 +95,9 @@ public class GameManager : MonoBehaviour
     private InputAction _unpause;
     private InputAction _pauseMenu;
 
-    // Whether the level has been won, for future use.
+    /// <summary>
+    /// Whether the level has been won.
+    /// </summary>
     public bool LevelWon { get; private set; } = false;
 
     /// <summary>
@@ -99,7 +105,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public int ActionCount => _actionCount;
 
-    // Make GameManager a singleton.
+    /// <summary>
+    /// Instance of the GameManager singleton used to access GameManager functionality.
+    /// </summary>
     public static GameManager Instance { get; private set; }
 
     private void Awake()
@@ -114,12 +122,31 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        // Get list of enemies and allies in the scene for use in determining victory.
+        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
+        _listOfAllies = GetDirectChildrenOfObject(_allies);
+        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
+
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
         _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
+    }
+
+    private void Update()
+    {
+        // For testing reset level before unpause with L key.
+        // Will remove after PR is approved.
+        if (Keyboard.current.lKey.wasPressedThisFrame)
+        {
+            RewindLevel();
+
+            // Bootleg measure to re-enable input after rewinding for testing.
+            AnyBlockingMenuClosed();
+            GameObject.Find("ResultMenu").SetActive(false);
+        }
     }
 
     private void OnEnable()
@@ -150,11 +177,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
-        _listOfAllies = GetDirectChildrenOfObject(_allies);
-        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
-
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
     }
@@ -171,6 +193,27 @@ public class GameManager : MonoBehaviour
         return childList;
     }
 
+    public void RewindLevel()
+    {
+        // Reset player position and rotation.
+        _playerMovement.ResetPlayerPosition();
+
+        // Reset all object states to before unpause, then pause objects again.
+        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
+        _timePauseUnpause.PauseAllObjects();
+
+        // Re-enable player interaction.
+        _playerInteract.enabled = true;
+
+        // Re-enable undo/redo/unpause inputs.
+        _undo.Enable();
+        _redo.Enable();
+        _unpause.Enable();
+
+        // Re-enable collisions on the player.
+        _playerController.detectCollisions = true;
+    }
+
     private void CheckVictoryCondition(InputAction.CallbackContext context)
     {
         if (_isInputDisabledAfterLevelComplete)
@@ -179,14 +222,13 @@ public class GameManager : MonoBehaviour
             _playerInteract.enabled = false;
             Debug.Log("Player Interact disabled");
 
-            // Disable collisions on the player.
-            // Since this is a stopgap solution I'm not gonna bother requiring us to assign the character
-            // controller in the editor too.
-            _playerInteract.gameObject.GetComponentInParent<CharacterController>().detectCollisions = false;
+            // Disable undo/redo/unpause inputs.
+            _undo.Disable();
+            _redo.Disable();
+            _unpause.Disable();
 
-            // Clear undo/redo command lists to prevent players from using them after unpausing.
-            _undoCommandList.Clear();
-            _redoCommandList.Clear();
+            // Disable collisions on the player.
+            _playerController.detectCollisions = false;
         }
 
         // Delay checking for victory to let objects interact first.

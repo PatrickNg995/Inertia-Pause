@@ -12,6 +12,15 @@ public abstract class ActionCommand : ICommand
     public bool WillCountAsAction { get; protected set; } = true;
 
     /// <summary>
+    /// Base constructor for ActionCommand.
+    /// </summary>
+    /// <param name="interactionObject">The InteractionObject the command affects</param>
+    public ActionCommand(InteractionObject interactionObject)
+    {
+        ActionObject = interactionObject;
+    }
+
+    /// <summary>
     /// Execute the command; should mark the InteractionObject as having taken an action.
     /// </summary>
     public abstract void Execute();
