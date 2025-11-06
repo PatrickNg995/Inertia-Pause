@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _civilians;
 
     [Header("Player")]
-    [SerializeField] private GameObject _player;
+    [SerializeField] private NewPlayerMovement _playerMovement;
     [SerializeField] private PlayerInteract _playerInteract;
     [SerializeField] private CharacterController _playerController;
 
@@ -95,10 +95,6 @@ public class GameManager : MonoBehaviour
     private InputAction _unpause;
     private InputAction _pauseMenu;
 
-    // Store initial player position and rotation for resetting level.
-    private Vector3 _initialPlayerPosition;
-    private Quaternion _initialPlayerRotation;
-
     /// <summary>
     /// Whether the level has been won.
     /// </summary>
@@ -125,10 +121,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
-        // Store initial player position and rotation for resetting level.
-        _initialPlayerPosition = _player.transform.position;
-        _initialPlayerRotation = _player.transform.rotation;
 
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies = GetDirectChildrenOfObject(_enemies);
@@ -204,10 +196,7 @@ public class GameManager : MonoBehaviour
     public void RewindLevel()
     {
         // Reset player position and rotation.
-        _playerController.enabled = false;
-        _player.transform.position = _initialPlayerPosition;
-        _player.transform.rotation = _initialPlayerRotation;
-        _playerController.enabled = true;
+        _playerMovement.ResetPlayerPosition();
 
         // Reset all object states to before unpause, then pause objects again.
         _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();

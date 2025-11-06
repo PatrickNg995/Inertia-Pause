@@ -1,5 +1,4 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
@@ -23,9 +22,16 @@ public class NewPlayerMovement : MonoBehaviour
 
     private bool _isOnLadder = false;
 
+    // Store initial player position and rotation for resetting level.
+    private Vector3 _initialPlayerPosition;
+    private Quaternion _initialPlayerRotation;
+
     // Get character controller & player inputs
     private void Awake()
     {
+        _initialPlayerPosition = transform.position;
+        _initialPlayerRotation = transform.rotation;
+
         _controller = GetComponent<CharacterController>();
         _inputActions = new PlayerActions();
         _fallingVelocity = 0f;
@@ -48,6 +54,14 @@ public class NewPlayerMovement : MonoBehaviour
     void Update()
     {
         MovePlayer();
+    }
+
+    public void ResetPlayerPosition()
+    {
+        _controller.enabled = false;
+        transform.position = _initialPlayerPosition;
+        transform.rotation = _initialPlayerRotation;
+        _controller.enabled = true;
     }
 
     private void MovePlayer()
