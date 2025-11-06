@@ -14,8 +14,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
     private Vector3 _rotationalVelocity;
     private Vector3 _velocity;
     private float _timeSincePause;
-
-    public bool IsToppled { get; set; }
+    private bool _isToppled;
 
     private void Start()
     {
@@ -80,9 +79,15 @@ public class ShelfBehaviour : InteractionObject, IPausable
         _timeSincePause = 0f;
     }
 
+    public override void OnCommandRedo()
+    {
+        _isToppled = true;
+    }
+
     public override void OnCommandUndo()
     {
         _timeSincePause = 0f;
+        _isToppled = false;
     }
 
     public void Pause()
@@ -107,15 +112,13 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
         _rb.isKinematic = false;
 
-        if (IsToppled)
+        if (_isToppled)
         {
             _rb.linearVelocity = _velocity;
             _rb.angularVelocity = _rotationalVelocity;
         }
 
         _paused = false;
-
-        //if (IsToppled) _rb.AddForce(transform.forward * _torque);
     }
 
     public void ResetStateBeforeUnpause()

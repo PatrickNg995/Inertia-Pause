@@ -46,13 +46,6 @@ public class ToppleCommand : ActionCommand
 
         // Mark the interaction object as having taken an action.
         ActionObject.HasTakenAction = true;
-        //_transform.Rotate(Vector3.right, 5f);
-        //_transform.Translate(_direction * 0.15f);
-
-        if (ActionObject is ShelfBehaviour behaviour)
-        {
-            behaviour.IsToppled = true;
-        }
 
         ActionObject.OnCommandRedo();
     }
@@ -69,11 +62,6 @@ public class ToppleCommand : ActionCommand
         // Revert the object to its initial location and rotation.
         _transform.position = _initialPosition;
         _transform.rotation = _initialRotation;
-
-        if (ActionObject is ShelfBehaviour behaviour)
-        {
-            behaviour.IsToppled = false;
-        }
 
         // Mark the interaction object as not having taken an action.
         ActionObject.HasTakenAction = false;
