@@ -19,6 +19,7 @@ public class ResultMenuView : MonoBehaviour
 
     [field: Header("Main Buttons")]
     [field: SerializeField] public CustomButtonView NextButton { get; private set; }
+    [field: SerializeField] public CustomButtonView RewindButton { get; private set; }
     [field: SerializeField] public CustomButtonView RestartButton { get; private set; }
     [field: SerializeField] public CustomButtonView MainMenuButton { get; private set; }
 

@@ -29,10 +29,12 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
+        _view.RewindButton.Button.onClick.AddListener(OnRewindButtonClicked);
         _view.RestartButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
         _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
         _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
+        _view.RewindButton.OnHover += ChangeHint;
         _view.RestartButton.OnHover += ChangeHint;
         _view.NextButton.OnHover += ChangeHint;
         _view.MainMenuButton.OnHover += ChangeHint;
@@ -76,7 +78,8 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.ActionCountText.text = results.ActionsTaken.ToString();
 
         _view.NewRecord.SetActive(false);
-        _view.NextButton.gameObject.SetActive(_gameManager.LevelWon);
+        _view.NextButton.gameObject.SetActive(isLevelComplete);
+        _view.RewindButton.gameObject.SetActive(!isLevelComplete);
 
         if (scenarioInfo.NumberOfCivilians > 0)
         {
@@ -119,6 +122,17 @@ public class ResultMenuPresenter : MonoBehaviour
         rowView.gameObject.SetActive(true);
     }
 
+    private void RemoveObjectiveRows()
+    {
+        Transform container = _view.ObjectiveRowContainer.transform;
+
+        // Index 0 is the template row so destroy children after index 0.
+        for (int i = container.childCount - 1; i > 0; i--)
+        {
+            Destroy(container.GetChild(i).gameObject);
+        }
+    }
+
     private void OnNextButtonClicked(ScenarioInfo scenarioInfo)
     {
         if (scenarioInfo.NextEnvironmentSceneName != string.Empty && scenarioInfo.NextScenarioAssetsSceneName != string.Empty)
@@ -129,5 +143,13 @@ public class ResultMenuPresenter : MonoBehaviour
         {
             AdditiveSceneManager.Instance.LoadMainMenu();
         }
+    }
+
+    private void OnRewindButtonClicked()
+    {
+        _gameManager.AnyBlockingMenuClosed();
+        _gameManager.RewindLevel();
+        RemoveObjectiveRows();
+        CloseMenu();
     }
 }
