@@ -198,6 +198,9 @@ public class GameManager : MonoBehaviour
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
+
+        // Show objectives again.
+        OnLevelStart?.Invoke();
     }
 
     private void CheckVictoryCondition(InputAction.CallbackContext context)

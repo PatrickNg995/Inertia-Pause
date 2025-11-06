@@ -55,7 +55,6 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         gameObject.SetActive(false);
         EventSystem.current.SetSelectedGameObject(null);
-        _gameManager.AnyBlockingMenuClosed();
     }
 
     private void ChangeHint(string description)
@@ -148,6 +147,7 @@ public class ResultMenuPresenter : MonoBehaviour
 
     private void OnRewindButtonClicked()
     {
+        _gameManager.AnyBlockingMenuClosed();
         _gameManager.RewindLevel();
         RemoveObjectiveRows();
         CloseMenu();
