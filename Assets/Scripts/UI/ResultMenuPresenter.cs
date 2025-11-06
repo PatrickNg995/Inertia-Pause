@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ResultMenuPresenter : MonoBehaviour
 {
@@ -28,11 +29,17 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
-        _view.RestartButton.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
-        _view.NextButton.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
-        _view.MainMenuButton.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
+        _view.RestartButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
+        _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
+        _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
+
+        _view.RestartButton.OnHover += ChangeHint;
+        _view.NextButton.OnHover += ChangeHint;
+        _view.MainMenuButton.OnHover += ChangeHint;
 
         _gameManager.OnLevelComplete += OnLevelComplete;
+
+        _view.DescriptionText.text = string.Empty;
 
         CloseMenu();
     }
@@ -45,6 +52,12 @@ public class ResultMenuPresenter : MonoBehaviour
     private void CloseMenu()
     {
         gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
     }
 
     private void OnLevelComplete(LevelResults results)

@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("NPC Lists")]
+    [SerializeField] private GameObject _enemies;
+    [SerializeField] private GameObject _allies;
+    [SerializeField] private GameObject _civilians;
+
     [Header("Player Interact")]
     [SerializeField] private PlayerInteract _playerInteract;
 
@@ -24,6 +29,16 @@ public class GameManager : MonoBehaviour
     /// Invoked when the action count is updated.
     /// </summary>
     public Action<int> OnActionUpdate;
+
+    /// <summary>
+    /// Invoked when an undo becomes available (after any action).
+    /// </summary>
+    public Action OnUndoAvailable;
+
+    /// <summary>
+    /// Invoked when no undos are available (after undoing all actions).
+    /// </summary>
+    public Action OnUndoUnavailable;
 
     /// <summary>
     /// Invoked when a redo becomes available (after an undo).
@@ -67,6 +82,7 @@ public class GameManager : MonoBehaviour
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
     private List<GameObject> _listOfAllies = new List<GameObject>();
+    private List<GameObject> _listOfCivilians = new List<GameObject>();
 
     // For player input actions.
     private PlayerActions _inputActions;
@@ -135,8 +151,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(GameObject.Find("Enemies"));
-        _listOfAllies = GetDirectChildrenOfObject(GameObject.Find("Allies"));
+        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
+        _listOfAllies = GetDirectChildrenOfObject(_allies);
+        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
 
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
@@ -183,9 +200,11 @@ public class GameManager : MonoBehaviour
         // The following logic should be in CheckVictoryCondition when properly implemented.
         int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);
         int alliesAlive = GetNumNPCsAlive(_listOfAllies);
+        int civiliansAlive = GetNumNPCsAlive(_listOfCivilians);
+        Debug.Log($"Enemies alive: {enemiesAlive}, Allies alive: {alliesAlive}, Civilians alive: {civiliansAlive}");
 
-        // Check if there are no enemies alive and all allies are alive.
-        if (enemiesAlive == 0 && alliesAlive == _listOfAllies.Count)
+        // Check if there are no enemies alive and all allies and civilians are alive.
+        if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
             Debug.Log("Level won!");
@@ -197,8 +216,8 @@ public class GameManager : MonoBehaviour
 
         LevelResults results = new()
         {
-            CiviliansRescued = alliesAlive,
-            AlliesSaved = 0,
+            CiviliansRescued = civiliansAlive,
+            AlliesSaved = alliesAlive,
             EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
             // TODO: Optional objectives.
             OptionalObjectivesComplete = new bool[2] { true, false },
@@ -214,9 +233,17 @@ public class GameManager : MonoBehaviour
     private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
     {
         int numAlive = 0;
-        foreach (GameObject npc in listOfNPCs)
+        foreach (GameObject gameObject in listOfNPCs)
         {
-            if (npc.GetComponent<NPC>().IsAlive)
+            NPC npc = gameObject.GetComponent<NPC>();
+
+            // If NPC component is not on the parent object, check children.
+            if (npc == null)
+            {
+                npc = gameObject.GetComponentInChildren<NPC>();
+            }
+
+            if (npc.IsAlive)
             {
                 numAlive++;
             }
@@ -231,6 +258,9 @@ public class GameManager : MonoBehaviour
 
         // Add the command to the undo list.
         _undoCommandList.Add(command);
+
+        // Notify that undo is now available.
+        OnUndoAvailable?.Invoke();
 
         // Clear the redo list since a new action has been performed.
         _redoCommandList.Clear();
@@ -254,6 +284,12 @@ public class GameManager : MonoBehaviour
         // Add the redo command to the redo list.
         _redoCommandList.Add(redoCommand);
 
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
+
         // Notify if redo is now available.
         if (_redoCommandList.Count == 1)
         {
@@ -271,6 +307,12 @@ public class GameManager : MonoBehaviour
             // Undo the command and add to redo list.
             UndoAndAddToRedoList(undoCommand);
 
+            // Notify if there are no more actions to undo.
+            if (_undoCommandList.Count == 0)
+            {
+                OnUndoUnavailable?.Invoke();
+            }
+
             Debug.Log("Action undone. Total actions: " + _actionCount);
         }
     }
@@ -284,6 +326,12 @@ public class GameManager : MonoBehaviour
 
         // Remove Command from undo list.
         _undoCommandList.RemoveAt(removeIndex);
+
+        // Notify if there are no more actions to undo.
+        if (_undoCommandList.Count == 0)
+        {
+            OnUndoUnavailable?.Invoke();
+        }
 
         Debug.Log("Specific action undone. Total actions: " + _actionCount);
     }
@@ -307,6 +355,9 @@ public class GameManager : MonoBehaviour
                 _actionCount++;
                 OnActionUpdate?.Invoke(_actionCount);
             }
+
+            // Notify that undo is now available.
+            OnUndoAvailable?.Invoke();
 
             // Notify if no more redos are available.
             if (_redoCommandList.Count == 0)

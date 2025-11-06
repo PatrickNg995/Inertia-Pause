@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NUnit.Framework;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
@@ -47,6 +48,15 @@ public class Bullet : MonoBehaviour, IPausable
         if (!_isPiercing || other.CompareTag("Unpierceable"))
         {
             Destroy(gameObject);
+        }
+
+        // Check Extra Tag Component if object is unpierceable.
+        if (other.TryGetComponent<ExtraTagComponent>(out var tags))
+        {
+            if (tags.HasTag("Unpierceable"))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 

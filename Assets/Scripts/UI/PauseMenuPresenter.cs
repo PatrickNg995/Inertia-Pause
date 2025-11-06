@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PauseMenuPresenter : MonoBehaviour
 {
@@ -11,10 +12,13 @@ public class PauseMenuPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private GameManager _gameManager;
 
+    private PlayerActions _inputActions;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CloseMenu();
+        _view.gameObject.SetActive(false);
+        _optionsView.gameObject.SetActive(false);
 
         if (_gameManager.ScenarioInfo != null)
         {
@@ -22,17 +26,34 @@ public class PauseMenuPresenter : MonoBehaviour
         }
 
         // Pause menu
-        _view.ResumeButton.onClick.AddListener(OnResumePressed);
-        _view.RestartButton.onClick.AddListener(OnRestartPressed);
-        _view.OptionsButton.onClick.AddListener(OnOptionsPressed);
-        _view.QuitScenarioButton.onClick.AddListener(OnQuitPressed);
-        _view.BackButton.onClick.AddListener(OnResumePressed);
+        _view.ResumeButton.Button.onClick.AddListener(OnResumePressed);
+        _view.RestartButton.Button.onClick.AddListener(OnRestartPressed);
+        _view.OptionsButton.Button.onClick.AddListener(OnOptionsPressed);
+        _view.QuitScenarioButton.Button.onClick.AddListener(OnQuitPressed);
+        _view.BackButton.Button.onClick.AddListener(OnResumePressed);
+
+        _view.ResumeButton.OnHover += ChangeHint;
+        _view.RestartButton.OnHover += ChangeHint;
+        _view.OptionsButton.OnHover += ChangeHint;
+        _view.QuitScenarioButton.OnHover += ChangeHint;
+        _view.BackButton.OnHover += ChangeHint;
 
         // Options menu
         _optionsView.BackButton.onClick.AddListener(OnBackFromOptionsPressed);
 
         // GameManager
         _gameManager.OnPauseMenuOpen += OpenMenu;
+
+        // UI
+        _inputActions = new PlayerActions();
+        _inputActions.UI.Cancel.performed += _ => OnResumePressed();
+        _inputActions.UI.Navigate.performed += _ =>
+        {
+            if (EventSystem.current.currentSelectedGameObject == null)
+            {
+                _view.ResumeButton.Button.Select();
+            }
+        };
     }
 
     public void OpenMenu()
@@ -41,12 +62,21 @@ public class PauseMenuPresenter : MonoBehaviour
         _optionsView.gameObject.SetActive(false);
 
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
+        _view.DescriptionText.text = string.Empty;
+        _inputActions.UI.Enable();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
         _optionsView.gameObject.SetActive(false);
+        _inputActions.UI.Disable();
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
@@ -69,7 +99,7 @@ public class PauseMenuPresenter : MonoBehaviour
 
     private void OnRestartPressed()
     {
-        // TODO: Add a popup here.
+        CloseMenu();
         AdditiveSceneManager.Instance.ReloadScenario();
     }
 
@@ -87,7 +117,7 @@ public class PauseMenuPresenter : MonoBehaviour
 
     private void OnQuitPressed()
     {
-        // TODO: Add a popup here.
+        CloseMenu();
         AdditiveSceneManager.Instance.LoadMainMenu();
     }
 }

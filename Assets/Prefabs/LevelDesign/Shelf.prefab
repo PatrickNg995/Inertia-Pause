@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6994191973885194762}
   - component: {fileID: 1418054578776394492}
   - component: {fileID: 3711723045117334761}
+  - component: {fileID: 8677206308350132877}
   m_Layer: 6
   m_Name: Shelf
   m_TagString: Lethal
@@ -118,7 +119,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6582199744831562563}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 20
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0.5, z: 0}
@@ -151,3 +152,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 9ef45f3cba1ef6643b60fafee1b6b694, type: 2}
   _torque: 2000
+--- !u!114 &8677206308350132877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6582199744831562563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b5ad9ab9450df14e8e97b3f0126f406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tags:
+  - {fileID: 11400000, guid: fe84185f5cd67c84eacb540442377051, type: 2}
