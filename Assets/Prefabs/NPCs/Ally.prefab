@@ -339,6 +339,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4834809398928622970}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8914013337045070683}
     - targetCorrespondingSourceObject: {fileID: -766917891154793864, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5653142514890787424}
@@ -1497,6 +1500,28 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: d2502424243daa6489d35ec51e07982b, type: 2}
   _dragSpeed: 10
   _maxDragDistance: 1
+--- !u!114 &8914013337045070683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8613579500300813949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d455d7029a760c2439da9794dc1d9d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skins:
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  - {fileID: 919132149155446097, guid: 129db5ad9eda8794d83b5c2536efa3fb, type: 3}
+  activeSkinIndex: 0
+  targetAnimator: {fileID: 3036104080038151869}
+  modelContainer: {fileID: 0}
 --- !u!1 &9057267253367041646 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 502465468816233794, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
