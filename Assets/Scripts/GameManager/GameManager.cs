@@ -135,20 +135,6 @@ public class GameManager : MonoBehaviour
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
-    private void Update()
-    {
-        // For testing reset level before unpause with L key.
-        // Will remove after PR is approved.
-        if (Keyboard.current.lKey.wasPressedThisFrame)
-        {
-            RewindLevel();
-
-            // Bootleg measure to re-enable input after rewinding for testing.
-            AnyBlockingMenuClosed();
-            GameObject.Find("ResultMenu").SetActive(false);
-        }
-    }
-
     private void OnEnable()
     {
         _undo.performed += Undo;
