@@ -7,8 +7,7 @@ public class Grenade : MonoBehaviour, IPausable
     [SerializeField] private float _grenadeInitialSpeed = 10f;
 
     // Time before grenade explodes.
-    [SerializeField] private float _grenadeInitialExplosionDelay = 1.5f;
-    private float _grenadeCurrentExplosionDelay;
+    [SerializeField] private float _grenadeExplosionDelay = 1.5f;
 
     [Header("Components")]
     // Reference components.
@@ -34,8 +33,6 @@ public class Grenade : MonoBehaviour, IPausable
 
         // Set the grenade's initial velocity to be in the forward direction.
         _rb.linearVelocity = transform.forward * _grenadeInitialSpeed;
-
-        _grenadeCurrentExplosionDelay = _grenadeInitialExplosionDelay;
     }
 
     void Update()
@@ -43,13 +40,13 @@ public class Grenade : MonoBehaviour, IPausable
         // Explode grenade after countdown after unpausing.
         if (_canExplode)
         {
-            _grenadeCurrentExplosionDelay -= Time.deltaTime;
-            if (_grenadeCurrentExplosionDelay < 0)
+            _grenadeExplosionDelay -= Time.deltaTime;
+            if (_grenadeExplosionDelay < 0)
             {
                 _canExplode = false;
-                _sphereCollider.enabled = false; // Stop collisions.
-                _meshRenderer.enabled = false; // Remove visuals.
-                _rb.isKinematic = true; // Stop movement.
+                _sphereCollider.enabled = false;
+                _meshRenderer.enabled = false;
+                //Destroy(_rb);
                 _explosionScript.StartExplosion();
             }
         }
@@ -71,8 +68,6 @@ public class Grenade : MonoBehaviour, IPausable
 
         _rb.isKinematic = true;
         _sphereCollider.isTrigger = true;
-
-        _grenadeCurrentExplosionDelay = _grenadeInitialExplosionDelay;
     }
 
     // Start grenade explosion countdown on unpause.
@@ -94,7 +89,6 @@ public class Grenade : MonoBehaviour, IPausable
         // Reset the grenade.
         _sphereCollider.enabled = true;
         _meshRenderer.enabled = true;
-        _grenadeCurrentExplosionDelay = _grenadeInitialExplosionDelay;
         _explosionScript.ResetExplosion();
 
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
