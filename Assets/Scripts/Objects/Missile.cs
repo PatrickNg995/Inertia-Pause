@@ -78,7 +78,7 @@ public class Missile : MonoBehaviour, IPausable
 
     public void ResetStateBeforeUnpause()
     {
-        // Reset the grenade.
+        // Reset the missile.
         _capsuleCollider.enabled = true;
         _meshRenderer.enabled = true;
         _explosionScript.ResetExplosion();

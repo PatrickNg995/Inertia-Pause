@@ -37,7 +37,7 @@ public class Mine : MonoBehaviour, IPausable
             return;
         }
 
-        // Get the layer mask of the other object.
+        // Get the layer mask of the other object with bitwise left shift.
         LayerMask collisionLayer = 1 << collision.gameObject.layer;
 
         // Check if the other object is in the correct layer to explode.
