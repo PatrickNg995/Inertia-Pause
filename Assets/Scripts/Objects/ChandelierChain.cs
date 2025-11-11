@@ -80,15 +80,17 @@ public class ChandelierChain : MonoBehaviour, IPausable
         // Reset position & rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
 
-        // Setup hinge joint if it was destroyed.
-        if (_hingeJoint == null)
+        // Setup hinge joint again.
+        if (_hingeJoint != null)
         {
-            _hingeJoint = gameObject.AddComponent<HingeJoint>();
-            _hingeJoint.anchor = _anchor;
-            _hingeJoint.autoConfigureConnectedAnchor = false;
-            _hingeJoint.connectedAnchor = _connectedAnchor;
-            _hingeJoint.connectedBody = _connectedChain;
+            Destroy(_hingeJoint);
         }
+
+        _hingeJoint = gameObject.AddComponent<HingeJoint>();
+        _hingeJoint.anchor = _anchor;
+        _hingeJoint.autoConfigureConnectedAnchor = false;
+        _hingeJoint.connectedAnchor = _connectedAnchor;
+        _hingeJoint.connectedBody = _connectedChain;
 
         // Wake up rigidbody.
         _rb.WakeUp();
