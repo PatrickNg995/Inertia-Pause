@@ -4,6 +4,7 @@ public class Mine : MonoBehaviour, IPausable
 {
     // Reference components.
     [SerializeField] private Rigidbody _rb;
+    [SerializeField] private BoxCollider _triggerCollider;
     [SerializeField] private BoxCollider _collisionCollider;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
@@ -23,7 +24,8 @@ public class Mine : MonoBehaviour, IPausable
 
     public void Awake()
     {
-        // Set collider properly.
+        // Set colliders properly.
+        _triggerCollider.isTrigger = true;
         _collisionCollider.isTrigger = false;
 
         // Make sure the mine can't explode
@@ -40,8 +42,22 @@ public class Mine : MonoBehaviour, IPausable
         // Get the layer mask of the other object with bitwise left shift.
         LayerMask collisionLayer = 1 << collision.gameObject.layer;
 
-        // Check if the other object is in the correct layer or tag to explode.
-        if (collisionLayer == _interactableLayer || collision.gameObject.CompareTag("Lethal"))
+        // Check if the other object is in the correct layer to explode.
+        if (collisionLayer == _interactableLayer)
+        {
+            TriggerExplosion();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!_canExplode)
+        {
+            return;
+        }
+
+        // Explode on contact with a lethal object.
+        if (other.CompareTag("Lethal"))
         {
             TriggerExplosion();
         }
@@ -52,6 +68,7 @@ public class Mine : MonoBehaviour, IPausable
         // Cleanup mine without removing it & start explosion.
         _canExplode = false;
         _collisionCollider.enabled = false;
+        _triggerCollider.enabled = false;
         _meshRenderer.enabled = false;
 
         _rb.isKinematic = true;
@@ -81,6 +98,7 @@ public class Mine : MonoBehaviour, IPausable
     {
         // Reset the mine.
         _collisionCollider.enabled = true;
+        _triggerCollider.enabled = true;
         _meshRenderer.enabled = true;
         _explosionScript.ResetExplosion();
 
