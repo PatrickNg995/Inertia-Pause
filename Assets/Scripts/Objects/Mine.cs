@@ -40,8 +40,8 @@ public class Mine : MonoBehaviour, IPausable
         // Get the layer mask of the other object with bitwise left shift.
         LayerMask collisionLayer = 1 << collision.gameObject.layer;
 
-        // Check if the other object is in the correct layer to explode.
-        if (collisionLayer == _interactableLayer)
+        // Check if the other object is in the correct layer or tag to explode.
+        if (collisionLayer == _interactableLayer || collision.gameObject.CompareTag("Lethal"))
         {
             TriggerExplosion();
         }
