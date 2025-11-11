@@ -76,7 +76,6 @@ public class ChandelierChain : MonoBehaviour, IPausable
     {
         // Make chain visible again.
         _meshRenderer.enabled = true;
-        
 
         // Reset position & rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);

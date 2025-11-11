@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class Missile : MonoBehaviour, IPausable
@@ -60,9 +61,7 @@ public class Missile : MonoBehaviour, IPausable
         {
             _savedVelocity = _rb.linearVelocity;
         }
-
         _rb.isKinematic = true;
-        Debug.Log("Stopped");
     }
 
     // Start movement & can explode on unpause.
