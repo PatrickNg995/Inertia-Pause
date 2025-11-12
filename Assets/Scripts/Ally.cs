@@ -6,6 +6,7 @@ public class Ally : MonoBehaviour
 
     public void PlayRelievedAnimation()
     {
+        Debug.Log("Playing Relieved Animation");
         _animator.SetBool("HasWon", true);
     }
 }

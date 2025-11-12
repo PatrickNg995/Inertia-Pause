@@ -238,9 +238,16 @@ public class GameManager : MonoBehaviour
         if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
+            // Play Each Ally's Relieved Animation
             foreach(var ally in _listOfAllies)
             {
                 ally.GetComponent<Ally>().PlayRelievedAnimation();
+            }
+
+            // Play Each Civilians Relieved Animation
+            foreach (var civilian in _listOfCivilians)
+            {
+                civilian.GetComponent<Ally>().PlayRelievedAnimation();
             }
             Debug.Log("Level won!");
         }
