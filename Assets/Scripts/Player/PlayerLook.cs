@@ -3,7 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
-    public float sensitivity = 1f;
+    [field: SerializeField] public float HorizontalSensitivity { get; set; } = 0.15f;
+    [field: SerializeField] public float VerticalSensitivity { get; set; } = 0.15f;
+
     public Transform playerBody;
 
     private PlayerActions inputActions;
@@ -38,11 +40,11 @@ public class PlayerLook : MonoBehaviour
     {
         Vector2 v2 = look.ReadValue<Vector2>();
         
-        float rotationX = v2.x * sensitivity; // Rotation on the x axis
+        float rotationX = v2.x * HorizontalSensitivity; // Rotation on the x axis
         
         playerBody.Rotate(Vector3.up * rotationX);
 
-        rotationY -= v2.y * sensitivity;
+        rotationY -= v2.y * VerticalSensitivity;
         // prevent players from doing 360s with the camera
         rotationY = Mathf.Clamp(rotationY, -90f, 90f);
 

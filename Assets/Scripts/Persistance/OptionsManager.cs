@@ -100,12 +100,13 @@ public class OptionsManager : MonoBehaviour
         OnShowMetricsApplied?.Invoke(options.IsMetricsShown);
         OnShowObjectTrajectoryApplied?.Invoke(options.IsObjectTrajectoryShown);
 
-        // TODO: Apply volume
+        // TODO: Apply volume settings
     }
 
     private void ApplySensitivityOptions(int horizontalSensitivity, int verticalSensitivity)
     {
-        // TODO: Apply sensitivity
+        _playerLook.HorizontalSensitivity = SensitivityOptionToActualSensitivity(horizontalSensitivity);
+        _playerLook.VerticalSensitivity = SensitivityOptionToActualSensitivity(verticalSensitivity);
     }
 
     private float SensitivityOptionToActualSensitivity(int sensitivityOption)
