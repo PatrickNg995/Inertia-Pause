@@ -47,6 +47,9 @@ public class PausableRigidbody : MonoBehaviour, IPausable
     // Only needed if you really want to snap back a dynamic body
     public void ResetStateBeforeUnpause(Vector3 position, Quaternion rotation)
     {
+        // Reset position and rotation to pre-unpause state.
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
+
         if (_rb == null) return;
         _rb.position = position;
         _rb.rotation = rotation;
