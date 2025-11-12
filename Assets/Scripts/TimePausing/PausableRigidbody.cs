@@ -23,7 +23,7 @@ public class PausableRigidbody : MonoBehaviour, IPausable
 
         if (!_rb.isKinematic)
         {
-            _savedVelocity = _rb.velocity;
+            _savedVelocity = _rb.linearVelocity;
             _savedAngularVelocity = _rb.angularVelocity;
             _rb.isKinematic = true;
         }
@@ -39,7 +39,7 @@ public class PausableRigidbody : MonoBehaviour, IPausable
 
         if (!_rb.isKinematic)
         {
-            _rb.velocity = _savedVelocity;
+            _rb.linearVelocity = _savedVelocity;
             _rb.angularVelocity = _savedAngularVelocity;
         }
     }

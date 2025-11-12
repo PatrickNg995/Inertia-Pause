@@ -33,34 +33,30 @@ public class Bullet : MonoBehaviour, IPausable
     // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
-
         if (!_canKill) return;
 
-        // If it was an NPC, apply hit.
-        if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
-        {
-            // Only hit if NPC is alive, prevents repeated hits with piercing bullets.
-            NPC npc = other.GetComponentInParent<NPC>();
-            if (npc.IsAlive)
-            {
-                HitNPC(npc, other);
-            }
-        }
-
-        // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
-        if (!_isPiercing || other.CompareTag("Unpierceable"))
+        // Stop on shields / cover
+        if (other.CompareTag("Shield") || other.CompareTag("Unpierceable"))
         {
             gameObject.SetActive(false);
+            return;
         }
 
-        // Check Extra Tag Component if object is unpierceable.
-        if (other.TryGetComponent<ExtraTagComponent>(out var tags))
+        if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
         {
-            if (tags.HasTag("Unpierceable"))
-            {
+            NPC npc = other.GetComponentInParent<NPC>();
+            if (npc != null && npc.IsAlive)
+                HitNPC(npc, other);
+
+            if (!_isPiercing)
                 gameObject.SetActive(false);
-            }
+            return;
         }
+
+        // Fallback: any other hit for non-piercing bullets
+        if (!_isPiercing)
+            gameObject.SetActive(false);
+
     }
 
     // Apply hit to NPC.
