@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0013411c2c003c84f833f92213311890, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LookTarget: {fileID: 0}
+  _lookTarget: {fileID: 0}
 --- !u!114 &-1877074955951855487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,6 +1524,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 3036104080038151869}
+  _pauseOnLastFrame: 0
+  _randomizeStart: 1
 --- !u!114 &4834809398928622970
 MonoBehaviour:
   m_ObjectHideFlags: 0
