@@ -24,6 +24,7 @@ public class HUDView : MonoBehaviour
 
     [field: Header("Others")]
     [field: SerializeField] public GameObject ButtonPrompts { get; private set; }
+    [field: SerializeField] public CanvasGroup UndoPrompt { get; private set; }
     [field: SerializeField] public CanvasGroup RedoPrompt { get; private set; }
     [field: SerializeField] public TMP_Text TelemetryText { get; private set; }
     [field: SerializeField] public TMP_Text ActionsTakenText { get; private set; }

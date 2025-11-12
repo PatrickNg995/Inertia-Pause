@@ -12,6 +12,7 @@ public class MainMenuPresenter : MonoBehaviour
     private const string SCENARIO_A_SCENE_NAME = "2-office-s1";
     private const string SCENARIO_B_SCENE_NAME = "2-office-s2";
     private const string SCENARIO_C_SCENE_NAME = "2-office-s3";
+    private const string SCENARIO_D_SCENE_NAME = "2-office-s4";
 
     private AdditiveSceneManager _sceneManager;
 
@@ -25,6 +26,7 @@ public class MainMenuPresenter : MonoBehaviour
         _view.ScenarioAButton.onClick.AddListener(() => _sceneManager.LoadScenario(OFFICE_SCENE_NAME, SCENARIO_A_SCENE_NAME));
         _view.ScenarioBButton.onClick.AddListener(() => _sceneManager.LoadScenario(OFFICE_SCENE_NAME, SCENARIO_B_SCENE_NAME));
         _view.ScenarioCButton.onClick.AddListener(() => _sceneManager.LoadScenario(OFFICE_SCENE_NAME, SCENARIO_C_SCENE_NAME));
+        _view.ScenarioDButton.onClick.AddListener(() => _sceneManager.LoadScenario(OFFICE_SCENE_NAME, SCENARIO_D_SCENE_NAME));
 
         _view.ExitButton.onClick.AddListener(OnExitClicked);
     }

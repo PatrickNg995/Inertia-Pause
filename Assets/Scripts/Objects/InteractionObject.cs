@@ -15,9 +15,19 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     // Command to be executed on action.
     public ActionCommand ActionCommand { get; protected set; }
 
-    public abstract void OnInteract();
+    public abstract void OnStartInteract();
+
+    public abstract void OnHoldInteract();
+
+    public abstract void OnEndInteract();
 
     public abstract void OnCancelInteract();
 
     public abstract void OnResetInteract();
+
+    // Not all InteractionObjects need or have special logic on Undo.
+    public virtual void OnCommandUndo()
+    {
+        // Explicitly empty
+    }
 }

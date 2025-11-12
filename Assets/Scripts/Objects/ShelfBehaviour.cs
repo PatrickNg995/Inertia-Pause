@@ -1,20 +1,45 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class ShelfBehaviour : InteractionObject
+public class ShelfBehaviour : InteractionObject, IPausable
 {
     [SerializeField] private float _torque = 2000f;
+    // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
+    //[SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
+    private Vector3 _pausedPosition;
+    private Quaternion _pausedRotation;
+    //private bool _paused = false;
+    //private Vector3 _rotationalVelocity;
+    //private Vector3 _velocity;
+    //private float _timeSincePause;
+    public bool IsToppled { get; set; }
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        if (_rb == null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
     }
 
     private void Update()
     {
-        // TODO: notification logic to show how / if it'll fall
+        //if (_paused && HasTakenAction && _timeSincePause >= 0)
+        //{
+        //    _timeSincePause += Time.deltaTime;
+        //}
+
+        //if (_paused && _timeSincePause >= _timeToTilt)
+        //{
+        //    _rotationalVelocity = _rb.angularVelocity;
+        //    _velocity = _rb.linearVelocity;
+
+        //    _rb.isKinematic = true;
+        //    // for the guard position to not modify the velocities
+        //    _timeSincePause = -1;
+        //}
     }
 
     public override void OnCancelInteract()
@@ -23,7 +48,7 @@ public class ShelfBehaviour : InteractionObject
         throw new System.NotImplementedException();
     }
 
-    public override void OnInteract()
+    public override void OnStartInteract()
     {
         if (HasTakenAction) { return; }
 
@@ -32,8 +57,63 @@ public class ShelfBehaviour : InteractionObject
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
+    public override void OnHoldInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnEndInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnResetInteract()
     {
+        if (!HasTakenAction) return;
+
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
+        //_timeSincePause = 0f;
+    }
+
+    //public override void OnCommandUndo()
+    //{
+    //    _timeSincePause = 0f;
+    //    _rb.isKinematic = false;
+    //}
+
+    public void Pause()
+    {
+        // necessity found empirically
+        if (_rb == null)
+        {
+            _rb = GetComponent<Rigidbody>();
+        }
+
+        _rb.isKinematic = true;
+        
+        //_timeSincePause = 0f;
+
+        //_paused = true;
+    }
+
+    public void Unpause()
+    {
+        _pausedPosition = transform.position;
+        _pausedRotation = transform.rotation;
+
+        _rb.isKinematic = false;
+
+        //_rb.linearVelocity = _velocity;
+        //_rb.angularVelocity = _rotationalVelocity;
+
+        //_paused = false;
+
+        if (IsToppled) _rb.AddForce(transform.forward * _torque);
+    }
+
+    public void ResetStateBeforeUnpause()
+    {
+        // Reset position and rotation to pre-unpause state.
+        transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 }

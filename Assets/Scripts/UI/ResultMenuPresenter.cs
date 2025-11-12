@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ResultMenuPresenter : MonoBehaviour
 {
@@ -28,11 +29,19 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
-        _view.RestartButton.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
-        _view.NextButton.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
-        _view.MainMenuButton.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
+        _view.RewindButton.Button.onClick.AddListener(OnRewindButtonClicked);
+        _view.RestartButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
+        _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
+        _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
+
+        _view.RewindButton.OnHover += ChangeHint;
+        _view.RestartButton.OnHover += ChangeHint;
+        _view.NextButton.OnHover += ChangeHint;
+        _view.MainMenuButton.OnHover += ChangeHint;
 
         _gameManager.OnLevelComplete += OnLevelComplete;
+
+        _view.DescriptionText.text = string.Empty;
 
         CloseMenu();
     }
@@ -45,6 +54,12 @@ public class ResultMenuPresenter : MonoBehaviour
     private void CloseMenu()
     {
         gameObject.SetActive(false);
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
     }
 
     private void OnLevelComplete(LevelResults results)
@@ -63,7 +78,8 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.ActionCountText.text = results.ActionsTaken.ToString();
 
         _view.NewRecord.SetActive(false);
-        _view.NextButton.gameObject.SetActive(_gameManager.LevelWon);
+        _view.NextButton.gameObject.SetActive(isLevelComplete);
+        _view.RewindButton.gameObject.SetActive(!isLevelComplete);
 
         if (scenarioInfo.NumberOfCivilians > 0)
         {
@@ -84,6 +100,7 @@ public class ResultMenuPresenter : MonoBehaviour
             AddObjectiveRow(ENEMIES_OBJECTIVE_TEXT, string.Format(OBJECTIVE_COUNT_FORMAT, results.EnemiesKilled, scenarioInfo.NumberOfEnemies), textColor);
         }
 
+        /* Hidden for Alpha build - no optional objectives
         for (int i = 0; i < scenarioInfo.Objectives.OptionalObjectives.Count; i++)
         {
             string objective = scenarioInfo.Objectives.OptionalObjectives[i];
@@ -92,6 +109,7 @@ public class ResultMenuPresenter : MonoBehaviour
             Color textColor = isComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
+        */
     }
 
     private void AddObjectiveRow(string objectiveName, string objectiveStatus, Color textColor)
@@ -104,6 +122,17 @@ public class ResultMenuPresenter : MonoBehaviour
         rowView.gameObject.SetActive(true);
     }
 
+    private void RemoveObjectiveRows()
+    {
+        Transform container = _view.ObjectiveRowContainer.transform;
+
+        // Index 0 is the template row so destroy children after index 0.
+        for (int i = container.childCount - 1; i > 0; i--)
+        {
+            Destroy(container.GetChild(i).gameObject);
+        }
+    }
+
     private void OnNextButtonClicked(ScenarioInfo scenarioInfo)
     {
         if (scenarioInfo.NextEnvironmentSceneName != string.Empty && scenarioInfo.NextScenarioAssetsSceneName != string.Empty)
@@ -114,5 +143,13 @@ public class ResultMenuPresenter : MonoBehaviour
         {
             AdditiveSceneManager.Instance.LoadMainMenu();
         }
+    }
+
+    private void OnRewindButtonClicked()
+    {
+        _gameManager.AnyBlockingMenuClosed();
+        _gameManager.RewindLevel();
+        RemoveObjectiveRows();
+        CloseMenu();
     }
 }
