@@ -100,16 +100,14 @@ public class ResultMenuPresenter : MonoBehaviour
             AddObjectiveRow(ENEMIES_OBJECTIVE_TEXT, string.Format(OBJECTIVE_COUNT_FORMAT, results.EnemiesKilled, scenarioInfo.NumberOfEnemies), textColor);
         }
 
-        /* Hidden for Alpha build - no optional objectives
         for (int i = 0; i < scenarioInfo.Objectives.OptionalObjectives.Count; i++)
         {
-            string objective = scenarioInfo.Objectives.OptionalObjectives[i];
+            string objective = scenarioInfo.Objectives.OptionalObjectives[i].Description;
             bool isComplete = results.OptionalObjectivesComplete[i];
             string completionText = results.OptionalObjectivesComplete[i] ? COMPLETE_TEXT : MISSED_TEXT;
             Color textColor = isComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
-        */
     }
 
     private void AddObjectiveRow(string objectiveName, string objectiveStatus, Color textColor)

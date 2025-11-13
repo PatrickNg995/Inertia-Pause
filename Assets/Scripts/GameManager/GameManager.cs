@@ -100,6 +100,19 @@ public class GameManager : MonoBehaviour
     public int ActionCount => _commandManager?.ActionCount ?? 0;
 
     /// <summary>
+    /// List holding the actions performed by the player that can be undone.
+    /// </summary>
+    public List<ActionCommand> UndoCommandList => _commandManager?.UndoCommandList;
+
+    /// <summary>
+    /// // List holding the actions that have been undone and can be redone.
+    /// </summary>
+    public List<ActionCommand> RedoCommandList => _commandManager?.RedoCommandList;
+
+    // List of causes of death for NPCs.
+    public List<GameObject> ListOfCausesOfDeath { get; private set; } = new List<GameObject>();
+
+    /// <summary>
     /// Instance of the GameManager singleton used to access GameManager functionality.
     /// </summary>
     public static GameManager Instance { get; private set; }
@@ -246,14 +259,16 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Level lost!");
         }
+        // Evaluate optional objectives.
+        bool[] optionalResults = EvaluateOptionalObjectives();
 
+        // Create results struct.
         LevelResults results = new()
         {
             CiviliansRescued = civiliansAlive,
             AlliesSaved = alliesAlive,
             EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
-            // TODO: Optional objectives.
-            OptionalObjectivesComplete = new bool[2] { true, false },
+            OptionalObjectivesComplete = optionalResults,
             ActionsTaken = ActionCount
         };
 
@@ -282,6 +297,30 @@ public class GameManager : MonoBehaviour
             }
         }
         return numAlive;
+    }
+
+    public void RecordNpcDeath(GameObject cause)
+    {
+        ListOfCausesOfDeath.Add(cause);
+    }
+
+    private bool[] EvaluateOptionalObjectives()
+    {
+        bool[] optionalResults = Array.Empty<bool>();
+        if (ScenarioInfo != null && ScenarioInfo.Objectives.OptionalObjectives != null)
+        {
+            List<OptionalObective> optionalObjectives = ScenarioInfo.Objectives.OptionalObjectives;
+            optionalResults = new bool[optionalObjectives.Count];
+
+            for (int i = 0; i < optionalObjectives.Count; i++)
+            {
+                OptionalObective objective = optionalObjectives[i];
+
+                // Check if each optional objective is completed, and only count it if the level is also won.
+                optionalResults[i] = objective.CheckCompletion() && LevelWon;
+            }
+        }
+        return optionalResults;
     }
 
     public void RecordAndExecuteCommand(ActionCommand command)
