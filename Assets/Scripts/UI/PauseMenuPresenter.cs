@@ -7,7 +7,7 @@ public class PauseMenuPresenter : MonoBehaviour
 {
     [Header("View")]
     [SerializeField] private PauseMenuView _view;
-    [SerializeField] private OptionsMenuView _optionsView;
+    [SerializeField] private OptionsMenuPresenter _optionsPresenter;
 
     [Header("Models")]
     [SerializeField] private GameManager _gameManager;
@@ -18,7 +18,6 @@ public class PauseMenuPresenter : MonoBehaviour
     void Start()
     {
         _view.gameObject.SetActive(false);
-        _optionsView.gameObject.SetActive(false);
 
         if (_gameManager.ScenarioInfo != null)
         {
@@ -39,7 +38,7 @@ public class PauseMenuPresenter : MonoBehaviour
         _view.BackButton.OnHover += ChangeHint;
 
         // Options menu
-        _optionsView.BackButton.onClick.AddListener(OnBackFromOptionsPressed);
+        _optionsPresenter.OnMenuClose += OpenMenu;
 
         // GameManager
         _gameManager.OnPauseMenuOpen += OpenMenu;
@@ -59,7 +58,6 @@ public class PauseMenuPresenter : MonoBehaviour
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
-        _optionsView.gameObject.SetActive(false);
 
         _view.ActionsTakenText.text = _gameManager.ActionCount.ToString();
         _view.DescriptionText.text = string.Empty;
@@ -69,7 +67,6 @@ public class PauseMenuPresenter : MonoBehaviour
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
-        _optionsView.gameObject.SetActive(false);
         _inputActions.UI.Disable();
         EventSystem.current.SetSelectedGameObject(null);
     }
@@ -82,7 +79,6 @@ public class PauseMenuPresenter : MonoBehaviour
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
     {
         _view.LevelNameText.text = scenarioInfo.ScenarioName;
-        _optionsView.LevelNameText.text = scenarioInfo.ScenarioName;
 
         IEnumerable<string> scenarioObjectivesBulletPoints = scenarioInfo.Objectives.MainObjectives.Select(objective => $"- {objective}");
         _view.ScenarioObjectivesText.text = string.Join("\n", scenarioObjectivesBulletPoints);
@@ -106,13 +102,7 @@ public class PauseMenuPresenter : MonoBehaviour
     private void OnOptionsPressed()
     {
         _view.gameObject.SetActive(false);
-        _optionsView.gameObject.SetActive(true);
-    }
-
-    private void OnBackFromOptionsPressed()
-    {
-        _view.gameObject.SetActive(true);
-        _optionsView.gameObject.SetActive(false);
+        _optionsPresenter.OpenMenu();
     }
 
     private void OnQuitPressed()
