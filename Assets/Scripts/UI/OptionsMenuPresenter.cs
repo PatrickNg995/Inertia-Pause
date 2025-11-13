@@ -18,6 +18,7 @@ public class OptionsMenuPresenter : MonoBehaviour
 
     private const string OPTION_TRUE_TEXT = "On";
     private const string OPTION_FALSE_TEXT = "Off";
+    private const string UNLIMITED_FRAMERATE_TEXT = "Unlimited";
 
     private OptionsModel _dirtyOptionsModel;
     private bool _isSettingHorizontalSensitivity = false;
@@ -79,7 +80,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         _view.HorizontalSensitivityButton.OptionText.text = options.HorizontalSensitivity.ToString();
         _view.VerticalSensitivityButton.OptionText.text = options.VerticalSensitivity.ToString();
         _view.FOVButton.OptionText.text = options.FieldOfView.ToString();
-        _view.MaxFramerateButton.OptionText.text = options.MaxFramerate.ToString();
+        _view.MaxFramerateButton.OptionText.text = options.MaxFramerate > 0 ? options.MaxFramerate.ToString() : UNLIMITED_FRAMERATE_TEXT;
         _view.ShowMetricsButton.OptionText.text = options.IsMetricsShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
         _view.MusicVolumeButton.OptionText.text = options.MusicVolume.ToString();
         _view.SFXVolumeButton.OptionText.text = options.SoundVolume.ToString();
@@ -193,7 +194,15 @@ public class OptionsMenuPresenter : MonoBehaviour
             _ => -1,
         };
         _dirtyOptionsModel.MaxFramerate = framerateOption;
-        _view.MaxFramerateButton.OptionText.text = _dirtyOptionsModel.MaxFramerate.ToString();
+
+        if (_dirtyOptionsModel.MaxFramerate > 0)
+        {
+            _view.MaxFramerateButton.OptionText.text = _dirtyOptionsModel.MaxFramerate.ToString();
+        }
+        else
+        {
+            _view.MaxFramerateButton.OptionText.text = UNLIMITED_FRAMERATE_TEXT;
+        }
     }
 
     private void ChangeFieldOfView(int fieldOfViewOptionIndex)
