@@ -329,6 +329,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 133adff7e6404004389feb029afdca86, type: 3}
+--- !u!114 &4873247840989585158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6364142772143625850, guid: 133adff7e6404004389feb029afdca86, type: 3}
+  m_PrefabInstance: {fileID: 2013314875947878780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae90cac3fd826794f87508c1cea85ebe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5659443213730954190 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6159475857033245362, guid: 133adff7e6404004389feb029afdca86, type: 3}
@@ -646,6 +657,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4700616923316429309}
     m_Modifications:
+    - target: {fileID: 3131311584520355584, guid: 91de69fbf6b949d448602ea318ac6cc5, type: 3}
+      propertyPath: _hudPresenter
+      value: 
+      objectReference: {fileID: 4873247840989585158}
     - target: {fileID: 3824824944509721456, guid: 91de69fbf6b949d448602ea318ac6cc5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -17,6 +17,7 @@ public class OptionsManager : MonoBehaviour
 
     public OptionsModel Options => _currentOptions;
 
+    [SerializeField] private HUDPresenter _hudPresenter;
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private PlayerLook _playerLook; 
 
@@ -95,6 +96,7 @@ public class OptionsManager : MonoBehaviour
     {
         ApplySensitivityOptions(options.HorizontalSensitivity, options.VerticalSensitivity);
 
+        _hudPresenter.ShowTelemetry(options.IsMetricsShown);
         Camera.main.fieldOfView = options.FieldOfView;
         Application.targetFrameRate = options.MaxFramerate;
         OnShowMetricsApplied?.Invoke(options.IsMetricsShown);
