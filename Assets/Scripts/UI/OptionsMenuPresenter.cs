@@ -18,6 +18,7 @@ public class OptionsMenuPresenter : MonoBehaviour
 
     private const string OPTION_TRUE_TEXT = "On";
     private const string OPTION_FALSE_TEXT = "Off";
+    private const string FOV_FORMAT = "{0}°";
     private const string UNLIMITED_FRAMERATE_TEXT = "Unlimited";
 
     private OptionsModel _dirtyOptionsModel;
@@ -79,7 +80,7 @@ public class OptionsMenuPresenter : MonoBehaviour
     {
         _view.HorizontalSensitivityButton.OptionText.text = options.HorizontalSensitivity.ToString();
         _view.VerticalSensitivityButton.OptionText.text = options.VerticalSensitivity.ToString();
-        _view.FOVButton.OptionText.text = options.FieldOfView.ToString();
+        _view.FOVButton.OptionText.text = string.Format(FOV_FORMAT, options.FieldOfView.ToString());
         _view.MaxFramerateButton.OptionText.text = options.MaxFramerate > 0 ? options.MaxFramerate.ToString() : UNLIMITED_FRAMERATE_TEXT;
         _view.ShowMetricsButton.OptionText.text = options.IsMetricsShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
         _view.MusicVolumeButton.OptionText.text = options.MusicVolume.ToString();
@@ -219,7 +220,7 @@ public class OptionsMenuPresenter : MonoBehaviour
             _ => 80,
         };
         _dirtyOptionsModel.FieldOfView = fieldOfViewOption;
-        _view.FOVButton.OptionText.text = _dirtyOptionsModel.FieldOfView.ToString();
+        _view.FOVButton.OptionText.text = string.Format(FOV_FORMAT, _dirtyOptionsModel.FieldOfView.ToString());
     }
 
     private void ChangeVolume(int volume)

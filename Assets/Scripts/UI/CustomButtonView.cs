@@ -26,7 +26,6 @@ public class CustomButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public virtual void OnPointerExit(PointerEventData eventData)
     {
         _text.color = _defaultColor;
-        OnHover?.Invoke(_hint);
     }
 
     public virtual void OnSelect(BaseEventData eventData)
