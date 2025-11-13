@@ -1,14 +1,23 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsMenuPresenter : MonoBehaviour
 {
+    /// <summary>
+    /// Invoked when this menu is closed.
+    /// </summary>
+    public Action OnMenuClose;
+
     [Header("View")]
     [SerializeField] private OptionsMenuView _view;
 
     [Header("Models")]
     [SerializeField] private OptionsManager _optionsManager;
     [SerializeField] private GameManager _gameManager;
+
+    private const string OPTION_TRUE_TEXT = "On";
+    private const string OPTION_FALSE_TEXT = "Off";
 
     private OptionsModel _dirtyOptionsModel;
     private bool _isSettingHorizontalSensitivity = false;
@@ -58,15 +67,20 @@ public class OptionsMenuPresenter : MonoBehaviour
         _view.VerticalSensitivityButton.CloseFoldout();
         _view.FOVButton.CloseFoldout();
         _view.MaxFramerateButton.CloseFoldout();
-        _view.ShowMetricsButton.CloseFoldout();
         _view.MusicVolumeButton.CloseFoldout();
         _view.SFXVolumeButton.CloseFoldout();
-        _view.ShowObjectTrajectoryButton.CloseFoldout();
     }
 
     private void ShowInitialValues(OptionsModel options)
     {
-        // TODO: Show initial option values
+        _view.HorizontalSensitivityButton.OptionText.text = options.HorizontalSensitivity.ToString();
+        _view.VerticalSensitivityButton.OptionText.text = options.VerticalSensitivity.ToString();
+        _view.FOVButton.OptionText.text = options.FieldOfView.ToString();
+        _view.MaxFramerateButton.OptionText.text = options.MaxFramerate.ToString();
+        _view.ShowMetricsButton.OptionText.text = options.IsMetricsShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
+        _view.MusicVolumeButton.OptionText.text = options.MusicVolume.ToString();
+        _view.SFXVolumeButton.OptionText.text = options.SoundVolume.ToString();
+        _view.ShowObjectTrajectoryButton.OptionText.text = options.IsObjectTrajectoryShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
     }
 
     private void SetupFoldouts()
@@ -136,11 +150,13 @@ public class OptionsMenuPresenter : MonoBehaviour
     private void ToggleShowMetrics()
     {
         _dirtyOptionsModel.IsMetricsShown = !_dirtyOptionsModel.IsMetricsShown;
+        _view.ShowMetricsButton.OptionText.text = _dirtyOptionsModel.IsMetricsShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
     }
 
     private void ToggleShowObjectTrajectory()
     {
         _dirtyOptionsModel.IsObjectTrajectoryShown = !_dirtyOptionsModel.IsObjectTrajectoryShown;
+        _view.ShowObjectTrajectoryButton.OptionText.text = _dirtyOptionsModel.IsObjectTrajectoryShown ? OPTION_TRUE_TEXT : OPTION_FALSE_TEXT;
     }
 
     private void ChangeSensitivity(int sensitivity)
@@ -148,10 +164,12 @@ public class OptionsMenuPresenter : MonoBehaviour
         if (_isSettingHorizontalSensitivity)
         {
             _dirtyOptionsModel.HorizontalSensitivity = sensitivity;
+            _view.HorizontalSensitivityButton.OptionText.text = _dirtyOptionsModel.HorizontalSensitivity.ToString();
         }
         else
         {
             _dirtyOptionsModel.VerticalSensitivity = sensitivity;
+            _view.VerticalSensitivityButton.OptionText.text = _dirtyOptionsModel.VerticalSensitivity.ToString();
         }
     }
 
@@ -168,6 +186,7 @@ public class OptionsMenuPresenter : MonoBehaviour
             _ => -1,
         };
         _dirtyOptionsModel.MaxFramerate = framerateOption;
+        _view.MaxFramerateButton.OptionText.text = _dirtyOptionsModel.MaxFramerate.ToString();
     }
 
     private void ChangeFieldOfView(int fieldOfViewOptionIndex)
@@ -184,6 +203,7 @@ public class OptionsMenuPresenter : MonoBehaviour
             _ => 80,
         };
         _dirtyOptionsModel.FieldOfView = fieldOfViewOption;
+        _view.FOVButton.OptionText.text = _dirtyOptionsModel.FieldOfView.ToString();
     }
 
     private void ChangeVolume(int volume)
@@ -191,10 +211,12 @@ public class OptionsMenuPresenter : MonoBehaviour
         if (_isSettingMusicVolume)
         {
             _dirtyOptionsModel.MusicVolume = volume;
+            _view.MusicVolumeButton.OptionText.text = _dirtyOptionsModel.MusicVolume.ToString();
         }
         else
         {
             _dirtyOptionsModel.SoundVolume = volume;
+            _view.SFXVolumeButton.OptionText.text = _dirtyOptionsModel.SoundVolume.ToString();
         }
     }
 }
