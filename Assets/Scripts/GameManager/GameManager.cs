@@ -144,11 +144,11 @@ public class GameManager : MonoBehaviour
 
     private List<AllyAnimationScript> GetAnimationScripts(List<GameObject> objects)
     {
-        var result = new List<AllyAnimationScript>(objects.Count);
+        List<AllyAnimationScript> result = new List<AllyAnimationScript>(objects.Count);
 
         foreach (var go in objects)
         {
-            var anim = go.GetComponent<AllyAnimationScript>();
+            AllyAnimationScript anim = go.GetComponent<AllyAnimationScript>();
             if (anim == null)
             {
                 anim = go.GetComponentInChildren<AllyAnimationScript>();
@@ -271,14 +271,14 @@ public class GameManager : MonoBehaviour
         {
             LevelWon = true;
 
-            // Play Each Ally's Relieved Animation
-            foreach (var anim in _allyAnimationScripts)
+            // Play Each Ally's Relieved Animation.
+            foreach (AllyAnimationScript anim in _allyAnimationScripts)
             {
                 anim.PlayRelievedAnimation();
             }
 
-            // Play Each Civilians Relieved Animation
-            foreach (var anim in _civilianAnimationScripts)
+            // Play Each Civilians Relieved Animation.
+            foreach (AllyAnimationScript anim in _civilianAnimationScripts)
             {
                 anim.PlayRelievedAnimation();
             }
