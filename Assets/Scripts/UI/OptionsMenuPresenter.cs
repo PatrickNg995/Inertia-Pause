@@ -33,6 +33,8 @@ public class OptionsMenuPresenter : MonoBehaviour
             _view.LevelNameText.text = _gameManager.ScenarioInfo.ScenarioName;
         }
 
+        _view.BackButton.onClick.AddListener(CloseMenu);
+
         SetupFoldouts();
         SetupToggles();
     }
@@ -50,6 +52,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         _optionsManager.ApplyOptions(_dirtyOptionsModel);
         _optionsManager.SaveOptions(_dirtyOptionsModel);
         _view.gameObject.SetActive(false);
+        OnMenuClose?.Invoke();
     }
 
     private void SetupFoldout(CustomOptionButton button)
@@ -102,9 +105,10 @@ public class OptionsMenuPresenter : MonoBehaviour
         // Sensitivity buttons
         for (int i = 0; i < _view.SensitivityOptions.Count; i++)
         {
-            Button sensitivityButton = _view.SensitivityOptions[i];
+            int index = i;
+            Button sensitivityButton = _view.SensitivityOptions[index];
             sensitivityButton.onClick.AddListener(() => {
-                ChangeSensitivity(i + 1);
+                ChangeSensitivity(index + 1);
                 CloseFoldouts();
             });
         }
@@ -112,9 +116,10 @@ public class OptionsMenuPresenter : MonoBehaviour
         // FOV buttons
         for (int i = 0; i < _view.FOVOptions.Count; i++)
         {
-            Button fovButton = _view.FOVOptions[i];
+            int index = i;
+            Button fovButton = _view.FOVOptions[index];
             fovButton.onClick.AddListener(() => {
-                ChangeFieldOfView(i);
+                ChangeFieldOfView(index);
                 CloseFoldouts();
             });
         }
@@ -122,9 +127,10 @@ public class OptionsMenuPresenter : MonoBehaviour
         // Framerate buttons
         for (int i = 0; i < _view.FramerateOptions.Count; i++)
         {
-            Button framerateButton = _view.FramerateOptions[i];
+            int index = i;
+            Button framerateButton = _view.FramerateOptions[index];
             framerateButton.onClick.AddListener(() => {
-                ChangeFramerate(i);
+                ChangeFramerate(index);
                 CloseFoldouts();
             });
         }
@@ -132,10 +138,11 @@ public class OptionsMenuPresenter : MonoBehaviour
         // Volume buttons
         for (int i = 0; i < _view.VolumeOptions.Count; i++)
         {
-            Button volumeButton = _view.VolumeOptions[i];
+            int index = i;
+            Button volumeButton = _view.VolumeOptions[index];
             volumeButton.onClick.AddListener(() =>
             {
-                ChangeVolume(i + 1);
+                ChangeVolume(index + 1);
                 CloseFoldouts();
             });
         }
