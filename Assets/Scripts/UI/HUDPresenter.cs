@@ -77,6 +77,11 @@ public class HUDPresenter : MonoBehaviour
         OnRedoUnavailable();
     }
 
+    public void ShowTelemetry(bool show)
+    {
+        _view.TelemetryText.enabled = show;
+    }
+
     private void OpenMenu()
     {
         gameObject.SetActive(true);
