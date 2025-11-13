@@ -7,6 +7,7 @@ public class OptionsMenuView : MonoBehaviour
 {
     [field: Header("Information")]
     [field: SerializeField] public TMP_Text LevelNameText { get; private set; }
+    [field: SerializeField] public TMP_Text DescriptionText { get; private set; }
 
     [field: Header("Option Buttons")]
     [field: SerializeField] public CustomOptionButton HorizontalSensitivityButton { get; private set; }

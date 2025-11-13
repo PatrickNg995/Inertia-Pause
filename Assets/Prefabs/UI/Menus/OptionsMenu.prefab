@@ -737,6 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <LevelNameText>k__BackingField: {fileID: 7155040561877278764}
+  <DescriptionText>k__BackingField: {fileID: 1205834710180220379}
   <HorizontalSensitivityButton>k__BackingField: {fileID: 7183541201723531233}
   <VerticalSensitivityButton>k__BackingField: {fileID: 8027531092521512048}
   <FOVButton>k__BackingField: {fileID: 9016602627853372353}
@@ -1225,6 +1226,10 @@ PrefabInstance:
     - target: {fileID: 6403749479395002802, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_Color.r
       value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Change the camera horizontal aim sensitivity.
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField
@@ -1840,6 +1845,10 @@ PrefabInstance:
       value: 0.6392157
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Change the volume of the background music.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField
       value: 
       objectReference: {fileID: 1509705803958778612}
@@ -1983,6 +1992,10 @@ PrefabInstance:
     - target: {fileID: 6403749479395002802, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_Color.r
       value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Change the camera vertical aim sensitivity.
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField
@@ -2362,6 +2375,10 @@ PrefabInstance:
     - target: {fileID: 6403749479395002802, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_Color.r
       value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Change the camera field of view (FOV).
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField
@@ -3206,6 +3223,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.6392157
       objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Show the flight trajectory of bullets and some other objects.
+      objectReference: {fileID: 0}
     - target: {fileID: 8542661498694123381, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_text
       value: On
@@ -3346,6 +3367,10 @@ PrefabInstance:
     - target: {fileID: 6403749479395002802, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_Color.r
       value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Show the version number and framerate in the corner of the HUD.
       objectReference: {fileID: 0}
     - target: {fileID: 8542661498694123381, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_text
@@ -4655,6 +4680,10 @@ PrefabInstance:
       value: 0.6392157
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Set the framerate limit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField
       value: 
       objectReference: {fileID: 639900182047662501}
@@ -5132,6 +5161,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 7012414113215442049, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
   m_PrefabInstance: {fileID: 7435266792457624979}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1205834710180220379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8616691785949843528, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
+  m_PrefabInstance: {fileID: 7435266792457624979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7788918122205463324 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 808558872713830031, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
@@ -5722,6 +5762,10 @@ PrefabInstance:
     - target: {fileID: 6403749479395002802, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: m_Color.r
       value: 0.6392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
+      propertyPath: _hint
+      value: Change the volume of sound effects.
       objectReference: {fileID: 0}
     - target: {fileID: 6996118206161377701, guid: 3433377b22dc87642a49fc0b0b456a61, type: 3}
       propertyPath: <Foldout>k__BackingField

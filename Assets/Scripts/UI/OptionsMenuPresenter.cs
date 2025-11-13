@@ -60,6 +60,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         _view.gameObject.SetActive(true);
         _dirtyOptionsModel = _optionsManager.Options.Clone();
         ShowInitialValues(_dirtyOptionsModel);
+        _view.DescriptionText.text = string.Empty;
         _inputActions.Enable();
     }
 
@@ -92,6 +93,11 @@ public class OptionsMenuPresenter : MonoBehaviour
         _view.SFXVolumeButton.CloseFoldout();
     }
 
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
+    }
+
     private void ShowInitialValues(OptionsModel options)
     {
         _view.HorizontalSensitivityButton.OptionText.text = options.HorizontalSensitivity.ToString();
@@ -109,16 +115,22 @@ public class OptionsMenuPresenter : MonoBehaviour
         // Foldout setup
         SetupFoldout(_view.HorizontalSensitivityButton);
         _view.HorizontalSensitivityButton.Button.onClick.AddListener(() => _isSettingHorizontalSensitivity = true);
+        _view.HorizontalSensitivityButton.OnHover += ChangeHint;
         SetupFoldout(_view.VerticalSensitivityButton);
         _view.VerticalSensitivityButton.Button.onClick.AddListener(() => _isSettingHorizontalSensitivity = false);
+        _view.VerticalSensitivityButton.OnHover += ChangeHint;
 
         SetupFoldout(_view.FOVButton);
+        _view.FOVButton.OnHover += ChangeHint;
         SetupFoldout(_view.MaxFramerateButton);
-        SetupFoldout(_view.MusicVolumeButton);
+        _view.MaxFramerateButton.OnHover += ChangeHint;
 
+        SetupFoldout(_view.MusicVolumeButton);
         _view.MusicVolumeButton.Button.onClick.AddListener(() => _isSettingMusicVolume = true);
+        _view.MusicVolumeButton.OnHover += ChangeHint;
         SetupFoldout(_view.SFXVolumeButton);
         _view.SFXVolumeButton.Button.onClick.AddListener(() => _isSettingMusicVolume = false);
+        _view.SFXVolumeButton.OnHover += ChangeHint;
 
         // Sensitivity buttons
         for (int i = 0; i < _view.SensitivityOptions.Count; i++)
@@ -169,7 +181,9 @@ public class OptionsMenuPresenter : MonoBehaviour
     private void SetupToggles()
     {
         _view.ShowMetricsButton.Button.onClick.AddListener(ToggleShowMetrics);
+        _view.ShowMetricsButton.OnHover += ChangeHint;
         _view.ShowObjectTrajectoryButton.Button.onClick.AddListener(ToggleShowObjectTrajectory);
+        _view.ShowObjectTrajectoryButton.OnHover += ChangeHint;
     }
 
     private void ToggleShowMetrics()
