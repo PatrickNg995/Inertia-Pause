@@ -27,3 +27,21 @@ public class OptionsModel
         IsObjectTrajectoryShown = true;
     }
 }
+
+public static class OptionsModelUtil
+{
+    public static OptionsModel Clone(this OptionsModel model)
+    {
+        return new OptionsModel()
+        {
+            HorizontalSensitivity = model.HorizontalSensitivity,
+            VerticalSensitivity = model.VerticalSensitivity,
+            FieldOfView = model.FieldOfView,
+            MaxFramerate = model.MaxFramerate,
+            IsMetricsShown = model.IsMetricsShown,
+            MusicVolume = model.MusicVolume,
+            SoundVolume = model.SoundVolume,
+            IsObjectTrajectoryShown = model.IsObjectTrajectoryShown,
+        };
+    }
+}
