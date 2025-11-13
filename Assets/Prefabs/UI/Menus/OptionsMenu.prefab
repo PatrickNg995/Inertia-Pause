@@ -613,6 +613,7 @@ GameObject:
   - component: {fileID: 6727526439366184807}
   - component: {fileID: 4543882951547769174}
   - component: {fileID: 8205004702753776229}
+  - component: {fileID: 638660758053420478}
   - component: {fileID: 2061747707602424721}
   m_Layer: 5
   m_Name: OptionsMenu
@@ -708,6 +709,21 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &638660758053420478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5070898814862702524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: befd6037652ed1b43b19036594c9752c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 2061747707602424721}
+  _optionsManager: {fileID: 0}
+  _gameManager: {fileID: 0}
 --- !u!114 &2061747707602424721
 MonoBehaviour:
   m_ObjectHideFlags: 0
