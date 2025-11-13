@@ -112,7 +112,7 @@ public class OptionsMenuPresenter : MonoBehaviour
 
     private void SetupFoldouts()
     {
-        // Foldout setup
+        // Main option buttons
         SetupFoldout(_view.HorizontalSensitivityButton);
         _view.HorizontalSensitivityButton.Button.onClick.AddListener(() => _isSettingHorizontalSensitivity = true);
         _view.HorizontalSensitivityButton.OnHover += ChangeHint;
@@ -172,7 +172,7 @@ public class OptionsMenuPresenter : MonoBehaviour
             Button volumeButton = _view.VolumeOptions[index];
             volumeButton.onClick.AddListener(() =>
             {
-                ChangeVolume(index + 1);
+                ChangeVolume(index);
                 CloseFoldouts();
             });
         }
