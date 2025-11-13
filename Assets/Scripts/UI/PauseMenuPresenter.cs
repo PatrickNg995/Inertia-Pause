@@ -103,6 +103,7 @@ public class PauseMenuPresenter : MonoBehaviour
     {
         _view.gameObject.SetActive(false);
         _optionsPresenter.OpenMenu();
+        _inputActions.UI.Disable();
     }
 
     private void OnQuitPressed()

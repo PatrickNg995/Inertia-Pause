@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class OptionsMenuPresenter : MonoBehaviour
@@ -25,6 +27,8 @@ public class OptionsMenuPresenter : MonoBehaviour
     private bool _isSettingHorizontalSensitivity = false;
     private bool _isSettingMusicVolume = false;
 
+    private PlayerActions _inputActions;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,6 +43,16 @@ public class OptionsMenuPresenter : MonoBehaviour
 
         SetupFoldouts();
         SetupToggles();
+
+        _inputActions = new PlayerActions();
+        _inputActions.UI.Cancel.performed += _ => CloseMenu();
+        _inputActions.UI.Navigate.performed += _ =>
+        {
+            if (EventSystem.current.currentSelectedGameObject == null)
+            {
+                _view.HorizontalSensitivityButton.Button.Select();
+            }
+        };
     }
 
     public void OpenMenu()
@@ -46,6 +60,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         _view.gameObject.SetActive(true);
         _dirtyOptionsModel = _optionsManager.Options.Clone();
         ShowInitialValues(_dirtyOptionsModel);
+        _inputActions.Enable();
     }
 
     public void CloseMenu()
@@ -54,6 +69,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         _optionsManager.ApplyOptions(_dirtyOptionsModel);
         _optionsManager.SaveOptions(_dirtyOptionsModel);
         _view.gameObject.SetActive(false);
+        _inputActions.Disable();
         OnMenuClose?.Invoke();
     }
 
