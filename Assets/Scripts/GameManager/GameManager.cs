@@ -146,7 +146,7 @@ public class GameManager : MonoBehaviour
     {
         List<AllyAnimationScript> result = new List<AllyAnimationScript>(objects.Count);
 
-        foreach (var go in objects)
+        foreach (GameObject go in objects)
         {
             AllyAnimationScript anim = go.GetComponent<AllyAnimationScript>();
             if (anim == null)
