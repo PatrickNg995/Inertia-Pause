@@ -13,10 +13,10 @@ public class Chandelier : MonoBehaviour, IPausable
     public void ChandelierFalling()
     {
         _chandelierBottom.tag = "Lethal";
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    transform.GetChild(i).GetComponent<Rigidbody>().freezeRotation = false;
-        //}
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<Rigidbody>().freezeRotation = false;
+        }
     }
 
     public void Pause()
@@ -31,10 +31,10 @@ public class Chandelier : MonoBehaviour, IPausable
 
     public void ResetStateBeforeUnpause()
     {
-        //_chandelierBottom.tag = "Untagged";
-        //for (int i = 0; i < transform.childCount; i++)
-        //{
-        //    transform.GetChild(i).GetComponent<Rigidbody>().freezeRotation = true;
-        //}
+        _chandelierBottom.tag = "Untagged";
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponent<Rigidbody>().freezeRotation = true;
+        }
     }
 }
