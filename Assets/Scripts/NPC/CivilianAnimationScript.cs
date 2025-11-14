@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AllyAnimationScript : MonoBehaviour
+public class CivilianAnimationScript : MonoBehaviour
 {
     [SerializeField] private Animator _animator;
 
