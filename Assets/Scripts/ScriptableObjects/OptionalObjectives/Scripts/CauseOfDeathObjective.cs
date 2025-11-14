@@ -4,6 +4,7 @@ using UnityEngine;
 // Used to make the mode selection in the editor more readable.
 public enum KillRequirementMode
 {
+    KillEqualTo,
     KillGreaterThanOrEqualTo,
     KillLessThanOrEqualTo
 }
@@ -15,7 +16,7 @@ public class CauseOfDeathObjective : OptionalObective
     [Tooltip("The tag of the object type to require for the objective (the tag should be plural, e.g. 'Bullets').")]
     [SerializeField] private string _objectTypeTagToRequire;
 
-    [Tooltip("The number of kills required to complete the objective.")]
+    [Tooltip("The number of kills with the specified object type required to complete the objective.")]
     [SerializeField] private int _killNumberRequirement;
 
     [Tooltip("Set if this objective should require you to kill equal or more than the requirement, " +
@@ -39,14 +40,15 @@ public class CauseOfDeathObjective : OptionalObective
         // Switch based on the kill requirement mode to check if the objective is completed.
         switch (_killRequirementMode)
         {
-            // Check if kill count is greater than or equal to the requirement.
+            case KillRequirementMode.KillEqualTo:
+                return killCount == _killNumberRequirement;
             case KillRequirementMode.KillGreaterThanOrEqualTo:
                 return killCount >= _killNumberRequirement;
-            // Check if kill count is less than or equal to the requirement.
             case KillRequirementMode.KillLessThanOrEqualTo:
                 return killCount <= _killNumberRequirement;
+            default:
+                Debug.LogError("Unsupported KillRequirementMode in CauseOfDeathObjective.");
+                return false;
         }
-        // Default return false; this shouldn't be reached.
-        return false;
     }
 }

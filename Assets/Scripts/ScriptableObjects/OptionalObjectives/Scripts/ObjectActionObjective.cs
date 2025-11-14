@@ -2,42 +2,53 @@
 using UnityEngine;
 
 // Used to make the mode selection in the editor more readable.
-public enum ActionCompletionMode
+public enum ActionRequirementMode
 {
-    NoActionsAllowed,
-    AllActionsRequired
+    ActionsEqualTo,
+    ActionsGreaterThanOrEqualTo,
+    ActionsLessThanOrEqualTo
 }
 
 [Serializable]
 [CreateAssetMenu(fileName = "NewObjectActionObjective", menuName = "Inertia Pause/Object Action Objective")]
 public class ObjectActionObjective : OptionalObective
 {
-    [Tooltip("The tag of the object type to restrict for the objective (the tag should be plural, e.g. 'Bullets').")]
+    [Tooltip("The tag of the object type that will be used for the objective (the tag should be plural, e.g. 'Bullets').")]
     [SerializeField] private string _objectTypeTagToRestrict;
 
-    [Tooltip("Set if this objective should have NO actions with the object type allowed, " +
-             "or if it should have ONLY actions with the object type allowed.")]
-    [SerializeField] private ActionCompletionMode _actionsAllowed = ActionCompletionMode.NoActionsAllowed;
+    [Tooltip("The number of actions with the specified object type that are required for the objective.")]
+    [SerializeField] private int _actionTarget = 0;
 
-    // Boolean array to map ActionCompletionMode to a bool for easier checking.
-    private bool[] _actionCompletionMode = { true, false };
+    [Tooltip("Set if this objective should require you to =, >= or <= the action target.")]
+    [SerializeField] private ActionRequirementMode _actionRequirementMode = ActionRequirementMode.ActionsEqualTo;
 
     // Complete objective if no actions have been performed on objects of the specified type.
     // OR Complete objective if all actions have been performed on objects of the specified type.
     public override bool CheckCompletion()
     {
-        // Map the enum to a bool to determine completion mode.
-        bool actionCompletionMode = _actionCompletionMode[(int)_actionsAllowed];
-
+        int actionCount = 0;
         // Check if the object type was interacted with by going through the executed command list.
         foreach (ActionCommand command in GameManager.Instance.UndoCommandList)
         {
             GameObject actionGameObject = command.ActionObject.gameObject;
-            if (actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict) && actionCompletionMode)
+            if (actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict))
             {
-                return false;
+                actionCount++;
             }
         }
-        return true;
+
+        // Switch based on action requirement mode to determine if objective is completed.
+        switch (_actionRequirementMode)
+        {
+            case ActionRequirementMode.ActionsEqualTo:
+                return actionCount == _actionTarget;
+            case ActionRequirementMode.ActionsGreaterThanOrEqualTo:
+                return actionCount >= _actionTarget;
+            case ActionRequirementMode.ActionsLessThanOrEqualTo:
+                return actionCount <= _actionTarget;
+            default:
+                Debug.LogError("Unsupported ActionRequirementMode in ObjectActionObjective.");
+                return false;
+        }
     }
 }
