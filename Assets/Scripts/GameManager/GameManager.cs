@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     // List of animation Scripts
     private List<AllyAnimationScript> _allyAnimationScripts = new List<AllyAnimationScript>();
-    private List<AllyAnimationScript> _civilianAnimationScripts = new List<AllyAnimationScript>();
+    private List<CivilianAnimationScript> _civilianAnimationScripts = new List<CivilianAnimationScript>();
 
     // For player input actions.
     private PlayerActions _inputActions;
@@ -131,8 +131,8 @@ public class GameManager : MonoBehaviour
         _listOfAllies = GetDirectChildrenOfObject(_allies);
         _listOfCivilians = GetDirectChildrenOfObject(_civilians);
 
-        _allyAnimationScripts = GetAnimationScripts(_listOfAllies);
-        _civilianAnimationScripts = GetAnimationScripts(_listOfCivilians);
+        _allyAnimationScripts = GetComponentsFromObjects<AllyAnimationScript>(_listOfAllies);
+        _civilianAnimationScripts = GetComponentsFromObjects<CivilianAnimationScript>(_listOfCivilians);
 
         // Set up input actions.
         _inputActions = new PlayerActions();
@@ -142,25 +142,25 @@ public class GameManager : MonoBehaviour
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
-    private List<AllyAnimationScript> GetAnimationScripts(List<GameObject> objects)
+    private List<T> GetComponentsFromObjects<T>(List<GameObject> objects) where T : Component
     {
-        List<AllyAnimationScript> result = new List<AllyAnimationScript>(objects.Count);
+        List<T> result = new List<T>(objects.Count);
 
         foreach (GameObject go in objects)
         {
-            AllyAnimationScript anim = go.GetComponent<AllyAnimationScript>();
-            if (anim == null)
+            T component = go.GetComponent<T>();
+            if (component == null)
             {
-                anim = go.GetComponentInChildren<AllyAnimationScript>();
+                component = go.GetComponentInChildren<T>();
             }
 
-            if (anim != null)
+            if (component != null)
             {
-                result.Add(anim);
+                result.Add(component);
             }
             else
             {
-                Debug.LogWarning($"No AllyAnimationScript found on or under {go.name}");
+                Debug.LogWarning($"No {typeof(T).Name} found on or under {go.name}");
             }
         }
 
@@ -278,7 +278,7 @@ public class GameManager : MonoBehaviour
             }
 
             // Play Each Civilians Relieved Animation.
-            foreach (AllyAnimationScript anim in _civilianAnimationScripts)
+            foreach (CivilianAnimationScript anim in _civilianAnimationScripts)
             {
                 anim.PlayRelievedAnimation();
             }
