@@ -31,7 +31,10 @@ public class ObjectActionObjective : OptionalObective
         foreach (ActionCommand command in GameManager.Instance.UndoCommandList)
         {
             GameObject actionGameObject = command.ActionObject.gameObject;
-            if (actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict))
+
+            // Check if the action was performed on an object of the specified type and only count it if the command
+            // counted as an action.
+            if (command.WillCountAsAction && actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict))
             {
                 actionCount++;
             }
