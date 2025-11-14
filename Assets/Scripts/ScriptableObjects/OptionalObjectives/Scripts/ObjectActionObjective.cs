@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// Used to make the mode selection in the editor make more sense.
+// Used to make the mode selection in the editor more readable.
 public enum ActionCompletionMode
 {
     NoActionsAllowed,
@@ -9,13 +9,14 @@ public enum ActionCompletionMode
 }
 
 [Serializable]
-[CreateAssetMenu(fileName = "NewRestrictObjectActionObjective", menuName = "Inertia Pause/Restrict Object Action Objective")]
-public class RestrictObjectActionObjective : OptionalObective
+[CreateAssetMenu(fileName = "NewObjectActionObjective", menuName = "Inertia Pause/Object Action Objective")]
+public class ObjectActionObjective : OptionalObective
 {
+    [Tooltip("The tag of the object type to restrict for the objective (the tag should be plural, e.g. 'Bullets').")]
     [SerializeField] private string _objectTypeTagToRestrict;
 
-    [Tooltip("Set if this objective should have no actions with the object type allowed, " +
-             "or if it should have only actions with the object type allowed.")]
+    [Tooltip("Set if this objective should have NO actions with the object type allowed, " +
+             "or if it should have ONLY actions with the object type allowed.")]
     [SerializeField] private ActionCompletionMode _actionsAllowed = ActionCompletionMode.NoActionsAllowed;
 
     // Boolean array to map ActionCompletionMode to a bool for easier checking.
@@ -25,19 +26,18 @@ public class RestrictObjectActionObjective : OptionalObective
     // OR Complete objective if all actions have been performed on objects of the specified type.
     public override bool CheckCompletion()
     {
-        GameManager gameManager = GameManager.Instance;
+        // Map the enum to a bool to determine completion mode.
         bool actionCompletionMode = _actionCompletionMode[(int)_actionsAllowed];
 
-        foreach (ActionCommand command in gameManager.UndoCommandList)
+        // Check if the object type was interacted with by going through the executed command list.
+        foreach (ActionCommand command in GameManager.Instance.UndoCommandList)
         {
             GameObject actionGameObject = command.ActionObject.gameObject;
             if (actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict) && actionCompletionMode)
             {
-                IsCompleted = false;
-                return IsCompleted;
+                return false;
             }
         }
-        IsCompleted = true;
-        return IsCompleted;
+        return true;
     }
 }

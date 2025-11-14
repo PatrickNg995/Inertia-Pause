@@ -21,6 +21,7 @@ public class CommandManager
     public Action OnRedoUnavailable;
 
     public int ActionCount => _actionCount;
+
     public List<ActionCommand> UndoCommandList => _undoCommandList;
 
     public List<ActionCommand> RedoCommandList => _redoCommandList;

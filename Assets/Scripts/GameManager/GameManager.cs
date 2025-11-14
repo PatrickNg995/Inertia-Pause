@@ -196,6 +196,9 @@ public class GameManager : MonoBehaviour
 
     public void RewindLevel()
     {
+        // Clear causes of death list.
+        ListOfCausesOfDeath.Clear();
+
         // Reset player position and rotation.
         _playerMovement.ResetPlayerPosition();
 

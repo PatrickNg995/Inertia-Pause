@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// Used to make the mode selection in the editor make more sense.
+// Used to make the mode selection in the editor more readable.
 public enum KillRequirementMode
 {
     KillGreaterThanOrEqualTo,
@@ -9,11 +9,13 @@ public enum KillRequirementMode
 }
 
 [Serializable]
-[CreateAssetMenu(fileName = "NewCauseOfDeathRequirementObjective", menuName = "Inertia Pause/Cause of Death Requirement Objective")]
-public class CauseOfDeathRequirementObjective : OptionalObective
+[CreateAssetMenu(fileName = "NewCauseOfDeathObjective", menuName = "Inertia Pause/Cause of Death Objective")]
+public class CauseOfDeathObjective : OptionalObective
 {
-    [SerializeField] private string _objectTypeToRequireTag;
+    [Tooltip("The tag of the object type to require for the objective (the tag should be plural, e.g. 'Bullets').")]
+    [SerializeField] private string _objectTypeTagToRequire;
 
+    [Tooltip("The number of kills required to complete the objective.")]
     [SerializeField] private int _killNumberRequirement;
 
     [Tooltip("Set if this objective should require you to kill equal or more than the requirement, " +
@@ -24,12 +26,11 @@ public class CauseOfDeathRequirementObjective : OptionalObective
     // the kill number requirement OR if the kill count is less than or equal to the kill number requirement.
     public override bool CheckCompletion()
     {
-        GameManager gameManager = GameManager.Instance;
+        // Count the number of kills caused by objects with the specified tag.
         int killCount = 0;
-
-        foreach (GameObject gameObject in gameManager.ListOfCausesOfDeath)
+        foreach (GameObject gameObject in GameManager.Instance.ListOfCausesOfDeath)
         {
-            if (gameObject.transform.root.CompareTag(_objectTypeToRequireTag))
+            if (gameObject.transform.root.CompareTag(_objectTypeTagToRequire))
             {
                 killCount++;
             }
@@ -38,29 +39,14 @@ public class CauseOfDeathRequirementObjective : OptionalObective
         // Switch based on the kill requirement mode to check if the objective is completed.
         switch (_killRequirementMode)
         {
+            // Check if kill count is greater than or equal to the requirement.
             case KillRequirementMode.KillGreaterThanOrEqualTo:
-                if (killCount >= _killNumberRequirement)
-                {
-                    IsCompleted = true;
-                    break;
-                }
-                else
-                {
-                    IsCompleted = false;
-                    break;
-                }
+                return killCount >= _killNumberRequirement;
+            // Check if kill count is less than or equal to the requirement.
             case KillRequirementMode.KillLessThanOrEqualTo:
-                if (killCount <= _killNumberRequirement)
-                {
-                    IsCompleted = true;
-                    break;
-                }
-                else
-                {
-                    IsCompleted = false;
-                    break;
-                }
+                return killCount <= _killNumberRequirement;
         }
-        return IsCompleted;
+        // Default return false; this shouldn't be reached.
+        return false;
     }
 }
