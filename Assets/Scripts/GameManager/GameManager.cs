@@ -88,6 +88,10 @@ public class GameManager : MonoBehaviour
     private List<GameObject> _listOfAllies = new List<GameObject>();
     private List<GameObject> _listOfCivilians = new List<GameObject>();
 
+    // List of animation Scripts
+    private List<AllyAnimationScript> _allyAnimationScripts = new List<AllyAnimationScript>();
+    private List<CivilianAnimationScript> _civilianAnimationScripts = new List<CivilianAnimationScript>();
+
     // For player input actions.
     private PlayerActions _inputActions;
     private InputAction _undo;
@@ -127,12 +131,40 @@ public class GameManager : MonoBehaviour
         _listOfAllies = GetDirectChildrenOfObject(_allies);
         _listOfCivilians = GetDirectChildrenOfObject(_civilians);
 
+        _allyAnimationScripts = GetComponentsFromObjects<AllyAnimationScript>(_listOfAllies);
+        _civilianAnimationScripts = GetComponentsFromObjects<CivilianAnimationScript>(_listOfCivilians);
+
         // Set up input actions.
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
         _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
+    }
+
+    private List<T> GetComponentsFromObjects<T>(List<GameObject> objects) where T : Component
+    {
+        List<T> result = new List<T>(objects.Count);
+
+        foreach (GameObject go in objects)
+        {
+            T component = go.GetComponent<T>();
+            if (component == null)
+            {
+                component = go.GetComponentInChildren<T>();
+            }
+
+            if (component != null)
+            {
+                result.Add(component);
+            }
+            else
+            {
+                Debug.LogWarning($"No {typeof(T).Name} found on or under {go.name}");
+            }
+        }
+
+        return result;
     }
 
     private void OnEnable()
@@ -238,6 +270,18 @@ public class GameManager : MonoBehaviour
         if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
+
+            // Play Each Ally's Relieved Animation.
+            foreach (AllyAnimationScript anim in _allyAnimationScripts)
+            {
+                anim.PlayRelievedAnimation();
+            }
+
+            // Play Each Civilians Relieved Animation.
+            foreach (CivilianAnimationScript anim in _civilianAnimationScripts)
+            {
+                anim.PlayRelievedAnimation();
+            }
             Debug.Log("Level won!");
         }
         else

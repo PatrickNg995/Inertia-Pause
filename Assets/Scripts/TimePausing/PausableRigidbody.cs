@@ -21,7 +21,7 @@ public class PausableRigidbody : MonoBehaviour, IPausable
     public void Unpause()
     {
         _pausedPosition = transform.position;
-        _pausedRotation = transform.rotation;   
+        _pausedRotation = transform.rotation;
 
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;

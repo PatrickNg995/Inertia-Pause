@@ -25,7 +25,12 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
 
     public abstract void OnResetInteract();
 
-    // Not all InteractionObjects need or have special logic on Undo.
+    // Not all InteractionObjects need or have special logic on Redo / Undo.
+    public virtual void OnCommandRedo()
+    {
+        // Explicitly empty
+    }
+
     public virtual void OnCommandUndo()
     {
         // Explicitly empty
