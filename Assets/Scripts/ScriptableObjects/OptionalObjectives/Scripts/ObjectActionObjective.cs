@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// Used to make the mode selection in the editor more readable.
+// Used in the editor to select the way the objective should be evaluated.
 public enum ActionRequirementMode
 {
     ActionsEqualTo,

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-// Used to make the mode selection in the editor more readable.
+// Used in the editor to select the way the objective should be evaluated.
 public enum KillRequirementMode
 {
     KillEqualTo,
@@ -31,6 +31,9 @@ public class CauseOfDeathObjective : OptionalObective
         int killCount = 0;
         foreach (GameObject gameObject in GameManager.Instance.ListOfCausesOfDeath)
         {
+            // Note: since objectives are only counted as completed if the level is completed, we can assume that
+            // all the deaths in ListOfCausesOfDeath are Enemy deaths, so we don't need to check for that here.
+            // If any allies are killed, the objective will be counted as failed by the GameManager anyway.
             if (gameObject.transform.root.CompareTag(_objectTypeTagToRequire))
             {
                 killCount++;
