@@ -27,6 +27,9 @@ public class NPC : MonoBehaviour, IPausable
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
+    // Tracks the GameObject responsible for the NPC's most recent death (if any).
+    public GameObject LastCauseOfDeath { get; private set; }
+
     private void Awake()
     {
         // Cache references to components.
@@ -61,19 +64,20 @@ public class NPC : MonoBehaviour, IPausable
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject collisionObject = collision.gameObject;
         float fallDistance = _initialPosition.y - transform.position.y;
 
         // Check for lethal collisions.
-        if (collision.gameObject.CompareTag("Lethal"))
+        if (collisionObject.CompareTag("Lethal"))
         {
-            Die();
+            Die(collisionObject);
         }
 
         // Check if NPC fell a lethal distance.
         if (fallDistance >= LETHAL_FALL_THRESHOLD)
         {
             // Apply downward hit force to simulate impact.
-            ApplyHit(Vector3.down * FALL_HIT_FORCE, transform.position);
+            ApplyHit(collisionObject, Vector3.down * FALL_HIT_FORCE, transform.position);
         }
     }
 
@@ -108,10 +112,14 @@ public class NPC : MonoBehaviour, IPausable
         {
             IsAlive = true;
         }
+
+        LastCauseOfDeath = null;
     }
 
-    public void Die()
+    public void Die(GameObject cause)
     {
+        GameManager.Instance.RecordNpcDeath(cause);
+
         // Disable animator, enable ragdoll physics.
         _animator.enabled = false;
         SetRigidbodyState(false);
@@ -120,10 +128,10 @@ public class NPC : MonoBehaviour, IPausable
         IsAlive = false;
     }
 
-    public void ApplyHit(Vector3 impulse, Vector3 hitPoint)
+    public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
     {
         // Enable ragdoll
-        Die();
+        Die(cause);
 
         // Apply impulse to each child rigidbody at the hit point so the ragdoll reacts naturally.
         Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
