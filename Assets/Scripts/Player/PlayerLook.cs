@@ -1,53 +1,78 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
-    [field: SerializeField] public float HorizontalSensitivity { get; set; } = 0.15f;
-    [field: SerializeField] public float VerticalSensitivity { get; set; } = 0.15f;
+    [SerializeField] public float HorizontalSensitivity = 0.15f;
+    [SerializeField] public float VerticalSensitivity = 0.15f;
 
-    public Transform playerBody;
+    [SerializeField] private Transform _playerBody;
 
-    private PlayerActions inputActions;
-    private InputAction look;
+    private const float GAMEPAD_SENSITIVITY_MODIFIER = 1000f;
 
-    // Because we don't want the capsule to rotate vertically, we have to store the rotation of the camera and modify it
-    private float rotationY;
+    private PlayerActions _inputActions;
+    private InputAction _look;
+
+    private Vector2 _lookInput = Vector2.zero;
+
+    private bool _isUsingGamepad = false;
+
+    private float _xRotation = 0f;
 
     private void Awake()
     {
-        inputActions = new PlayerActions();
+        _inputActions = new PlayerActions();
     }
 
     private void OnEnable()
     {
-        look = inputActions.Ingame.Look;
-        look.Enable();
+        _look = _inputActions.Ingame.Look;
+        _look.performed += OnLook;
+        _look.canceled += OnLook;
+        _look.Enable();
 
-        // cursor is stuck to the middle of the game window
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void OnDisable()
     {
-        look.Disable();
+        _look.performed -= OnLook;
+        _look.canceled -= OnLook;
+        _look.Disable();
 
         Cursor.lockState = CursorLockMode.None;
     }
 
-
-    private void Update()
+    private void LateUpdate()
     {
-        Vector2 v2 = look.ReadValue<Vector2>();
-        
-        float rotationX = v2.x * HorizontalSensitivity; // Rotation on the x axis
-        
-        playerBody.Rotate(Vector3.up * rotationX);
+        // Use Time.deltaTime if using a gamepad.
+        float timeScale = _isUsingGamepad ? Time.deltaTime : 1f;
 
-        rotationY -= v2.y * VerticalSensitivity;
-        // prevent players from doing 360s with the camera
-        rotationY = Mathf.Clamp(rotationY, -90f, 90f);
+        // Gamepad sensitivity has to be much higher; multiply the sensitivity picked in options by the modifier for gamepad.
+        float gamepadHorizontalSensitivity = GAMEPAD_SENSITIVITY_MODIFIER * HorizontalSensitivity;
+        float gamepadVerticalSensitivity = GAMEPAD_SENSITIVITY_MODIFIER * VerticalSensitivity;
 
-        transform.localRotation = Quaternion.Euler(rotationY, 0f, 0f);
+        // Choose sensitivity based on input device.
+        float horizontalSensitivity = _isUsingGamepad ? gamepadHorizontalSensitivity : HorizontalSensitivity;
+        float verticalSensitivity = _isUsingGamepad ? gamepadVerticalSensitivity : VerticalSensitivity;
+
+        // Apply look input.
+        float yaw = _lookInput.x * horizontalSensitivity * timeScale;
+        float pitch = _lookInput.y * verticalSensitivity * timeScale;
+
+        _xRotation -= pitch;
+        _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);
+        transform.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
+
+        _playerBody.Rotate(Vector3.up * yaw);
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        _lookInput = context.ReadValue<Vector2>();
+
+        // Determine if input came from gamepad.
+        var device = context.control?.device;
+        _isUsingGamepad = device is Gamepad;
     }
 }

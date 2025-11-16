@@ -70,7 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5654567244432174684, guid: 1af8039429352f94bb66b8dc285f27dd, type: 3}
       propertyPath: m_Radius
-      value: 3
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: 8671788761301887762, guid: 1af8039429352f94bb66b8dc285f27dd, type: 3}
       propertyPath: m_LocalScale.x
@@ -119,11 +119,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 75
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 75
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}
       propertyPath: m_LocalScale.z
@@ -139,7 +139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.422
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -292,10 +292,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.01405019
-  m_Height: 0.021535365
-  m_Direction: 1
-  m_Center: {x: 0.00000001862645, y: -0.0000000032596297, z: 0.014050192}
+  m_Radius: 0.011
+  m_Height: 0.03
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.014050192}
 --- !u!136 &631852241785241036
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -315,10 +315,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.01405019
-  m_Height: 0.021535365
-  m_Direction: 1
-  m_Center: {x: 0.00000001862645, y: -0.0000000032596297, z: 0.014050192}
+  m_Radius: 0.011
+  m_Height: 0.03
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.014050192}
 --- !u!23 &6072318568643153149 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 896ef44c4698bec4fafef29f1947dc6e, type: 3}

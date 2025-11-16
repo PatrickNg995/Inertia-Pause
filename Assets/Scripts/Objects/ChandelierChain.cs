@@ -8,6 +8,7 @@ public class ChandelierChain : MonoBehaviour, IPausable
     [SerializeField] private HingeJoint _hingeJoint;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Rigidbody _connectedChain;
+    [SerializeField] private Chandelier _chandelierParent;
 
     // Position before unpausing.
     private Vector3 _pausedPosition;
@@ -49,6 +50,7 @@ public class ChandelierChain : MonoBehaviour, IPausable
         {
             Destroy(_hingeJoint);
             _meshRenderer.enabled = false;
+            _chandelierParent.ChandelierFalling();
         }
     }
 
