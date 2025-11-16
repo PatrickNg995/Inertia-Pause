@@ -11,6 +11,8 @@ public class TimePauseUnpause : MonoBehaviour
     // Bool to only unpause once.
     private bool _hasUnpaused = false;
 
+    private bool _isUnpauseEnabled = true;
+
     private IPausable[] _pausableObjects;
 
     void Awake()
@@ -61,16 +63,32 @@ public class TimePauseUnpause : MonoBehaviour
         }
     }
 
+    public void DisableTimeUnpause()
+    {
+        _isUnpauseEnabled = false;
+    }
+
+    public void EnableTimeUnpause()
+    {
+        _isUnpauseEnabled = true;
+    }
+
     // Unpause time if time has been paused.
     private void CheckUnpause(InputAction.CallbackContext context)
     {
-        if (!_hasUnpaused)
+        if (_isUnpauseEnabled && !_hasUnpaused)
         {
             _hasUnpaused = true;
             foreach (IPausable pausable in _pausableObjects)
             {
                 pausable.Unpause();
             }
+            GameManager.Instance.CheckVictoryCondition();
+        }
+        else
+        {
+            // A pop up saying time unpause is disabled might be a good idea.
+            Debug.Log("Time unpause attempted but is currently disabled or has already unpaused.");
         }
     }
 }

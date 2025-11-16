@@ -53,12 +53,13 @@ public class DraggableBehaviour : InteractionObject
     {
         if (_dragging == true) return;
 
+        // Disable time unpause while dragging.
+        GameManager.Instance.DisableTimeUnpause();
+
         _dragging = true;
-        
         _dragDistance = Vector3.Distance(_playerCamera.position, transform.position);
         
         _moveStartPosition = transform.position;
-        
         _yPosition = transform.position.y;
     }
 
@@ -72,7 +73,6 @@ public class DraggableBehaviour : InteractionObject
 
         Vector3 nextPosition = Vector3.Lerp(transform.position, targetPosition, _dragSpeed * Time.unscaledDeltaTime);
 
-
         // Move object to next position if less than the max distance away from the initial position
         if (Mathf.Abs(Vector3.Distance(_resetPosition, nextPosition)) <= _maxDragDistance)
         {
@@ -83,6 +83,9 @@ public class DraggableBehaviour : InteractionObject
     public override void OnEndInteract()
     {
         if (!_dragging) return;
+
+        // Re-enable time unpause after dragging.
+        GameManager.Instance.EnableTimeUnpause();
 
         // Record and execute the command
         ActionCommand = new DragCommand(this, _moveStartPosition, transform.position, !HasTakenAction);
