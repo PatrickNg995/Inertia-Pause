@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
   m_Name: OfficeEasy
   m_EditorClassIdentifier: 
-  ScenarioName: Office (D)
+  ScenarioName: Office (Easy)
   Description: ICPD Unit 5 is called for a raid on an office where a rival company
     decides to eliminate their competition.
   Thumbnail: {fileID: 0}
@@ -22,10 +22,12 @@ MonoBehaviour:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives: []
-    ActionLimit: 10
-  NumberOfCivilians: 9
+    OptionalObjectives:
+    - {fileID: 11400000, guid: effea0e0a734ade449c0eab5f5a31e47, type: 2}
+    - {fileID: 11400000, guid: 613bdf6148bdaec448a232fd7f7926eb, type: 2}
+    ActionLimit: 12
+  NumberOfCivilians: 6
   NumberOfAllies: 0
-  NumberOfEnemies: 15
+  NumberOfEnemies: 6
   NextEnvironmentSceneName: 
   NextScenarioAssetsSceneName: 
