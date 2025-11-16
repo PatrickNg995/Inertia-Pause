@@ -1,9 +1,15 @@
+﻿using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Windows;
 
 public class DraggableBehaviour : InteractionObject
 {
     [SerializeField] private float _dragSpeed = 10f;
     [SerializeField] private float _maxDragDistance = 1f;
+
+    private const float MAX_DSTANCE_FROM_CAMERA = 2f;
+    private const float MIN_DSTANCE_FROM_CAMERA = 0.3f;
 
     private Transform _playerCamera;
     private Vector3 _resetPosition;
@@ -12,12 +18,35 @@ public class DraggableBehaviour : InteractionObject
     private float _dragDistance;
     private float _yPosition;
 
+    private PlayerActions _inputActions;
+    private InputAction _scroll;
+
     private void Awake()
     {
+        _inputActions = new PlayerActions();
+
         IsContinuousUpdate = true;
 
         _playerCamera = Camera.main.transform;
         _resetPosition = transform.position;
+    }
+    private void OnEnable()
+    {
+        _scroll = _inputActions.Ingame.Scroll;
+        _scroll.performed += OnScroll;
+        _scroll.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _scroll.performed -= OnScroll;
+        _scroll.Disable();
+    }
+
+    private void OnScroll(InputAction.CallbackContext context)
+    {
+        _dragDistance = Math.Clamp(_dragDistance + context.ReadValue<Vector2>().y,
+                                   MIN_DSTANCE_FROM_CAMERA, MAX_DSTANCE_FROM_CAMERA);
     }
 
     public override void OnStartInteract()
@@ -54,7 +83,6 @@ public class DraggableBehaviour : InteractionObject
     public override void OnEndInteract()
     {
         if (!_dragging) return;
-
 
         // Record and execute the command
         ActionCommand = new DragCommand(this, _moveStartPosition, transform.position, !HasTakenAction);
