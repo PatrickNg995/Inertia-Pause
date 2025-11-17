@@ -3,11 +3,14 @@
 public class PauseableAnimator : MonoBehaviour, IPausable
 {
     [SerializeField] private Animator _animator;
+
+    [SerializeField] private bool _useRandomStartTime = true;
+
     private float _animationStartTime;
 
     private void Awake()
     {
-        _animationStartTime = Random.value;
+        _animationStartTime = _useRandomStartTime ? Random.value : 0;
         _animator.Play(0, 0, _animationStartTime);
         _animator.Update(0f);
     }
