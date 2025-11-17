@@ -761,10 +761,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.14983915
+  m_Radius: 0.17446122
   m_Height: 1.8028977
   m_Direction: 1
-  m_Center: {x: 0.000635743, y: 0.9244652, z: 0.04138431}
+  m_Center: {x: -0.0011920929, y: 0.9244652, z: 0.04138431}
 --- !u!114 &8419410262111168574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,6 +782,7 @@ MonoBehaviour:
   _rb: {fileID: 4273534564190045599}
   _collider: {fileID: 4892907447020117439}
   _accessoryConstraints: []
+  _accessoryRigidbodies: []
 --- !u!114 &8700177248720717073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +813,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8003172284550784504}
+  _useRandomStartTime: 1
 --- !u!114 &6604902116644260412
 MonoBehaviour:
   m_ObjectHideFlags: 0
