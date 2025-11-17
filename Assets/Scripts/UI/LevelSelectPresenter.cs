@@ -18,7 +18,6 @@ public class LevelSelectPresenter : MonoBehaviour
     {
         _sceneManager = AdditiveSceneManager.Instance;
 
-        Debug.Log("Start!");
         _view.gameObject.SetActive(false);
         _view.DifficultyPopup.gameObject.SetActive(false);
 
@@ -41,7 +40,6 @@ public class LevelSelectPresenter : MonoBehaviour
 
     public void OpenMenu()
     {
-        Debug.Log("Open!");
         _view.gameObject.SetActive(true);
         _view.DifficultyPopup.gameObject.SetActive(false);
     }
