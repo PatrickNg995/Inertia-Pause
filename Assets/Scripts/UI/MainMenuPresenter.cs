@@ -10,7 +10,7 @@ public class MainMenuPresenter : MonoBehaviour
     [SerializeField] private LevelSelectPresenter _levelSelectPresenter;
     [SerializeField] private OptionsMenuPresenter _optionsMenuPresenter;
 
-    private const string BUILD_NUMBER_FORMAT = "{0} V{1} (Alpha)";
+    private const string BUILD_NUMBER_FORMAT = "Inertia Pause {0} V{1} (Alpha)";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
     private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-s1";
 
@@ -19,6 +19,8 @@ public class MainMenuPresenter : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _sceneManager = AdditiveSceneManager.Instance;
+
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
 
         // TODO: Hide Continue button if no last level.

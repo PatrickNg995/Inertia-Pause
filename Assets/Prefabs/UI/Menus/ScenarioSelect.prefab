@@ -295,7 +295,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4116100598128594453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,6 +347,7 @@ MonoBehaviour:
   - {fileID: 8057365530296978669}
   - {fileID: 1090159934458524828}
   - {fileID: 8382675429541838490}
+  <BackButton>k__BackingField: {fileID: 1203515105073057815}
   <OptionalObjectivesTemplate>k__BackingField: {fileID: 6485550935114880962}
   <NormalBestRecordText>k__BackingField: {fileID: 4018183872245270357}
   <NormalOptionalObjectivesContainer>k__BackingField: {fileID: 5414283745666045768}
@@ -1943,6 +1944,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
+--- !u!114 &1203515105073057815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3089634870884450455, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
+  m_PrefabInstance: {fileID: 4202746957238112384}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe3e7e2c1f0c0ff49a4d0e99f22ee1bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6557858350135802881 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7012414113215442049, guid: 1b69589c19ca8e44a9b01629e239c02e, type: 3}
