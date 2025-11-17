@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelSelectPresenter : MonoBehaviour
 {
@@ -12,8 +13,10 @@ public class LevelSelectPresenter : MonoBehaviour
     [SerializeField] private Color _completeOptionalObjectiveColor;
     [SerializeField] private Color _incompleteOptionalObjectiveColor;
 
-    private const string BEST_RECORD_SINGULAR_FORMAT = "Best Record: {0} Action";
-    private const string BEST_RECORD_PLURAL_FORMAT = "Best Record: {0} Actions";
+    private const string NORMAL_DIFFICULTY_NAME = "Normal";
+    private const string HARD_DIFFICULTY_NAME = "Hard";
+    private const string BEST_RECORD_SINGULAR_FORMAT = "{0} Best Record: {1} Action";
+    private const string BEST_RECORD_PLURAL_FORMAT = "{0} Best Record: {1} Actions";
 
     private AdditiveSceneManager _sceneManager;
 
@@ -131,7 +134,7 @@ public class LevelSelectPresenter : MonoBehaviour
         {
             int normalBestRecord = 1;
             string normalBestRecordFormat = normalBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
-            _view.NormalBestRecordText.text = string.Format(normalBestRecordFormat, normalBestRecord);
+            _view.NormalBestRecordText.text = string.Format(normalBestRecordFormat, NORMAL_DIFFICULTY_NAME, normalBestRecord);
 
             foreach (string optionalObjective in normalScenarioInfo.Objectives.OptionalObjectives)
             {
@@ -149,7 +152,7 @@ public class LevelSelectPresenter : MonoBehaviour
         {
             int hardBestRecord = 3;
             string hardBestRecordFormat = hardBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
-            _view.HardBestRecordText.text = string.Format(hardBestRecordFormat, hardBestRecord);
+            _view.HardBestRecordText.text = string.Format(hardBestRecordFormat, HARD_DIFFICULTY_NAME, hardBestRecord);
 
             foreach (string optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
             {
