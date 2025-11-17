@@ -57,9 +57,9 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Height: 5
+  m_Height: 5.0667915
   m_Direction: 2
-  m_Center: {x: 0, y: 0, z: -1.75}
+  m_Center: {x: 0, y: 0, z: 0.21374458}
 --- !u!54 &3763187284926092845
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -100,8 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 2ebe7d9888fd2434d96c5d8df5071f3e, type: 2}
-  _dragSpeed: 10
+  _collider: {fileID: 6615183229053436385}
+  _dragSpeed: 30
   _maxDragDistance: 4
+  _maxDistanceFromCamera: 1.25
+  _minDistanceFromCamera: 0.75
 --- !u!114 &4290007739633433133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 5625365389573256950}
   serializedVersion: 2
   m_LocalRotation: {x: 0.70710576, y: 3.5527137e-15, z: -0.00000009690936, w: 0.7071079}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 2.14}
   m_LocalScale: {x: 1.8382663, y: 1.3795191, z: 1.8375548}
   m_ConstrainProportionsScale: 1
   m_Children: []

@@ -115,8 +115,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 232eca9b0195a5d4480217de3143776c, type: 2}
-  _dragSpeed: 10
+  _collider: {fileID: 359207212320292634}
+  _dragSpeed: 30
   _maxDragDistance: 4
+  _maxDistanceFromCamera: 1
+  _minDistanceFromCamera: 0.6
 --- !u!1 &7632022767920663003
 GameObject:
   m_ObjectHideFlags: 0
@@ -6239,5 +6242,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 14fc855662ee92f4eb63b8c06a1977da, type: 2}
+  _collider: {fileID: 0}
   _dragSpeed: 10
   _maxDragDistance: 1
+  _maxDistanceFromCamera: 1.5
+  _minDistanceFromCamera: 0.3

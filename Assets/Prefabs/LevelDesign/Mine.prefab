@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 5077078672972059525}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.24999997, y: -0.95, z: 0.25000006}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.05, z: 0.500005}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -174,8 +174,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 04d5bbc4209d652448d9849c2f081e8a, type: 2}
-  _dragSpeed: 10
+  _collider: {fileID: 0}
+  _dragSpeed: 20
   _maxDragDistance: 4
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
 --- !u!114 &5961279032996493559
 MonoBehaviour:
   m_ObjectHideFlags: 0

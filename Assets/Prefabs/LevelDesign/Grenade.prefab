@@ -30,14 +30,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209272545264118125}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7305109, z: 0, w: 0.6829011}
-  m_LocalPosition: {x: -1.7258711, y: 0.47838643, z: 6.085216}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 55526115428761314}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &2579152582676104782
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -125,8 +125,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 38b0572d0d593144ea9abdac5c8dc24a, type: 2}
-  _dragSpeed: 10
+  _collider: {fileID: 2761862762949213118}
+  _dragSpeed: 20
   _maxDragDistance: 4
+  _maxDistanceFromCamera: 1
+  _minDistanceFromCamera: 0.5
 --- !u!54 &5948860272198824834
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _grenadeInitialSpeed: 7.5
-  _grenadeExplosionDelay: 1.5
+  _grenadeInitialExplosionDelay: 1.5
   _rb: {fileID: 5948860272198824834}
   _sphereCollider: {fileID: 2761862762949213118}
   _meshRenderer: {fileID: 9016639720935260786}

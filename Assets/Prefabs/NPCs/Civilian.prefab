@@ -1497,10 +1497,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
-  m_Height: 1.8028975
+  m_Radius: 0.14983915
+  m_Height: 1.8028977
   m_Direction: 1
-  m_Center: {x: -0.0031371412, y: 0.92446065, z: 0.022557735}
+  m_Center: {x: 0.000635743, y: 0.9244652, z: 0.04138431}
 --- !u!114 &2495808979567920882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1540,8 +1540,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: d2502424243daa6489d35ec51e07982b, type: 2}
+  _collider: {fileID: 4396338085831818327}
   _dragSpeed: 10
   _maxDragDistance: 1
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
 --- !u!114 &2200961499546689512
 MonoBehaviour:
   m_ObjectHideFlags: 0
