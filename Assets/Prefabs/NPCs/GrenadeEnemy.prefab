@@ -239,6 +239,7 @@ GameObject:
   - component: {fileID: 152366038300849139}
   - component: {fileID: 1540807389585692197}
   - component: {fileID: 3168356891582129065}
+  - component: {fileID: 3480233526218217842}
   m_Layer: 6
   m_Name: GrenadeEnemy
   m_TagString: Enemy
@@ -383,6 +384,23 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: 0fc995e1d56fe704c99b17b6ffdb3dec, type: 2}
   _dragSpeed: 10
   _maxDragDistance: 1
+--- !u!114 &3480233526218217842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819075497831482579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ab0546d74d6a844a1307cd19eb3798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  WeaponSpawnPoint: {fileID: 487337790602008802}
+  Weapon: {fileID: 0}
+  _isWeaponDistanceOn: 0
+  _weaponDistance: 0
 --- !u!1 &917309026088350802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1555,7 @@ Transform:
   m_Children:
   - {fileID: 4265706041750017752}
   - {fileID: 785348478580731141}
+  - {fileID: 487337790602008802}
   m_Father: {fileID: 1378780328659263871}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4711244549473914813
@@ -3157,6 +3176,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6199337501492464187}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9101244730684713181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 487337790602008802}
+  m_Layer: 6
+  m_Name: GrenadeSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487337790602008802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9101244730684713181}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8837532667789896913}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9206349567619656562
 GameObject:

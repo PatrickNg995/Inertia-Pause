@@ -782,6 +782,7 @@ MonoBehaviour:
   _rb: {fileID: 4273534564190045599}
   _collider: {fileID: 4892907447020117439}
   _accessoryConstraints: []
+  _accessoryRigidbodies: []
 --- !u!114 &8700177248720717073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,10 +796,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  BulletSpawnPoint: {fileID: 1677601147423167288}
-  Bullet: {fileID: 0}
-  _isBulletDistanceOn: 0
-  _bulletDistance: 0
+  WeaponSpawnPoint: {fileID: 1677601147423167288}
+  Weapon: {fileID: 0}
+  _isWeaponDistanceOn: 0
+  _weaponDistance: 0
 --- !u!114 &-4815624522113896506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +813,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8003172284550784504}
+  _startLayerIndex: 0
+  _frameToLoad: -1
 --- !u!114 &6604902116644260412
 MonoBehaviour:
   m_ObjectHideFlags: 0
