@@ -326,6 +326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 6020829190269301600}
+  _completeOptionalObjectiveColor: {r: 1, g: 1, b: 1, a: 1}
+  _incompleteOptionalObjectiveColor: {r: 0.6392157, g: 0.6745098, b: 0.8627451, a: 1}
 --- !u!114 &6020829190269301600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +350,7 @@ MonoBehaviour:
   - {fileID: 1090159934458524828}
   - {fileID: 8382675429541838490}
   <BackButton>k__BackingField: {fileID: 1203515105073057815}
-  <OptionalObjectivesTemplate>k__BackingField: {fileID: 6485550935114880962}
+  <OptionalObjectivesPrefab>k__BackingField: {fileID: 6485550935114880962}
   <NormalBestRecordText>k__BackingField: {fileID: 4018183872245270357}
   <NormalOptionalObjectivesContainer>k__BackingField: {fileID: 5414283745666045768}
   <HardBestRecordText>k__BackingField: {fileID: 3764483324754159030}
@@ -1636,6 +1638,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuObjectiveRow
       objectReference: {fileID: 0}
+    - target: {fileID: 3316718684913190366, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1650,7 +1656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_AnchorMin.x
@@ -1658,11 +1664,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 900
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1698,11 +1704,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 9042864894235190863, guid: 0d7e1b7deb59c2b498f71e3fb4071227, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

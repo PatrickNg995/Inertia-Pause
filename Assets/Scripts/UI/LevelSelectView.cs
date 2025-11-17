@@ -12,7 +12,7 @@ public class LevelSelectView : MonoBehaviour
     [field: SerializeField] public List<CustomLevelSelectButtonView> LevelSelectButtons { get; private set; }
     [field: SerializeField] public CustomButtonView BackButton { get; private set; }
 
-    [field: SerializeField] public LevelSelectObjectiveRowView OptionalObjectivesTemplate { get; private set; }
+    [field: SerializeField] public LevelSelectObjectiveRowView OptionalObjectivesPrefab { get; private set; }
 
     [field: SerializeField] public TMP_Text NormalBestRecordText { get; private set; }
     [field: SerializeField] public GameObject NormalOptionalObjectivesContainer { get; private set; }
