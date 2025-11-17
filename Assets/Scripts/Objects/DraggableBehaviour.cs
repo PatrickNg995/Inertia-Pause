@@ -162,6 +162,11 @@ public class DraggableBehaviour : InteractionObject
                 {
                     continue;
                 }
+                // Ignore collisions with mines.
+                if (hit.transform.root.CompareTag("Mines"))
+                {
+                    continue;
+                }
                 // Collision detected with another object.
                 return false;
             }
