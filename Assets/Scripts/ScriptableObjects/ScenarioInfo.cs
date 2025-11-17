@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +25,6 @@ public class ScenarioInfo : ScriptableObject
 public class ScenarioObjectives
 {
     public List<string> MainObjectives;
-    public List<string> OptionalObjectives;
+    public List<OptionalObective> OptionalObjectives;
     public int ActionLimit;
 }
