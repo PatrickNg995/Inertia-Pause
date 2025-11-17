@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using static UnityEngine.InputSystem.InputAction;
 
 public class MainMenuPresenter : MonoBehaviour
 {
@@ -10,16 +11,21 @@ public class MainMenuPresenter : MonoBehaviour
     [SerializeField] private LevelSelectPresenter _levelSelectPresenter;
     [SerializeField] private OptionsMenuPresenter _optionsMenuPresenter;
 
-    private const string BUILD_NUMBER_FORMAT = "Inertia Pause {0} V{1} (Alpha)";
+    private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
     private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-s1";
 
     private AdditiveSceneManager _sceneManager;
+    private PlayerActions _inputActions;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _sceneManager = AdditiveSceneManager.Instance;
+
+        _view.gameObject.SetActive(true);
+        _view.MainMenuScreen.SetActive(false);
+        _view.StartScreen.SetActive(true);
 
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
 
@@ -34,16 +40,32 @@ public class MainMenuPresenter : MonoBehaviour
         _view.ScenarioSelectButton.Button.onClick.AddListener(OnScenarioSelectClicked);
         _view.OptionsButton.Button.onClick.AddListener(OnOptionsClicked);
         _view.ExitButton.Button.onClick.AddListener(OnExitClicked);
+
+        _inputActions = new PlayerActions();
+        _inputActions.UI.Click.performed += GoToMainMenu;
+        _inputActions.UI.Submit.performed += GoToMainMenu;
+        _inputActions.Enable();
     }
 
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
+        _inputActions.Enable();
     }
 
     public void CloseMenu()
     {
         _view.gameObject.SetActive(false);
+        _inputActions.Disable();
+    }
+
+    private void GoToMainMenu(CallbackContext _)
+    {
+        _view.MainMenuScreen.SetActive(true);
+        _view.StartScreen.SetActive(false);
+
+        _inputActions.UI.Click.performed -= GoToMainMenu;
+        _inputActions.UI.Submit.performed -= GoToMainMenu;
     }
 
     private void OnContinueClicked()

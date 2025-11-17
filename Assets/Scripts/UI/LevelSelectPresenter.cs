@@ -22,11 +22,13 @@ public class LevelSelectPresenter : MonoBehaviour
         _view.gameObject.SetActive(false);
         _view.DifficultyPopup.gameObject.SetActive(false);
 
+        _view.LevelSelectButtons[0].Button.Select();
+
         // Level select
         foreach (CustomLevelSelectButtonView button in _view.LevelSelectButtons)
         {
             button.OnHoverLevel += OnLevelSelectButtonHover;
-            button.OnSelectLevel += OnLevelSelectButtonClick;
+            button.OnConfirmLevel += OnLevelSelectButtonClick;
         }
 
         _view.BackButton.Button.onClick.AddListener(CloseMenu);

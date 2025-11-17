@@ -295,7 +295,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &4116100598128594453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,7 +1165,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 52, y: 310}
-  m_SizeDelta: {x: 910, y: 153}
+  m_SizeDelta: {x: 910, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &7080015645412297529
 GameObject:
@@ -1232,8 +1232,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ICPD Unit 5 attempts to pull over a van without a license plate. The van
+  m_text: 'ICPD Unit 5 attempts to pull over a van without a license plate. The van
     abruptly stops and an ambush is staged on the officer and nearby civilians.
+
+    Another
+    line'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eeb6f756dc295b649b42f99a42b5d4d5, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 633f3cf55596d6d4daa2400a911455d3, type: 2}
