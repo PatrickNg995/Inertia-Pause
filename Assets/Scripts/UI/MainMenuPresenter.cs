@@ -7,7 +7,7 @@ public class MainMenuPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private MainMenuView _view;
 
-    [Header("Other Presenters")]
+    [Header("Models")]
     [SerializeField] private LevelSelectPresenter _levelSelectPresenter;
     [SerializeField] private OptionsMenuPresenter _optionsMenuPresenter;
 
@@ -28,9 +28,10 @@ public class MainMenuPresenter : MonoBehaviour
         _view.StartScreen.SetActive(true);
 
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
+        _view.DescriptionText.text = string.Empty;
 
-        // TODO: Hide Continue button if no last level.
-        // _view.ContinueButton.enabled = false;
+        // TODO: Hide Continue button for first time players.
+        _view.ContinueButton.gameObject.SetActive(false);
 
         _optionsMenuPresenter.OnMenuClose += () => OpenMenu();
         _levelSelectPresenter.OnMenuClose += () => OpenMenu();
@@ -41,6 +42,12 @@ public class MainMenuPresenter : MonoBehaviour
         _view.OptionsButton.Button.onClick.AddListener(OnOptionsClicked);
         _view.ExitButton.Button.onClick.AddListener(OnExitClicked);
 
+        _view.ContinueButton.OnHover += ChangeHint;
+        _view.NewGameButton.OnHover += ChangeHint;
+        _view.ScenarioSelectButton.OnHover += ChangeHint;
+        _view.OptionsButton.OnHover += ChangeHint;
+        _view.ExitButton.OnHover += ChangeHint;
+
         _inputActions = new PlayerActions();
         _inputActions.UI.Click.performed += GoToMainMenu;
         _inputActions.UI.Submit.performed += GoToMainMenu;
@@ -50,6 +57,7 @@ public class MainMenuPresenter : MonoBehaviour
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
+        _view.DescriptionText.text = string.Empty;
         _inputActions.Enable();
     }
 
@@ -57,6 +65,11 @@ public class MainMenuPresenter : MonoBehaviour
     {
         _view.gameObject.SetActive(false);
         _inputActions.Disable();
+    }
+
+    private void ChangeHint(string description)
+    {
+        _view.DescriptionText.text = description;
     }
 
     private void GoToMainMenu(CallbackContext _)
