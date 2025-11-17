@@ -105,8 +105,6 @@ public class PauseableAnimator : MonoBehaviour, IPausable
 
     public void ResetStateBeforeUnpause()
     {
-        if (!_isPaused) return;
-
         int layerCount = _animator.layerCount;
 
         for (int layer = 0; layer < layerCount; layer++)
