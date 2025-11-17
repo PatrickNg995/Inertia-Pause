@@ -12,6 +12,7 @@ public class DraggableBehaviour : InteractionObject
     [SerializeField] private float _maxDragDistance = 1f;
     [SerializeField] private float _maxDistanceFromCamera = 2f;
     [SerializeField] private float _minDistanceFromCamera = 1f;
+    [SerializeField] private bool _isSnappingEnabled = true; // TODO: Remember to remove this after a decision on snapping is made.
 
     private Transform _playerCamera;
     private Vector3 _resetPosition;
@@ -97,7 +98,7 @@ public class DraggableBehaviour : InteractionObject
         }
         // If the object was blocked from moving to the next position, check if it can be moved directly to the target position
         // to prevent snagging when dragging past an object.
-        else if (CanMoveTo(targetPosition) && Mathf.Abs(Vector3.Distance(_resetPosition, targetPosition)) <= _maxDragDistance)
+        else if (_isSnappingEnabled && CanMoveTo(targetPosition) && Mathf.Abs(Vector3.Distance(_resetPosition, targetPosition)) <= _maxDragDistance)
         {
             transform.position = targetPosition;
         }
