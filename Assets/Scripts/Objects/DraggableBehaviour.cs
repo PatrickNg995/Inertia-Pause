@@ -95,6 +95,8 @@ public class DraggableBehaviour : InteractionObject
         {
             transform.position = nextPosition;
         }
+        // If the object was blocked from moving to the next position, check if it can be moved directly to the target position
+        // to prevent snagging when dragging past an object.
         else if (CanMoveTo(targetPosition) && Mathf.Abs(Vector3.Distance(_resetPosition, targetPosition)) <= _maxDragDistance)
         {
             transform.position = targetPosition;
