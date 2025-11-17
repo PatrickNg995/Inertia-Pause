@@ -18,8 +18,12 @@ public class OptionsManager : MonoBehaviour
     public OptionsModel Options => _currentOptions;
 
     // These fields can be null if this component is not added to a scenario scene (eg. main menu)
+    [Header("Models")]
     [SerializeField] private HUDPresenter _hudPresenter;
-    [SerializeField] private PlayerLook _playerLook; 
+    [SerializeField] private PlayerLook _playerLook;
+
+    [Header("Settings")]
+    [SerializeField] private bool _isCameraFOVApplied = true;
 
     private const string SAVE_FILE_NAME = "options.json";
 
@@ -101,7 +105,7 @@ public class OptionsManager : MonoBehaviour
             _hudPresenter.ShowTelemetry(options.IsMetricsShown);
         }
 
-        if (Camera.main != null)
+        if (Camera.main != null && _isCameraFOVApplied)
         {
             Camera.main.fieldOfView = options.FieldOfView;
         }
