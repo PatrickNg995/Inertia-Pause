@@ -138,8 +138,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &1433675399774379311
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 5, z: 1.0000002}
+  m_Size: {x: 1, y: 5, z: 1}
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &3479569651149977659
 MonoBehaviour:
@@ -175,8 +175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 04d5bbc4209d652448d9849c2f081e8a, type: 2}
   _collider: {fileID: 0}
-  _dragSpeed: 20
-  _maxDragDistance: 4
+  _dragSpeed: 10
+  _maxDragDistance: 5
   _maxDistanceFromCamera: 2
   _minDistanceFromCamera: 1
 --- !u!114 &5961279032996493559

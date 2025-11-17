@@ -993,9 +993,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1485960777698053023, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: _collider
+      value: 
+      objectReference: {fileID: 1979625315}
     - target: {fileID: 5087770133357776881, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: m_Name
       value: ShieldEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000016358431618930, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.4931326
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2856,6 +2864,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+--- !u!136 &1979625315 stripped
+CapsuleCollider:
+  m_CorrespondingSourceObject: {fileID: 7208162478009029651, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+  m_PrefabInstance: {fileID: 962811714}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2007372823
 PrefabInstance:
   m_ObjectHideFlags: 0

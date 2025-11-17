@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
-  m_Name: BridgeS1
+  m_Name: OfficeHard
   m_EditorClassIdentifier: 
-  ScenarioName: Bridge S1
-  Description: A tip-off indicated that the gang from Promenade is exchanging drugs,
-    weapons, and dirty money here before the towers officially open. ICPD Unit 5
-    is called in to assault the location, where they are met with stiff resistance.
+  ScenarioName: Office (Hard)
+  Description: ICPD Unit 5 is called for a raid on an office where a rival company
+    decides to eliminate their competition.
   Thumbnail: {fileID: 0}
   Difficulty: 0
   Objectives:
@@ -24,11 +23,11 @@ MonoBehaviour:
     - Save all allies
     - Eliminate all enemies
     OptionalObjectives:
-    - Get two ledge kills
-    - Move only 1 shelf
-    ActionLimit: 8
-  NumberOfCivilians: 11
-  NumberOfAllies: 4
+    - {fileID: 11400000, guid: 42478976a20a0d241a274cc34830cc57, type: 2}
+    - {fileID: 11400000, guid: a736a333fd850da46a3fbb4b77cb460f, type: 2}
+    ActionLimit: 15
+  NumberOfCivilians: 10
+  NumberOfAllies: 0
   NumberOfEnemies: 15
   NextEnvironmentSceneName: 
   NextScenarioAssetsSceneName: 
