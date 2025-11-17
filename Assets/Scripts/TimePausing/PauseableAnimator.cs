@@ -14,13 +14,11 @@ public class PauseableAnimator : MonoBehaviour, IPausable
 
     public void Pause()
     {
-        Debug.Log("Animator has paused.");
         _animator.speed = 0f;
     }
 
     public void Unpause()
     {
-        Debug.Log("Animator has unpaused.");
         _animator.speed = 1f;
     }
 
