@@ -119,63 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &284556119
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8613579500300813949, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_Name
-      value: GrenadeAlly
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 2.119
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: 8989822880648010951, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 4b1c2bbb5e5fc714ca6526fe466d8640, type: 3}
 --- !u!1 &1001031202
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,6 +498,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrenadeEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1540807389585692197, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
+      propertyPath: _frameToLoad
+      value: 58
+      objectReference: {fileID: 0}
+    - target: {fileID: 1540807389585692197, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
+      propertyPath: _startLayerIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4959472836344980814, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -594,6 +545,10 @@ PrefabInstance:
     - target: {fileID: 4959472836344980814, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5707471969674402029, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -666,4 +621,3 @@ SceneRoots:
   - {fileID: 2102594418}
   - {fileID: 4279680726189630749}
   - {fileID: 7923488511259126414}
-  - {fileID: 284556119}
