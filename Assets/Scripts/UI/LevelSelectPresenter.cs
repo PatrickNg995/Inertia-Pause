@@ -57,7 +57,15 @@ public class LevelSelectPresenter : MonoBehaviour
             Debug.LogError("No scene is set to be loaded.");
             return;
         }
+
         ScenarioInfo sceneToLoad = _normalScenarioToBeLoaded;
+
+        if (sceneToLoad.EnvironmentSceneName == string.Empty || sceneToLoad.ScenarioAssetsSceneName == string.Empty)
+        {
+            Debug.LogError("Scene to be loaded is empty string.");
+            return;
+        }
+
         _sceneManager.LoadScenario(sceneToLoad.EnvironmentSceneName, sceneToLoad.ScenarioAssetsSceneName);
     }
 
@@ -68,7 +76,15 @@ public class LevelSelectPresenter : MonoBehaviour
             Debug.LogError("No scene is set to be loaded.");
             return;
         }
+
         ScenarioInfo sceneToLoad = _hardScenarioToBeLoaded;
+
+        if (sceneToLoad.EnvironmentSceneName == string.Empty || sceneToLoad.ScenarioAssetsSceneName == string.Empty)
+        {
+            Debug.LogError("Scene to be loaded is empty string.");
+            return;
+        }
+
         _sceneManager.LoadScenario(sceneToLoad.EnvironmentSceneName, sceneToLoad.ScenarioAssetsSceneName);
     }
 
