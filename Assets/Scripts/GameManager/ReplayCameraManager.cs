@@ -13,7 +13,9 @@ public class ReplayCameraManager : MonoBehaviour
     [SerializeField] private List<Camera> _replayCameras;
 
     [Header("Timings")]
+    [Tooltip("The delay before unpausing each replay.")]
     [SerializeField] private float _preUnpauseDelay = 0.75f;
+    [Tooltip("How long each camera gets to be active before switching to the next one.")]
     [SerializeField] private float _replayDurationPerCamera = 3.25f;
 
     private void Start()
