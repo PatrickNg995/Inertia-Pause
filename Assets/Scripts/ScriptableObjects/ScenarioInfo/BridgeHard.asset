@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
-  m_Name: BridgeS1
+  m_Name: BridgeHard
   m_EditorClassIdentifier: 
   ScenarioName: Bridge S1
   Description: A tip-off indicated that the gang from Promenade is exchanging drugs,
@@ -24,8 +24,8 @@ MonoBehaviour:
     - Save all allies
     - Eliminate all enemies
     OptionalObjectives:
-    - Get two ledge kills
-    - Move only 1 shelf
+    - {fileID: 11400000, guid: f9bc5fb147f119e439c747f18044429b, type: 2}
+    - {fileID: 11400000, guid: 1050c491ae3352343805b1c5399f3e0c, type: 2}
     ActionLimit: 8
   NumberOfCivilians: 11
   NumberOfAllies: 4

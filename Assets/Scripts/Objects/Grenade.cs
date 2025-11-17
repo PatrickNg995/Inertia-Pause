@@ -60,14 +60,7 @@ public class Grenade : MonoBehaviour, IPausable
     {
         _canExplode = false;
 
-        if (_rb.linearVelocity == Vector3.zero)
-        {
-            _savedVelocity = transform.forward * _grenadeInitialSpeed;
-        }
-        else
-        {
-            _savedVelocity = _rb.linearVelocity;
-        }
+        _savedVelocity = transform.forward * _grenadeInitialSpeed;
 
         _rb.isKinematic = true;
         _sphereCollider.isTrigger = true;
