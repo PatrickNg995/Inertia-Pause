@@ -237,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       propertyPath: m_Name
-      value: Civilian
+      value: GrenadeAlly
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       propertyPath: m_Layer
@@ -314,7 +314,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: e71947b1375223f4da286c3f8726b851, type: 2}
+      objectReference: {fileID: 9100000, guid: 77a367303a4ce2e4da93bb964aed5c4b, type: 2}
     - target: {fileID: 5866666021909216657, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       propertyPath: m_CullingMode
       value: 0
@@ -373,9 +373,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4834809398928622970}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2200961499546689512}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1507944757310043346}
@@ -1518,6 +1515,7 @@ MonoBehaviour:
   _rb: {fileID: 6993177124778801165}
   _collider: {fileID: 4396338085831818327}
   _accessoryConstraints: []
+  _accessoryRigidbodies: []
 --- !u!114 &-1877074955951855487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1532,7 +1530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3036104080038151869}
   _startLayerIndex: 0
-  _frameToLoad: -1
+  _frameToLoad: 58
 --- !u!114 &4834809398928622970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1548,23 +1546,6 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: d2502424243daa6489d35ec51e07982b, type: 2}
   _dragSpeed: 10
   _maxDragDistance: 1
---- !u!114 &2200961499546689512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8613579500300813949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ab0546d74d6a844a1307cd19eb3798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  BulletSpawnPoint: {fileID: 5258517946277687539}
-  Bullet: {fileID: 0}
-  _isBulletDistanceOn: 0
-  _bulletDistance: 0
 --- !u!114 &1507944757310043346
 MonoBehaviour:
   m_ObjectHideFlags: 0
