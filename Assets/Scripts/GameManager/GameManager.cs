@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Time Pausing")]
+    [Header("References")]
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
+    [SerializeField] private ReplayCameraManager _replayCameraManager;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -87,7 +89,6 @@ public class GameManager : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;
-    private InputAction _unpause;
     private InputAction _pauseMenu;
 
     // Command manager that handles logic for undo/redo and action count.
@@ -153,7 +154,6 @@ public class GameManager : MonoBehaviour
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
-        _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
@@ -186,12 +186,10 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed += Undo;
         _redo.performed += Redo;
-        _unpause.performed += CheckVictoryCondition;
         _pauseMenu.performed += PauseMenu;
 
         _undo.Enable();
         _redo.Enable();
-        _unpause.Enable();
         _pauseMenu.Enable();
     }
 
@@ -199,12 +197,10 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed -= Undo;
         _redo.performed -= Redo;
-        _unpause.performed -= CheckVictoryCondition;
         _pauseMenu.performed -= PauseMenu;
 
         _undo.Disable();
         _redo.Disable();
-        _unpause.Disable();
         _pauseMenu.Disable();
     }
 
@@ -228,55 +224,64 @@ public class GameManager : MonoBehaviour
 
     public void RewindLevel()
     {
-        // Clear causes of death list.
-        ListOfCausesOfDeath.Clear();
+        // Rewind all objects in the level.
+        RewindObjects();
 
         // Reset player position and rotation.
         _playerMovement.ResetPlayerPosition();
 
-        // Reset all object states to before unpause, then pause objects again.
-        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
-        _timePauseUnpause.PauseAllObjects();
-
-        // Re-enable player interaction.
+        // Re-enable player inputs and interaction.
+        _inputActions.Enable();
         _playerInteract.enabled = true;
-
-        // Re-enable undo/redo/unpause inputs.
-        _undo.Enable();
-        _redo.Enable();
-        _unpause.Enable();
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
+
+        // Reset replay cameras.
+        _replayCameraManager.ResetCameras();
+
+        // Re-enable time unpausing.
+        _timePauseUnpause.EnableTimePause();
 
         // Show objectives again.
         OnLevelStart?.Invoke();
     }
 
-    private void CheckVictoryCondition(InputAction.CallbackContext context)
+    public void RewindObjects()
+    {
+        // Clear causes of death list.
+        ListOfCausesOfDeath.Clear();
+
+        // Reset all object states to before unpause, then pause objects again.
+        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
+        _timePauseUnpause.PauseAllObjects();
+    }
+
+    public IEnumerator EndLevel()
     {
         if (_isInputDisabledAfterLevelComplete)
         {
-            // Prevent players from interacting with objects after unpausing.
+            // Disable player input actions and interaction.
+            _inputActions.Disable();
             _playerInteract.enabled = false;
-            Debug.Log("Player Interact disabled");
-
-            // Disable undo/redo/unpause inputs.
-            _undo.Disable();
-            _redo.Disable();
-            _unpause.Disable();
 
             // Disable collisions on the player.
             _playerController.detectCollisions = false;
         }
 
-        // Delay checking for victory to let objects interact first.
-        // TODO: Should make this to check after an ending camera pan around or something.
-        Invoke(nameof(TempDelayedCheckVictory), 3f);
-        Debug.Log("Checking victory after short delay...");
+        // Activate replay sequence.
+        if (_replayCameraManager != null)
+        {
+            OnAnyBlockingMenuOpen?.Invoke();
+            yield return StartCoroutine(_replayCameraManager.StartReplaySequence());
+            OnAnyBlockingMenuClose?.Invoke();
+        }
+            
+        // Check victory condition and end level.
+        CheckVictoryCondition();
     }
 
-    private void TempDelayedCheckVictory()
+    private void CheckVictoryCondition()
     {
         // The following logic should be in CheckVictoryCondition when properly implemented.
         int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);

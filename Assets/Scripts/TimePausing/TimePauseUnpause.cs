@@ -8,9 +8,6 @@ public class TimePauseUnpause : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _timePause;
 
-    // Bool to only unpause once.
-    private bool _hasUnpaused = false;
-
     private IPausable[] _pausableObjects;
 
     void Awake()
@@ -22,8 +19,6 @@ public class TimePauseUnpause : MonoBehaviour
 
     void Start()
     {
-        _hasUnpaused = false;
-
         // Pause all pausable objects.
         MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
         _pausableObjects = allObjects.OfType<IPausable>().ToArray();
@@ -37,6 +32,7 @@ public class TimePauseUnpause : MonoBehaviour
         _timePause.performed += CheckUnpause;
         _timePause.Enable();
     }
+
     private void OnDisable()
     {
         _timePause.performed -= CheckUnpause;
@@ -51,26 +47,32 @@ public class TimePauseUnpause : MonoBehaviour
         }
     }
 
+    public void UnpauseAllObjects()
+    {
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.Unpause();
+        }
+    }
+
     public void ResetAllObjectStatesBeforeUnpause()
     {
-        _hasUnpaused = false;
-
         foreach (IPausable pausable in _pausableObjects)
         {
             pausable.ResetStateBeforeUnpause();
         }
     }
 
+    public void EnableTimePause()
+    {
+        _timePause.Enable();
+    }
+
     // Unpause time if time has been paused.
     private void CheckUnpause(InputAction.CallbackContext context)
     {
-        if (!_hasUnpaused)
-        {
-            _hasUnpaused = true;
-            foreach (IPausable pausable in _pausableObjects)
-            {
-                pausable.Unpause();
-            }
-        }
+        _timePause.Disable();
+        UnpauseAllObjects();
+        StartCoroutine(GameManager.Instance.EndLevel());
     }
 }
