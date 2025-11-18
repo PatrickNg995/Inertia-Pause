@@ -152,7 +152,7 @@ public class LevelSelectPresenter : MonoBehaviour
             foreach (OptionalObective optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
             {
                 bool isHardComplete = true;
-                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: true);
+                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: false);
             }
         }
         else
