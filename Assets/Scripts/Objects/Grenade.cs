@@ -65,6 +65,14 @@ public class Grenade : MonoBehaviour, IPausable
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ally") || collision.gameObject.CompareTag("Enemy"))
+        {
+            _rb.linearVelocity = Vector3.zero;
+        }
+    }
+
     private void TriggerExplosion()
     {
         _canExplode = false;
