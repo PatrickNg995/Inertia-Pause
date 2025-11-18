@@ -73,7 +73,7 @@ public class Bullet : MonoBehaviour, IPausable
 
             // Use closest point on collider as approximate hit point.
             Vector3 hitPoint = collider.ClosestPoint(transform.position);
-            npc.ApplyHit(impactDir * HIT_FORCE, hitPoint);
+            npc.ApplyHit(gameObject, impactDir * HIT_FORCE, hitPoint);
         }
     }
 

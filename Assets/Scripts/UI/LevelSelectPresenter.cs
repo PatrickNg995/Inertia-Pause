@@ -136,11 +136,11 @@ public class LevelSelectPresenter : MonoBehaviour
             string normalBestRecordFormat = normalBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
             _view.NormalBestRecordText.text = string.Format(normalBestRecordFormat, NORMAL_DIFFICULTY_NAME, normalBestRecord);
 
-            foreach (string optionalObjective in normalScenarioInfo.Objectives.OptionalObjectives)
+            foreach (OptionalObective optionalObjective in normalScenarioInfo.Objectives.OptionalObjectives)
             {
                 bool isNormalComplete = false;
                 Color normalTextColor = isNormalComplete ? _completeOptionalObjectiveColor : _incompleteOptionalObjectiveColor;
-                AddObjectiveRow(optionalObjective, isNormalComplete, isNormalDifficulty: true, normalTextColor);
+                AddObjectiveRow(optionalObjective.Description, isNormalComplete, isNormalDifficulty: true, normalTextColor);
             }
         }
         else
@@ -154,11 +154,11 @@ public class LevelSelectPresenter : MonoBehaviour
             string hardBestRecordFormat = hardBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
             _view.HardBestRecordText.text = string.Format(hardBestRecordFormat, HARD_DIFFICULTY_NAME, hardBestRecord);
 
-            foreach (string optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
+            foreach (OptionalObective optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
             {
                 bool isHardComplete = true;
                 Color hardtextColor = isHardComplete ? _completeOptionalObjectiveColor : _incompleteOptionalObjectiveColor;
-                AddObjectiveRow(optionalObjective, isHardComplete, isNormalDifficulty: true, hardtextColor);
+                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: true, hardtextColor);
             }
         }
         else

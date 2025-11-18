@@ -147,15 +147,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Restart"",
-                    ""type"": ""Button"",
-                    ""id"": ""633761ad-f8ef-42b4-a297-c5d816366a31"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Undo"",
                     ""type"": ""Button"",
                     ""id"": ""52d1ca7c-19c7-4e28-9eb9-60697943adfd"",
@@ -250,6 +241,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""baeb0b1b-3248-4a3d-818c-0ba874ee0b75"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""f990fedf-133f-4390-a38e-3f6633f00f15"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
@@ -261,8 +263,30 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f9f8ffe1-47d0-456e-afba-cd962f63053b"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""776ca30b-941f-46e5-ae49-dea89283dea1"",
                     ""path"": ""<Keyboard>/t"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TimePause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a1b5774c-f4c4-4eef-9795-e5abe8e2ddc5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
@@ -294,8 +318,41 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""d1b241f5-dc53-4dd0-845a-582f33750bf6"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ecb9d508-d43d-4231-8058-e07dca13ef2c"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StartInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a11e2712-ea36-4ae2-9555-b10e047d585c"",
                     ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4bf36bcf-9da3-43cb-b960-fa0739c1128e"",
+                    ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -316,8 +373,30 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""1d2887aa-a882-4057-9d62-e527ebeddd6b"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ResetInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4646db6b-47b0-4b57-a95d-57a25f5146b1"",
                     ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Undo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c987802f-d4ce-413e-b922-d3d5985131c9"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -338,6 +417,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ea1c38a7-057f-468a-a89d-2f8d743226f6"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Redo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""2da2f870-f782-4272-9ab0-211902fd9675"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -349,8 +439,30 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a03f83d7-fb8b-4cc2-9a3c-a1ff96c1b7fb"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9e0d1f40-df45-46af-994b-e7ce0de83cf3"",
                     ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ContextualHelp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f12fe3f0-7345-44d2-8e13-9ffa6d336bd0"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -887,7 +999,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame_StartInteract = m_Ingame.FindAction("StartInteract", throwIfNotFound: true);
         m_Ingame_CancelInteract = m_Ingame.FindAction("CancelInteract", throwIfNotFound: true);
         m_Ingame_ResetInteract = m_Ingame.FindAction("ResetInteract", throwIfNotFound: true);
-        m_Ingame_Restart = m_Ingame.FindAction("Restart", throwIfNotFound: true);
         m_Ingame_Undo = m_Ingame.FindAction("Undo", throwIfNotFound: true);
         m_Ingame_Redo = m_Ingame.FindAction("Redo", throwIfNotFound: true);
         m_Ingame_PauseMenu = m_Ingame.FindAction("PauseMenu", throwIfNotFound: true);
@@ -991,7 +1102,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ingame_StartInteract;
     private readonly InputAction m_Ingame_CancelInteract;
     private readonly InputAction m_Ingame_ResetInteract;
-    private readonly InputAction m_Ingame_Restart;
     private readonly InputAction m_Ingame_Undo;
     private readonly InputAction m_Ingame_Redo;
     private readonly InputAction m_Ingame_PauseMenu;
@@ -1031,10 +1141,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Ingame/ResetInteract".
         /// </summary>
         public InputAction @ResetInteract => m_Wrapper.m_Ingame_ResetInteract;
-        /// <summary>
-        /// Provides access to the underlying input action "Ingame/Restart".
-        /// </summary>
-        public InputAction @Restart => m_Wrapper.m_Ingame_Restart;
         /// <summary>
         /// Provides access to the underlying input action "Ingame/Undo".
         /// </summary>
@@ -1095,9 +1201,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @ResetInteract.started += instance.OnResetInteract;
             @ResetInteract.performed += instance.OnResetInteract;
             @ResetInteract.canceled += instance.OnResetInteract;
-            @Restart.started += instance.OnRestart;
-            @Restart.performed += instance.OnRestart;
-            @Restart.canceled += instance.OnRestart;
             @Undo.started += instance.OnUndo;
             @Undo.performed += instance.OnUndo;
             @Undo.canceled += instance.OnUndo;
@@ -1139,9 +1242,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @ResetInteract.started -= instance.OnResetInteract;
             @ResetInteract.performed -= instance.OnResetInteract;
             @ResetInteract.canceled -= instance.OnResetInteract;
-            @Restart.started -= instance.OnRestart;
-            @Restart.performed -= instance.OnRestart;
-            @Restart.canceled -= instance.OnRestart;
             @Undo.started -= instance.OnUndo;
             @Undo.performed -= instance.OnUndo;
             @Undo.canceled -= instance.OnUndo;
@@ -1431,13 +1531,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnResetInteract(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Restart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRestart(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Undo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
