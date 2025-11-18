@@ -1396,7 +1396,6 @@ GameObject:
   - component: {fileID: 7659338956291346885}
   - component: {fileID: 7208162478009029651}
   - component: {fileID: 1053428510711264126}
-  - component: {fileID: 9200972386357892028}
   - component: {fileID: 7039656465768651838}
   - component: {fileID: 1485960777698053023}
   m_Layer: 6
@@ -1517,23 +1516,6 @@ MonoBehaviour:
   _accessoryRigidbodies:
   - {fileID: 501246810181618992}
   - {fileID: 5379553849302691496}
---- !u!114 &9200972386357892028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4583484754966515488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ab0546d74d6a844a1307cd19eb3798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  BulletSpawnPoint: {fileID: 8882497330198881973}
-  Bullet: {fileID: 0}
-  _isBulletDistanceOn: 0
-  _bulletDistance: 0
 --- !u!114 &7039656465768651838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1689,6 +1671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 882665785436487026}
+  - component: {fileID: 5921972070421584955}
   m_Layer: 0
   m_Name: ShieldEnemy
   m_TagString: Untagged
@@ -1714,6 +1697,23 @@ Transform:
   - {fileID: 9000283027321979599}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5921972070421584955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5087770133357776881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49ab0546d74d6a844a1307cd19eb3798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  BulletSpawnPoint: {fileID: 8882497330198881973}
+  Bullet: {fileID: 0}
+  _isBulletDistanceOn: 0
+  _bulletDistance: 0
 --- !u!1 &5092061866530284956
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
+    [Header("Impact Effect Prefab")]
+    [SerializeField] private GameObject _impactEffectPrefab;
+
     [Header("Bullet Settings")]
     // Whether this bullet can pierce through NPCs.
     [SerializeField] private bool _isPiercing = false;
@@ -35,6 +38,8 @@ public class Bullet : MonoBehaviour, IPausable
     {
 
         if (!_canKill) return;
+
+        OnImpactEffect(other);
 
         // If it was an NPC, apply hit.
         if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
@@ -113,5 +118,13 @@ public class Bullet : MonoBehaviour, IPausable
 
         // Reset position to pre-unpause state.
         transform.position = _pausedPosition;
+    }
+
+    private void OnImpactEffect(Collider collider)
+    {
+        Vector3 hitPoint = collider.ClosestPoint(transform.position);
+        Quaternion impactRotation = transform.rotation * Quaternion.Euler(0, 180, 0);
+
+        Instantiate(_impactEffectPrefab, hitPoint, impactRotation);
     }
 }
