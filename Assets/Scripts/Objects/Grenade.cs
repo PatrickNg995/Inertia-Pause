@@ -46,13 +46,32 @@ public class Grenade : MonoBehaviour, IPausable
             _grenadeCurrentExplosionDelay -= Time.deltaTime;
             if (_grenadeCurrentExplosionDelay < 0)
             {
-                _canExplode = false;
-                _sphereCollider.enabled = false; // Stop collisions.
-                _meshRenderer.enabled = false; // Remove visuals.
-                _rb.isKinematic = true; // Stop movement.
-                _explosionScript.StartExplosion();
+                TriggerExplosion();
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!_canExplode)
+        {
+            return;
+        }
+
+        // Explode on contact with a lethal object.
+        if (other.CompareTag("Lethal"))
+        {
+            TriggerExplosion();
+        }
+    }
+
+    private void TriggerExplosion()
+    {
+        _canExplode = false;
+        _sphereCollider.enabled = false; // Stop collisions.
+        _meshRenderer.enabled = false; // Remove visuals.
+        _rb.isKinematic = true; // Stop movement.
+        _explosionScript.StartExplosion();
     }
 
     // Stop timer countdown on pause.

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8535226122910151492}
   - component: {fileID: 2693710075268001623}
   - component: {fileID: 5446806269868200148}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,6 +235,10 @@ PrefabInstance:
     - target: {fileID: 4712996081311127525, guid: 1af8039429352f94bb66b8dc285f27dd, type: 3}
       propertyPath: m_Name
       value: Explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 5654567244432174684, guid: 1af8039429352f94bb66b8dc285f27dd, type: 3}
+      propertyPath: m_Radius
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 8671788761301887762, guid: 1af8039429352f94bb66b8dc285f27dd, type: 3}
       propertyPath: m_LocalScale.x
