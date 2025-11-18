@@ -36,7 +36,6 @@ public class Bullet : MonoBehaviour, IPausable
     // Handle collisions with other objects.
     public void OnTriggerEnter(Collider other)
     {
-
         if (!_canKill) return;
 
         OnImpactEffect(other);
@@ -122,9 +121,9 @@ public class Bullet : MonoBehaviour, IPausable
 
     private void OnImpactEffect(Collider collider)
     {
-        Vector3 hitPoint = collider.ClosestPoint(transform.position);
+        //Vector3 hitPoint = collider.ClosestPoint(transform.position);
         Quaternion impactRotation = transform.rotation * Quaternion.Euler(0, 180, 0);
 
-        Instantiate(_impactEffectPrefab, hitPoint, impactRotation);
+        Instantiate(_impactEffectPrefab, transform.position, impactRotation);
     }
 }
