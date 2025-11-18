@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class PausableParticles : MonoBehaviour, IPausable
 {
-    [Header("Particle System Settings")]
+    [Header("Particle System Reference")]
     [SerializeField] private ParticleSystem _particleSystem;
+
+    [Header("Particle System Settings")]
+    [Tooltip("Enable particle effect or not.")]
+    [SerializeField] private bool _enableParticles = true;
 
     [Tooltip("If true, the pre-pause play duration will be randomly chosen between the lower and upper bounds." +
              "If false, the duration will use the lower bound.")]
@@ -20,6 +24,11 @@ public class PausableParticles : MonoBehaviour, IPausable
 
     public void Awake()
     {
+        if (!_enableParticles)
+        {
+            enabled = false;
+        }
+
         // Determine the pre-pause play duration, if not random use the lower bound.
         if (_useRandomPrePausePlayDuration)
         {
