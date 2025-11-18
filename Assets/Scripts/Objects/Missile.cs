@@ -1,5 +1,6 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Missile : MonoBehaviour, IPausable
 {
@@ -7,7 +8,8 @@ public class Missile : MonoBehaviour, IPausable
     // Initial speed at which the missile travels.
     [SerializeField] private float _missileSpeed = 20f;
 
-    private bool _canExplode = false; // Prevent multiple explosions.
+    // Prevent multiple explosions.
+    private bool _canExplode = false; 
 
     [Header("Components")]
     // Reference components.
@@ -15,13 +17,13 @@ public class Missile : MonoBehaviour, IPausable
     [SerializeField] private CapsuleCollider _capsuleCollider;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
+    [SerializeField] private ParticleSystem _trail;
 
     // Saved velocity.
     private Vector3 _savedVelocity;
 
     // Position before unpausing.
     private Vector3 _pausedPosition;
-
 
     public void Awake()
     {
@@ -40,11 +42,19 @@ public class Missile : MonoBehaviour, IPausable
             return;
         }
 
-        // Otherwise, explode
+        // Otherwise, explode.
         _canExplode = false;
-        _capsuleCollider.enabled = false; // Stop collisions.
-        _meshRenderer.enabled = false; // Remove visuals.
-        _rb.isKinematic = true; // Stop movement.
+
+        // Stop collisions.
+        _capsuleCollider.enabled = false;
+
+        // Remove visuals.
+        _meshRenderer.enabled = false;
+        _trail.gameObject.SetActive(false);
+
+        // Stop movement.
+        _rb.isKinematic = true;
+
         _explosionScript.StartExplosion();
     }
 
@@ -80,6 +90,7 @@ public class Missile : MonoBehaviour, IPausable
         // Reset the missile.
         _capsuleCollider.enabled = true;
         _meshRenderer.enabled = true;
+        _trail.gameObject.SetActive(true);
         _explosionScript.ResetExplosion();
 
         transform.position = _pausedPosition;

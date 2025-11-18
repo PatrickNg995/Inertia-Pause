@@ -27,6 +27,7 @@ public class PausableParticles : MonoBehaviour, IPausable
         if (!_enableParticles)
         {
             enabled = false;
+            _particleSystem.gameObject.SetActive(false);
         }
 
         // Determine the pre-pause play duration, if not random use the lower bound.
