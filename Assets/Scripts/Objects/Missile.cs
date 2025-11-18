@@ -50,7 +50,7 @@ public class Missile : MonoBehaviour, IPausable
 
         // Remove visuals.
         _meshRenderer.enabled = false;
-        _trail.gameObject.SetActive(false);
+        _trail.Stop();
 
         // Stop movement.
         _rb.isKinematic = true;
@@ -90,7 +90,6 @@ public class Missile : MonoBehaviour, IPausable
         // Reset the missile.
         _capsuleCollider.enabled = true;
         _meshRenderer.enabled = true;
-        _trail.gameObject.SetActive(true);
         _explosionScript.ResetExplosion();
 
         transform.position = _pausedPosition;

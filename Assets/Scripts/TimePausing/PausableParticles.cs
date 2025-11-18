@@ -15,10 +15,10 @@ public class PausableParticles : MonoBehaviour, IPausable
     [SerializeField] private bool _useRandomPrePausePlayDuration = true;
 
     [Tooltip("The lower bound for the pre-pause play duration (in seconds).")]
-    [SerializeField] private float _prePausePlayDurationLowerBound = 0.1f;
+    [SerializeField] private float _prePausePlayDurationLowerBound = 0.05f;
 
     [Tooltip("The upper bound for the pre-pause play duration (in seconds).")]
-    [SerializeField] private float _prePausePlayDurationUpperBound = 0.5f;
+    [SerializeField] private float _prePausePlayDurationUpperBound = 0.1f;
 
     private float _prePausePlayDuration;
 
