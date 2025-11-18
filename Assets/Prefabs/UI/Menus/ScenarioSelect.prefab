@@ -295,7 +295,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4116100598128594453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,9 +351,6 @@ MonoBehaviour:
   - {fileID: 8382675429541838490}
   <BackButton>k__BackingField: {fileID: 1203515105073057815}
   <OptionalObjectivesPrefab>k__BackingField: {fileID: 6485550935114880962}
-  <OptionalObjectivesLayoutGroup>k__BackingField: {fileID: 2331933684688270838}
-  <NormalObjectivesLayoutGroup>k__BackingField: {fileID: 360064019975546101}
-  <HardObjectivesLayoutGroup>k__BackingField: {fileID: 1756233921212536804}
   <NormalBestRecordText>k__BackingField: {fileID: 4018183872245270357}
   <NormalOptionalObjectivesContainer>k__BackingField: {fileID: 5414283745666045768}
   <HardBestRecordText>k__BackingField: {fileID: 3764483324754159030}
@@ -1838,6 +1835,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4542229465242604413, guid: 099964dd1c05a8540afd68908180a329, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b6b92dea0020f614ca4909980bcc69e1, type: 3}
     - target: {fileID: 5401922196979987361, guid: 099964dd1c05a8540afd68908180a329, type: 3}
       propertyPath: _normalScenarioInfo
       value: 
@@ -2208,6 +2209,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4542229465242604413, guid: 099964dd1c05a8540afd68908180a329, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b882f8c2561474c45b93df088f16376f, type: 3}
     - target: {fileID: 5401922196979987361, guid: 099964dd1c05a8540afd68908180a329, type: 3}
       propertyPath: _hardScenarioInfo
       value: 
@@ -2446,6 +2451,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4542229465242604413, guid: 099964dd1c05a8540afd68908180a329, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 290426d39e39ebf4381e1b7fd2d64e38, type: 3}
     - target: {fileID: 5401922196979987361, guid: 099964dd1c05a8540afd68908180a329, type: 3}
       propertyPath: _normalScenarioInfo
       value: 
