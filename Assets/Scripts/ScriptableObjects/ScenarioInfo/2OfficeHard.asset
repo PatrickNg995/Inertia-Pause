@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
-  m_Name: 2OfficeEasy
+  m_Name: 2OfficeHard
   m_EditorClassIdentifier: 
-  ScenarioName: Office
+  ScenarioName: Office (Hard)
   EnvironmentSceneName: 2-office
-  ScenarioAssetsSceneName: 2-office-easy
+  ScenarioAssetsSceneName: 2-office-hard
   Description: ICPD Unit 5 is called for a raid on an office where a rival company
     decides to eliminate their competition.
-  Thumbnail: {fileID: 21300000, guid: b882f8c2561474c45b93df088f16376f, type: 3}
-  Difficulty: 0
+  Thumbnail: {fileID: 0}
+  Difficulty: 1
   Objectives:
     MainObjectives:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
     OptionalObjectives:
-    - {fileID: 11400000, guid: effea0e0a734ade449c0eab5f5a31e47, type: 2}
-    - {fileID: 11400000, guid: 613bdf6148bdaec448a232fd7f7926eb, type: 2}
-    ActionLimit: 12
-  NumberOfCivilians: 7
+    - {fileID: 11400000, guid: 42478976a20a0d241a274cc34830cc57, type: 2}
+    - {fileID: 11400000, guid: a736a333fd850da46a3fbb4b77cb460f, type: 2}
+    ActionLimit: 15
+  NumberOfCivilians: 10
   NumberOfAllies: 0
-  NumberOfEnemies: 8
-  NextEnvironmentSceneName: 
-  NextScenarioAssetsSceneName: 
+  NumberOfEnemies: 15
+  NextEnvironmentSceneName: 3-bridge
+  NextScenarioAssetsSceneName: 3-bridge-hard

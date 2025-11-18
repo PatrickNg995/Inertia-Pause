@@ -10,26 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
-  m_Name: 2OfficeEasy
+  m_Name: 5CityCenterEasy
   m_EditorClassIdentifier: 
-  ScenarioName: Office
-  EnvironmentSceneName: 2-office
-  ScenarioAssetsSceneName: 2-office-easy
-  Description: ICPD Unit 5 is called for a raid on an office where a rival company
-    decides to eliminate their competition.
-  Thumbnail: {fileID: 21300000, guid: b882f8c2561474c45b93df088f16376f, type: 3}
+  ScenarioName: City Center
+  EnvironmentSceneName: 
+  ScenarioAssetsSceneName: 
+  Description: "A large-scale terrorist attack is happening at one of the city\u2019s
+    busiest intersections. With only a couple first responders on scene and civilians
+    fleeing for their lives, you must stop time and end the chaos."
+  Thumbnail: {fileID: 21300000, guid: 49fc9d4a1f67e7e489054d7e4d61e51f, type: 3}
   Difficulty: 0
   Objectives:
     MainObjectives:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives:
-    - {fileID: 11400000, guid: effea0e0a734ade449c0eab5f5a31e47, type: 2}
-    - {fileID: 11400000, guid: 613bdf6148bdaec448a232fd7f7926eb, type: 2}
-    ActionLimit: 12
-  NumberOfCivilians: 7
+    OptionalObjectives: []
+    ActionLimit: 0
+  NumberOfCivilians: 0
   NumberOfAllies: 0
-  NumberOfEnemies: 8
+  NumberOfEnemies: 0
   NextEnvironmentSceneName: 
   NextScenarioAssetsSceneName: 
