@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3696be37aba438a4495233a0fb246a5c, type: 3}
-  m_Name: RestaurantEasy
+  m_Name: 4RestaurantHard
   m_EditorClassIdentifier: 
-  ScenarioName: Restaurant (Easy)
+  ScenarioName: Restaurant (Hard)
+  EnvironmentSceneName: 
+  ScenarioAssetsSceneName: 
   Description: A group of especially irritable and armed diners throw a riot after
     watching their favourite sports team lose. The player character arrives alone
     as ICPD Unit 3 have already begun to deescalate the threat with lethal force
     after civilians are assaulted.
-  Thumbnail: {fileID: 0}
-  Difficulty: 0
+  Thumbnail: {fileID: 21300000, guid: 290426d39e39ebf4381e1b7fd2d64e38, type: 3}
+  Difficulty: 1
   Objectives:
     MainObjectives:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives:
-    - {fileID: 11400000, guid: a28ee623eab90bc44985006dcb404734, type: 2}
-    - {fileID: 11400000, guid: 328771c8b1b3c7347967cc52e2f03e94, type: 2}
+    OptionalObjectives: []
     ActionLimit: 12
   NumberOfCivilians: 10
   NumberOfAllies: 1

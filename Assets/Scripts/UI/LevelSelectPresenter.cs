@@ -9,10 +9,6 @@ public class LevelSelectPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private LevelSelectView _view;
 
-    [Header("Settings")]
-    [SerializeField] private Color _completeOptionalObjectiveColor;
-    [SerializeField] private Color _incompleteOptionalObjectiveColor;
-
     private const string NORMAL_DIFFICULTY_NAME = "Normal";
     private const string HARD_DIFFICULTY_NAME = "Hard";
     private const string BEST_RECORD_SINGULAR_FORMAT = "{0} Best Record: {1} Action";
@@ -139,8 +135,7 @@ public class LevelSelectPresenter : MonoBehaviour
             foreach (OptionalObective optionalObjective in normalScenarioInfo.Objectives.OptionalObjectives)
             {
                 bool isNormalComplete = false;
-                Color normalTextColor = isNormalComplete ? _completeOptionalObjectiveColor : _incompleteOptionalObjectiveColor;
-                AddObjectiveRow(optionalObjective.Description, isNormalComplete, isNormalDifficulty: true, normalTextColor);
+                AddObjectiveRow(optionalObjective.Description, isNormalComplete, isNormalDifficulty: true);
             }
         }
         else
@@ -157,8 +152,7 @@ public class LevelSelectPresenter : MonoBehaviour
             foreach (OptionalObective optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
             {
                 bool isHardComplete = true;
-                Color hardtextColor = isHardComplete ? _completeOptionalObjectiveColor : _incompleteOptionalObjectiveColor;
-                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: true, hardtextColor);
+                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: true);
             }
         }
         else
@@ -167,13 +161,12 @@ public class LevelSelectPresenter : MonoBehaviour
         }
     }
 
-    private void AddObjectiveRow(string objectiveName, bool isComplete, bool isNormalDifficulty, Color textColor)
+    private void AddObjectiveRow(string objectiveName, bool isComplete, bool isNormalDifficulty)
     {
         Transform container = isNormalDifficulty ? _view.NormalOptionalObjectivesContainer.transform : _view.HardOptionalObjectivesContainer.transform;
 
         LevelSelectObjectiveRowView rowView = Instantiate(_view.OptionalObjectivesPrefab, container);
         rowView.ObjectiveNameText.text = objectiveName;
-        rowView.ObjectiveNameText.color = textColor;
 
         rowView.Check.gameObject.SetActive(isComplete);
         rowView.Cross.gameObject.SetActive(!isComplete);
