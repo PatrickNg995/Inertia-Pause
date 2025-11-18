@@ -305,8 +305,10 @@ MonoBehaviour:
   _animator: {fileID: 5126948815086699669}
   _rb: {fileID: 2519281335273529101}
   _collider: {fileID: 3815834085323281589}
-  _accessoryConstraints: []
-  _accessoryRigidbodies: []
+  _accessoryConstraints:
+  - {fileID: 4671075191624267275}
+  _accessoryRigidbodies:
+  - {fileID: 7953834504997066103}
 --- !u!114 &8817128745271863104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1745,7 +1747,7 @@ MonoBehaviour:
   _particleSystem: {fileID: 2942955069407871111}
   _enableParticles: 1
   _useRandomPrePausePlayDuration: 1
-  _prePausePlayDurationLowerBound: 0.01
+  _prePausePlayDurationLowerBound: 0.02
   _prePausePlayDurationUpperBound: 0.05
 --- !u!1 &5946236826274213043
 GameObject:
@@ -3371,8 +3373,18 @@ ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 6395894885216740327, guid: eea75046a24bea747b00facc516eacbc, type: 3}
   m_PrefabInstance: {fileID: 8076557811794387808}
   m_PrefabAsset: {fileID: 0}
+--- !u!1773428102 &4671075191624267275 stripped
+ParentConstraint:
+  m_CorrespondingSourceObject: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
+  m_PrefabInstance: {fileID: 8076557811794387808}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6354258378891262224 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2899032683280980592, guid: eea75046a24bea747b00facc516eacbc, type: 3}
+  m_PrefabInstance: {fileID: 8076557811794387808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &7953834504997066103 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 2194379874124264983, guid: eea75046a24bea747b00facc516eacbc, type: 3}
   m_PrefabInstance: {fileID: 8076557811794387808}
   m_PrefabAsset: {fileID: 0}
