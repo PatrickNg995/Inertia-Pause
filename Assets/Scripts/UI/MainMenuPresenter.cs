@@ -13,7 +13,7 @@ public class MainMenuPresenter : MonoBehaviour
 
     private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
-    private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-s1";
+    private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
 
     private AdditiveSceneManager _sceneManager;
     private PlayerActions _inputActions;
