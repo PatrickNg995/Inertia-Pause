@@ -22,6 +22,7 @@ public class OptionsMenuPresenter : MonoBehaviour
     private const string OPTION_FALSE_TEXT = "Off";
     private const string FOV_FORMAT = "{0}°";
     private const string UNLIMITED_FRAMERATE_TEXT = "Unlimited";
+    private const string DEFAULT_SCENARIO_NAME = "Inertia Pause";
 
     private OptionsModel _dirtyOptionsModel;
     private bool _isSettingHorizontalSensitivity = false;
@@ -34,9 +35,13 @@ public class OptionsMenuPresenter : MonoBehaviour
     {
         _view.gameObject.SetActive(false);
 
-        if (_gameManager.ScenarioInfo != null)
+        if (_gameManager != null && _gameManager.ScenarioInfo != null)
         {
             _view.LevelNameText.text = _gameManager.ScenarioInfo.ScenarioName;
+        }
+        else
+        {
+            _view.LevelNameText.text = DEFAULT_SCENARIO_NAME;
         }
 
         _view.BackButton.onClick.AddListener(CloseMenu);
