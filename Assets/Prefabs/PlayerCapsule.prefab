@@ -183,6 +183,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3afe1e5cd7cbafd4996ed19833b70c4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HorizontalSensitivity: 0.15
+  VerticalSensitivity: 0.15
   _playerBody: {fileID: 5847679658841637956}
 --- !u!114 &1158339374760374881
 MonoBehaviour:
@@ -229,7 +231,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 0.5, y: 0.9, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7832957200253900222}
