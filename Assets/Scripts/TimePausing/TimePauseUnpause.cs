@@ -24,8 +24,6 @@ public class TimePauseUnpause : MonoBehaviour
 
     void Start()
     {
-        _hasUnpaused = false;
-
         // Pause all pausable objects.
         MonoBehaviour[] allObjects = FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None);
         _pausableObjects = allObjects.OfType<IPausable>().ToArray();
@@ -36,30 +34,31 @@ public class TimePauseUnpause : MonoBehaviour
     // Enable & disable input actions.
     private void OnEnable()
     {
-        _timePause.performed += CheckUnpause;
+        _timePause.performed += UnpauseLevel;
         _timePause.Enable();
     }
+
     private void OnDisable()
     {
-        _timePause.performed -= CheckUnpause;
+        _timePause.performed -= UnpauseLevel;
         _timePause.Disable();
     }
 
     public void PauseAllObjects()
     {
+        _hasUnpaused = false;
+
         foreach (IPausable pausable in _pausableObjects)
         {
             pausable.Pause();
         }
     }
 
-    public void ResetAllObjectStatesBeforeUnpause()
+    public void UnpauseAllObjects()
     {
-        _hasUnpaused = false;
-
         foreach (IPausable pausable in _pausableObjects)
         {
-            pausable.ResetStateBeforeUnpause();
+            pausable.Unpause();
         }
     }
 
@@ -73,17 +72,26 @@ public class TimePauseUnpause : MonoBehaviour
         _isUnpauseEnabled = true;
     }
 
-    // Unpause time if time has been paused.
-    private void CheckUnpause(InputAction.CallbackContext context)
+    public void ResetAllObjectStatesBeforeUnpause()
+    {
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.ResetStateBeforeUnpause();
+        }
+    }
+
+    private void UnpauseLevel(InputAction.CallbackContext context)
     {
         if (_isUnpauseEnabled && !_hasUnpaused)
         {
+            Debug.Log("Time unpause initiated.");
             _hasUnpaused = true;
-            foreach (IPausable pausable in _pausableObjects)
-            {
-                pausable.Unpause();
-            }
-            GameManager.Instance.CheckVictoryCondition();
+
+            // Unpause all pausable objects.
+            UnpauseAllObjects();
+
+            // Start end level sequence.
+            StartCoroutine(GameManager.Instance.EndLevel());
         }
         else
         {
