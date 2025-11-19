@@ -18,19 +18,24 @@ public class ReplayCameraManager : MonoBehaviour
     [Tooltip("How long each camera gets to be active before switching to the next one.")]
     [SerializeField] private float _replayDurationPerCamera = 3.25f;
 
+    private WaitForSeconds _replayPause;
+
     private void Start()
     {
         // Ensure only the player camera is active at the start.
         ResetCameras();
+
+        // Cache replay pause.
+        _replayPause = new WaitForSeconds(_replayDurationPerCamera);
     }
 
     public void ResetCameras()
     {
-        _playerCamera.enabled = true;
+        _playerCamera.gameObject.SetActive(true);
 
         foreach (Camera cam in _replayCameras)
         {
-            cam.enabled = false;
+            cam.gameObject.SetActive(false);
         }
     }
 
@@ -41,8 +46,8 @@ public class ReplayCameraManager : MonoBehaviour
         foreach (Camera replayCam in _replayCameras)
         {
             // Switch camera: deactivate previous, activate current replay camera.
-            previousCam.enabled = false;
-            replayCam.enabled = true;
+            previousCam.gameObject.SetActive(false);
+            replayCam.gameObject.SetActive(true);
 
             // Rewind level to initial state for the replay.
             GameManager.Instance.RewindObjects();
@@ -52,7 +57,7 @@ public class ReplayCameraManager : MonoBehaviour
             _timePauseUnpause.UnpauseAllObjects();
 
             // Delay for the duration of this replay camera.
-            yield return new WaitForSeconds(_replayDurationPerCamera);
+            yield return _replayPause;
 
             // Keep this replay cam enabled only for its duration — next loop will disable it.
             previousCam = replayCam;
