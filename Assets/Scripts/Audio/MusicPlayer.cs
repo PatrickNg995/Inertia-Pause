@@ -229,4 +229,23 @@ public class MusicPlayer : MonoBehaviour
     }
 
     #endregion
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (_activeSource == _fadeSource)
+        {
+            Debug.LogError("[MusicPlayer] ActiveSource and FadeSource cannot reference the same AudioSource!");
+        }
+
+        if (_activeSource != null && _activeSource.clip != null)
+        {
+            Debug.LogWarning("[MusicPlayer] ActiveSource should not have a clip assigned in the Inspector.");
+        }
+
+        if (_fadeSource != null && _fadeSource.clip != null)
+        {
+            Debug.LogWarning("[MusicPlayer] FadeSource should not have a clip assigned in the Inspector.");
+        }
+    }
+#endif
 }
