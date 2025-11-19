@@ -19,17 +19,20 @@ public class PausableParticles : MonoBehaviour, IPausable
     [Tooltip("The upper bound for the pre-pause play duration (in seconds).")]
     [SerializeField] private float _prePausePlayDurationUpperBound = 0.1f;
 
+    // The duration the particle system simulates playing before pausing.
     private float _prePausePlayDuration;
 
     public void Awake()
     {
+        // Disable the script and particle system if particles are not enabled. This is mostly to make it easier to disable
+        // effects like muzzle flashes without needing to dig into the prefab every timne.
         if (!_enableParticles)
         {
             enabled = false;
             _particleSystem.gameObject.SetActive(false);
         }
 
-        // Determine the pre-pause play duration, if not random use the lower bound.
+        // Determine the pre-pause play duration. If not set to random, use the lower bound.
         if (_useRandomPrePausePlayDuration)
         {
             _prePausePlayDuration = Random.Range(_prePausePlayDurationLowerBound, _prePausePlayDurationUpperBound);

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3763187284926092845}
   - component: {fileID: 639879001438917499}
   - component: {fileID: 4290007739633433133}
+  - component: {fileID: 7929686078399773389}
   m_Layer: 6
   m_Name: Missile
   m_TagString: Lethal
@@ -121,6 +122,23 @@ MonoBehaviour:
   _meshRenderer: {fileID: 4808895682466427846}
   _explosionScript: {fileID: 1491752716760812549}
   _trail: {fileID: 1322260374130451952}
+--- !u!114 &7929686078399773389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954150364962858902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabd4eb12cda7c44fa250491920d6f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 1322260374130451952}
+  _enableParticles: 1
+  _useRandomPrePausePlayDuration: 0
+  _prePausePlayDurationLowerBound: 0.15
+  _prePausePlayDurationUpperBound: 0.2
 --- !u!1 &5625365389573256950
 GameObject:
   m_ObjectHideFlags: 0
@@ -6280,7 +6298,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: RocketTrail
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2860785552843325811, guid: eb402a9e78f649d4d82e0c9858aa1ac3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
