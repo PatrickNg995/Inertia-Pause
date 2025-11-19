@@ -5,7 +5,7 @@ public class DragBoundary : MonoBehaviour
     [SerializeField] private float _radius = 1f;
     [SerializeField] private int _segments = 64;
     [SerializeField] private LineRenderer _lineRenderer;
-    [SerializeField] private float _yOffset = 0;
+    [SerializeField] private float _yOffset = 0f;
 
     private Vector3 center;
     void Awake()
@@ -23,7 +23,10 @@ public class DragBoundary : MonoBehaviour
     {
         _lineRenderer.enabled = show;
 
-        if (show) DrawCircle();
+        if (show)
+        {
+            DrawCircle();
+        }
     }
 
     private void DrawCircle()
@@ -36,6 +39,7 @@ public class DragBoundary : MonoBehaviour
             float y = Mathf.Sin(angle) * _radius;
             points[i] = center + new Vector3(x, 0, y);
         }
+        
         _lineRenderer.positionCount = _segments;
         _lineRenderer.SetPositions(points);
     }

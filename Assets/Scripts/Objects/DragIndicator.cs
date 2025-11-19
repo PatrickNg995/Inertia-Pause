@@ -3,7 +3,8 @@ using UnityEngine;
 public class DragIndicator : MonoBehaviour
 {
     [SerializeField] private LineRenderer _directionalIndicator;
-    [SerializeField] private bool _isFallingIndicator; // intended to be false for things like bullets
+    // intended to be false for things like bullets
+    [SerializeField] private bool _isFallingIndicator;
     [SerializeField] private float _lineLength = 1f;
     [SerializeField] private float _lineWidth = 0.01f;
 
@@ -12,7 +13,7 @@ public class DragIndicator : MonoBehaviour
         _directionalIndicator.enabled = false;
         _directionalIndicator.positionCount = 2;
         _directionalIndicator.startWidth = _lineWidth;
-        _directionalIndicator.endWidth = _lineWidth;
+        _directionalIndicator.endWidth = 0;
     }
 
     public void Enable()
