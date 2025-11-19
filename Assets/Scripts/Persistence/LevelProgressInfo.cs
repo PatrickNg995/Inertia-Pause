@@ -19,7 +19,10 @@ public class LevelProgressInfo
     public void UpdateProgress(LevelProgressInfo newLevelInfo)
     {
         // Update ActionCount to the highest value.
-        PersonalBestActionCount = newLevelInfo.PersonalBestActionCount < PersonalBestActionCount ? newLevelInfo.PersonalBestActionCount : PersonalBestActionCount;
+        if (newLevelInfo.PersonalBestActionCount > PersonalBestActionCount)
+        {
+            PersonalBestActionCount = newLevelInfo.PersonalBestActionCount;
+        }
 
         if (OptionalObjectivesCompletions.Length == newLevelInfo.OptionalObjectivesCompletions.Length)
         {
