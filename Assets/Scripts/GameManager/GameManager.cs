@@ -364,12 +364,12 @@ public class GameManager : MonoBehaviour
         bool[] optionalResults = Array.Empty<bool>();
         if (ScenarioInfo != null && ScenarioInfo.Objectives.OptionalObjectives != null)
         {
-            List<OptionalObective> optionalObjectives = ScenarioInfo.Objectives.OptionalObjectives;
+            List<OptionalObjective> optionalObjectives = ScenarioInfo.Objectives.OptionalObjectives;
             optionalResults = new bool[optionalObjectives.Count];
 
             for (int i = 0; i < optionalObjectives.Count; i++)
             {
-                OptionalObective objective = optionalObjectives[i];
+                OptionalObjective objective = optionalObjectives[i];
 
                 // Check if each optional objective is completed, and only count it if the level is also won.
                 optionalResults[i] = objective.CheckCompletion() && LevelWon;

@@ -11,7 +11,7 @@ public enum ActionRequirementMode
 
 [Serializable]
 [CreateAssetMenu(fileName = "NewObjectActionObjective", menuName = "Inertia Pause/Object Action Objective")]
-public class ObjectActionObjective : OptionalObective
+public class ObjectActionObjective : OptionalObjective
 {
     [Tooltip("The tag of the object type that will be used for the objective (the tag should be plural, e.g. 'Bullets').")]
     [SerializeField] private string _objectTypeTagToRestrict;

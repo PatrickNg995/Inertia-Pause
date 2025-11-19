@@ -27,6 +27,6 @@ public class ScenarioInfo : ScriptableObject
 public class ScenarioObjectives
 {
     public List<string> MainObjectives;
-    public List<OptionalObective> OptionalObjectives;
+    public List<OptionalObjective> OptionalObjectives;
     public int ActionLimit;
 }

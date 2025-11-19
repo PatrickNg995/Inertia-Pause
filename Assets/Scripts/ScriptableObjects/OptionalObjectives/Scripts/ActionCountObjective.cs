@@ -3,7 +3,7 @@ using UnityEngine;
 
 [Serializable]
 [CreateAssetMenu(fileName = "NewActionCountObjective", menuName = "Inertia Pause/Action Count Objective")]
-public class ActionCountObjective : OptionalObective
+public class ActionCountObjective : OptionalObjective
 {
     [Tooltip("The maximum (inclusive) actions a player can do this level to complete this objective.")]
     [SerializeField] private int _maxActions = 0;
