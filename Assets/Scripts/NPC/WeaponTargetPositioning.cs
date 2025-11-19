@@ -1,48 +1,48 @@
 using UnityEngine;
 
-public class BulletPositioning : MonoBehaviour
+public class WeaponTargetPositioning : MonoBehaviour
 {
     // Only done while in the editor.
     [ExecuteInEditMode]
 
-    // The target the Enemy should shoot at.
+    // The target the Enemy should aim at.
     public Transform Target;
 
-    // Origin Point of the bullet.
-    public Transform BulletSpawnPoint;
+    // Origin Point of the weapon.
+    public Transform WeaponSpawnPoint;
 
     // Bullet Prefab Object.
-    public Transform Bullet;
+    public Transform Weapon;
 
     [SerializeField]
-    private bool _isBulletDistanceOn;
+    private bool _isWeaponDistanceOn;
     // Distance between bullet & target by percentage (1 == bullet is on target).
     [SerializeField]
     [Range(0f, 1f)]
-    private float _bulletDistance;
+    private float _weaponDistance;
 
     // Runs whenever a value changes.
     void OnValidate()
     {
-        if (!_isBulletDistanceOn)
+        if (!_isWeaponDistanceOn)
         {
             return;
         }
 
-        if (Target != null && Bullet != null && BulletSpawnPoint != null)
+        if (Target != null && Weapon != null && WeaponSpawnPoint != null)
         {
             // Enemy & Bullet face the enemy.
             transform.LookAt(Target.transform);
-            Bullet.transform.forward = BulletSpawnPoint.forward;
+            Weapon.transform.forward = WeaponSpawnPoint.forward;
 
             // Set correct y position.
-            float targetYPosition = Target.position.y + BulletSpawnPoint.localPosition.y;
+            float targetYPosition = Target.position.y + WeaponSpawnPoint.localPosition.y;
             Vector3 targetPosition = new Vector3(Target.position.x, targetYPosition, Target.position.z);
 
             // Get the distance between the bullet & the target.
-            Vector3 maxDistance = BulletSpawnPoint.position - targetPosition;
+            Vector3 maxDistance = WeaponSpawnPoint.position - targetPosition;
             // Change the bullet's position depending on the BulletDistance modifier.
-            Bullet.position = BulletSpawnPoint.position - (maxDistance * _bulletDistance);
+            Weapon.position = WeaponSpawnPoint.position - (maxDistance * _weaponDistance);
         }
     }
 }
