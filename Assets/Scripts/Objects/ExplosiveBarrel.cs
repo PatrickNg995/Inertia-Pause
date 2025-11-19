@@ -54,6 +54,12 @@ public class ExplosiveBarrel : MonoBehaviour, IPausable
             return;
         }
 
+        // Explode on contact with a lethal object.
+        if (collision.gameObject.CompareTag("Lethal"))
+        {
+            TriggerExplosion();
+        }
+
         // Explode after falling from high enough.
         float fallHeight = _initialPosition.y - transform.position.y;
         if (fallHeight >= LETHAL_FALL_THRESHOLD)
