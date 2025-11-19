@@ -6106,11 +6106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57b09116bbf93da44aae88c7dfc57eeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rb: {fileID: 1282589161762300080}
   _trailRenderer: {fileID: 5485658381725423834}
   _impactEffectPrefab: {fileID: 5443217880387909948, guid: 7267261358bbf9f409eae8076bb87e23, type: 3}
   _isPiercing: 1
   _bulletSpeed: 20
-  _rb: {fileID: 1282589161762300080}
 --- !u!114 &2659425306736629556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6171,7 +6171,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: Infinity
+  m_Time: 5
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
