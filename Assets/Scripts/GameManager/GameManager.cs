@@ -228,12 +228,13 @@ public class GameManager : MonoBehaviour
         // Rewind all objects in the level.
         RewindObjects();
 
-        // Reset player position and rotation.
-        _playerMovement.ResetPlayerPosition();
-
         // Re-enable player inputs and interaction.
         _inputActions.Enable();
         _playerInteract.enabled = true;
+
+        // Re-enable undo/redo/unpause inputs.
+        _undo.Enable();
+        _redo.Enable();
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
@@ -242,7 +243,7 @@ public class GameManager : MonoBehaviour
         _replayCameraManager.ResetCameras();
 
         // Re-enable time unpausing.
-        _timePauseUnpause.EnableTimePause();
+        _timePauseUnpause.EnableTimePauseInput();
 
         // Show objectives again.
         OnLevelStart?.Invoke();
@@ -258,13 +259,28 @@ public class GameManager : MonoBehaviour
         _timePauseUnpause.PauseAllObjects();
     }
 
-    public IEnumerator EndLevel()
+    public void DisableTimeUnpause()
     {
+        _timePauseUnpause.DisableTimeUnpause();
+    }
+
+    public void EnableTimeUnpause()
+    {
+        _timePauseUnpause.EnableTimeUnpause();
+    }
+
+    public IEnumerator EndLevel()
+    { 
         if (_isInputDisabledAfterLevelComplete)
         {
             // Disable player input actions and interaction.
             _inputActions.Disable();
             _playerInteract.enabled = false;
+            Debug.Log("Player Interact disabled");
+
+            // Disable undo/redo/unpause inputs.
+            _undo.Disable();
+            _redo.Disable();
 
             // Disable collisions on the player.
             _playerController.detectCollisions = false;
