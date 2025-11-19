@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb858caaf036fd740803ea5e8d995e19, type: 3}
-  m_Name: OfficeEasy2-ActionCount
+  m_Script: {fileID: 11500000, guid: b1d820911f75d784d88b7935af443866, type: 3}
+  m_Name: ShieldedEnemy
   m_EditorClassIdentifier: 
-  Description: Solve in 8 actions or less
-  _maxActions: 8
+  ObjectName: Shielded Enemy
+  Type: 1
+  ActionName: Move
+  TutorialInfo: {fileID: 11400000, guid: 68b32d3d1a9eb3a469d84472a432e5e3, type: 2}
