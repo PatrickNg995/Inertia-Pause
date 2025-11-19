@@ -4,6 +4,8 @@ public class DraggableBehaviour : InteractionObject
 {
     [SerializeField] private float _dragSpeed = 10f;
     [SerializeField] private float _maxDragDistance = 1f;
+    [SerializeField] private DragBoundary _boundary;
+    [SerializeField] private DragIndicator _indicator;
 
     private Transform _playerCamera;
     private Vector3 _resetPosition;
@@ -22,7 +24,10 @@ public class DraggableBehaviour : InteractionObject
 
     public override void OnStartInteract()
     {
-        if (_dragging == true) return;
+        if (_dragging == true)
+        {
+            return;
+        }
 
         _dragging = true;
         
@@ -31,11 +36,21 @@ public class DraggableBehaviour : InteractionObject
         _moveStartPosition = transform.position;
         
         _yPosition = transform.position.y;
+
+        if (_indicator != null)
+        {
+            _indicator.Enable();
+            _indicator.DrawLine();
+        }
+        _boundary.ShowCircle(true);
     }
 
     public override void OnHoldInteract()
     {
-        if (!_dragging) return;
+        if (!_dragging)
+        {
+            return;
+        }
 
         // Calculate position in front of camera
         Vector3 targetPosition = _playerCamera.position + _playerCamera.forward * _dragDistance;
@@ -49,11 +64,19 @@ public class DraggableBehaviour : InteractionObject
         {
             transform.position = nextPosition;
         }
+
+        if (_indicator != null)
+        {
+            _indicator.DrawLine();
+        }
     }
 
     public override void OnEndInteract()
     {
-        if (!_dragging) return;
+        if (!_dragging) 
+        { 
+            return; 
+        }
 
 
         // Record and execute the command
@@ -62,24 +85,51 @@ public class DraggableBehaviour : InteractionObject
         
         HasTakenAction = true;
         _dragging = false;
+        if (_indicator != null) 
+        { 
+            _indicator.Disable(); 
+        }
+        _boundary.ShowCircle(false);
     }
 
     public override void OnCancelInteract()
     {
-        if (!_dragging) return;
+        if (!_dragging)
+        {
+            return;
+        }
 
         _dragging = false;
 
         transform.position = _moveStartPosition;
+        
+        if (_indicator != null) 
+        { 
+            _indicator.Disable(); 
+        }
+        
+        _boundary.ShowCircle(false);
     }
 
     public override void OnResetInteract()
     {
-        if (_resetPosition == transform.position) return;
+        if (_resetPosition == transform.position) 
+        { 
+            return; 
+        }
         // command added sets the position the current, before the above assignment, on execute, and to _initialPosition on undo
         ActionCommand = new DragCommand(this, _resetPosition, transform.position, true);
         GameManager.Instance.ResetObjectCommands(this, ActionCommand);
+        
         transform.position = _resetPosition;
+        
         HasTakenAction = false;
+        
+        if (_indicator != null) 
+        { 
+            _indicator.Disable(); 
+        }
+        
+        _boundary.ShowCircle(false);
     }
 }
