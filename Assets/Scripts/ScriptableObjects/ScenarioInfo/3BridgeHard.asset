@@ -25,10 +25,12 @@ MonoBehaviour:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives: []
+    OptionalObjectives:
+    - {fileID: 11400000, guid: f9bc5fb147f119e439c747f18044429b, type: 2}
+    - {fileID: 11400000, guid: 1050c491ae3352343805b1c5399f3e0c, type: 2}
     ActionLimit: 8
   NumberOfCivilians: 11
   NumberOfAllies: 4
   NumberOfEnemies: 15
-  NextEnvironmentSceneName: 
-  NextScenarioAssetsSceneName: 
+  NextEnvironmentSceneName: 4-restaurant
+  NextScenarioAssetsSceneName: 4-restaurant-hard
