@@ -10,6 +10,9 @@ public class LevelSelectPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private LevelSelectView _view;
 
+    [Header("Models")]
+    [SerializeField] private SavedLevelProgressManager _progressManager;
+
     private const string NORMAL_DIFFICULTY_NAME = "Normal";
     private const string HARD_DIFFICULTY_NAME = "Hard";
     private const string BEST_RECORD_SINGULAR_FORMAT = "{0} Best Record: {1} Action";
@@ -17,7 +20,6 @@ public class LevelSelectPresenter : MonoBehaviour
     private const string NO_RECORD_FORMAT = "{0} Best Record: Incomplete";
 
     private AdditiveSceneManager _sceneManager;
-    private SavedLevelProgressManager _progressManager;
 
     private ScenarioInfo _normalScenarioToBeLoaded;
     private ScenarioInfo _hardScenarioToBeLoaded;
@@ -126,8 +128,8 @@ public class LevelSelectPresenter : MonoBehaviour
     private void LoadBestRecord(ScenarioInfo normalScenarioInfo, ScenarioInfo hardScenarioInfo)
     {
         SavedLevelProgressData saveData = _progressManager.LevelProgressData;
-        LevelProgressInfo normalRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == normalScenarioInfo.ScenarioAssetsSceneName).First();
-        LevelProgressInfo hardRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == hardScenarioInfo.ScenarioAssetsSceneName).First();
+        LevelProgressInfo normalRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == normalScenarioInfo.ScenarioAssetsSceneName).FirstOrDefault();
+        LevelProgressInfo hardRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == hardScenarioInfo.ScenarioAssetsSceneName).FirstOrDefault();
 
         bool isNormalRecordExists = normalRecord != null;
         bool isHardRecordExists = hardRecord != null;
