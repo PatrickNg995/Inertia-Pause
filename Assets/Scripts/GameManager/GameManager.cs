@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Time Pausing")]
+    [Header("References")]
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
+    [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -87,7 +88,6 @@ public class GameManager : MonoBehaviour
     private PlayerActions _inputActions;
     private InputAction _undo;
     private InputAction _redo;
-    private InputAction _unpause;
     private InputAction _pauseMenu;
 
     // Command manager that handles logic for undo/redo and action count.
@@ -153,7 +153,6 @@ public class GameManager : MonoBehaviour
         _inputActions = new PlayerActions();
         _undo = _inputActions.Ingame.Undo;
         _redo = _inputActions.Ingame.Redo;
-        _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
     }
 
@@ -186,12 +185,10 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed += Undo;
         _redo.performed += Redo;
-        _unpause.performed += CheckVictoryCondition;
         _pauseMenu.performed += PauseMenu;
 
         _undo.Enable();
         _redo.Enable();
-        _unpause.Enable();
         _pauseMenu.Enable();
     }
 
@@ -199,12 +196,10 @@ public class GameManager : MonoBehaviour
     {
         _undo.performed -= Undo;
         _redo.performed -= Redo;
-        _unpause.performed -= CheckVictoryCondition;
         _pauseMenu.performed -= PauseMenu;
 
         _undo.Disable();
         _redo.Disable();
-        _unpause.Disable();
         _pauseMenu.Disable();
     }
 
@@ -244,7 +239,6 @@ public class GameManager : MonoBehaviour
         // Re-enable undo/redo/unpause inputs.
         _undo.Enable();
         _redo.Enable();
-        _unpause.Enable();
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
@@ -253,7 +247,17 @@ public class GameManager : MonoBehaviour
         OnLevelStart?.Invoke();
     }
 
-    private void CheckVictoryCondition(InputAction.CallbackContext context)
+    public void DisableTimeUnpause()
+    {
+        _timePauseUnpause.DisableTimeUnpause();
+    }
+
+    public void EnableTimeUnpause()
+    {
+        _timePauseUnpause.EnableTimeUnpause();
+    }
+
+    public void CheckVictoryCondition()
     {
         if (_isInputDisabledAfterLevelComplete)
         {
@@ -264,7 +268,6 @@ public class GameManager : MonoBehaviour
             // Disable undo/redo/unpause inputs.
             _undo.Disable();
             _redo.Disable();
-            _unpause.Disable();
 
             // Disable collisions on the player.
             _playerController.detectCollisions = false;
@@ -318,6 +321,13 @@ public class GameManager : MonoBehaviour
             OptionalObjectivesComplete = optionalResults,
             ActionsTaken = ActionCount
         };
+
+        // Update saved level progress if level was won.
+        if (LevelWon)
+        {
+            LevelProgressInfo levelInfo = new(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName, ActionCount, optionalResults);
+            _savedLevelProgressManager.UpdateLevelProgress(levelInfo);
+        }
 
         // Call level complete after determining victory.
         OnLevelComplete?.Invoke(results);
