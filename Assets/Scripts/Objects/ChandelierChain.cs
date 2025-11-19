@@ -6,7 +6,7 @@ public class ChandelierChain : MonoBehaviour, IPausable
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private CapsuleCollider _collisionCollider;
     [SerializeField] private HingeJoint _hingeJoint;
-    [SerializeField] private MeshRenderer _meshRenderer;
+    [SerializeField] private MeshRenderer[] _meshRenderers;
     [SerializeField] private Rigidbody _connectedChain;
     [SerializeField] private Chandelier _chandelierParent;
 
@@ -23,7 +23,6 @@ public class ChandelierChain : MonoBehaviour, IPausable
         _rb = GetComponent<Rigidbody>();
         _collisionCollider = GetComponent<CapsuleCollider>();
         _hingeJoint = GetComponent<HingeJoint>();
-        _meshRenderer = GetComponent<MeshRenderer>();
 
         // Save configuration of hinge joint.
         _anchor = _hingeJoint.anchor;
@@ -49,7 +48,12 @@ public class ChandelierChain : MonoBehaviour, IPausable
         if (other.gameObject.CompareTag("Lethal"))
         {
             Destroy(_hingeJoint);
-            _meshRenderer.enabled = false;
+
+            foreach (MeshRenderer renderer in _meshRenderers)
+            {
+                renderer.enabled = false;
+            }
+
             _chandelierParent.ChandelierFalling();
         }
     }
@@ -77,7 +81,10 @@ public class ChandelierChain : MonoBehaviour, IPausable
     public void ResetStateBeforeUnpause()
     {
         // Make chain visible again.
-        _meshRenderer.enabled = true;
+        foreach (MeshRenderer renderer in _meshRenderers)
+        {
+            renderer.enabled = true;
+        }
 
         // Reset position & rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
