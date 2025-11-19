@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
     [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
+    [SerializeField] private ReplayCameraManager _replayCameraManager;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -207,9 +209,6 @@ public class GameManager : MonoBehaviour
     {
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
-
-        // Play music track that's assigned to this level environment.
-        MusicPlayer.Instance.PlayTrackForLevel(ScenarioInfo.EnvironmentSceneName);
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
@@ -226,28 +225,36 @@ public class GameManager : MonoBehaviour
 
     public void RewindLevel()
     {
-        // Clear causes of death list.
-        ListOfCausesOfDeath.Clear();
+        // Rewind all objects in the level.
+        RewindObjects();
 
-        // Reset player position and rotation.
-        _playerMovement.ResetPlayerPosition();
-
-        // Reset all object states to before unpause, then pause objects again.
-        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
-        _timePauseUnpause.PauseAllObjects();
-
-        // Re-enable player interaction.
+        // Re-enable player inputs and interaction.
+        _inputActions.Enable();
         _playerInteract.enabled = true;
 
         // Re-enable undo/redo/unpause inputs.
         _undo.Enable();
         _redo.Enable();
+        EnableTimeUnpause();
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
 
+        // Reset replay cameras.
+        _replayCameraManager.ResetCameras();
+
         // Show objectives again.
         OnLevelStart?.Invoke();
+    }
+
+    public void RewindObjects()
+    {
+        // Clear causes of death list.
+        ListOfCausesOfDeath.Clear();
+
+        // Reset all object states to before unpause, then pause objects again.
+        _timePauseUnpause.ResetAllObjectStatesBeforeUnpause();
+        _timePauseUnpause.PauseAllObjects();
     }
 
     public void DisableTimeUnpause()
@@ -260,11 +267,12 @@ public class GameManager : MonoBehaviour
         _timePauseUnpause.EnableTimeUnpause();
     }
 
-    public void CheckVictoryCondition()
-    {
+    public IEnumerator EndLevel()
+    { 
         if (_isInputDisabledAfterLevelComplete)
         {
-            // Prevent players from interacting with objects after unpausing.
+            // Disable player input actions and interaction.
+            _inputActions.Disable();
             _playerInteract.enabled = false;
             Debug.Log("Player Interact disabled");
 
@@ -276,13 +284,19 @@ public class GameManager : MonoBehaviour
             _playerController.detectCollisions = false;
         }
 
-        // Delay checking for victory to let objects interact first.
-        // TODO: Should make this to check after an ending camera pan around or something.
-        Invoke(nameof(TempDelayedCheckVictory), 3f);
-        Debug.Log("Checking victory after short delay...");
+        // Activate replay sequence.
+        if (_replayCameraManager != null)
+        {
+            OnAnyBlockingMenuOpen?.Invoke();
+            yield return StartCoroutine(_replayCameraManager.StartReplaySequence());
+            OnAnyBlockingMenuClose?.Invoke();
+        }
+            
+        // Check victory condition and end level.
+        CheckVictoryCondition();
     }
 
-    private void TempDelayedCheckVictory()
+    private void CheckVictoryCondition()
     {
         // The following logic should be in CheckVictoryCondition when properly implemented.
         int enemiesAlive = GetNumNPCsAlive(_listOfEnemies);

@@ -22,7 +22,11 @@ public class MusicPlayer : MonoBehaviour
 
     [Header("Tracks")]
     [SerializeField]
-    private List<MusicTrack> _tracks = new List<MusicTrack>();
+    // Currently unused.
+    private MusicTrack _openingTrack;
+
+    [SerializeField]
+    private MusicTrack _gameplayTrack;
 
     [Header("Crossfade Settings")]
     [SerializeField]
@@ -50,20 +54,11 @@ public class MusicPlayer : MonoBehaviour
     #region Data Types
 
     [Serializable]
-    private struct MusicTrack
+    public struct MusicTrack
     {
         public AudioClip Clip;
         [Range(0f, 1f)] public float Volume;
     }
-
-    private Dictionary<string, int> _levelMusicTrackMap = new Dictionary<string, int>
-    {
-        { "1-promenade", 0 },
-        { "2-office", 1 },
-        { "3-bridge", 2 },
-        { "4-restaurant", 3 },
-        { "5-cityCenter", 4 }
-    };
 
     #endregion
 
@@ -80,22 +75,17 @@ public class MusicPlayer : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        PlayTrack(_gameplayTrack);
+    }
+
     #endregion
 
     #region Public API
 
-    public void PlayTrackForLevel(string levelEnvironmentName)
+    public void PlayTrack(MusicTrack track)
     {
-        int trackIndex = _levelMusicTrackMap[levelEnvironmentName];
-
-        if (!IsValidTrackIndex(trackIndex))
-        {
-            Debug.LogWarning("[MusicPlayer] Invalid track Index: " + trackIndex);
-            return;
-        }
-
-        MusicTrack track = _tracks[trackIndex];
-
         if (_fadeCoroutine != null)
         {
             StopCoroutine(_fadeCoroutine);
@@ -110,14 +100,8 @@ public class MusicPlayer : MonoBehaviour
         _activeSource.Play();
     }
 
-    public void CrossfadeTo(int trackIndex, float fadeTime = FADE_TIME_USE_DEFAULT)
+    public void CrossfadeTo(MusicTrack track, float fadeTime = FADE_TIME_USE_DEFAULT)
     {
-        if (!IsValidTrackIndex(trackIndex))
-        {
-            Debug.LogWarning("[MusicPlayer] Invalid track Index: " + trackIndex);
-            return;
-        }
-
         if (fadeTime == FADE_TIME_USE_DEFAULT)
         {
             fadeTime = _defaultFadeTime;
@@ -128,7 +112,6 @@ public class MusicPlayer : MonoBehaviour
             StopCoroutine(_fadeCoroutine);
         }
 
-        MusicTrack track = _tracks[trackIndex];
         _fadeCoroutine = StartCoroutine(CrossfadeCoroutine(track, fadeTime));
     }
 
@@ -163,11 +146,6 @@ public class MusicPlayer : MonoBehaviour
     #endregion
 
     #region Helpers
-
-    private bool IsValidTrackIndex(int index)
-    {
-        return index >= 0 && index < _tracks.Count;
-    }
 
     private void ApplyTrackToSource(AudioSource source, MusicTrack track)
     {
