@@ -18,8 +18,8 @@ public class LevelProgressInfo
 
     public void UpdateProgress(LevelProgressInfo newLevelInfo)
     {
-        // Update ActionCount to the highest value.
-        if (newLevelInfo.PersonalBestActionCount > PersonalBestActionCount)
+        // Update ActionCount to the lowest value.
+        if (newLevelInfo.PersonalBestActionCount < PersonalBestActionCount)
         {
             PersonalBestActionCount = newLevelInfo.PersonalBestActionCount;
         }

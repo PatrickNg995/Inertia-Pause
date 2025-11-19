@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 // Abstract base class for optional objectives in the game.
-public abstract class OptionalObective : ScriptableObject
+public abstract class OptionalObjective : ScriptableObject
 {
     [Header("Objective Details")]
     [Tooltip("The description of the objective to be displayed in-game.")]
