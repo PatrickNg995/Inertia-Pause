@@ -207,6 +207,9 @@ public class GameManager : MonoBehaviour
     {
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
+
+        // Play music track that's assigned to this level environment.
+        MusicPlayer.Instance.PlayTrackForLevel(ScenarioInfo.EnvironmentSceneName);
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)

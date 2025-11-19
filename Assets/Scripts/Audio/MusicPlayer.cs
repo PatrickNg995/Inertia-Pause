@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,9 +52,18 @@ public class MusicPlayer : MonoBehaviour
     [Serializable]
     private struct MusicTrack
     {
-        public AudioClip clip;
-        [Range(0f, 1f)] public float volume;
+        public AudioClip Clip;
+        [Range(0f, 1f)] public float Volume;
     }
+
+    private Dictionary<string, int> _levelMusicTrackMap = new Dictionary<string, int>
+    {
+        { "1-promenade", 0 },
+        { "2-office", 1 },
+        { "3-bridge", 2 },
+        { "4-restaurant", 3 },
+        { "5-cityCenter", 4 }
+    };
 
     #endregion
 
@@ -69,15 +78,16 @@ public class MusicPlayer : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion
 
     #region Public API
 
-    public void PlayImmediate(int trackIndex)
+    public void PlayTrackForLevel(string levelEnvironmentName)
     {
+        int trackIndex = _levelMusicTrackMap[levelEnvironmentName];
+
         if (!IsValidTrackIndex(trackIndex))
         {
             Debug.LogWarning("[MusicPlayer] Invalid track Index: " + trackIndex);
@@ -96,7 +106,7 @@ public class MusicPlayer : MonoBehaviour
         _fadeSource.Stop();
         _fadeSource.clip = null;
 
-        _activeSource.volume = track.volume * _masterVolume;
+        _activeSource.volume = track.Volume * _masterVolume;
         _activeSource.Play();
     }
 
@@ -161,9 +171,9 @@ public class MusicPlayer : MonoBehaviour
 
     private void ApplyTrackToSource(AudioSource source, MusicTrack track)
     {
-        source.clip = track.clip;
+        source.clip = track.Clip;
         source.loop = true;
-        source.volume = track.volume * _masterVolume;
+        source.volume = track.Volume * _masterVolume;
     }
 
     private IEnumerator CrossfadeCoroutine(MusicTrack nextTrack, float duration)
@@ -179,7 +189,7 @@ public class MusicPlayer : MonoBehaviour
         _activeSource.Play();
 
         float startOldVolume = _fadeSource.volume;
-        float targetNewVolume = nextTrack.volume * _masterVolume;
+        float targetNewVolume = nextTrack.Volume * _masterVolume;
 
         float time = 0f;
 
