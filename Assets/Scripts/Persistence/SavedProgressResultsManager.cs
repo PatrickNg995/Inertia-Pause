@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SavedLevelProgressManager : MonoBehaviour
 {
-    private const string SAVE_FILE_NAME = "levelProgress.json";
+    private const string SAVE_FILE_NAME = "level-progress.json";
 
     private SavedLevelProgressData _currentSavedLevelProgressData;
 
