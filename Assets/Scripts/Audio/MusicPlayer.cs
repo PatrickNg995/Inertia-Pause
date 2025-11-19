@@ -96,7 +96,7 @@ public class MusicPlayer : MonoBehaviour
         _fadeSource.Stop();
         _fadeSource.clip = null;
 
-        _activeSource.volume = track.Volume * _masterVolume;
+        _activeSource.volume = _masterVolume;
         _activeSource.Play();
     }
 
@@ -139,8 +139,8 @@ public class MusicPlayer : MonoBehaviour
     {
         _masterVolume = Mathf.Clamp01(value);
 
-        _activeSource.volume *= _masterVolume;
-        _fadeSource.volume *= _masterVolume;
+        _activeSource.volume = _masterVolume;
+        _fadeSource.volume = _masterVolume;
     }
 
     #endregion
