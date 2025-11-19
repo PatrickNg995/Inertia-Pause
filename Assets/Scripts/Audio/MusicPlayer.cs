@@ -20,7 +20,7 @@ public class MusicPlayer : MonoBehaviour
 
     #region Serialized Fields
 
-    [Header("Tracks (Index = Track ID)")]
+    [Header("Tracks")]
     [SerializeField]
     private List<MusicTrack> _tracks = new List<MusicTrack>();
 
@@ -80,7 +80,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (!IsValidTrackIndex(trackIndex))
         {
-            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackIndex);
+            Debug.LogWarning("[MusicPlayer] Invalid track Index: " + trackIndex);
             return;
         }
 
@@ -104,7 +104,7 @@ public class MusicPlayer : MonoBehaviour
     {
         if (!IsValidTrackIndex(trackIndex))
         {
-            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackIndex);
+            Debug.LogWarning("[MusicPlayer] Invalid track Index: " + trackIndex);
             return;
         }
 
@@ -154,9 +154,9 @@ public class MusicPlayer : MonoBehaviour
 
     #region Helpers
 
-    private bool IsValidTrackIndex(int id)
+    private bool IsValidTrackIndex(int index)
     {
-        return id >= 0 && id < _tracks.Count;
+        return index >= 0 && index < _tracks.Count;
     }
 
     private void ApplyTrackToSource(AudioSource source, MusicTrack track)
