@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -83,7 +83,7 @@ public class PauseMenuPresenter : MonoBehaviour
         IEnumerable<string> scenarioObjectivesBulletPoints = scenarioInfo.Objectives.MainObjectives.Select(objective => $"- {objective}");
         _view.ScenarioObjectivesText.text = string.Join("\n", scenarioObjectivesBulletPoints);
 
-        IEnumerable<string> optionalObjectivesBulletPoints = scenarioInfo.Objectives.OptionalObjectives.Select(objective => $"- {objective}");
+        IEnumerable<string> optionalObjectivesBulletPoints = scenarioInfo.Objectives.OptionalObjectives.Select(objective => $"- {objective.Description}");
         _view.OptionalObjectivesText.text = string.Join("\n", optionalObjectivesBulletPoints);
     }
 

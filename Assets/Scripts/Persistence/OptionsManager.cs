@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.IO;
 using System;
 
@@ -17,9 +17,13 @@ public class OptionsManager : MonoBehaviour
 
     public OptionsModel Options => _currentOptions;
 
+    // These fields can be null if this component is not added to a scenario scene (eg. main menu)
+    [Header("Models")]
     [SerializeField] private HUDPresenter _hudPresenter;
-    [SerializeField] private Camera _playerCamera;
-    [SerializeField] private PlayerLook _playerLook; 
+    [SerializeField] private PlayerLook _playerLook;
+
+    [Header("Settings")]
+    [SerializeField] private bool _isCameraFOVApplied = true;
 
     private const string SAVE_FILE_NAME = "options.json";
 
@@ -96,8 +100,16 @@ public class OptionsManager : MonoBehaviour
     {
         ApplySensitivityOptions(options.HorizontalSensitivity, options.VerticalSensitivity);
 
-        _hudPresenter.ShowTelemetry(options.IsMetricsShown);
-        Camera.main.fieldOfView = options.FieldOfView;
+        if (_hudPresenter != null)
+        {
+            _hudPresenter.ShowTelemetry(options.IsMetricsShown);
+        }
+
+        if (Camera.main != null && _isCameraFOVApplied)
+        {
+            Camera.main.fieldOfView = options.FieldOfView;
+        }
+
         Application.targetFrameRate = options.MaxFramerate;
         OnShowMetricsApplied?.Invoke(options.IsMetricsShown);
         OnShowObjectTrajectoryApplied?.Invoke(options.IsObjectTrajectoryShown);
@@ -107,8 +119,11 @@ public class OptionsManager : MonoBehaviour
 
     private void ApplySensitivityOptions(int horizontalSensitivity, int verticalSensitivity)
     {
-        _playerLook.HorizontalSensitivity = SensitivityOptionToActualSensitivity(horizontalSensitivity);
-        _playerLook.VerticalSensitivity = SensitivityOptionToActualSensitivity(verticalSensitivity);
+        if (_playerLook != null)
+        {
+            _playerLook.HorizontalSensitivity = SensitivityOptionToActualSensitivity(horizontalSensitivity);
+            _playerLook.VerticalSensitivity = SensitivityOptionToActualSensitivity(verticalSensitivity);
+        }
     }
 
     private float SensitivityOptionToActualSensitivity(int sensitivityOption)

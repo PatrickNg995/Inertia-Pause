@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,8 @@ using UnityEngine;
 public class ScenarioInfo : ScriptableObject
 {
     public string ScenarioName;
+    public string EnvironmentSceneName;
+    public string ScenarioAssetsSceneName;
     [TextArea] public string Description;
     public Sprite Thumbnail;
     public ScenarioDifficulty Difficulty;
@@ -25,6 +27,6 @@ public class ScenarioInfo : ScriptableObject
 public class ScenarioObjectives
 {
     public List<string> MainObjectives;
-    public List<string> OptionalObjectives;
+    public List<OptionalObective> OptionalObjectives;
     public int ActionLimit;
 }

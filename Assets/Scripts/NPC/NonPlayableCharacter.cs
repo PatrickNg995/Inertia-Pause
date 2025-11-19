@@ -1,10 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Animations;
 
 public class NPC : MonoBehaviour, IPausable
 {
     [Header("NPC Look Target")]
     // The object the NPC should be facing.
     [SerializeField] private GameObject _lookTarget;
+
+    [Header("NPC Components")]
+    [SerializeField] private Animator _animator;
+    [SerializeField] private Rigidbody _rb;
+    [SerializeField] private Collider _collider;
+
+    [Header("Accessory References")]
+    // Constraints of accessories the NPC may have, used to make the NPC let go of them on death.
+    [SerializeField] private List<ParentConstraint> _accessoryConstraints;
+
+    // Rigidbodies of accessories the NPC may have, used to include them in ragdoll physics on death.
+    [SerializeField] private List<Rigidbody> _accessoryRigidbodies;
 
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
@@ -19,21 +34,23 @@ public class NPC : MonoBehaviour, IPausable
     private Vector3 _pausedPosition;
     private Quaternion _pausedRotation;
 
-    // References to components.
-    private Rigidbody _rb;
-    private Animator _animator;
-    private Collider _collider;
+    // References to children components.
+    private List<Rigidbody> _rigidbodies;
+    private List<Collider> _colliders;
 
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
+    // Tracks the GameObject responsible for the NPC's most recent death (if any).
+    public GameObject LastCauseOfDeath { get; private set; }
+
     private void Awake()
     {
-        // Cache references to components.
-        _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
-        _collider = GetComponent<Collider>();
-
+        // Cache references to all children components.
+        _rigidbodies = GetComponentsInChildren<Rigidbody>().ToList();
+        _rigidbodies.AddRange(_accessoryRigidbodies);
+        _colliders = GetComponentsInChildren<Collider>().ToList();
+        
         // Record initial position for determining fall death.
         _initialPosition = transform.position;
 
@@ -61,19 +78,20 @@ public class NPC : MonoBehaviour, IPausable
 
     private void OnCollisionEnter(Collision collision)
     {
+        GameObject collisionObject = collision.gameObject;
         float fallDistance = _initialPosition.y - transform.position.y;
 
         // Check for lethal collisions.
-        if (collision.gameObject.CompareTag("Lethal"))
+        if (collisionObject.CompareTag("Lethal"))
         {
-            Die();
+            Die(collisionObject);
         }
 
         // Check if NPC fell a lethal distance.
         if (fallDistance >= LETHAL_FALL_THRESHOLD)
         {
             // Apply downward hit force to simulate impact.
-            ApplyHit(Vector3.down * FALL_HIT_FORCE, transform.position);
+            ApplyHit(collisionObject, Vector3.down * FALL_HIT_FORCE, transform.position);
         }
     }
 
@@ -103,66 +121,71 @@ public class NPC : MonoBehaviour, IPausable
         SetRigidbodyState(true);
         SetColliderState(false);
 
+        // Enable accessory constraints.
+        SetConstraintState(true);
+
         // Revive NPC if dead.
         if (!IsAlive)
         {
             IsAlive = true;
         }
+
+        LastCauseOfDeath = null;
     }
 
-    public void Die()
+    public void Die(GameObject cause)
     {
+        GameManager.Instance.RecordNpcDeath(cause);
+
         // Disable animator, enable ragdoll physics.
         _animator.enabled = false;
         SetRigidbodyState(false);
         SetColliderState(true);
 
+        // Disable accessory constraints.
+        SetConstraintState(false);
+
         IsAlive = false;
     }
 
-    public void ApplyHit(Vector3 impulse, Vector3 hitPoint)
+    public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
     {
         // Enable ragdoll
-        Die();
+        Die(cause);
 
         // Apply impulse to each child rigidbody at the hit point so the ragdoll reacts naturally.
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in rigidbodies)
+        foreach (Rigidbody rb in _rigidbodies)
         {
             if (rb != null && !rb.isKinematic)
             {
                 rb.AddForceAtPosition(impulse, hitPoint, ForceMode.Impulse);
             }
         }
-
-        // Also apply to root rigidbody if present and non-kinematic.
-        Rigidbody rootRb = GetComponent<Rigidbody>();
-        if (rootRb != null && !rootRb.isKinematic)
-        {
-            rootRb.AddForce(impulse, ForceMode.Impulse);
-        }
     }
 
     private void SetRigidbodyState(bool state)
     {
-
-        Rigidbody[] rigidbodies = GetComponentsInChildren<Rigidbody>();
-
-        foreach (Rigidbody rigidbody in rigidbodies)
+        foreach (Rigidbody rb in _rigidbodies)
         {
-            rigidbody.isKinematic = state;
+            rb.isKinematic = state;
         }
         _rb.isKinematic = !state;
     }
 
     private void SetColliderState(bool state)
     {
-        Collider[] colliders = GetComponentsInChildren<Collider>();
-
-        foreach (Collider collider in colliders)
+        foreach (Collider collider in _colliders)
         {
             collider.enabled = state;
         }
         _collider.enabled = !state;
+    }
+
+    private void SetConstraintState(bool state)
+    {
+        foreach (ParentConstraint constraint in _accessoryConstraints)
+        {
+            constraint.enabled = state;
+        }
     }
 }

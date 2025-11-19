@@ -5,16 +5,16 @@ public class ShelfBehaviour : InteractionObject, IPausable
 {
     [SerializeField] private float _torque = 2000f;
     // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
-    //[SerializeField] private float _timeToTilt = 0.1f;
+    [SerializeField] private float _timeToTilt = 0.1f;
 
     private Rigidbody _rb;
     private Vector3 _pausedPosition;
     private Quaternion _pausedRotation;
-    //private bool _paused = false;
-    //private Vector3 _rotationalVelocity;
-    //private Vector3 _velocity;
-    //private float _timeSincePause;
-    public bool IsToppled { get; set; }
+    private bool _paused = false;
+    private Vector3 _rotationalVelocity;
+    private Vector3 _velocity;
+    private float _timeSincePause;
+    private bool _isToppled;
 
     private void Start()
     {
@@ -26,20 +26,23 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     private void Update()
     {
-        //if (_paused && HasTakenAction && _timeSincePause >= 0)
-        //{
-        //    _timeSincePause += Time.deltaTime;
-        //}
+        if (_paused && HasTakenAction && _timeSincePause >= 0)
+        {
+            _timeSincePause += Time.deltaTime;
+        }
 
-        //if (_paused && _timeSincePause >= _timeToTilt)
-        //{
-        //    _rotationalVelocity = _rb.angularVelocity;
-        //    _velocity = _rb.linearVelocity;
+        if (_paused && _timeSincePause >= _timeToTilt)
+        {
+            if (_rotationalVelocity == Vector3.zero || _velocity == Vector3.zero)
+            {
+                _rotationalVelocity = _rb.angularVelocity;
+                _velocity = _rb.linearVelocity;
+            }
 
-        //    _rb.isKinematic = true;
-        //    // for the guard position to not modify the velocities
-        //    _timeSincePause = -1;
-        //}
+            _rb.isKinematic = true;
+            // for the guard position to not modify the velocities
+            _timeSincePause = -1;
+        }
     }
 
     public override void OnCancelInteract()
@@ -54,6 +57,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
         // Set up and execute the topple command, in the right direction.
         ActionCommand = new ToppleCommand(this, _rb, transform.right, _torque);
+        _rb.isKinematic = false;
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
@@ -72,14 +76,19 @@ public class ShelfBehaviour : InteractionObject, IPausable
         if (!HasTakenAction) return;
 
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
-        //_timeSincePause = 0f;
+        _timeSincePause = 0f;
     }
 
-    //public override void OnCommandUndo()
-    //{
-    //    _timeSincePause = 0f;
-    //    _rb.isKinematic = false;
-    //}
+    public override void OnCommandRedo()
+    {
+        _isToppled = true;
+    }
+
+    public override void OnCommandUndo()
+    {
+        _timeSincePause = 0f;
+        _isToppled = false;
+    }
 
     public void Pause()
     {
@@ -90,10 +99,10 @@ public class ShelfBehaviour : InteractionObject, IPausable
         }
 
         _rb.isKinematic = true;
-        
-        //_timeSincePause = 0f;
 
-        //_paused = true;
+        _timeSincePause = 0f;
+
+        _paused = true;
     }
 
     public void Unpause()
@@ -103,12 +112,13 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
         _rb.isKinematic = false;
 
-        //_rb.linearVelocity = _velocity;
-        //_rb.angularVelocity = _rotationalVelocity;
+        if (_isToppled)
+        {
+            _rb.linearVelocity = _velocity;
+            _rb.angularVelocity = _rotationalVelocity;
+        }
 
-        //_paused = false;
-
-        if (IsToppled) _rb.AddForce(transform.forward * _torque);
+        _paused = false;
     }
 
     public void ResetStateBeforeUnpause()

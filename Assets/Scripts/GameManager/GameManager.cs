@@ -74,19 +74,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action<LevelResults> OnLevelComplete;
 
-    // Count of actions taken in the current level.
-    private int _actionCount = 0;
-
-    // Stack holding the state of objects prior to an action.
-    private List<ActionCommand> _undoCommandList = new List<ActionCommand>();
-
-    // Stack holding the state of objects prior to an undo.
-    private List<ActionCommand> _redoCommandList = new List<ActionCommand>();
-
     // Lists of enemies and allies in the scene.
     private List<GameObject> _listOfEnemies = new List<GameObject>();
     private List<GameObject> _listOfAllies = new List<GameObject>();
     private List<GameObject> _listOfCivilians = new List<GameObject>();
+
+    // List of animation Scripts
+    private List<AllyAnimationScript> _allyAnimationScripts = new List<AllyAnimationScript>();
+    private List<CivilianAnimationScript> _civilianAnimationScripts = new List<CivilianAnimationScript>();
 
     // For player input actions.
     private PlayerActions _inputActions;
@@ -94,6 +89,9 @@ public class GameManager : MonoBehaviour
     private InputAction _redo;
     private InputAction _unpause;
     private InputAction _pauseMenu;
+
+    // Command manager that handles logic for undo/redo and action count.
+    private CommandManager _commandManager;
 
     /// <summary>
     /// Whether the level has been won.
@@ -103,7 +101,20 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Number of actions taken in the current level.
     /// </summary>
-    public int ActionCount => _actionCount;
+    public int ActionCount => _commandManager?.ActionCount ?? 0;
+
+    /// <summary>
+    /// List holding the actions performed by the player that can be undone.
+    /// </summary>
+    public List<ActionCommand> UndoCommandList => _commandManager?.UndoCommandList;
+
+    /// <summary>
+    /// // List holding the actions that have been undone and can be redone.
+    /// </summary>
+    public List<ActionCommand> RedoCommandList => _commandManager?.RedoCommandList;
+
+    // List of causes of death for NPCs.
+    public List<GameObject> ListOfCausesOfDeath { get; private set; } = new List<GameObject>();
 
     /// <summary>
     /// Instance of the GameManager singleton used to access GameManager functionality.
@@ -122,10 +133,21 @@ public class GameManager : MonoBehaviour
             Instance = this;
         }
 
+        // Create command manager and wire events.
+        _commandManager = new CommandManager();
+        _commandManager.OnActionUpdate += count => OnActionUpdate?.Invoke(count);
+        _commandManager.OnUndoAvailable += () => OnUndoAvailable?.Invoke();
+        _commandManager.OnUndoUnavailable += () => OnUndoUnavailable?.Invoke();
+        _commandManager.OnRedoAvailable += () => OnRedoAvailable?.Invoke();
+        _commandManager.OnRedoUnavailable += () => OnRedoUnavailable?.Invoke();
+
         // Get list of enemies and allies in the scene for use in determining victory.
         _listOfEnemies = GetDirectChildrenOfObject(_enemies);
         _listOfAllies = GetDirectChildrenOfObject(_allies);
         _listOfCivilians = GetDirectChildrenOfObject(_civilians);
+
+        _allyAnimationScripts = GetComponentsFromObjects<AllyAnimationScript>(_listOfAllies);
+        _civilianAnimationScripts = GetComponentsFromObjects<CivilianAnimationScript>(_listOfCivilians);
 
         // Set up input actions.
         _inputActions = new PlayerActions();
@@ -133,6 +155,31 @@ public class GameManager : MonoBehaviour
         _redo = _inputActions.Ingame.Redo;
         _unpause = _inputActions.Ingame.TimePause;
         _pauseMenu = _inputActions.Ingame.PauseMenu;
+    }
+
+    private List<T> GetComponentsFromObjects<T>(List<GameObject> objects) where T : Component
+    {
+        List<T> result = new List<T>(objects.Count);
+
+        foreach (GameObject go in objects)
+        {
+            T component = go.GetComponent<T>();
+            if (component == null)
+            {
+                component = go.GetComponentInChildren<T>();
+            }
+
+            if (component != null)
+            {
+                result.Add(component);
+            }
+            else
+            {
+                Debug.LogWarning($"No {typeof(T).Name} found on or under {go.name}");
+            }
+        }
+
+        return result;
     }
 
     private void OnEnable()
@@ -181,6 +228,9 @@ public class GameManager : MonoBehaviour
 
     public void RewindLevel()
     {
+        // Clear causes of death list.
+        ListOfCausesOfDeath.Clear();
+
         // Reset player position and rotation.
         _playerMovement.ResetPlayerPosition();
 
@@ -238,21 +288,35 @@ public class GameManager : MonoBehaviour
         if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
         {
             LevelWon = true;
+
+            // Play Each Ally's Relieved Animation.
+            foreach (AllyAnimationScript anim in _allyAnimationScripts)
+            {
+                anim.PlayRelievedAnimation();
+            }
+
+            // Play Each Civilians Relieved Animation.
+            foreach (CivilianAnimationScript anim in _civilianAnimationScripts)
+            {
+                anim.PlayRelievedAnimation();
+            }
             Debug.Log("Level won!");
         }
         else
         {
             Debug.Log("Level lost!");
         }
+        // Evaluate optional objectives.
+        bool[] optionalResults = EvaluateOptionalObjectives();
 
+        // Create results struct.
         LevelResults results = new()
         {
             CiviliansRescued = civiliansAlive,
             AlliesSaved = alliesAlive,
             EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
-            // TODO: Optional objectives.
-            OptionalObjectivesComplete = new bool[2] { true, false },
-            ActionsTaken = _actionCount
+            OptionalObjectivesComplete = optionalResults,
+            ActionsTaken = ActionCount
         };
 
         // Call level complete after determining victory.
@@ -282,179 +346,53 @@ public class GameManager : MonoBehaviour
         return numAlive;
     }
 
+    public void RecordNpcDeath(GameObject cause)
+    {
+        ListOfCausesOfDeath.Add(cause);
+    }
+
+    private bool[] EvaluateOptionalObjectives()
+    {
+        bool[] optionalResults = Array.Empty<bool>();
+        if (ScenarioInfo != null && ScenarioInfo.Objectives.OptionalObjectives != null)
+        {
+            List<OptionalObective> optionalObjectives = ScenarioInfo.Objectives.OptionalObjectives;
+            optionalResults = new bool[optionalObjectives.Count];
+
+            for (int i = 0; i < optionalObjectives.Count; i++)
+            {
+                OptionalObective objective = optionalObjectives[i];
+
+                // Check if each optional objective is completed, and only count it if the level is also won.
+                optionalResults[i] = objective.CheckCompletion() && LevelWon;
+            }
+        }
+        return optionalResults;
+    }
+
     public void RecordAndExecuteCommand(ActionCommand command)
     {
-        // Execute the command.
-        command.Execute();
-
-        // Add the command to the undo list.
-        _undoCommandList.Add(command);
-
-        // Notify that undo is now available.
-        OnUndoAvailable?.Invoke();
-
-        // Clear the redo list since a new action has been performed.
-        _redoCommandList.Clear();
-        OnRedoUnavailable?.Invoke();
-
-        if (command.WillCountAsAction)
-        {
-            // Update action count.
-            _actionCount++;
-            OnActionUpdate?.Invoke(_actionCount);
-        }
-
-        Debug.Log("Action recorded. Total actions: " + _actionCount);
+        _commandManager.RecordAndExecuteCommand(command);
     }
 
     public void ResetObjectCommands(InteractionObject interactionObject, ActionCommand redoCommand)
     {
-        // Remove all the commands of the reset object from both lists.
-        RemoveCommandsOfObjectFromLists(interactionObject);
-
-        // Add the redo command to the redo list.
-        _redoCommandList.Add(redoCommand);
-
-        // Notify if there are no more actions to undo.
-        if (_undoCommandList.Count == 0)
-        {
-            OnUndoUnavailable?.Invoke();
-        }
-
-        // Notify if redo is now available.
-        if (_redoCommandList.Count == 1)
-        {
-            OnRedoAvailable?.Invoke();
-        }
+        _commandManager.ResetObjectCommands(interactionObject, redoCommand);
     }
 
     public void Undo(InputAction.CallbackContext context)
     {
-        if (_undoCommandList.Count > 0)
-        {
-            // Pop the next command to undo from the undo list and add it to the redo list.
-            ActionCommand undoCommand = PopList(_undoCommandList);
-
-            // Undo the command and add to redo list.
-            UndoAndAddToRedoList(undoCommand);
-
-            // Notify if there are no more actions to undo.
-            if (_undoCommandList.Count == 0)
-            {
-                OnUndoUnavailable?.Invoke();
-            }
-
-            Debug.Log("Action undone. Total actions: " + _actionCount);
-        }
+        _commandManager.Undo(context);
     }
 
     public void UndoSpecificCommand(ActionCommand command)
     {
-        int removeIndex = _undoCommandList.IndexOf(command);
-
-        // Undo the specific command and add to redo list.
-        UndoAndAddToRedoList(_undoCommandList[removeIndex]);
-
-        // Remove Command from undo list.
-        _undoCommandList.RemoveAt(removeIndex);
-
-        // Notify if there are no more actions to undo.
-        if (_undoCommandList.Count == 0)
-        {
-            OnUndoUnavailable?.Invoke();
-        }
-
-        Debug.Log("Specific action undone. Total actions: " + _actionCount);
+        _commandManager.UndoSpecificCommand(command);
     }
 
     public void Redo(InputAction.CallbackContext context)
     {
-        if (_redoCommandList.Count > 0)
-        {
-            // Pop the next command to redo from the redo list.
-            ActionCommand redoCommand = PopList(_redoCommandList);
-
-            // Add command to the undo list.
-            _undoCommandList.Add(redoCommand);
-
-            // Use Execute() from ICommand to perform the redo.
-            redoCommand.Execute();
-
-            if (redoCommand.WillCountAsAction)
-            {
-                // Increment action count.
-                _actionCount++;
-                OnActionUpdate?.Invoke(_actionCount);
-            }
-
-            // Notify that undo is now available.
-            OnUndoAvailable?.Invoke();
-
-            // Notify if no more redos are available.
-            if (_redoCommandList.Count == 0)
-            {
-                OnRedoUnavailable?.Invoke();
-            }
-            Debug.Log("Action redone. Total actions: " + _actionCount);
-        }
-    }
-
-    /// <summary>
-    /// Helper function to undo a command and push it to the redo stack, and update action count.
-    /// </summary>
-    /// <param name="command">Command to undo.</param>
-    private void UndoAndAddToRedoList(ActionCommand command)
-    {
-        // Use Undo() from ICommand to perform the undo.
-        command.Undo();
-
-        // Add the command to the redo list.
-        _redoCommandList.Add(command);
-
-        if (command.WillCountAsAction)
-        {
-            // Decrement action count.
-            _actionCount--;
-            OnActionUpdate?.Invoke(_actionCount);
-        }
-
-        // Notify if redo is now available.
-        if (_redoCommandList.Count == 1)
-        {
-            OnRedoAvailable?.Invoke();
-        }
-    }
-
-    /// <summary>
-    /// Removes all the commands in both the undo and redo lists that affect a specified object.
-    /// </summary>
-    /// <param name="interactionObject">The object whose commands will be removed.</param>
-    private void RemoveCommandsOfObjectFromLists(InteractionObject interactionObject)
-    {
-        // Remove all the commands of the object from both the undo and redo lists.
-        _undoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
-        _redoCommandList.RemoveAll(obj => obj.ActionObject == interactionObject);
-
-        // Decrement action count.
-        _actionCount--;
-        OnActionUpdate?.Invoke(_actionCount);
-
-        // Notify if no more redos are available.
-        if (_redoCommandList.Count == 0)
-        {
-            OnRedoUnavailable?.Invoke();
-        }
-        Debug.Log("Commands of an object removed. Total actions: " + _actionCount);
-    }
-
-    private ActionCommand PopList(List<ActionCommand> list)
-    {
-        int lastIndex = list.Count - 1;
-
-        ActionCommand command = list[lastIndex];
-        list.RemoveAt(lastIndex);
-
-        return command;
+        _commandManager.Redo(context);
     }
 
     public void AnyBlockingMenuOpened()
