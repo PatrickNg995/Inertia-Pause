@@ -5,8 +5,9 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Time Pausing")]
+    [Header("References")]
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
+    [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -318,6 +319,13 @@ public class GameManager : MonoBehaviour
             OptionalObjectivesComplete = optionalResults,
             ActionsTaken = ActionCount
         };
+
+        // Update saved level progress if level was won.
+        if (LevelWon)
+        {
+            LevelProgressInfo levelInfo = new(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName, ActionCount, optionalResults);
+            _savedLevelProgressManager.UpdateLevelProgress(levelInfo);
+        }
 
         // Call level complete after determining victory.
         OnLevelComplete?.Invoke(results);
