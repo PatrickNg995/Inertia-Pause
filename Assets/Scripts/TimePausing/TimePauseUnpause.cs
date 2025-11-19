@@ -46,6 +46,8 @@ public class TimePauseUnpause : MonoBehaviour
 
     public void PauseAllObjects()
     {
+        _hasUnpaused = false;
+
         foreach (IPausable pausable in _pausableObjects)
         {
             pausable.Pause();
@@ -76,11 +78,6 @@ public class TimePauseUnpause : MonoBehaviour
         {
             pausable.ResetStateBeforeUnpause();
         }
-    }
-
-    public void EnableTimePauseInput()
-    {
-        _timePause.Enable();
     }
 
     private void UnpauseLevel(InputAction.CallbackContext context)

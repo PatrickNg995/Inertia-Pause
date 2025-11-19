@@ -235,15 +235,13 @@ public class GameManager : MonoBehaviour
         // Re-enable undo/redo/unpause inputs.
         _undo.Enable();
         _redo.Enable();
+        EnableTimeUnpause();
 
         // Re-enable collisions on the player.
         _playerController.detectCollisions = true;
 
         // Reset replay cameras.
         _replayCameraManager.ResetCameras();
-
-        // Re-enable time unpausing.
-        _timePauseUnpause.EnableTimePauseInput();
 
         // Show objectives again.
         OnLevelStart?.Invoke();

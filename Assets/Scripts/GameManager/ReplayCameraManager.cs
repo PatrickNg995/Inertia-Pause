@@ -35,9 +35,15 @@ public class ReplayCameraManager : MonoBehaviour
     public void ResetCameras()
     {
         _playerCamera.gameObject.SetActive(true);
-
+            
         foreach (Camera cam in _replayCameras)
         {
+            // Don't disable the camera if it's the player camera.
+            if (cam == _playerCamera)
+            {
+                continue;
+            }
+
             cam.gameObject.SetActive(false);
         }
     }
