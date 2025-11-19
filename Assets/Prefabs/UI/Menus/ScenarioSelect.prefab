@@ -295,7 +295,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &4116100598128594453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,8 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _view: {fileID: 6020829190269301600}
-  _completeOptionalObjectiveColor: {r: 1, g: 1, b: 1, a: 1}
-  _incompleteOptionalObjectiveColor: {r: 0.6392157, g: 0.6745098, b: 0.8627451, a: 1}
+  _progressManager: {fileID: 0}
 --- !u!114 &6020829190269301600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1850,7 +1849,7 @@ PrefabInstance:
     - target: {fileID: 5401922196979987361, guid: 099964dd1c05a8540afd68908180a329, type: 3}
       propertyPath: _hardScenarioInfo
       value: 
-      objectReference: {fileID: 11400000, guid: 01a3e59e32fa70d469b655ca41b4b382, type: 2}
+      objectReference: {fileID: 11400000, guid: 3373c2636f597d8478db9a030e5b1340, type: 2}
     - target: {fileID: 5401922196979987361, guid: 099964dd1c05a8540afd68908180a329, type: 3}
       propertyPath: _normalScenarioInfo
       value: 
