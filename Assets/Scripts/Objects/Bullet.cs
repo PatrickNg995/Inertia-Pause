@@ -129,11 +129,11 @@ public class Bullet : MonoBehaviour, IPausable
         // Reactivate the bullet.
         gameObject.SetActive(true);
 
-        // Clear the trail.
-        _trailRenderer.Clear();
-
         // Reset position to pre-unpause state.
         transform.position = _pausedPosition;
+
+        // Clear the trail.
+        _trailRenderer.Clear();
     }
 
     private void OnImpactEffect(Vector3 locationOnImmpact)
