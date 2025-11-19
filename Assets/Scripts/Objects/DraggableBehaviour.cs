@@ -4,6 +4,8 @@ public class DraggableBehaviour : InteractionObject
 {
     [SerializeField] private float _dragSpeed = 10f;
     [SerializeField] private float _maxDragDistance = 1f;
+    [SerializeField] private DragBoundary _boundary;
+    [SerializeField] private DragIndicator _indicator;
 
     private Transform _playerCamera;
     private Vector3 _resetPosition;
@@ -31,6 +33,13 @@ public class DraggableBehaviour : InteractionObject
         _moveStartPosition = transform.position;
         
         _yPosition = transform.position.y;
+
+        if (_indicator != null)
+        {
+            _indicator.Enable();
+            _indicator.DrawLine();
+        }
+        _boundary.ShowCircle(true);
     }
 
     public override void OnHoldInteract()
@@ -49,6 +58,8 @@ public class DraggableBehaviour : InteractionObject
         {
             transform.position = nextPosition;
         }
+
+        if (_indicator != null) _indicator.DrawLine();
     }
 
     public override void OnEndInteract()
@@ -62,6 +73,8 @@ public class DraggableBehaviour : InteractionObject
         
         HasTakenAction = true;
         _dragging = false;
+        if (_indicator != null) _indicator.Disable();
+        _boundary.ShowCircle(false);
     }
 
     public override void OnCancelInteract()
@@ -71,6 +84,8 @@ public class DraggableBehaviour : InteractionObject
         _dragging = false;
 
         transform.position = _moveStartPosition;
+        if (_indicator != null) _indicator.Disable();
+        _boundary.ShowCircle(false);
     }
 
     public override void OnResetInteract()
@@ -81,5 +96,7 @@ public class DraggableBehaviour : InteractionObject
         GameManager.Instance.ResetObjectCommands(this, ActionCommand);
         transform.position = _resetPosition;
         HasTakenAction = false;
+        if (_indicator != null) _indicator.Disable();
+        _boundary.ShowCircle(false);
     }
 }
