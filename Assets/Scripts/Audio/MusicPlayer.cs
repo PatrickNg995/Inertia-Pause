@@ -8,7 +8,6 @@ public class MusicPlayer : MonoBehaviour
     #region Constants
 
     private const float FADE_TIME_USE_DEFAULT = -1f;
-    private const float STOP_FADE_TIME_INSTANT = 0f;
     private const float STOP_FADE_TIME_DEFAULT = 0.5f;
 
     #endregion
@@ -77,15 +76,15 @@ public class MusicPlayer : MonoBehaviour
 
     #region Public API
 
-    public void PlayImmediate(int trackId)
+    public void PlayImmediate(int trackIndex)
     {
-        if (!IsValidTrackId(trackId))
+        if (!IsValidTrackIndex(trackIndex))
         {
-            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackId);
+            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackIndex);
             return;
         }
 
-        MusicTrack track = _tracks[trackId];
+        MusicTrack track = _tracks[trackIndex];
 
         if (_fadeCoroutine != null)
         {
@@ -101,11 +100,11 @@ public class MusicPlayer : MonoBehaviour
         _activeSource.Play();
     }
 
-    public void CrossfadeTo(int trackId, float fadeTime = FADE_TIME_USE_DEFAULT)
+    public void CrossfadeTo(int trackIndex, float fadeTime = FADE_TIME_USE_DEFAULT)
     {
-        if (!IsValidTrackId(trackId))
+        if (!IsValidTrackIndex(trackIndex))
         {
-            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackId);
+            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackIndex);
             return;
         }
 
@@ -119,7 +118,7 @@ public class MusicPlayer : MonoBehaviour
             StopCoroutine(_fadeCoroutine);
         }
 
-        MusicTrack track = _tracks[trackId];
+        MusicTrack track = _tracks[trackIndex];
         _fadeCoroutine = StartCoroutine(CrossfadeCoroutine(track, fadeTime));
     }
 
@@ -131,7 +130,7 @@ public class MusicPlayer : MonoBehaviour
             _fadeCoroutine = null;
         }
 
-        if (fadeTime <= STOP_FADE_TIME_INSTANT)
+        if (fadeTime <= 0)
         {
             _activeSource.Stop();
             _fadeSource.Stop();
@@ -155,7 +154,7 @@ public class MusicPlayer : MonoBehaviour
 
     #region Helpers
 
-    private bool IsValidTrackId(int id)
+    private bool IsValidTrackIndex(int id)
     {
         return id >= 0 && id < _tracks.Count;
     }
