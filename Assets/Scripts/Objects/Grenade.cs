@@ -46,42 +46,13 @@ public class Grenade : MonoBehaviour, IPausable
             _grenadeCurrentExplosionDelay -= Time.deltaTime;
             if (_grenadeCurrentExplosionDelay < 0)
             {
-                TriggerExplosion();
+                _canExplode = false;
+                _sphereCollider.enabled = false; // Stop collisions.
+                _meshRenderer.enabled = false; // Remove visuals.
+                _rb.isKinematic = true; // Stop movement.
+                _explosionScript.StartExplosion();
             }
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!_canExplode)
-        {
-            return;
-        }
-
-        // Explode on contact with a lethal object.
-        if (other.CompareTag("Lethal"))
-        {
-            TriggerExplosion();
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Stop on contact with an NPC
-        if (collision.gameObject.CompareTag("Ally") 
-            || collision.gameObject.CompareTag("Enemy"))
-        {
-            _rb.linearVelocity = Vector3.zero;
-        }
-    }
-
-    private void TriggerExplosion()
-    {
-        _canExplode = false;
-        _sphereCollider.enabled = false; // Stop collisions.
-        _meshRenderer.enabled = false; // Remove visuals.
-        _rb.isKinematic = true; // Stop movement.
-        _explosionScript.StartExplosion();
     }
 
     // Stop timer countdown on pause.
@@ -89,7 +60,14 @@ public class Grenade : MonoBehaviour, IPausable
     {
         _canExplode = false;
 
-        _savedVelocity = transform.forward * _grenadeInitialSpeed;
+        if (_rb.linearVelocity == Vector3.zero)
+        {
+            _savedVelocity = transform.forward * _grenadeInitialSpeed;
+        }
+        else
+        {
+            _savedVelocity = _rb.linearVelocity;
+        }
 
         _rb.isKinematic = true;
         _sphereCollider.isTrigger = true;
