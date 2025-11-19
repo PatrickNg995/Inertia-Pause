@@ -2,57 +2,67 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(AudioSource))]
 public class MusicPlayer : MonoBehaviour
 {
-    // ---------- Singleton ----------
+    #region Constants
+
+    private const float FADE_TIME_USE_DEFAULT = -1f;
+    private const float STOP_FADE_TIME_INSTANT = 0f;
+    private const float STOP_FADE_TIME_DEFAULT = 0.5f;
+
+    #endregion
+
+    #region Singleton
+
     public static MusicPlayer Instance { get; private set; }
 
-    [Header("Tracks")]
-    [Tooltip("Define all background music tracks here, referenced by an ID (e.g. 'office', 'bridge', 'city_center').")]
-    [SerializeField] private List<MusicTrack> _tracks = new List<MusicTrack>();
+    #endregion
+
+    #region Serialized Fields
+
+    [Header("Tracks (Index = Track ID)")]
+    [SerializeField]
+    private List<MusicTrack> _tracks = new List<MusicTrack>();
 
     [Header("Crossfade Settings")]
-    [SerializeField, Tooltip("Default fade duration when crossfading between tracks.")]
+    [SerializeField]
     private float _defaultFadeTime = 1.5f;
 
-    [SerializeField, Tooltip("Master volume for all music.")]
-    [Range(0f, 1f)] private float _masterVolume = 1f;
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float _masterVolume = 1f;
 
-    [Header("Scene to Track Mapping (Optional)")]
-    [Tooltip("If enabled, this will automatically pick a track when a scene is loaded.")]
-    [SerializeField] private bool _autoPlayOnSceneLoad = false;
-
-    [SerializeField, Tooltip("Map scene names to track IDs here.")]
-    private List<SceneTrackMapping> _sceneTrackMappings = new List<SceneTrackMapping>();
-
+    [Header("Audio Sources (Assign in Inspector)")]
+    [SerializeField]
     private AudioSource _activeSource;
+
+    [SerializeField]
     private AudioSource _fadeSource;
+
+    #endregion
+
+    #region Private Fields
 
     private Coroutine _fadeCoroutine;
 
-    // ---------- Data Types ----------
+    #endregion
+
+    #region Data Types
+
     [Serializable]
     private struct MusicTrack
     {
-        public string id;
         public AudioClip clip;
         [Range(0f, 1f)] public float volume;
     }
 
-    [Serializable]
-    private struct SceneTrackMapping
-    {
-        public string sceneName;
-        public string trackId;
-    }
+    #endregion
 
-    // ---------- Unity Lifecycle ----------
+    #region Unity Lifecycle
+
     private void Awake()
     {
-        // Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -61,55 +71,21 @@ public class MusicPlayer : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        // Setup sources
-        _activeSource = GetComponent<AudioSource>();
-        _activeSource.playOnAwake = false;
-        _activeSource.loop = true;
-
-        _fadeSource = gameObject.AddComponent<AudioSource>();
-        _fadeSource.playOnAwake = false;
-        _fadeSource.loop = true;
-
-        _activeSource.volume = 0f;
-        _fadeSource.volume = 0f;
-
-        if (_autoPlayOnSceneLoad)
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
     }
 
-    private void OnDestroy()
+    #endregion
+
+    #region Public API
+
+    public void PlayImmediate(int trackId)
     {
-        if (Instance == this)
+        if (!IsValidTrackId(trackId))
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (!_autoPlayOnSceneLoad) return;
-
-        string sceneName = scene.name;
-        string trackId = GetTrackIdForScene(sceneName);
-
-        if (!string.IsNullOrEmpty(trackId))
-        {
-            CrossfadeTo(trackId, _defaultFadeTime);
-        }
-    }
-
-    // ---------- Public API ----------
-    public void PlayImmediate(string trackId)
-    {
-        MusicTrack? track = FindTrack(trackId);
-        if (track == null)
-        {
-            Debug.LogWarning("[MusicPlayer] Track ID '" + trackId + "' not found.");
+            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackId);
             return;
         }
+
+        MusicTrack track = _tracks[trackId];
 
         if (_fadeCoroutine != null)
         {
@@ -117,34 +93,37 @@ public class MusicPlayer : MonoBehaviour
             _fadeCoroutine = null;
         }
 
-        ApplyTrackToSource(_activeSource, track.Value);
+        ApplyTrackToSource(_activeSource, track);
         _fadeSource.Stop();
         _fadeSource.clip = null;
 
-        _activeSource.volume = track.Value.volume * _masterVolume;
+        _activeSource.volume = track.volume * _masterVolume;
         _activeSource.Play();
     }
 
-    public void CrossfadeTo(string trackId, float fadeTime = -1f)
+    public void CrossfadeTo(int trackId, float fadeTime = FADE_TIME_USE_DEFAULT)
     {
-        MusicTrack? track = FindTrack(trackId);
-        if (track == null)
+        if (!IsValidTrackId(trackId))
         {
-            Debug.LogWarning("[MusicPlayer] Track ID '" + trackId + "' not found.");
+            Debug.LogWarning("[MusicPlayer] Invalid track ID: " + trackId);
             return;
         }
 
-        if (fadeTime < 0f) fadeTime = _defaultFadeTime;
+        if (fadeTime == FADE_TIME_USE_DEFAULT)
+        {
+            fadeTime = _defaultFadeTime;
+        }
 
         if (_fadeCoroutine != null)
         {
             StopCoroutine(_fadeCoroutine);
         }
 
-        _fadeCoroutine = StartCoroutine(CrossfadeCoroutine(track.Value, fadeTime));
+        MusicTrack track = _tracks[trackId];
+        _fadeCoroutine = StartCoroutine(CrossfadeCoroutine(track, fadeTime));
     }
 
-    public void StopMusic(float fadeTime = 0.5f)
+    public void StopMusic(float fadeTime = STOP_FADE_TIME_DEFAULT)
     {
         if (_fadeCoroutine != null)
         {
@@ -152,7 +131,7 @@ public class MusicPlayer : MonoBehaviour
             _fadeCoroutine = null;
         }
 
-        if (fadeTime <= 0f)
+        if (fadeTime <= STOP_FADE_TIME_INSTANT)
         {
             _activeSource.Stop();
             _fadeSource.Stop();
@@ -172,15 +151,13 @@ public class MusicPlayer : MonoBehaviour
         _fadeSource.volume *= _masterVolume;
     }
 
-    // ---------- Helpers ----------
-    private MusicTrack? FindTrack(string trackId)
+    #endregion
+
+    #region Helpers
+
+    private bool IsValidTrackId(int id)
     {
-        foreach (var track in _tracks)
-        {
-            if (string.Equals(track.id, trackId, StringComparison.OrdinalIgnoreCase))
-                return track;
-        }
-        return null;
+        return id >= 0 && id < _tracks.Count;
     }
 
     private void ApplyTrackToSource(AudioSource source, MusicTrack track)
@@ -188,16 +165,6 @@ public class MusicPlayer : MonoBehaviour
         source.clip = track.clip;
         source.loop = true;
         source.volume = track.volume * _masterVolume;
-    }
-
-    private string GetTrackIdForScene(string sceneName)
-    {
-        foreach (var mapping in _sceneTrackMappings)
-        {
-            if (string.Equals(mapping.sceneName, sceneName, StringComparison.OrdinalIgnoreCase))
-                return mapping.trackId;
-        }
-        return null;
     }
 
     private IEnumerator CrossfadeCoroutine(MusicTrack nextTrack, float duration)
@@ -216,6 +183,7 @@ public class MusicPlayer : MonoBehaviour
         float targetNewVolume = nextTrack.volume * _masterVolume;
 
         float time = 0f;
+
         while (time < duration)
         {
             time += Time.unscaledDeltaTime;
@@ -240,6 +208,7 @@ public class MusicPlayer : MonoBehaviour
         float startVolB = _fadeSource.volume;
 
         float time = 0f;
+
         while (time < duration)
         {
             time += Time.unscaledDeltaTime;
@@ -258,4 +227,6 @@ public class MusicPlayer : MonoBehaviour
 
         _fadeCoroutine = null;
     }
+
+    #endregion
 }
