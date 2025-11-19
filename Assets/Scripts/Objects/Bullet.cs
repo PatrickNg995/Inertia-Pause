@@ -1,8 +1,13 @@
 ﻿using NUnit.Framework;
+using UnityEditor.PackageManager;
 using UnityEngine;
+using static UnityEngine.LightAnchor;
 
 public class Bullet : MonoBehaviour, IPausable
 {
+    [Header("References")]
+    [SerializeField] private TrailRenderer _trailRenderer;
+
     [Header("Impact Effect Prefab")]
     [SerializeField] private GameObject _impactEffectPrefab;
 
@@ -38,7 +43,19 @@ public class Bullet : MonoBehaviour, IPausable
     {
         if (!_canKill) return;
 
-        OnImpactEffect(other);
+        // Vector3 contactPoint = other.ClosestPoint(transform.position);
+
+        // Vector3 contactDirection = (other.transform.position - transform.position);
+        // Vector3 contactPoint = transform.position + contactDirection;
+
+        RaycastHit hit;
+        float maxDistance = 0.5f;
+        Ray ray = new Ray(transform.position, transform.forward);
+        Physics.Raycast(ray, out hit);
+        Vector3 contactPoint = hit.point + hit.normal * 0.01f;
+        
+
+        OnImpactEffect(contactPoint);
 
         // If it was an NPC, apply hit.
         if (other.CompareTag("Ally") || other.CompareTag("Enemy"))
@@ -86,11 +103,12 @@ public class Bullet : MonoBehaviour, IPausable
     {
         _canKill = false;
 
+        _trailRenderer.emitting = false;
+
         if (_rb.linearVelocity == Vector3.zero)
         {
             _savedVelocity = transform.forward * _bulletSpeed;
         }
-
         else
         {
             _savedVelocity = _rb.linearVelocity;
@@ -106,6 +124,8 @@ public class Bullet : MonoBehaviour, IPausable
 
         _canKill = true;
 
+        _trailRenderer.emitting = true;
+
         _rb.isKinematic = false;
         _rb.linearVelocity = _savedVelocity;
     }
@@ -115,15 +135,17 @@ public class Bullet : MonoBehaviour, IPausable
         // Reactivate the bullet.
         gameObject.SetActive(true);
 
+        // Clear the trail.
+        _trailRenderer.Clear();
+
         // Reset position to pre-unpause state.
         transform.position = _pausedPosition;
     }
 
-    private void OnImpactEffect(Collider collider)
+    private void OnImpactEffect(Vector3 locationOnImmpact)
     {
-        //Vector3 hitPoint = collider.ClosestPoint(transform.position);
-        Quaternion impactRotation = transform.rotation * Quaternion.Euler(0, 180, 0);
+        Quaternion impactRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
 
-        Instantiate(_impactEffectPrefab, transform.position, impactRotation);
+        Instantiate(_impactEffectPrefab, locationOnImmpact, impactRotation);
     }
 }
