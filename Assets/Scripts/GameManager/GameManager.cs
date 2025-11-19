@@ -392,6 +392,12 @@ public class GameManager : MonoBehaviour
 
     public void Undo(InputAction.CallbackContext context)
     {
+        if (_playerInteract.IsInteracting)
+        {
+            Debug.Log("Undo attempted while interacting with an object, ignoring command.");
+            return;
+        }
+
         _commandManager.Undo(context);
     }
 
@@ -402,6 +408,12 @@ public class GameManager : MonoBehaviour
 
     public void Redo(InputAction.CallbackContext context)
     {
+        if (_playerInteract.IsInteracting)
+        {
+            Debug.Log("Redo attempted while interacting with an object, ignoring command.");
+            return;
+        }
+
         _commandManager.Redo(context);
     }
 

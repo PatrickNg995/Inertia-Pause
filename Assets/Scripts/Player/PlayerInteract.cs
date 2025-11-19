@@ -39,6 +39,8 @@ public class PlayerInteract : MonoBehaviour
     /// </summary>
     public Action<TutorialInfo> OnTutorialOpen;
 
+    public bool IsInteracting => _isInteracting;
+
     [SerializeField] private float _interactionDistance = 2;
 
     private Transform _pivot;
