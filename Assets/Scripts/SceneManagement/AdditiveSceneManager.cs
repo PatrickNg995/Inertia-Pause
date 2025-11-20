@@ -146,15 +146,15 @@ public class AdditiveSceneManager : MonoBehaviour
     // Loads multiple scenes concurrently.
     private IEnumerator LoadScenesAsync(IEnumerable<string> scenes)
     {
-        AsyncOperation[] operations = new AsyncOperation[scenes.Count()];
+        AsyncOperation[] operations = new AsyncOperation[scenes.Count() - 1];
 
-        // Start loading all scenes.
-        for (int i = 0; i < scenes.Count(); i++)
+        // Start loading all scenes except the first.
+        for (int i = 1; i < scenes.Count(); i++)
         {
             string scene = scenes.ElementAt(i);
             Debug.Log($"Load scene {scene}");
-            operations[i] = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
-            operations[i].allowSceneActivation = false;
+            operations[i - 1] = SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
+            operations[i - 1].allowSceneActivation = false;
         }
 
         // Wait for all scenes to finish loading.
@@ -169,8 +169,11 @@ public class AdditiveSceneManager : MonoBehaviour
             operation.allowSceneActivation = true;
         }
 
+        // Load the first scene.
+        AsyncOperation firstSceneLoad = SceneManager.LoadSceneAsync(scenes.First(), LoadSceneMode.Additive);
+
         // Set the first scene as the active scene after it is activated.
-        yield return new WaitUntil(() => operations[0].isDone);
+        yield return new WaitUntil(() => firstSceneLoad.isDone);
         SceneManager.SetActiveScene(SceneManager.GetSceneByName(scenes.First()));
     }
 
