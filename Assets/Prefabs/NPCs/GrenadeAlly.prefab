@@ -655,13 +655,13 @@ PrefabInstance:
       addedObject: {fileID: 4834809398928622970}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1507944757310043346}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7996456645652841449}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1386896465317072539}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4623063568577358531}
     - targetCorrespondingSourceObject: {fileID: -766917891154793864, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5653142514890787424}
@@ -1830,23 +1830,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: d2502424243daa6489d35ec51e07982b, type: 2}
-  _dragSpeed: 10
-  _maxDragDistance: 1
+  _collider: {fileID: 0}
   _boundary: {fileID: 7996456645652841449}
   _indicator: {fileID: 1386896465317072539}
---- !u!114 &1507944757310043346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8613579500300813949}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5536ffe56016c42aa7ce1133a23689, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 3036104080038151869}
+  _dragSpeed: 10
+  _maxDragDistance: 1
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
+  _collisionCheckMethod: 0
 --- !u!114 &7996456645652841449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1879,6 +1870,19 @@ MonoBehaviour:
   _isFallingIndicator: 1
   _lineLength: 5
   _lineWidth: 0.01
+--- !u!114 &4623063568577358531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8613579500300813949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa1c71ff6d47f945bfebcc164b3de08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 3036104080038151869}
 --- !u!4 &8989822880648010951 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
