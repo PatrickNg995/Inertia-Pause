@@ -11,7 +11,7 @@ public enum KillRequirementMode
 
 [Serializable]
 [CreateAssetMenu(fileName = "NewCauseOfDeathObjective", menuName = "Inertia Pause/Cause of Death Objective")]
-public class CauseOfDeathObjective : OptionalObective
+public class CauseOfDeathObjective : OptionalObjective
 {
     [Tooltip("The tag of the object type to require for the objective (the tag should be plural, e.g. 'Bullets').")]
     [SerializeField] private string _objectTypeTagToRequire;

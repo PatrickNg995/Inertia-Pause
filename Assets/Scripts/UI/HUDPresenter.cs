@@ -140,6 +140,8 @@ public class HUDPresenter : MonoBehaviour
 
         _view.PromptsLooking.SetActive(false);
         _view.PromptsInteracting.SetActive(true);
+
+        _view.ButtonPrompts.SetActive(false);
     }
 
     private void OnPlayerEndInteraction(InteractableObjectInfo interactable)
@@ -149,6 +151,8 @@ public class HUDPresenter : MonoBehaviour
 
         _view.PromptsLooking.SetActive(true);
         _view.PromptsInteracting.SetActive(false);
+
+        _view.ButtonPrompts.SetActive(true);
     }
 
     private void OnLevelStart()
