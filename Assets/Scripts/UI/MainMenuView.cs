@@ -17,4 +17,10 @@ public class MainMenuView : MonoBehaviour
     [field: SerializeField] public CustomButtonView ScenarioSelectButton { get; private set; }
     [field: SerializeField] public CustomButtonView OptionsButton { get; private set; }
     [field: SerializeField] public CustomButtonView ExitButton { get; private set; }
+
+    [field: Header("Difficulty Popup")]
+    [field: SerializeField] public GameObject DifficultyPopup { get; private set; }
+    [field: SerializeField] public CustomButtonView NormalDifficultyButton { get; private set; }
+    [field: SerializeField] public CustomButtonView HardDifficultyButton { get; private set; }
+    [field: SerializeField] public CustomButtonView DifficultyBackButton { get; private set; }
 }

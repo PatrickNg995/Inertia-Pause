@@ -14,7 +14,8 @@ public class MainMenuPresenter : MonoBehaviour
 
     private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
-    private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
+    private const string NORMAL_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
+    private const string HARD_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-hard";
 
     private AdditiveSceneManager _sceneManager;
     private PlayerActions _inputActions;
@@ -26,6 +27,7 @@ public class MainMenuPresenter : MonoBehaviour
 
         _view.gameObject.SetActive(true);
         _view.MainMenuScreen.SetActive(false);
+        _view.DifficultyPopup.SetActive(false);
         _view.StartScreen.SetActive(true);
 
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
@@ -43,6 +45,10 @@ public class MainMenuPresenter : MonoBehaviour
         _view.ScenarioSelectButton.Button.onClick.AddListener(OnScenarioSelectClicked);
         _view.OptionsButton.Button.onClick.AddListener(OnOptionsClicked);
         _view.ExitButton.Button.onClick.AddListener(OnExitClicked);
+
+        _view.NormalDifficultyButton.Button.onClick.AddListener(OnNewGamePopupNormalClicked);
+        _view.HardDifficultyButton.Button.onClick.AddListener(OnNewGamePopupHardClicked);
+        _view.DifficultyBackButton.Button.onClick.AddListener(OnNewGamePopupBackClicked);
 
         _view.ContinueButton.OnHover += ChangeHint;
         _view.NewGameButton.OnHover += ChangeHint;
@@ -90,8 +96,22 @@ public class MainMenuPresenter : MonoBehaviour
 
     private void OnNewGameClicked()
     {
-        // TODO: Add confirmation box here. "Are you sure you want to start the game from the beginning?"
-        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, FIRST_LEVEL_SCENARIO_ASSETS);
+        _view.DifficultyPopup.SetActive(true);
+    }
+
+    private void OnNewGamePopupNormalClicked()
+    {
+        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, NORMAL_FIRST_LEVEL_SCENARIO_ASSETS);
+    }
+
+    private void OnNewGamePopupHardClicked()
+    {
+        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, HARD_FIRST_LEVEL_SCENARIO_ASSETS);
+    }
+
+    private void OnNewGamePopupBackClicked()
+    {
+        _view.DifficultyPopup.SetActive(false);
     }
 
     private void OnScenarioSelectClicked()
