@@ -11,10 +11,17 @@ public class MainMenuView : MonoBehaviour
 
     [field: Header("Main Menu")]
     [field: SerializeField] public GameObject MainMenuScreen { get; private set; }
+    [field: SerializeField] public GameObject BottomBar { get; private set; }
     [field: SerializeField] public TMP_Text DescriptionText { get; private set; }
     [field: SerializeField] public CustomButtonView ContinueButton { get; private set; }
     [field: SerializeField] public CustomButtonView NewGameButton { get; private set; }
     [field: SerializeField] public CustomButtonView ScenarioSelectButton { get; private set; }
     [field: SerializeField] public CustomButtonView OptionsButton { get; private set; }
     [field: SerializeField] public CustomButtonView ExitButton { get; private set; }
+
+    [field: Header("Difficulty Popup")]
+    [field: SerializeField] public GameObject DifficultyPopup { get; private set; }
+    [field: SerializeField] public CustomButtonView NormalDifficultyButton { get; private set; }
+    [field: SerializeField] public CustomButtonView HardDifficultyButton { get; private set; }
+    [field: SerializeField] public CustomButtonView DifficultyBackButton { get; private set; }
 }
