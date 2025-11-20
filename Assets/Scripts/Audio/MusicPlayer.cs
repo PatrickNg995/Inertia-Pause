@@ -100,6 +100,16 @@ public class MusicPlayer : MonoBehaviour
         _activeSource.Play();
     }
 
+    public void PauseMusic()
+    {
+        _activeSource.Pause();
+    }
+
+    public void UnpauseMusic()
+    {
+        _activeSource.UnPause();
+    }
+
     public void CrossfadeTo(MusicTrack track, float fadeTime = FADE_TIME_USE_DEFAULT)
     {
         if (fadeTime == FADE_TIME_USE_DEFAULT)

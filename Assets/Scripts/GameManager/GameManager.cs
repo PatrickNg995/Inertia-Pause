@@ -448,12 +448,14 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         OnAnyBlockingMenuClose?.Invoke();
+        MusicPlayer.Instance.UnpauseMusic();
     }
 
     private void PauseMenu(InputAction.CallbackContext context)
     {
         OnPauseMenuOpen?.Invoke();
         AnyBlockingMenuOpened();
+        MusicPlayer.Instance.PauseMusic();
     }
 }
 
