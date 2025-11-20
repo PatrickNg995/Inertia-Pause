@@ -1832,11 +1832,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c51247aface79a741a481ae61a25187f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interactableInfo: {fileID: 11400000, guid: d2502424243daa6489d35ec51e07982b, type: 2}
-  _dragSpeed: 10
-  _maxDragDistance: 1
+  _interactableInfo: {fileID: 11400000, guid: 3c6947012d7f53b43809311f3aa152f2, type: 2}
+  _collider: {fileID: 0}
   _boundary: {fileID: 8613825050791248684}
   _indicator: {fileID: 8312391718163229459}
+  _dragSpeed: 10
+  _maxDragDistance: 1
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
 --- !u!114 &2200961499546689512
 MonoBehaviour:
   m_ObjectHideFlags: 0
