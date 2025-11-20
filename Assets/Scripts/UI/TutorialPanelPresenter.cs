@@ -21,11 +21,13 @@ public class TutorialPanelPresenter : MonoBehaviour
     {
         _view.gameObject.SetActive(false);
 
+        _gameManager.OnLevelStart += OnLevelStart;
+
         _view.BackButton.onClick.AddListener(OnBackClicked);
         _view.PrevPageButton.onClick.AddListener(OnPrevClicked);
         _view.NextPageButton.onClick.AddListener(OnNextClicked);
 
-        _playerInteractModel.OnTutorialOpen += OnTutorialOpen;
+        _playerInteractModel.OnTutorialOpen += ShowTutorial;
 
         // UI
         _inputActions = new PlayerActions();
@@ -47,15 +49,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void SetTutorial(TutorialInfo tutorial)
-    {
-        _currentTutorial = tutorial;
-        _view.Header.text = tutorial.ObjectName;
-
-        DisplayPage(0);
-    }
-
-    private void OnTutorialOpen(TutorialInfo tutorial)
+    public void ShowTutorial(TutorialInfo tutorial)
     {
         if (tutorial == null)
         {
@@ -64,6 +58,23 @@ public class TutorialPanelPresenter : MonoBehaviour
         }
         SetTutorial(tutorial);
         OpenMenu();
+    }
+
+    private void OnLevelStart()
+    {
+        TutorialInfo openingTutorial = _gameManager.ScenarioInfo.OpeningTutorial;
+        if (openingTutorial != null)
+        {
+            ShowTutorial(openingTutorial);
+        }
+    }
+
+    private void SetTutorial(TutorialInfo tutorial)
+    {
+        _currentTutorial = tutorial;
+        _view.Header.text = tutorial.ObjectName;
+
+        DisplayPage(0);
     }
 
     private void DisplayPage(int index)
