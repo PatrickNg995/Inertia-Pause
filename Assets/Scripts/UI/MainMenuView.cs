@@ -11,6 +11,7 @@ public class MainMenuView : MonoBehaviour
 
     [field: Header("Main Menu")]
     [field: SerializeField] public GameObject MainMenuScreen { get; private set; }
+    [field: SerializeField] public GameObject BottomBar { get; private set; }
     [field: SerializeField] public TMP_Text DescriptionText { get; private set; }
     [field: SerializeField] public CustomButtonView ContinueButton { get; private set; }
     [field: SerializeField] public CustomButtonView NewGameButton { get; private set; }

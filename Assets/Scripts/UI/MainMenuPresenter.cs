@@ -97,6 +97,7 @@ public class MainMenuPresenter : MonoBehaviour
     private void OnNewGameClicked()
     {
         _view.DifficultyPopup.SetActive(true);
+        _view.BottomBar.SetActive(false);
     }
 
     private void OnNewGamePopupNormalClicked()
@@ -112,6 +113,7 @@ public class MainMenuPresenter : MonoBehaviour
     private void OnNewGamePopupBackClicked()
     {
         _view.DifficultyPopup.SetActive(false);
+        _view.BottomBar.SetActive(true);
     }
 
     private void OnScenarioSelectClicked()
