@@ -96,7 +96,9 @@ public class DraggableBehaviour : InteractionObject
         _moveStartPosition = transform.position;
         _yPosition = transform.position.y;
 
-        if (_indicator != null)
+        OptionsManager.Instance.OnShowObjectTrajectoryApplied += OnShowObjectTrajectoryOptionApplied;
+
+        if (_indicator != null && OptionsManager.Instance.Options.IsObjectTrajectoryShown)
         {
             _indicator.Enable();
             _indicator.DrawLine();
@@ -152,6 +154,9 @@ public class DraggableBehaviour : InteractionObject
         
         HasTakenAction = true;
         _dragging = false;
+
+        OptionsManager.Instance.OnShowObjectTrajectoryApplied -= OnShowObjectTrajectoryOptionApplied;
+
         if (_indicator != null) 
         { 
             _indicator.Disable(); 
@@ -249,5 +254,27 @@ public class DraggableBehaviour : InteractionObject
             }
         }
         return true;
+    }
+
+    private void OnShowObjectTrajectoryOptionApplied(bool isTrajectoryEnabled)
+    {
+        Debug.Log("1");
+
+        if (!_dragging || _indicator == null)
+        {
+            return;
+        }
+
+        Debug.Log("2");
+
+        if (isTrajectoryEnabled)
+        {
+            _indicator.Enable();
+            _indicator.DrawLine();
+        }
+        else
+        {
+            _indicator.Disable();
+        }
     }
 }

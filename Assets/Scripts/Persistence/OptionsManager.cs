@@ -15,6 +15,8 @@ public class OptionsManager : MonoBehaviour
     /// </summary>
     public Action<bool> OnShowObjectTrajectoryApplied;
 
+    public static OptionsManager Instance { get; private set; }
+
     public OptionsModel Options => _currentOptions;
 
     // These fields can be null if this component is not added to a scenario scene (eg. main menu)
@@ -33,6 +35,11 @@ public class OptionsManager : MonoBehaviour
     {
         _currentOptions = LoadOptions();
         ApplyOptions(_currentOptions);
+
+        if (Instance != this)
+        {
+            Instance = this;
+        }
     }
 
     /// <summary>
