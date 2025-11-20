@@ -385,10 +385,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 0fc995e1d56fe704c99b17b6ffdb3dec, type: 2}
-  _dragSpeed: 10
-  _maxDragDistance: 1
+  _collider: {fileID: 0}
   _boundary: {fileID: 3256043626688577191}
   _indicator: {fileID: 7104590322763349907}
+  _dragSpeed: 10
+  _maxDragDistance: 1
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
+  _collisionCheckMethod: 0
 --- !u!114 &3256043626688577191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,7 +408,7 @@ MonoBehaviour:
   _radius: 1
   _segments: 64
   _lineRenderer: {fileID: 3306778409088626540}
-  _yOffset: 0
+  _yOffset: 1
 --- !u!114 &7104590322763349907
 MonoBehaviour:
   m_ObjectHideFlags: 0
