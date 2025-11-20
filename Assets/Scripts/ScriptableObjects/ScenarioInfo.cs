@@ -11,6 +11,7 @@ public class ScenarioInfo : ScriptableObject
     public string ScenarioAssetsSceneName;
     [TextArea] public string Description;
     public Sprite Thumbnail;
+    public TutorialInfo OpeningTutorial;
     public ScenarioDifficulty Difficulty;
     public ScenarioObjectives Objectives;
     public int NumberOfCivilians;
