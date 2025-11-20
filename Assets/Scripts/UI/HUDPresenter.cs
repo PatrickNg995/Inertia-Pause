@@ -84,12 +84,12 @@ public class HUDPresenter : MonoBehaviour
 
     private void OpenMenu()
     {
-        gameObject.SetActive(true);
+        _view.MainCanvas.enabled = true;
     }
 
     private void CloseMenu()
     {
-        gameObject.SetActive(false);
+        _view.MainCanvas.enabled = false;
         _view.ObjectivesElements.alpha = 0;
     }
 
