@@ -403,6 +403,7 @@ MonoBehaviour:
   _maxDragDistance: 4
   _maxDistanceFromCamera: 2
   _minDistanceFromCamera: 1
+  _collisionCheckMethod: 0
 --- !u!96 &2541597752342738502
 TrailRenderer:
   serializedVersion: 3
@@ -558,7 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _directionalIndicator: {fileID: 1594151218049680556}
   _isFallingIndicator: 0
-  _lineLength: 1
+  _lineLength: 2
   _lineWidth: 0.01
 --- !u!1 &7632022767920663003
 GameObject:
