@@ -153,6 +153,9 @@ public class DraggableBehaviour : InteractionObject
             return;
         }
 
+        // Re-enable time unpause after cancelling dragging.
+        GameManager.Instance.EnableTimeUnpause();
+
         _dragging = false;
 
         transform.position = _moveStartPosition;

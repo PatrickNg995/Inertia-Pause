@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +10,14 @@ public class LevelSelectPresenter : MonoBehaviour
     [Header("View")]
     [SerializeField] private LevelSelectView _view;
 
+    [Header("Models")]
+    [SerializeField] private SavedLevelProgressManager _progressManager;
+
     private const string NORMAL_DIFFICULTY_NAME = "Normal";
     private const string HARD_DIFFICULTY_NAME = "Hard";
     private const string BEST_RECORD_SINGULAR_FORMAT = "{0} Best Record: {1} Action";
     private const string BEST_RECORD_PLURAL_FORMAT = "{0} Best Record: {1} Actions";
+    private const string NO_RECORD_FORMAT = "{0} Best Record: Incomplete";
 
     private AdditiveSceneManager _sceneManager;
 
@@ -122,41 +127,65 @@ public class LevelSelectPresenter : MonoBehaviour
 
     private void LoadBestRecord(ScenarioInfo normalScenarioInfo, ScenarioInfo hardScenarioInfo)
     {
-        // TODO: Load best record and optional objectives here.
+        SavedLevelProgressData saveData = _progressManager.LevelProgressData;
+        LevelProgressInfo normalRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == normalScenarioInfo.ScenarioAssetsSceneName).FirstOrDefault();
+        LevelProgressInfo hardRecord = saveData.CompletedLevelProgressInfoArray.Where(level => level.LevelAssetsName == hardScenarioInfo.ScenarioAssetsSceneName).FirstOrDefault();
+
+        bool isNormalRecordExists = normalRecord != null;
+        bool isHardRecordExists = hardRecord != null;
 
         RemoveObjectiveRows();
 
         if (normalScenarioInfo != null)
         {
-            int normalBestRecord = 1;
-            string normalBestRecordFormat = normalBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
-            _view.NormalBestRecordText.text = string.Format(normalBestRecordFormat, NORMAL_DIFFICULTY_NAME, normalBestRecord);
-
-            foreach (OptionalObective optionalObjective in normalScenarioInfo.Objectives.OptionalObjectives)
+            if (isNormalRecordExists)
             {
-                bool isNormalComplete = false;
-                AddObjectiveRow(optionalObjective.Description, isNormalComplete, isNormalDifficulty: true);
+                int bestRecord = normalRecord.PersonalBestActionCount;
+                string bestRecordFormat = bestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
+                _view.NormalBestRecordText.text = string.Format(bestRecordFormat, NORMAL_DIFFICULTY_NAME, bestRecord);
+            }
+            else
+            {
+                _view.NormalBestRecordText.text = string.Format(NO_RECORD_FORMAT, NORMAL_DIFFICULTY_NAME);
+            }
+
+            for (int i = 0; i < normalScenarioInfo.Objectives.OptionalObjectives.Count; i++)
+            {
+                OptionalObjective optionalObjective = normalScenarioInfo.Objectives.OptionalObjectives[i];
+                bool isObjectiveComplete = isNormalRecordExists && normalRecord.OptionalObjectivesCompletions[i];
+                AddObjectiveRow(optionalObjective.Description, isObjectiveComplete, isNormalDifficulty: true);
             }
         }
         else
         {
+            // We don't have a scenario for this difficulty
             _view.NormalBestRecordText.text = string.Empty;
         }
 
+
         if (hardScenarioInfo != null)
         {
-            int hardBestRecord = 3;
-            string hardBestRecordFormat = hardBestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
-            _view.HardBestRecordText.text = string.Format(hardBestRecordFormat, HARD_DIFFICULTY_NAME, hardBestRecord);
-
-            foreach (OptionalObective optionalObjective in hardScenarioInfo.Objectives.OptionalObjectives)
+            if (isHardRecordExists)
             {
-                bool isHardComplete = true;
-                AddObjectiveRow(optionalObjective.Description, isHardComplete, isNormalDifficulty: false);
+                int bestRecord = hardRecord.PersonalBestActionCount;
+                string bestRecordFormat = bestRecord == 1 ? BEST_RECORD_SINGULAR_FORMAT : BEST_RECORD_PLURAL_FORMAT;
+                _view.HardBestRecordText.text = string.Format(bestRecordFormat, HARD_DIFFICULTY_NAME, bestRecord);
+            }
+            else
+            {
+                _view.HardBestRecordText.text = string.Format(NO_RECORD_FORMAT, HARD_DIFFICULTY_NAME);
+            }
+
+            for (int i = 0; i < hardScenarioInfo.Objectives.OptionalObjectives.Count; i++)
+            {
+                OptionalObjective optionalObjective = hardScenarioInfo.Objectives.OptionalObjectives[i];
+                bool isObjectiveComplete = isHardRecordExists && hardRecord.OptionalObjectivesCompletions[i];
+                AddObjectiveRow(optionalObjective.Description, isObjectiveComplete, isNormalDifficulty: false);
             }
         }
         else
         {
+            // We don't have a scenario for this difficulty
             _view.HardBestRecordText.text = string.Empty;
         }
     }
