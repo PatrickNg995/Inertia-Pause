@@ -207,9 +207,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Level start called immediately, though should be after opening cut scene in final game.
-        OnLevelStart?.Invoke();
+        // Level start called after one frame, though should be after opening cut scene in final game.
+        // Temporary workaround for race condition during opening tutorial.
+        StartCoroutine(DelayedLevelStart());
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
+    }
+
+    private IEnumerator DelayedLevelStart()
+    {
+        yield return null;
+        OnLevelStart?.Invoke();
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
