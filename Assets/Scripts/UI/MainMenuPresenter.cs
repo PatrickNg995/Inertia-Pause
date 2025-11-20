@@ -10,6 +10,7 @@ public class MainMenuPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private LevelSelectPresenter _levelSelectPresenter;
     [SerializeField] private OptionsMenuPresenter _optionsMenuPresenter;
+    [SerializeField] private SavedLevelProgressManager _progressManager;
 
     private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
@@ -30,8 +31,9 @@ public class MainMenuPresenter : MonoBehaviour
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
         _view.DescriptionText.text = string.Empty;
 
-        // TODO: Hide Continue button for first time players.
-        _view.ContinueButton.gameObject.SetActive(false);
+        // Hide Continue button for first time players.
+        bool isContinueAvailable = _progressManager.LevelProgressData.CurrentLevelAssetsName != null && _progressManager.LevelProgressData.CurrentLevelAssetsName != string.Empty;
+        _view.ContinueButton.gameObject.SetActive(isContinueAvailable);
 
         _optionsMenuPresenter.OnMenuClose += () => OpenMenu();
         _levelSelectPresenter.OnMenuClose += () => OpenMenu();
@@ -83,8 +85,7 @@ public class MainMenuPresenter : MonoBehaviour
 
     private void OnContinueClicked()
     {
-        // TODO: Load last level.
-        Debug.LogWarning("Continue button not implemented yet, use Scenario Select.");
+        _sceneManager.LoadScenario(_progressManager.LevelProgressData.CurrentLevelEnvironmentName, _progressManager.LevelProgressData.CurrentLevelAssetsName);
     }
 
     private void OnNewGameClicked()
