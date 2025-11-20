@@ -36,7 +36,7 @@ public class MusicPlayer : MonoBehaviour
     [Range(0f, 1f)]
     private float _masterVolume = 1f;
 
-    [Header("Audio Sources (Assign in Inspector)")]
+    [Header("Audio Sources")]
     [SerializeField]
     private AudioSource _activeSource;
 
