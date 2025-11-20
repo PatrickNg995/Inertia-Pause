@@ -10,10 +10,12 @@ public class MainMenuPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private LevelSelectPresenter _levelSelectPresenter;
     [SerializeField] private OptionsMenuPresenter _optionsMenuPresenter;
+    [SerializeField] private SavedLevelProgressManager _progressManager;
 
     private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
     private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
-    private const string FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
+    private const string NORMAL_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
+    private const string HARD_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-hard";
 
     private AdditiveSceneManager _sceneManager;
     private PlayerActions _inputActions;
@@ -25,13 +27,15 @@ public class MainMenuPresenter : MonoBehaviour
 
         _view.gameObject.SetActive(true);
         _view.MainMenuScreen.SetActive(false);
+        _view.DifficultyPopup.SetActive(false);
         _view.StartScreen.SetActive(true);
 
         _view.BuildText.text = string.Format(BUILD_NUMBER_FORMAT, Application.platform, Application.version);
         _view.DescriptionText.text = string.Empty;
 
-        // TODO: Hide Continue button for first time players.
-        _view.ContinueButton.gameObject.SetActive(false);
+        // Hide Continue button for first time players.
+        bool isContinueAvailable = _progressManager.LevelProgressData.CurrentLevelAssetsName != null && _progressManager.LevelProgressData.CurrentLevelAssetsName != string.Empty;
+        _view.ContinueButton.gameObject.SetActive(isContinueAvailable);
 
         _optionsMenuPresenter.OnMenuClose += () => OpenMenu();
         _levelSelectPresenter.OnMenuClose += () => OpenMenu();
@@ -41,6 +45,10 @@ public class MainMenuPresenter : MonoBehaviour
         _view.ScenarioSelectButton.Button.onClick.AddListener(OnScenarioSelectClicked);
         _view.OptionsButton.Button.onClick.AddListener(OnOptionsClicked);
         _view.ExitButton.Button.onClick.AddListener(OnExitClicked);
+
+        _view.NormalDifficultyButton.Button.onClick.AddListener(OnNewGamePopupNormalClicked);
+        _view.HardDifficultyButton.Button.onClick.AddListener(OnNewGamePopupHardClicked);
+        _view.DifficultyBackButton.Button.onClick.AddListener(OnNewGamePopupBackClicked);
 
         _view.ContinueButton.OnHover += ChangeHint;
         _view.NewGameButton.OnHover += ChangeHint;
@@ -83,14 +91,29 @@ public class MainMenuPresenter : MonoBehaviour
 
     private void OnContinueClicked()
     {
-        // TODO: Load last level.
-        Debug.LogWarning("Continue button not implemented yet, use Scenario Select.");
+        _sceneManager.LoadScenario(_progressManager.LevelProgressData.CurrentLevelEnvironmentName, _progressManager.LevelProgressData.CurrentLevelAssetsName);
     }
 
     private void OnNewGameClicked()
     {
-        // TODO: Add confirmation box here. "Are you sure you want to start the game from the beginning?"
-        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, FIRST_LEVEL_SCENARIO_ASSETS);
+        _view.DifficultyPopup.SetActive(true);
+        _view.BottomBar.SetActive(false);
+    }
+
+    private void OnNewGamePopupNormalClicked()
+    {
+        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, NORMAL_FIRST_LEVEL_SCENARIO_ASSETS);
+    }
+
+    private void OnNewGamePopupHardClicked()
+    {
+        _sceneManager.LoadScenario(FIRST_LEVEL_ENVIRONMENT, HARD_FIRST_LEVEL_SCENARIO_ASSETS);
+    }
+
+    private void OnNewGamePopupBackClicked()
+    {
+        _view.DifficultyPopup.SetActive(false);
+        _view.BottomBar.SetActive(true);
     }
 
     private void OnScenarioSelectClicked()
