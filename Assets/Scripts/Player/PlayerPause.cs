@@ -25,7 +25,7 @@ public class PlayerPause : MonoBehaviour
         SetComponentEnabled(_playerMovement, false);
         SetComponentEnabled(_playerInteract, false);
         SetComponentEnabled(_playerLook, false);
-        SetComponentEnabled(_timePauseUnpause, false);
+        _timePauseUnpause.DisableTimeUnpause();
     }
 
     private void EnablePlayerInput()
@@ -33,7 +33,7 @@ public class PlayerPause : MonoBehaviour
         SetComponentEnabled(_playerMovement, true);
         SetComponentEnabled(_playerInteract, true);
         SetComponentEnabled(_playerLook, true);
-        SetComponentEnabled(_timePauseUnpause, true);
+        _timePauseUnpause.EnableTimeUnpause();
     }
 
     private void SetComponentEnabled(MonoBehaviour component, bool enabled)
