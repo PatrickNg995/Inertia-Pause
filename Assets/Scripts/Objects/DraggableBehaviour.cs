@@ -258,14 +258,10 @@ public class DraggableBehaviour : InteractionObject
 
     private void OnShowObjectTrajectoryOptionApplied(bool isTrajectoryEnabled)
     {
-        Debug.Log("1");
-
         if (!_dragging || _indicator == null)
         {
             return;
         }
-
-        Debug.Log("2");
 
         if (isTrajectoryEnabled)
         {
