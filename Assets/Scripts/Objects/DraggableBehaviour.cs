@@ -1,9 +1,16 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class DraggableBehaviour : InteractionObject
 {
+    private enum CollisionCheckMethod
+    {
+        Capsule,
+        Box
+    }
+
     [Header("Component References")]
     [SerializeField] private Collider _collider;
     [SerializeField] private DragBoundary _boundary;
@@ -15,6 +22,9 @@ public class DraggableBehaviour : InteractionObject
     [SerializeField] private float _maxDistanceFromCamera = 2f;
     [SerializeField] private float _minDistanceFromCamera = 1f;
 
+    [Header("Collision Check Settings")]
+    [SerializeField] private CollisionCheckMethod _collisionCheckMethod = CollisionCheckMethod.Capsule;
+
     private Transform _playerCamera;
     private Vector3 _resetPosition;
     private Vector3 _moveStartPosition;
@@ -24,6 +34,8 @@ public class DraggableBehaviour : InteractionObject
 
     private float _capsuleCheckRadius;
     private float _capsuleEndpointOffset;
+
+    private Vector3 _colliderExtents;
 
     private PlayerActions _inputActions;
     private InputAction _scroll;
@@ -40,13 +52,14 @@ public class DraggableBehaviour : InteractionObject
         if (_collider != null)
         {
             // Precompute capsule parameters for collision checking.
-            Vector3 colliderExtents = _collider.bounds.extents;
-            float halfHeight = colliderExtents.y;
+            _colliderExtents = _collider.bounds.extents;
+            float halfHeight = _colliderExtents.y;
 
-            _capsuleCheckRadius = Mathf.Max(colliderExtents.x, colliderExtents.z);
+            _capsuleCheckRadius = Mathf.Max(_colliderExtents.x, _colliderExtents.z);
             _capsuleEndpointOffset = Mathf.Max(0f, halfHeight - _capsuleCheckRadius);
         }
     }
+
     private void OnEnable()
     {
         _scroll = _inputActions.Ingame.Scroll;
@@ -201,10 +214,21 @@ public class DraggableBehaviour : InteractionObject
         Vector3 localCenterOffset = _collider.bounds.center - transform.position;
         Vector3 center = targetPos + localCenterOffset;
 
-        // Check for collisions at the target position with a capsule overlap.
-        Vector3 pointA = center + transform.up * _capsuleEndpointOffset;
-        Vector3 pointB = center - transform.up * _capsuleEndpointOffset;
-        Collider[] hits = Physics.OverlapCapsule(pointA, pointB, _capsuleCheckRadius);
+        Collider[] hits = new Collider[0];
+
+        switch (_collisionCheckMethod)
+        {
+            case CollisionCheckMethod.Capsule:
+                // Check for collisions at the target position with a capsule overlap.
+                Vector3 pointA = center + transform.up * _capsuleEndpointOffset;
+                Vector3 pointB = center - transform.up * _capsuleEndpointOffset;
+                hits = Physics.OverlapCapsule(pointA, pointB, _capsuleCheckRadius);
+                break;
+            case CollisionCheckMethod.Box:
+                // Check for collisions at the target position with a box overlap.
+                hits = Physics.OverlapBox(center, _colliderExtents, transform.rotation);
+                break;
+        }
 
         if (hits.Length > 0)
         {
