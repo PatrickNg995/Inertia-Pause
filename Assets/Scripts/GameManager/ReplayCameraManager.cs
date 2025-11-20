@@ -1,9 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ReplayCameraManager : MonoBehaviour
 {
+    /// <summary>
+    /// Invoked when the replay sequence starts. The parameter is the number of cameras in the replay sequence.
+    /// </summary>
+    public Action<int> OnReplayStart;
+
+    /// <summary>
+    /// Invoked when the camera changes during the replay sequence. The parameter is the index of the camera in the sequence.
+    /// </summary>
+    public Action<int> OnCameraChange;
+
+    /// <summary>
+    /// Invoked when the replay sequence ends.
+    /// </summary>
+    public Action OnReplayEnd;
+
     [Header("TimePauseUnpause Reference")]
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
 
@@ -50,13 +66,20 @@ public class ReplayCameraManager : MonoBehaviour
 
     public IEnumerator StartReplaySequence()
     {
+        OnReplayStart?.Invoke(_replayCameras.Count);
+
         Camera previousCam = _playerCamera;
+        int cameraIndex = 0;
 
         foreach (Camera replayCam in _replayCameras)
         {
             // Switch camera: deactivate previous, activate current replay camera.
             previousCam.gameObject.SetActive(false);
             replayCam.gameObject.SetActive(true);
+
+            // Update UI
+            cameraIndex++;
+            OnCameraChange?.Invoke(cameraIndex);
 
             // Rewind level to initial state for the replay.
             GameManager.Instance.RewindObjects();
@@ -71,5 +94,7 @@ public class ReplayCameraManager : MonoBehaviour
             // Keep this replay cam enabled only for its duration — next loop will disable it.
             previousCam = replayCam;
         }
+
+        OnReplayEnd?.Invoke();
     }
 }
