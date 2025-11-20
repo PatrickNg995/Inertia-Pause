@@ -114,7 +114,9 @@ public class OptionsManager : MonoBehaviour
         OnShowMetricsApplied?.Invoke(options.IsMetricsShown);
         OnShowObjectTrajectoryApplied?.Invoke(options.IsObjectTrajectoryShown);
 
-        // TODO: Apply volume settings
+        MusicPlayer.Instance.SetMasterVolume(VolumeOptionToActualVolume(options.MusicVolume));
+
+        // TODO: SFX Volume.
     }
 
     private void ApplySensitivityOptions(int horizontalSensitivity, int verticalSensitivity)
@@ -138,6 +140,25 @@ public class OptionsManager : MonoBehaviour
             6 => 0.50f,
             7 => 1.00f,
             _ => 0.15f,
+        };
+    }
+
+    private float VolumeOptionToActualVolume(int volumeOption)
+    {
+        return volumeOption switch
+        {
+            0 => 0.00f,
+            1 => 0.10f,
+            2 => 0.20f,
+            3 => 0.30f,
+            4 => 0.40f,
+            5 => 0.50f,
+            6 => 0.60f,
+            7 => 0.70f,
+            8 => 0.80f,
+            9 => 0.90f,
+            10 => 1.00f,
+            _ => 1.00f,
         };
     }
 }

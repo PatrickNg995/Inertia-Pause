@@ -209,6 +209,7 @@ public class GameManager : MonoBehaviour
     {
         // Level start called immediately, though should be after opening cut scene in final game.
         OnLevelStart?.Invoke();
+        _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
@@ -344,6 +345,7 @@ public class GameManager : MonoBehaviour
         {
             LevelProgressInfo levelInfo = new(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName, ActionCount, optionalResults);
             _savedLevelProgressManager.UpdateLevelProgress(levelInfo);
+            _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.NextEnvironmentSceneName, ScenarioInfo.NextScenarioAssetsSceneName);
         }
 
         // Call level complete after determining victory.
@@ -448,12 +450,14 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         OnAnyBlockingMenuClose?.Invoke();
+        MusicPlayer.Instance.UnpauseMusic();
     }
 
     private void PauseMenu(InputAction.CallbackContext context)
     {
         OnPauseMenuOpen?.Invoke();
         AnyBlockingMenuOpened();
+        MusicPlayer.Instance.PauseMusic();
     }
 }
 

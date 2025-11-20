@@ -239,10 +239,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 528767957454dca4aad427b937fde8ce, type: 2}
-  _dragSpeed: 10
-  _maxDragDistance: 3
+  _collider: {fileID: 8400189107563773090}
   _boundary: {fileID: 7696021627676922123}
   _indicator: {fileID: -7601400228962940556}
+  _dragSpeed: 10
+  _maxDragDistance: 3
+  _maxDistanceFromCamera: 2
+  _minDistanceFromCamera: 1
 --- !u!114 &-3709957845174559021
 MonoBehaviour:
   m_ObjectHideFlags: 0

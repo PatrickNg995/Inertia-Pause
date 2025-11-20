@@ -65,12 +65,16 @@ public class SavedLevelProgressManager : MonoBehaviour
         _currentSavedLevelProgressData = levelProgressData;
     }
 
+    public void UpdateLastLevel(string environmentSceneName, string scenarioAssetsSceneName)
+    {
+        _currentSavedLevelProgressData.CurrentLevelEnvironmentName = environmentSceneName;
+        _currentSavedLevelProgressData.CurrentLevelAssetsName = scenarioAssetsSceneName;
+
+        SaveLevelProgress(_currentSavedLevelProgressData);
+    }
+
     public void UpdateLevelProgress(LevelProgressInfo newLevelInfo)
     {
-        // Update the current level environment and asset names.
-        _currentSavedLevelProgressData.CurrentLevelEnvironmentName = newLevelInfo.LevelEnvironmentName;
-        _currentSavedLevelProgressData.CurrentLevelAssetsName = newLevelInfo.LevelAssetsName;
-
         // Convert the array to a list for easier manipulation.
         List<LevelProgressInfo> levelInfoList = new List<LevelProgressInfo>(_currentSavedLevelProgressData.CompletedLevelProgressInfoArray);
 
