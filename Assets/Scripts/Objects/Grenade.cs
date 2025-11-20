@@ -16,6 +16,7 @@ public class Grenade : MonoBehaviour, IPausable
     [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
+    [SerializeField] private TrailRenderer _trailRenderer;
 
     // Check if timer can start counting down before exploding grenade.
     private bool _canExplode;
@@ -87,6 +88,8 @@ public class Grenade : MonoBehaviour, IPausable
     // Stop timer countdown on pause.
     public void Pause()
     {
+        _trailRenderer.emitting = false;
+
         _canExplode = false;
 
         _savedVelocity = transform.forward * _grenadeInitialSpeed;
@@ -100,6 +103,8 @@ public class Grenade : MonoBehaviour, IPausable
     // Start grenade explosion countdown on unpause.
     public void Unpause()
     {
+        _trailRenderer.emitting = true;
+
         _pausedPosition = transform.position;
         _pausedRotation = transform.rotation;
 

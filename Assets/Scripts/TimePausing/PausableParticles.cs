@@ -1,27 +1,61 @@
 ﻿using UnityEngine;
 
-// Get Particle System, then Pause & Play them depending
-// on game state
 public class PausableParticles : MonoBehaviour, IPausable
 {
-    private ParticleSystem ps;
+    [Header("Particle System Reference")]
+    [SerializeField] private ParticleSystem _particleSystem;
 
-    private void Awake()
+    [Header("Particle System Settings")]
+    [Tooltip("Enable particle effect or not.")]
+    [SerializeField] private bool _enableParticles = true;
+
+    [Tooltip("If true, the pre-pause play duration will be randomly chosen between the lower and upper bounds." +
+             "If false, the duration will use the lower bound.")]
+    [SerializeField] private bool _useRandomPrePausePlayDuration = true;
+
+    [Tooltip("The lower bound for the pre-pause play duration (in seconds).")]
+    [SerializeField] private float _prePausePlayDurationLowerBound = 0.05f;
+
+    [Tooltip("The upper bound for the pre-pause play duration (in seconds).")]
+    [SerializeField] private float _prePausePlayDurationUpperBound = 0.1f;
+
+    // The duration the particle system simulates playing before pausing.
+    private float _prePausePlayDuration;
+
+    public void Awake()
     {
-        ps = GetComponent<ParticleSystem>();
+        // Disable the script and particle system if particles are not enabled. This is mostly to make it easier to disable
+        // effects like muzzle flashes without needing to dig into the prefab every timne.
+        if (!_enableParticles)
+        {
+            enabled = false;
+            _particleSystem.gameObject.SetActive(false);
+        }
+
+        // Determine the pre-pause play duration. If not set to random, use the lower bound.
+        if (_useRandomPrePausePlayDuration)
+        {
+            _prePausePlayDuration = Random.Range(_prePausePlayDurationLowerBound, _prePausePlayDurationUpperBound);
+        }
+        else
+        {
+            _prePausePlayDuration = _prePausePlayDurationLowerBound;
+        }
     }
+
     public void Pause()
     {
-        ps.Pause();
+        _particleSystem.Simulate(_prePausePlayDuration, true, true);
     }
 
     public void Unpause()
     {
-        ps.Play();
+        _particleSystem.Play();
     }
 
     public void ResetStateBeforeUnpause()
     {
-        
+        _particleSystem.Simulate(_prePausePlayDuration, true, true);
+
     }
 }
