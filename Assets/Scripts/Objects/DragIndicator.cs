@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DragIndicator : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class DragIndicator : MonoBehaviour
         Vector3 endPos = startPos;
         if (_isFallingIndicator)
         {
-            endPos -= transform.up * _lineLength;
+            endPos -= Vector3.up * _lineLength;
         }
         else
         {
