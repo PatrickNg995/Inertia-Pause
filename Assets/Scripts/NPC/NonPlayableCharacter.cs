@@ -21,6 +21,10 @@ public class NPC : MonoBehaviour, IPausable
     // Rigidbodies of accessories the NPC may have, used to include them in ragdoll physics on death.
     [SerializeField] private List<Rigidbody> _accessoryRigidbodies;
 
+    [Header("Armored Enemies")]
+    // For armored enemies to take an additional hit from bullets.
+    [SerializeField] private bool _isArmored = false;
+
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
 
@@ -150,6 +154,17 @@ public class NPC : MonoBehaviour, IPausable
 
     public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
     {
+        // Remove armor if hit by a bullet.
+        if (_isArmored)
+        {
+            if(cause.TryGetComponent<Bullet>(out Bullet bulletHit))
+            {
+                _isArmored = false;
+                return;
+            }
+        }
+        // Other hits will immediately cause death.
+
         // Enable ragdoll
         Die(cause);
 
