@@ -153,9 +153,10 @@ GameObject:
   - component: {fileID: 4932764304773394185}
   - component: {fileID: 7696021627676922123}
   - component: {fileID: -7601400228962940556}
+  - component: {fileID: 3612349881094570559}
   m_Layer: 6
   m_Name: Box
-  m_TagString: Lethal
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,6 +307,19 @@ MonoBehaviour:
   _isFallingIndicator: 1
   _lineLength: 5
   _lineWidth: 0.01
+--- !u!114 &3612349881094570559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621103586943969613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1d6e54bba7c5c04d9a7afdb91ececaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 5705059440300774495}
 --- !u!1 &4354924475973390092
 GameObject:
   m_ObjectHideFlags: 0
