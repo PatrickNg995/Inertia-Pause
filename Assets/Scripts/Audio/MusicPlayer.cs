@@ -1,68 +1,33 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
 {
-    #region Constants
-
-    private const float FADE_TIME_USE_DEFAULT = -1f;
-    private const float STOP_FADE_TIME_DEFAULT = 0.5f;
-
-    #endregion
-
-    #region Singleton
-
-    public static MusicPlayer Instance { get; private set; }
-
-    #endregion
-
-    #region Serialized Fields
-
     [Header("Tracks")]
-    [SerializeField]
-    // Currently unused.
-    private MusicTrack _openingTrack;
+    // TODO: implement music for level opening, or remove if not needed.
+    [Tooltip("The music track to play during the opening to the level (currently unused).")]
+    [SerializeField] private MusicTrack _openingTrack;
 
-    [SerializeField]
-    private MusicTrack _gameplayTrack;
+    [Tooltip("The music track to play during gameplay.")]
+    [SerializeField] private MusicTrack _gameplayTrack;
 
-    [Header("Crossfade Settings")]
-    [SerializeField]
-    private float _defaultFadeTime = 1.5f;
+    [Header("Settings")]
+    [Tooltip("The master volume for the current music playback, used as a modifier for the current track's volume.")]
+    [SerializeField] [Range(0f, 1f)] private float _masterVolume = 1f;
 
-    [SerializeField]
-    [Range(0f, 1f)]
-    private float _masterVolume = 1f;
+    [Header("Audio Source")]
+    [SerializeField]  private AudioSource _activeSource;
 
-    [Header("Audio Sources")]
-    [SerializeField]
-    private AudioSource _activeSource;
-
-    [SerializeField]
-    private AudioSource _fadeSource;
-
-    #endregion
-
-    #region Private Fields
-
-    private Coroutine _fadeCoroutine;
-
-    #endregion
-
-    #region Data Types
+    private MusicTrack _currentTrack;
 
     [Serializable]
     public struct MusicTrack
     {
         public AudioClip Clip;
-        [Range(0f, 1f)] public float Volume;
+        [Range(0f, 1f)] public float BaseVolume;
     }
 
-    #endregion
-
-    #region Unity Lifecycle
+    public static MusicPlayer Instance { get; private set; }
 
     private void Awake()
     {
@@ -77,26 +42,18 @@ public class MusicPlayer : MonoBehaviour
 
     private void Start()
     {
+        // Start playing the gameplay track by default.
         PlayTrack(_gameplayTrack);
     }
 
-    #endregion
-
-    #region Public API
-
     public void PlayTrack(MusicTrack track)
     {
-        if (_fadeCoroutine != null)
-        {
-            StopCoroutine(_fadeCoroutine);
-            _fadeCoroutine = null;
-        }
-
+        // Set the current audio source and track.
         ApplyTrackToSource(_activeSource, track);
-        _fadeSource.Stop();
-        _fadeSource.clip = null;
+        _currentTrack = track;
 
-        _activeSource.volume = _masterVolume;
+        // Update the volume and play the track.
+        UpdateVolume();
         _activeSource.Play();
     }
 
@@ -113,139 +70,29 @@ public class MusicPlayer : MonoBehaviour
         }
     }
 
-    public void CrossfadeTo(MusicTrack track, float fadeTime = FADE_TIME_USE_DEFAULT)
+    public void StopMusic()
     {
-        if (fadeTime == FADE_TIME_USE_DEFAULT)
-        {
-            fadeTime = _defaultFadeTime;
-        }
-
-        if (_fadeCoroutine != null)
-        {
-            StopCoroutine(_fadeCoroutine);
-        }
-
-        _fadeCoroutine = StartCoroutine(CrossfadeCoroutine(track, fadeTime));
-    }
-
-    public void StopMusic(float fadeTime = STOP_FADE_TIME_DEFAULT)
-    {
-        if (_fadeCoroutine != null)
-        {
-            StopCoroutine(_fadeCoroutine);
-            _fadeCoroutine = null;
-        }
-
-        if (fadeTime <= 0)
-        {
-            _activeSource.Stop();
-            _fadeSource.Stop();
-            _activeSource.clip = null;
-            _fadeSource.clip = null;
-            return;
-        }
-
-        _fadeCoroutine = StartCoroutine(FadeOutAllCoroutine(fadeTime));
+        _activeSource.Stop();
+        _activeSource.clip = null;
     }
 
     public void SetMasterVolume(float value)
     {
+        // Set the master volume, then update the active source's volume.
         _masterVolume = Mathf.Clamp01(value);
-
-        _activeSource.volume = _masterVolume;
-        _fadeSource.volume = _masterVolume;
+        UpdateVolume();
     }
-
-    #endregion
-
-    #region Helpers
 
     private void ApplyTrackToSource(AudioSource source, MusicTrack track)
     {
         source.clip = track.Clip;
         source.loop = true;
-        source.volume = track.Volume * _masterVolume;
+        source.volume = track.BaseVolume * _masterVolume;
     }
 
-    private IEnumerator CrossfadeCoroutine(MusicTrack nextTrack, float duration)
+    private void UpdateVolume()
     {
-        AudioSource oldSource = _activeSource;
-        AudioSource newSource = _fadeSource;
-
-        _activeSource = newSource;
-        _fadeSource = oldSource;
-
-        ApplyTrackToSource(_activeSource, nextTrack);
-        _activeSource.volume = 0f;
-        _activeSource.Play();
-
-        float startOldVolume = _fadeSource.volume;
-        float targetNewVolume = nextTrack.Volume * _masterVolume;
-
-        float time = 0f;
-
-        while (time < duration)
-        {
-            time += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(time / duration);
-
-            _fadeSource.volume = Mathf.Lerp(startOldVolume, 0f, t);
-            _activeSource.volume = Mathf.Lerp(0f, targetNewVolume, t);
-
-            yield return null;
-        }
-
-        _fadeSource.Stop();
-        _fadeSource.clip = null;
-
-        _activeSource.volume = targetNewVolume;
-        _fadeCoroutine = null;
+        // Update the active source's volume based on the current track's base volume and master volume.
+        _activeSource.volume = _currentTrack.BaseVolume * _masterVolume;
     }
-
-    private IEnumerator FadeOutAllCoroutine(float duration)
-    {
-        float startVolA = _activeSource.volume;
-        float startVolB = _fadeSource.volume;
-
-        float time = 0f;
-
-        while (time < duration)
-        {
-            time += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(time / duration);
-
-            _activeSource.volume = Mathf.Lerp(startVolA, 0f, t);
-            _fadeSource.volume = Mathf.Lerp(startVolB, 0f, t);
-
-            yield return null;
-        }
-
-        _activeSource.Stop();
-        _fadeSource.Stop();
-        _activeSource.clip = null;
-        _fadeSource.clip = null;
-
-        _fadeCoroutine = null;
-    }
-
-    #endregion
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        if (_activeSource == _fadeSource)
-        {
-            Debug.LogError("[MusicPlayer] ActiveSource and FadeSource cannot reference the same AudioSource!");
-        }
-
-        if (_activeSource != null && _activeSource.clip != null)
-        {
-            Debug.LogWarning("[MusicPlayer] ActiveSource should not have a clip assigned in the Inspector.");
-        }
-
-        if (_fadeSource != null && _fadeSource.clip != null)
-        {
-            Debug.LogWarning("[MusicPlayer] FadeSource should not have a clip assigned in the Inspector.");
-        }
-    }
-#endif
 }
