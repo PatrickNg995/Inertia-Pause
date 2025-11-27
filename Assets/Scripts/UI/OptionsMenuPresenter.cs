@@ -226,7 +226,9 @@ public class OptionsMenuPresenter : MonoBehaviour
             2 => 120,
             3 => 180,
             4 => 240,
-            5 => -1,
+            5 => 360,
+            6 => 480,
+            7 => -1,
             _ => -1,
         };
         _dirtyOptionsModel.MaxFramerate = framerateOption;
