@@ -24,6 +24,7 @@ public class NPC : MonoBehaviour, IPausable
     [Header("Armored Enemies")]
     // For armored enemies to take an additional hit from bullets.
     [SerializeField] private bool _isArmored = false;
+    private bool _hasArmor = false;
 
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
@@ -67,6 +68,12 @@ public class NPC : MonoBehaviour, IPausable
         if (_lookTarget != null)
         {
             transform.LookAt(_lookTarget.transform);
+        }
+
+        // Armored enemies get armor.
+        if (_isArmored)
+        {
+            _hasArmor = true;
         }
     }
 
@@ -134,6 +141,12 @@ public class NPC : MonoBehaviour, IPausable
             IsAlive = true;
         }
 
+        // Give armored enemies their armor.
+        if (_isArmored)
+        {
+            _hasArmor = true;
+        }
+
         LastCauseOfDeath = null;
     }
 
@@ -155,11 +168,11 @@ public class NPC : MonoBehaviour, IPausable
     public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
     {
         // Remove armor if hit by a bullet.
-        if (_isArmored)
+        if (_hasArmor)
         {
             if(cause.TryGetComponent<Bullet>(out Bullet bulletHit))
             {
-                _isArmored = false;
+                _hasArmor = false;
                 return;
             }
         }
