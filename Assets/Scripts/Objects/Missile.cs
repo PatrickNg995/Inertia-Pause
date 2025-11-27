@@ -6,7 +6,7 @@ public class Missile : MonoBehaviour, IPausable
 {
     [Header("Missile Settings")]
     // Initial speed at which the missile travels.
-    [SerializeField] private float _missileSpeed = 20f;
+    [SerializeField] private float _missileSpeed = 19f;
 
     // Prevent multiple explosions.
     private bool _canExplode = false; 

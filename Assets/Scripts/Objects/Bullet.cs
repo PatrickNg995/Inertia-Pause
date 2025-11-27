@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour, IPausable
     [SerializeField] private bool _isPiercing = false;
 
     [Tooltip("Speed at which the bullet travels.")]
-    [SerializeField] private float _bulletSpeed = 20f;
+    [SerializeField] private float _bulletSpeed = 19f;
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 10f;
@@ -110,11 +110,11 @@ public class Bullet : MonoBehaviour, IPausable
 
     public void Unpause()
     {
-        // Enable trail emission.
-        _trailRenderer.emitting = true;
-
         // Enable hit detection.
         _isHitDetecting = true;
+
+        // Enable trail emission.
+        _trailRenderer.emitting = true;
 
         // Save position before unpausing.
         _pausedPosition = transform.position;

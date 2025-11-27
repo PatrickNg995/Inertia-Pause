@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Explosion : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Explosion : MonoBehaviour
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
+    private const float COLLIDER_DISABLE_DELAY = 0.1f;
 
     public void Awake()
     {
@@ -20,12 +22,14 @@ public class Explosion : MonoBehaviour
         // Enable collider & play particle system effect.
         _sphereCollider.enabled = true;
         _ps.Play();
+
+        // Disable collider after a short delay.
+        StartCoroutine(WaitAndDisableCollider(COLLIDER_DISABLE_DELAY));
     }
 
     public void ResetExplosion()
     {
-        // Disable collider & stop particle system effect.
-        _sphereCollider.enabled = false;
+        // Stop particle system effect.
         _ps.Stop();
     }
 
@@ -42,6 +46,13 @@ public class Explosion : MonoBehaviour
             }
         }
     }
+
+    private IEnumerator WaitAndDisableCollider(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _sphereCollider.enabled = false;
+    }
+
     public void HitNPC(NPC npc, Collider collider)
     {
         if (npc != null)
