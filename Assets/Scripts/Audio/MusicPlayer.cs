@@ -73,7 +73,6 @@ public class MusicPlayer : MonoBehaviour
     public void StopMusic()
     {
         _activeSource.Stop();
-        _activeSource.clip = null;
     }
 
     public void SetMasterVolume(float value)
