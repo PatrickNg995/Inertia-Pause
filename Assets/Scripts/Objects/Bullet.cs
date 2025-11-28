@@ -1,6 +1,4 @@
-﻿using System.Transactions;
-using UnityEditor.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {

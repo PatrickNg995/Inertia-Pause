@@ -21,9 +21,9 @@ public class NPC : MonoBehaviour, IPausable
     // Rigidbodies of accessories the NPC may have, used to include them in ragdoll physics on death.
     [SerializeField] private List<Rigidbody> _accessoryRigidbodies;
 
-    [Header("Armored Enemies")]
-    // For armored enemies to take an additional hit from bullets.
-    [SerializeField] private bool _isArmored = false;
+    [Header("Armoured Enemies")]
+    // For armoured enemies to take an additional hit from bullets.
+    [SerializeField] private bool _isArmoured = false;
     private bool _hasArmor = false;
 
     // Distance in meters needed to fall to die.
@@ -70,8 +70,8 @@ public class NPC : MonoBehaviour, IPausable
             transform.LookAt(_lookTarget.transform);
         }
 
-        // Armored enemies get armor.
-        if (_isArmored)
+        // Armoured enemies get armor.
+        if (_isArmoured)
         {
             _hasArmor = true;
         }
@@ -141,8 +141,8 @@ public class NPC : MonoBehaviour, IPausable
             IsAlive = true;
         }
 
-        // Give armored enemies their armor.
-        if (_isArmored)
+        // Give armoured enemies their armor.
+        if (_isArmoured)
         {
             _hasArmor = true;
         }
@@ -170,7 +170,7 @@ public class NPC : MonoBehaviour, IPausable
         // Remove armor if hit by a bullet.
         if (_hasArmor)
         {
-            if(cause.TryGetComponent<Bullet>(out Bullet bulletHit))
+            if(cause.transform.root.CompareTag("Bullets"))
             {
                 _hasArmor = false;
                 return;
