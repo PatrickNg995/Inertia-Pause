@@ -13,6 +13,9 @@ public class Bullet : MonoBehaviour, IPausable
     [Tooltip("Whether this bullet can pierce through NPCs.")]
     [SerializeField] private bool _isPiercing = false;
 
+    [Tooltip("Whether this bullet can pierce through anything, including boxes, shelves, etc.")]
+    [SerializeField] private bool _isUnstoppable = false;
+
     [Tooltip("Speed at which the bullet travels.")]
     [SerializeField] private float _bulletSpeed = 20f;
 
@@ -55,6 +58,19 @@ public class Bullet : MonoBehaviour, IPausable
             {
                 HitNPC(npc, other);
             }
+        }
+
+        // For unstoppable bullets.
+        if (_isUnstoppable)
+        {
+            // Stop for non-interactable objects.
+            if (gameObject.layer != other.gameObject.layer)
+            {
+                gameObject.SetActive(false);
+            }
+
+            // Don't disable bullet otherwise.
+            return;
         }
 
         // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
