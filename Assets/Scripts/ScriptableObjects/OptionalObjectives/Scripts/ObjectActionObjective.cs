@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Used in the editor to select the way the objective should be evaluated.
@@ -13,8 +14,8 @@ public enum ActionRequirementMode
 [CreateAssetMenu(fileName = "NewObjectActionObjective", menuName = "Inertia Pause/Object Action Objective")]
 public class ObjectActionObjective : OptionalObjective
 {
-    [Tooltip("The tag of the object type that will be used for the objective (the tag should be plural, e.g. 'Bullets').")]
-    [SerializeField] private string _objectTypeTagToRestrict;
+    [Tooltip("The tags of the object types that will be used for the objective (the tag should be plural, e.g. 'Bullets').")]
+    [SerializeField] private List<string> _objectTypeTagsToRestrict;
 
     [Tooltip("The number of actions with the specified object type that are required for the objective.")]
     [SerializeField] private int _actionTarget = 0;
@@ -34,7 +35,7 @@ public class ObjectActionObjective : OptionalObjective
 
             // Check if the action was performed on an object of the specified type and only count it if the command
             // counted as an action.
-            if (command.WillCountAsAction && actionGameObject.transform.root.CompareTag(_objectTypeTagToRestrict))
+            if (command.WillCountAsAction && _objectTypeTagsToRestrict.Contains(actionGameObject.transform.root.tag))
             {
                 actionCount++;
             }

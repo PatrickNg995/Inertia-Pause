@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: BridgeEasy1-Bullets&BarrelsDeath
   m_EditorClassIdentifier: 
   Description: Don't kill enemies with bullets or explosive barrels
-  _objectTypeTagToRequire: Bullets
+  _objectTypeTagsToRequire:
+  - Bullets
+  - ExplosiveBarrels
   _killNumberRequirement: 0
   _killRequirementMode: 2
