@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: RestrictAlliesActionObjective
   m_EditorClassIdentifier: 
   Description: Don't move any allies.
-  _objectTypeTagToRestrict: Allies
-  _actionsAllowed: 0
+  _objectTypeTagsToRestrict:
+  - Allies
+  _actionTarget: 0
+  _actionRequirementMode: 0
