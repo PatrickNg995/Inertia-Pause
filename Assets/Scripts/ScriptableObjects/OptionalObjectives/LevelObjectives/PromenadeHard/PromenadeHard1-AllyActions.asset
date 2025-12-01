@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb858caaf036fd740803ea5e8d995e19, type: 3}
-  m_Name: PromenadeEasy2-ActionCount
+  m_Script: {fileID: 11500000, guid: bfd4f3eb69422f6459766dd12fe1ffde, type: 3}
+  m_Name: PromenadeHard1-AllyActions
   m_EditorClassIdentifier: 
-  Description: Solve in 7 actions or less
-  _maxActions: 7
+  Description: Don't move more than 1 ally / civilian
+  _objectTypeTagToRestrict: Allies
+  _actionTarget: 1
+  _actionRequirementMode: 2
