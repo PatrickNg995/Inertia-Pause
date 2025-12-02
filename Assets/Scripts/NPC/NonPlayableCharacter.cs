@@ -110,6 +110,9 @@ public class NPC : MonoBehaviour, IPausable
     {
         // Make rigidbody kinematic to pause physics.
         _rb.isKinematic = true;
+
+        // Clear last cause of death on pause.
+        LastCauseOfDeath = null;
     }
 
     public void Unpause()
@@ -146,13 +149,12 @@ public class NPC : MonoBehaviour, IPausable
         {
             _hasArmour = true;
         }
-
-        LastCauseOfDeath = null;
     }
 
     public void Die(GameObject cause)
     {
         GameManager.Instance.RecordNpcDeath(cause);
+        LastCauseOfDeath = cause;
 
         // Disable animator, enable ragdoll physics.
         _animator.enabled = false;
