@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Target: {fileID: 0}
-  WeaponSpawnPoint: {fileID: 0}
+  WeaponSpawnPoint: {fileID: 8246660490807118966}
   Weapon: {fileID: 0}
   _isWeaponDistanceOn: 0
   _weaponDistance: 0
@@ -1233,9 +1233,9 @@ MonoBehaviour:
   _rb: {fileID: 6973816762950230283}
   _collider: {fileID: 2484033846409333565}
   _accessoryConstraints:
-  - {fileID: 0}
+  - {fileID: 8198696997260345888}
   _accessoryRigidbodies:
-  - {fileID: 0}
+  - {fileID: 770752382912164065}
   _isArmoured: 0
 --- !u!114 &4685866855930134378
 MonoBehaviour:
@@ -2090,6 +2090,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissileLauncher
       objectReference: {fileID: 0}
+    - target: {fileID: 4571346200938598532, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
+      propertyPath: m_Sources.Array.data[0].sourceTransform
+      value: 
+      objectReference: {fileID: 8246660490807118966}
     - target: {fileID: 6160530119074731380, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.63
@@ -2112,7 +2116,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160530119074731380, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.19803268
+      value: -0.19803257
       objectReference: {fileID: 0}
     - target: {fileID: 6160530119074731380, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2149,14 +2153,16 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1687804690647035002, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8198696997260345888}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
 --- !u!198 &582827985127986376 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 5089541100149982828, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
+  m_PrefabInstance: {fileID: 5672055430252401316}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &770752382912164065 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: -4321921369298771387, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
   m_PrefabInstance: {fileID: 5672055430252401316}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &2002318273664665552 stripped
@@ -2164,35 +2170,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6160530119074731380, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
   m_PrefabInstance: {fileID: 5672055430252401316}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &6474902139943796446 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1687804690647035002, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
+--- !u!1773428102 &8198696997260345888 stripped
+ParentConstraint:
+  m_CorrespondingSourceObject: {fileID: 4571346200938598532, guid: 0d0b1c68fb6f0da479a4c536ab95a55c, type: 3}
   m_PrefabInstance: {fileID: 5672055430252401316}
   m_PrefabAsset: {fileID: 0}
---- !u!1773428102 &8198696997260345888
-ParentConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6474902139943796446}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_TranslationAtRest: {x: 0.089, y: 1.17, z: 0.166}
-  m_RotationAtRest: {x: 0, y: 0, z: -16.959997}
-  m_TranslationOffsets:
-  - {x: -0.035013177, y: -0.26189137, z: -0.07433367}
-  m_RotationOffsets:
-  - {x: -3.4450846, y: 0.87749124, z: -15.925397}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources:
-  - sourceTransform: {fileID: 8246660490807118966}
-    weight: 1
