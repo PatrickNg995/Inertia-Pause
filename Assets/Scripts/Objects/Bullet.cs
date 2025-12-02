@@ -63,13 +63,7 @@ public class Bullet : MonoBehaviour, IPausable
         // For unstoppable bullets.
         if (_isUnstoppable)
         {
-            // Stop for non-interactable objects.
-            if (gameObject.layer != other.gameObject.layer)
-            {
-                gameObject.SetActive(false);
-            }
-
-            // Don't disable bullet otherwise.
+            // Never disable this bullet.
             return;
         }
 
