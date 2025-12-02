@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BillboardIconController : MonoBehaviour, IPausable
+public class BillboardIconController : MonoBehaviour
 {
     [Header("Icon Appearance Settings")]
     [SerializeField] private IconAppearOnState _iconAppearOnState;
@@ -28,29 +27,26 @@ public class BillboardIconController : MonoBehaviour, IPausable
         transform.LookAt(_mainCamera);
     }
 
-    public void Pause()
-    {
-        // No implementation needed for pausing billboard icons.
-    }
-
-    public void Unpause()
-    {
-        // No implementation needed for unpausing billboard icons.
-    }
-
-    public void ResetStateBeforeUnpause()
+    public void UpdateBillboardIconState()
     {
         switch (_iconAppearOnState)
         {
             case IconAppearOnState.AppearOnDeath:
-                _iconObject.SetActive(_npc.LastCauseOfDeath != null);
+                // Show icon if the NPC died on the last attempt.
+                _iconObject.SetActive(_npc.HasDiedLastAttempt == true);
                 break;
             case IconAppearOnState.AppearOnSurvive:
-                _iconObject.SetActive(_npc.LastCauseOfDeath == null);
+                // Show icon if NPC survived the last attempt.
+                _iconObject.SetActive(_npc.HasDiedLastAttempt == false);
                 break;
             default:
                 Debug.LogError("Unsupported IconAppearOnState in BillboardIconController.");
                 return;
         }
+    }
+
+    public void DisableBillboardIcon()
+    {
+        _iconObject.SetActive(false);
     }
 }

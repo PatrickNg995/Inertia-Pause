@@ -77,10 +77,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action<LevelResults> OnLevelComplete;
 
-    // Lists of enemies and allies in the scene.
-    private List<GameObject> _listOfEnemies = new List<GameObject>();
-    private List<GameObject> _listOfAllies = new List<GameObject>();
-    private List<GameObject> _listOfCivilians = new List<GameObject>();
+    // Lists of enemies and allies gameObjects in the scene.
+    private List<GameObject> _listOfEnemiesObjects = new List<GameObject>();
+    private List<GameObject> _listOfAlliesObjects = new List<GameObject>();
+    private List<GameObject> _listOfCiviliansObjects = new List<GameObject>();
 
     // List of animation Scripts
     private List<AllyAnimationScript> _allyAnimationScripts = new List<AllyAnimationScript>();
@@ -94,6 +94,11 @@ public class GameManager : MonoBehaviour
 
     // Command manager that handles logic for undo/redo and action count.
     private CommandManager _commandManager;
+
+    // Lists of NPCs in the scene.
+    private List<NPC> _listOfEnemies = new List<NPC>();
+    private List<NPC> _listOfAllies = new List<NPC>();
+    private List<NPC> _listOfCivilians = new List<NPC>();
 
     /// <summary>
     /// Whether the level has been won.
@@ -143,13 +148,19 @@ public class GameManager : MonoBehaviour
         _commandManager.OnRedoAvailable += () => OnRedoAvailable?.Invoke();
         _commandManager.OnRedoUnavailable += () => OnRedoUnavailable?.Invoke();
 
-        // Get list of enemies and allies in the scene for use in determining victory.
-        _listOfEnemies = GetDirectChildrenOfObject(_enemies);
-        _listOfAllies = GetDirectChildrenOfObject(_allies);
-        _listOfCivilians = GetDirectChildrenOfObject(_civilians);
+        // Get list of enemies and allies as gameObjects in the scene.
+        _listOfEnemiesObjects = GetDirectChildrenOfObject(_enemies);
+        _listOfAlliesObjects = GetDirectChildrenOfObject(_allies);
+        _listOfCiviliansObjects = GetDirectChildrenOfObject(_civilians);
 
-        _allyAnimationScripts = GetComponentsFromObjects<AllyAnimationScript>(_listOfAllies);
-        _civilianAnimationScripts = GetComponentsFromObjects<CivilianAnimationScript>(_listOfCivilians);
+        // Get list of NPC components from the gameObjects.
+        _listOfEnemies = GetComponentsFromObjects<NPC>(_listOfEnemiesObjects);
+        _listOfAllies = GetComponentsFromObjects<NPC>(_listOfAlliesObjects);
+        _listOfCivilians = GetComponentsFromObjects<NPC>(_listOfCiviliansObjects);
+
+        // Get list of Animation Scripts from the gameObjects.
+        _allyAnimationScripts = GetComponentsFromObjects<AllyAnimationScript>(_listOfAlliesObjects);
+        _civilianAnimationScripts = GetComponentsFromObjects<CivilianAnimationScript>(_listOfCiviliansObjects);
 
         // Set up input actions.
         _inputActions = new PlayerActions();
@@ -251,6 +262,11 @@ public class GameManager : MonoBehaviour
         // Reset replay cameras.
         _replayCameraManager.ResetCameras();
 
+        // Update billboard icons for all NPCs.
+        UpdateBillboardIconsInList(_listOfEnemies);
+        UpdateBillboardIconsInList(_listOfAllies);
+        UpdateBillboardIconsInList(_listOfCivilians);
+
         // Show objectives again.
         OnLevelStart?.Invoke();
     }
@@ -313,7 +329,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Enemies alive: {enemiesAlive}, Allies alive: {alliesAlive}, Civilians alive: {civiliansAlive}");
 
         // Check if there are no enemies alive and all allies and civilians are alive.
-        if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAllies.Count + _listOfCivilians.Count))
+        if (enemiesAlive == 0 && (alliesAlive + civiliansAlive) == (_listOfAlliesObjects.Count + _listOfCiviliansObjects.Count))
         {
             LevelWon = true;
 
@@ -342,7 +358,7 @@ public class GameManager : MonoBehaviour
         {
             CiviliansRescued = civiliansAlive,
             AlliesSaved = alliesAlive,
-            EnemiesKilled = _listOfEnemies.Count - enemiesAlive,
+            EnemiesKilled = _listOfEnemiesObjects.Count - enemiesAlive,
             OptionalObjectivesComplete = optionalResults,
             ActionsTaken = ActionCount
         };
@@ -361,19 +377,20 @@ public class GameManager : MonoBehaviour
         // Allow player to click on results screen buttons.
         Cursor.lockState = CursorLockMode.None;
     }
-    private int GetNumNPCsAlive(List<GameObject> listOfNPCs)
+
+    private void UpdateBillboardIconsInList(List<NPC> npcList)
+    {
+        foreach (NPC npc in npcList)
+        {
+            npc.UpdateBillboardIconState();
+        }
+    }
+
+    private int GetNumNPCsAlive(List<NPC> listOfNPCs)
     {
         int numAlive = 0;
-        foreach (GameObject gameObject in listOfNPCs)
+        foreach (NPC npc in listOfNPCs)
         {
-            NPC npc = gameObject.GetComponent<NPC>();
-
-            // If NPC component is not on the parent object, check children.
-            if (npc == null)
-            {
-                npc = gameObject.GetComponentInChildren<NPC>();
-            }
-
             if (npc.IsAlive)
             {
                 numAlive++;

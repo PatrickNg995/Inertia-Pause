@@ -13,6 +13,7 @@ public class NPC : MonoBehaviour, IPausable
     [SerializeField] private Animator _animator;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Collider _collider;
+    [SerializeField] private BillboardIconController _billboardIconController;
 
     [Header("Accessory References")]
     // Constraints of accessories the NPC may have, used to make the NPC let go of them on death.
@@ -46,8 +47,8 @@ public class NPC : MonoBehaviour, IPausable
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
-    // Tracks the GameObject responsible for the NPC's most recent death (if any).
-    public GameObject LastCauseOfDeath { get; private set; }
+    // Whether the NPC died in the last attempt.
+    public bool HasDiedLastAttempt { get; private set; } = false;
 
     private void Awake()
     {
@@ -110,9 +111,6 @@ public class NPC : MonoBehaviour, IPausable
     {
         // Make rigidbody kinematic to pause physics.
         _rb.isKinematic = true;
-
-        // Clear last cause of death on pause.
-        LastCauseOfDeath = null;
     }
 
     public void Unpause()
@@ -123,6 +121,12 @@ public class NPC : MonoBehaviour, IPausable
 
         // Restore rigidbody physics.
         _rb.isKinematic = false;
+
+        // Clear death on last attempt on unpause.
+        HasDiedLastAttempt = false;
+
+        // Disable billboard icon on unpause.
+        _billboardIconController.DisableBillboardIcon();
     }
 
     public void ResetStateBeforeUnpause()
@@ -151,10 +155,14 @@ public class NPC : MonoBehaviour, IPausable
         }
     }
 
+    public void UpdateBillboardIconState()
+    {
+        _billboardIconController.UpdateBillboardIconState();
+    }
+
     public void Die(GameObject cause)
     {
         GameManager.Instance.RecordNpcDeath(cause);
-        LastCauseOfDeath = cause;
 
         // Disable animator, enable ragdoll physics.
         _animator.enabled = false;
@@ -165,6 +173,7 @@ public class NPC : MonoBehaviour, IPausable
         SetConstraintState(false);
 
         IsAlive = false;
+        HasDiedLastAttempt = true;
     }
 
     public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
