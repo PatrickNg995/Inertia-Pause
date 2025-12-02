@@ -119,6 +119,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e2040610130a73245aedc9fb9f8d9718, type: 2}
+    - target: {fileID: 6598724855412431800, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: e71947b1375223f4da286c3f8726b851, type: 2}
     - target: {fileID: 7772501988085680133, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -132,9 +136,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 448281007417432952, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
       insertIndex: 7
-      addedObject: {fileID: 2335130643247621155}
-    - targetCorrespondingSourceObject: {fileID: 448281007417432952, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
-      insertIndex: 8
       addedObject: {fileID: 3799868851183783957}
   m_SourcePrefab: {fileID: 100100000, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
 --- !u!4 &236085528466551110 stripped
@@ -147,23 +148,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 448281007417432952, guid: b6c1fcd7bb4ffb04f944ffa61c5d8179, type: 3}
   m_PrefabInstance: {fileID: 90939264082024265}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2335130643247621155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 539176261953850417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49ab0546d74d6a844a1307cd19eb3798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  WeaponSpawnPoint: {fileID: 5258517946277687539}
-  Weapon: {fileID: 0}
-  _isWeaponDistanceOn: 0
-  _weaponDistance: 0
 --- !u!114 &3799868851183783957
 MonoBehaviour:
   m_ObjectHideFlags: 0
