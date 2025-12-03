@@ -57,6 +57,7 @@ public class HUDPresenter : MonoBehaviour
         }
 
         _gameManager.OnLevelStart += OnLevelStart;
+        _gameManager.OnLevelRewind += OnLevelStart;
         _gameManager.OnActionUpdate += OnActionCounterUpdate;
         _gameManager.OnUndoAvailable += OnUndoAvailable;
         _gameManager.OnUndoUnavailable += OnUndoUnavailable;

@@ -6,13 +6,30 @@ public class Explosion : MonoBehaviour
     [SerializeField] private SphereCollider _sphereCollider;
     [SerializeField] private ParticleSystem _ps;
 
+    [SerializeField] private float _explosionDuration;
+    private float _currentExplosionTime;
+
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 15f;
     private const float UPWARD_FACTOR = 0.4f;
 
-    public void Awake()
+    private void Awake()
     {
         _sphereCollider.enabled = false;
+        _currentExplosionTime = _explosionDuration;
+    }
+
+    private void Update()
+    {
+        if (_sphereCollider.enabled)
+        {
+            _currentExplosionTime -= Time.deltaTime;
+            if (_currentExplosionTime <= 0)
+            {
+                _currentExplosionTime = _explosionDuration;
+                _sphereCollider.enabled = false;
+            }
+        }
     }
 
     public void StartExplosion()
