@@ -28,9 +28,14 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
 
     /// <summary>
-    /// Invoked when the level starts.
+    /// Invoked when the level starts for the first time.
     /// </summary>
     public Action OnLevelStart;
+
+    /// <summary>
+    /// Invoked every time the level is rewinded in the results screen.
+    /// </summary>
+    public Action OnLevelRewind;
 
     /// <summary>
     /// Invoked when the action count is updated.
@@ -268,7 +273,7 @@ public class GameManager : MonoBehaviour
         UpdateBillboardIconsInList(_listOfCivilians);
 
         // Show objectives again.
-        OnLevelStart?.Invoke();
+        OnLevelRewind?.Invoke();
     }
 
     public void RewindObjects()
