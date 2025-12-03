@@ -20,8 +20,9 @@ public class ResultMenuPresenter : MonoBehaviour
     private const string CIVILIANS_OBJECTIVE_TEXT = "Civilians Rescued";
     private const string ALLIES_OBJECTIVE_TEXT = "Allies Saved";
     private const string ENEMIES_OBJECTIVE_TEXT = "Enemies Killed";
-    private const string COMPLETE_TEXT = "Complete";
-    private const string MISSED_TEXT = "Missed";
+    private const string OPTIONAL_OBJECTIVE_COMPLETE_TEXT = "Complete";
+    private const string OPTIONAL_OBJECTIVE_MISSED_TEXT = "Missed";
+    private const string OPTIONAL_OBJECTIVE_LEVEL_FAILED_TEXT = "Scenario Incomplete";
     private const string OBJECTIVE_COUNT_FORMAT = "{0}/{1}";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -104,7 +105,15 @@ public class ResultMenuPresenter : MonoBehaviour
         {
             string objective = scenarioInfo.Objectives.OptionalObjectives[i].Description;
             bool isComplete = results.OptionalObjectivesComplete[i];
-            string completionText = results.OptionalObjectivesComplete[i] ? COMPLETE_TEXT : MISSED_TEXT;
+            string completionText;
+            if (isComplete)
+            {
+                completionText = results.OptionalObjectivesComplete[i] ? OPTIONAL_OBJECTIVE_COMPLETE_TEXT : OPTIONAL_OBJECTIVE_MISSED_TEXT;
+            }
+            else
+            {
+                completionText = OPTIONAL_OBJECTIVE_LEVEL_FAILED_TEXT;
+            }
             Color textColor = isComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
