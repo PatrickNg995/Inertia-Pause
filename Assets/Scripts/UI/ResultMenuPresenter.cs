@@ -80,7 +80,6 @@ public class ResultMenuPresenter : MonoBehaviour
 
         _view.NewRecord.SetActive(false);
         _view.NextButton.gameObject.SetActive(isLevelComplete);
-        _view.RewindButton.gameObject.SetActive(!isLevelComplete);
 
         if (scenarioInfo.NumberOfCivilians > 0)
         {
