@@ -104,17 +104,17 @@ public class ResultMenuPresenter : MonoBehaviour
         for (int i = 0; i < scenarioInfo.Objectives.OptionalObjectives.Count; i++)
         {
             string objective = scenarioInfo.Objectives.OptionalObjectives[i].Description;
-            bool isComplete = results.OptionalObjectivesComplete[i];
+            bool isOptionalObjectiveComplete = results.OptionalObjectivesComplete[i];
             string completionText;
-            if (isComplete)
+            if (isLevelComplete)
             {
-                completionText = results.OptionalObjectivesComplete[i] ? OPTIONAL_OBJECTIVE_COMPLETE_TEXT : OPTIONAL_OBJECTIVE_MISSED_TEXT;
+                completionText = isOptionalObjectiveComplete ? OPTIONAL_OBJECTIVE_COMPLETE_TEXT : OPTIONAL_OBJECTIVE_MISSED_TEXT;
             }
             else
             {
                 completionText = OPTIONAL_OBJECTIVE_LEVEL_FAILED_TEXT;
             }
-            Color textColor = isComplete ? _completeColor : _failedColorOptional;
+            Color textColor = isOptionalObjectiveComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
     }
