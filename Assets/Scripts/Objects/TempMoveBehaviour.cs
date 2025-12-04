@@ -34,9 +34,9 @@ public class TempMoveBehaviour : InteractionObject
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
     }
 
-    public override void OnStartInteract()
+    public override bool OnStartInteract()
     {
-        
+        return true;
     }
 
     public override void OnHoldInteract()

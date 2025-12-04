@@ -35,6 +35,11 @@ public class PlayerInteract : MonoBehaviour
     public Action<ICommand> OnInteractReset;
 
     /// <summary>
+    /// Invoked when the player interacts with a one-shot object that has already been interacted with (shelf).
+    /// </summary>
+    public Action OnInteractFailed;
+
+    /// <summary>
     /// Invoked when the player looks at an interactable object and presses the Help button.
     /// </summary>
     public Action<TutorialInfo> OnTutorialOpen;
@@ -109,7 +114,13 @@ public class PlayerInteract : MonoBehaviour
             OnOneShotInteract?.Invoke(_targetObject.InteractableInfo);
         }
 
-        _targetObject.OnStartInteract();
+        bool isInteractSuccessful = _targetObject.OnStartInteract();
+        if (!isInteractSuccessful)
+        {
+            // Interaction can fail if the player interacts with shelf twice.
+            OnInteractFailed?.Invoke();
+            Debug.Log($"Failed to interact with {_targetObject.name}");
+        }
         Debug.Log($"Started interacting with {_targetObject.name}");
     }
 

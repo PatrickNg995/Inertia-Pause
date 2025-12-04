@@ -51,14 +51,17 @@ public class ShelfBehaviour : InteractionObject, IPausable
         throw new System.NotImplementedException();
     }
 
-    public override void OnStartInteract()
+    public override bool OnStartInteract()
     {
-        if (HasTakenAction) { return; }
+        if (HasTakenAction) {
+            return false;
+        }
 
         // Set up and execute the topple command, in the right direction.
         ActionCommand = new ToppleCommand(this, _rb, transform.right, _torque);
         _rb.isKinematic = false;
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
+        return true;
     }
 
     public override void OnHoldInteract()

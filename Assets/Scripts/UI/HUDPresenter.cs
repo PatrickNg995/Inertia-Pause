@@ -23,10 +23,12 @@ public class HUDPresenter : MonoBehaviour
     private const float OBJECTIVE_FADE_DELAY = 5f;
     private const float OBJECTIVE_FADE_DURATION = 1f;
 
-    private const float NOTIFICATION_FADE_DELAY = 3f;
+    private const float NOTIFICATION_FADE_DELAY = 2f;
     private const float NOTIFICATION_FADE_DURATION = 1f;
 
     private const string TELEMETRY_FORMAT = "{0} V{1} - {2} FPS - {3} ms";
+
+    private const string INTERACTION_FAILED_MESSAGE = "You have already interacted with this object.";
 
     private Coroutine _objectivesFadeCoroutine;
     private WaitForSeconds _objectiveFadeDelay = new (OBJECTIVE_FADE_DELAY);
@@ -73,13 +75,13 @@ public class HUDPresenter : MonoBehaviour
         _gameManager.OnAnyBlockingMenuOpen += CloseMenu;
         _gameManager.OnAnyBlockingMenuClose += OpenMenu;
         _gameManager.OnLevelComplete += _ => CloseMenu();
-        // TODO: Add notification here.
 
         _playerInteractModel.OnLookAtInteractable += OnPlayerLookAtInteractable;
         _playerInteractModel.OnLookAwayFromInteractable += OnPlayerLookAwayFromInteractable;
         _playerInteractModel.OnContinuousInteract += OnPlayerInteract;
         _playerInteractModel.OnOneShotInteract += _ => HideObjectives();
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
+        _playerInteractModel.OnInteractFailed += OnPlayerInteractionFailed;
 
         _view.InteractionPrompts.SetActive(false);
         OnUndoUnavailable();
@@ -101,6 +103,11 @@ public class HUDPresenter : MonoBehaviour
         _view.MainCanvas.enabled = false;
         _view.ObjectivesElements.alpha = 0;
         _view.NotificationText.alpha = 0;
+    }
+
+    private void OnPlayerInteractionFailed()
+    {
+        DisplayNotification(INTERACTION_FAILED_MESSAGE);
     }
 
     private void DisplayNotification(string message)
