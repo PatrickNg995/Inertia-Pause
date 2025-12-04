@@ -48,7 +48,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.gameObject.SetActive(false);
         _gameManager.AnyBlockingMenuClosed();
         _inputActions.UI.Disable();
-        _inputActions.Ingame.Disable();
+        _inputActions.Ingame.ContextualHelp.Disable();
         EventSystem.current.SetSelectedGameObject(null);
     }
 
