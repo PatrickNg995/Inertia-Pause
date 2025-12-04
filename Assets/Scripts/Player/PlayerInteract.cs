@@ -120,6 +120,7 @@ public class PlayerInteract : MonoBehaviour
             // Interaction can fail if the player interacts with shelf twice.
             OnInteractFailed?.Invoke();
             Debug.Log($"Failed to interact with {_targetObject.name}");
+            return;
         }
         Debug.Log($"Started interacting with {_targetObject.name}");
     }
