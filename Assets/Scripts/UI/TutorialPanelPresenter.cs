@@ -32,6 +32,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         // UI
         _inputActions = new PlayerActions();
         _inputActions.UI.Cancel.performed += _ => OnBackClicked();
+        _inputActions.Ingame.ContextualHelp.performed += _ => OnBackClicked();
     }
 
     public void OpenMenu()
@@ -39,6 +40,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.gameObject.SetActive(true);
         _gameManager.AnyBlockingMenuOpened();
         _inputActions.UI.Enable();
+        _inputActions.Ingame.ContextualHelp.Enable();
     }
 
     public void CloseMenu()
@@ -46,6 +48,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         _view.gameObject.SetActive(false);
         _gameManager.AnyBlockingMenuClosed();
         _inputActions.UI.Disable();
+        _inputActions.Ingame.Disable();
         EventSystem.current.SetSelectedGameObject(null);
     }
 
