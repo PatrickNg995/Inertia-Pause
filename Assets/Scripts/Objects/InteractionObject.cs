@@ -15,7 +15,7 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     // Command to be executed on action.
     public ActionCommand ActionCommand { get; protected set; }
 
-    public abstract void OnStartInteract();
+    public abstract bool OnStartInteract();
 
     public abstract void OnHoldInteract();
 

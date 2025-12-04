@@ -23,10 +23,18 @@ public class HUDPresenter : MonoBehaviour
     private const float OBJECTIVE_FADE_DELAY = 5f;
     private const float OBJECTIVE_FADE_DURATION = 1f;
 
+    private const float NOTIFICATION_FADE_DELAY = 2f;
+    private const float NOTIFICATION_FADE_DURATION = 1f;
+
     private const string TELEMETRY_FORMAT = "{0} V{1} - {2} FPS - {3} ms";
+
+    private const string INTERACTION_FAILED_MESSAGE = "You have already interacted with this object.";
 
     private Coroutine _objectivesFadeCoroutine;
     private WaitForSeconds _objectiveFadeDelay = new (OBJECTIVE_FADE_DELAY);
+
+    private Coroutine _notificationCoroutine;
+    private WaitForSeconds _notificationFadeDelay = new (NOTIFICATION_FADE_DELAY);
 
     private bool _isInteracting;
     private bool _isObjectivesHidden;
@@ -45,6 +53,7 @@ public class HUDPresenter : MonoBehaviour
         OnFramerateUpdate(0, 0);
 
         _view.ObjectivesElements.alpha = 0;
+        _view.NotificationText.alpha = 0;
 
         if (_gameManager.ScenarioInfo != null)
         {
@@ -72,6 +81,7 @@ public class HUDPresenter : MonoBehaviour
         _playerInteractModel.OnContinuousInteract += OnPlayerInteract;
         _playerInteractModel.OnOneShotInteract += _ => HideObjectives();
         _playerInteractModel.OnEndInteraction += OnPlayerEndInteraction;
+        _playerInteractModel.OnInteractFailed += OnPlayerInteractionFailed;
 
         _view.InteractionPrompts.SetActive(false);
         OnUndoUnavailable();
@@ -92,6 +102,39 @@ public class HUDPresenter : MonoBehaviour
     {
         _view.MainCanvas.enabled = false;
         _view.ObjectivesElements.alpha = 0;
+        _view.NotificationText.alpha = 0;
+    }
+
+    private void OnPlayerInteractionFailed()
+    {
+        DisplayNotification(INTERACTION_FAILED_MESSAGE);
+    }
+
+    private void DisplayNotification(string message)
+    {
+        _view.NotificationText.text = message;
+        _view.NotificationText.alpha = 1;
+
+        if (_notificationCoroutine != null)
+        {
+            StopCoroutine(_notificationCoroutine);
+        }
+        _notificationCoroutine = StartCoroutine(ShowNotificationTemporarily(message));
+    }
+
+    private IEnumerator ShowNotificationTemporarily(string message)
+    {
+        yield return _notificationFadeDelay;
+        float time = 0;
+
+        while (time < NOTIFICATION_FADE_DURATION)
+        {
+            time += Time.deltaTime;
+            _view.NotificationText.alpha = 1.0f - (time / NOTIFICATION_FADE_DURATION);
+            yield return null;
+        }
+
+        _view.NotificationText.alpha = 0;
     }
 
     private void DisplayScenarioInfo(ScenarioInfo scenarioInfo)
