@@ -53,7 +53,8 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public override bool OnStartInteract()
     {
-        if (HasTakenAction) {
+        if (HasTakenAction)
+        {
             return false;
         }
 
