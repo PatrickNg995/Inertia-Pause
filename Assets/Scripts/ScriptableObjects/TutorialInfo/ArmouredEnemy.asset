@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803afbcde9d9d424aab91b2f1d21860b, type: 3}
+  m_Name: ArmouredEnemy
+  m_EditorClassIdentifier: 
+  ObjectName: Armoured Enemy
+  Pages:
+  - Content: Armoured enemies are a variant of the regular enemy equipped with ballistic
+      armour. They take reduced damage from all bullet types, needing two hits from
+      bullets to kill the enemy. Explosions, fall damage, and other sources of damage
+      will still kill the enemy immediately.
+    Image: {fileID: 21300000, guid: c80c1889556b14342a31c2189e9df68b, type: 3}
+  - Content: 'Like regular enemies, shielded enemies can be moved in any direction
+      within 1 meter of the starting point, but cannot be rotated.
+
+
+      After
+      time is unpaused, enemies will remain stationary but react to gravity. Falling
+      from a one storey height or greater will kill the enemy.
+
+
+      To complete
+      the scenario, all enemies must be killed.'
+    Image: {fileID: 21300000, guid: c80c1889556b14342a31c2189e9df68b, type: 3}
