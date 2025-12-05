@@ -94,4 +94,9 @@ public class Missile : MonoBehaviour, IPausable
 
         transform.position = _pausedPosition;
     }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
+    }
 }

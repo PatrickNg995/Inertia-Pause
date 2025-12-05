@@ -32,4 +32,9 @@ public class PausableRigidbody : MonoBehaviour, IPausable
         // Reset position and rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
+    }
 }

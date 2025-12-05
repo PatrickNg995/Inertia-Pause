@@ -155,6 +155,11 @@ public class NPC : MonoBehaviour, IPausable
         }
     }
 
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
+    }
+
     public void UpdateBillboardIconState()
     {
         _billboardIconController.UpdateBillboardIconState();

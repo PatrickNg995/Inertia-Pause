@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Mine : MonoBehaviour, IPausable
 {
@@ -103,5 +103,10 @@ public class Mine : MonoBehaviour, IPausable
         _explosionScript.ResetExplosion();
 
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
+    }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
     }
 }
