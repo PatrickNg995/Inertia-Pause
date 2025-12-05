@@ -41,14 +41,21 @@ public class ReplayCameraManager : MonoBehaviour
     // Whether the current replay has received a request to be skipped.
     private bool _isSkipRequested;
 
+    // The index of the currently active replay camera.
+    private int _currentCameraIndex = 0;
+
     // Input actions.
     private PlayerActions _inputActions;
     private InputAction _skipReplayAction;
+    private InputAction _cycleCameraNextAction;
+    private InputAction _cycleCameraPreviousAction;
 
     private void Awake()
     {
         _inputActions = new PlayerActions();
         _skipReplayAction = _inputActions.Spectator.Skip;
+        _cycleCameraNextAction = _inputActions.Spectator.CycleNext;
+        _cycleCameraPreviousAction = _inputActions.Spectator.CyclePrevious;
     }
 
     private void Start()
@@ -58,20 +65,23 @@ public class ReplayCameraManager : MonoBehaviour
 
         // Cache wait time.
         _preUnpauseDelayWait = new WaitForSeconds(_preUnpauseDelay);
-
-        // Disable skip action at start; only enable during replays.
-        _skipReplayAction.Disable();
     }
 
     private void OnEnable()
     {
         _skipReplayAction.performed += OnSkipPerformed;
-        _skipReplayAction.Enable();
+        _cycleCameraNextAction.performed += CycleCameraNext;
+        _cycleCameraPreviousAction.performed += CycleCameraPrevious;
     }
     private void OnDisable()
     {
         _skipReplayAction.performed -= OnSkipPerformed;
+        _cycleCameraNextAction.performed -= CycleCameraNext;
+        _cycleCameraPreviousAction.performed -= CycleCameraPrevious;
+
         _skipReplayAction.Disable();
+        _cycleCameraNextAction.Disable();
+        _cycleCameraPreviousAction.Disable();
     }
 
     private void OnSkipPerformed(InputAction.CallbackContext ctx)
@@ -93,6 +103,10 @@ public class ReplayCameraManager : MonoBehaviour
 
             cam.gameObject.SetActive(false);
         }
+
+        // Disable camera cycling actions.
+        _cycleCameraNextAction.Disable();
+        _cycleCameraPreviousAction.Disable();
     }
 
     public IEnumerator StartReplaySequence()
@@ -102,8 +116,10 @@ public class ReplayCameraManager : MonoBehaviour
 
         OnReplayStart?.Invoke(_replayCameras.Count);
 
+        // Start with the player camera as the previous camera, effectively camera index -1.
         Camera previousCam = _playerCamera;
-        int cameraIndex = 0;
+        _currentCameraIndex = -1;
+        int lastIndex = _replayCameras.Count - 1;
 
         foreach (Camera replayCam in _replayCameras)
         {
@@ -112,8 +128,8 @@ public class ReplayCameraManager : MonoBehaviour
             replayCam.gameObject.SetActive(true);
 
             // Update UI
-            cameraIndex++;
-            OnCameraChange?.Invoke(cameraIndex);
+            _currentCameraIndex++;
+            OnCameraChange?.Invoke(_currentCameraIndex + 1);
 
             // Rewind level to initial state for the replay.
             GameManager.Instance.RewindObjects();
@@ -128,7 +144,7 @@ public class ReplayCameraManager : MonoBehaviour
             while (elapsedDuration < _replayDurationPerCamera)
             {
                 // Skip this replay camera if requested and it is not the last one.
-                if (_isSkipRequested && cameraIndex != _replayCameras.Count)
+                if (_isSkipRequested && _currentCameraIndex != lastIndex)
                 {
                     break;
                 }
@@ -141,6 +157,51 @@ public class ReplayCameraManager : MonoBehaviour
         }
 
         OnReplayEnd?.Invoke();
+
+        // Disable skip action and enable cycling actions after the replay.
         _skipReplayAction.Disable();
+        _cycleCameraNextAction.Enable();
+        _cycleCameraPreviousAction.Enable();
     }
+
+    private void CycleCameraNext(InputAction.CallbackContext ctx)
+    {
+        // Increment camera index with wrap-around.
+        int nextCameraIndex = WrapAroundIndex(_currentCameraIndex + 1, _replayCameras.Count);
+
+        // Deactivate current camera.
+        _replayCameras[_currentCameraIndex].gameObject.SetActive(false);
+
+        // Activate next camera.
+        _replayCameras[nextCameraIndex].gameObject.SetActive(true);
+
+        // Set new camera index.
+        _currentCameraIndex = nextCameraIndex;
+    }
+
+    private void CycleCameraPrevious(InputAction.CallbackContext ctx)
+    {
+        // Decrement camera index with wrap-around.
+        int nextCameraIndex = WrapAroundIndex(_currentCameraIndex - 1, _replayCameras.Count);
+
+        // Deactivate current camera.
+        _replayCameras[_currentCameraIndex].gameObject.SetActive(false);
+
+        // Activate previous camera.
+        _replayCameras[nextCameraIndex].gameObject.SetActive(true);
+
+        // Set new camera index.
+        _currentCameraIndex = nextCameraIndex;
+    }
+
+    private int WrapAroundIndex(int index, int maxCount)
+    {
+        int wrappedIndex = index % maxCount;
+        if (wrappedIndex < 0)
+        {
+           wrappedIndex = maxCount - 1;
+        }
+
+        return wrappedIndex;
+    } 
 }

@@ -517,7 +517,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CycleLeft"",
+                    ""name"": ""CyclePrevious"",
                     ""type"": ""Button"",
                     ""id"": ""b42a30e0-f718-4c3e-abbb-762bf1fdce83"",
                     ""expectedControlType"": """",
@@ -526,7 +526,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""CycleRight"",
+                    ""name"": ""CycleNext"",
                     ""type"": ""Button"",
                     ""id"": ""03dc5728-cab7-4a98-aad0-4b0ab4ff5138"",
                     ""expectedControlType"": """",
@@ -565,7 +565,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleLeft"",
+                    ""action"": ""CyclePrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -576,7 +576,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleLeft"",
+                    ""action"": ""CyclePrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -587,7 +587,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleLeft"",
+                    ""action"": ""CyclePrevious"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -598,7 +598,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleRight"",
+                    ""action"": ""CycleNext"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -609,7 +609,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleRight"",
+                    ""action"": ""CycleNext"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -620,7 +620,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""CycleRight"",
+                    ""action"": ""CycleNext"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1161,8 +1161,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         // Spectator
         m_Spectator = asset.FindActionMap("Spectator", throwIfNotFound: true);
         m_Spectator_Skip = m_Spectator.FindAction("Skip", throwIfNotFound: true);
-        m_Spectator_CycleLeft = m_Spectator.FindAction("CycleLeft", throwIfNotFound: true);
-        m_Spectator_CycleRight = m_Spectator.FindAction("CycleRight", throwIfNotFound: true);
+        m_Spectator_CyclePrevious = m_Spectator.FindAction("CyclePrevious", throwIfNotFound: true);
+        m_Spectator_CycleNext = m_Spectator.FindAction("CycleNext", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1464,8 +1464,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Spectator;
     private List<ISpectatorActions> m_SpectatorActionsCallbackInterfaces = new List<ISpectatorActions>();
     private readonly InputAction m_Spectator_Skip;
-    private readonly InputAction m_Spectator_CycleLeft;
-    private readonly InputAction m_Spectator_CycleRight;
+    private readonly InputAction m_Spectator_CyclePrevious;
+    private readonly InputAction m_Spectator_CycleNext;
     /// <summary>
     /// Provides access to input actions defined in input action map "Spectator".
     /// </summary>
@@ -1482,13 +1482,13 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Skip => m_Wrapper.m_Spectator_Skip;
         /// <summary>
-        /// Provides access to the underlying input action "Spectator/CycleLeft".
+        /// Provides access to the underlying input action "Spectator/CyclePrevious".
         /// </summary>
-        public InputAction @CycleLeft => m_Wrapper.m_Spectator_CycleLeft;
+        public InputAction @CyclePrevious => m_Wrapper.m_Spectator_CyclePrevious;
         /// <summary>
-        /// Provides access to the underlying input action "Spectator/CycleRight".
+        /// Provides access to the underlying input action "Spectator/CycleNext".
         /// </summary>
-        public InputAction @CycleRight => m_Wrapper.m_Spectator_CycleRight;
+        public InputAction @CycleNext => m_Wrapper.m_Spectator_CycleNext;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1518,12 +1518,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Skip.started += instance.OnSkip;
             @Skip.performed += instance.OnSkip;
             @Skip.canceled += instance.OnSkip;
-            @CycleLeft.started += instance.OnCycleLeft;
-            @CycleLeft.performed += instance.OnCycleLeft;
-            @CycleLeft.canceled += instance.OnCycleLeft;
-            @CycleRight.started += instance.OnCycleRight;
-            @CycleRight.performed += instance.OnCycleRight;
-            @CycleRight.canceled += instance.OnCycleRight;
+            @CyclePrevious.started += instance.OnCyclePrevious;
+            @CyclePrevious.performed += instance.OnCyclePrevious;
+            @CyclePrevious.canceled += instance.OnCyclePrevious;
+            @CycleNext.started += instance.OnCycleNext;
+            @CycleNext.performed += instance.OnCycleNext;
+            @CycleNext.canceled += instance.OnCycleNext;
         }
 
         /// <summary>
@@ -1538,12 +1538,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Skip.started -= instance.OnSkip;
             @Skip.performed -= instance.OnSkip;
             @Skip.canceled -= instance.OnSkip;
-            @CycleLeft.started -= instance.OnCycleLeft;
-            @CycleLeft.performed -= instance.OnCycleLeft;
-            @CycleLeft.canceled -= instance.OnCycleLeft;
-            @CycleRight.started -= instance.OnCycleRight;
-            @CycleRight.performed -= instance.OnCycleRight;
-            @CycleRight.canceled -= instance.OnCycleRight;
+            @CyclePrevious.started -= instance.OnCyclePrevious;
+            @CyclePrevious.performed -= instance.OnCyclePrevious;
+            @CyclePrevious.canceled -= instance.OnCyclePrevious;
+            @CycleNext.started -= instance.OnCycleNext;
+            @CycleNext.performed -= instance.OnCycleNext;
+            @CycleNext.canceled -= instance.OnCycleNext;
         }
 
         /// <summary>
@@ -1872,19 +1872,19 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnSkip(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "CycleLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CyclePrevious" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCycleLeft(InputAction.CallbackContext context);
+        void OnCyclePrevious(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "CycleRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "CycleNext" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCycleRight(InputAction.CallbackContext context);
+        void OnCycleNext(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
