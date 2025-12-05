@@ -155,7 +155,7 @@ public class ReplayCameraManager : MonoBehaviour
         float elapsedDuration = 0f;
         while (elapsedDuration < duration)
         {
-            // Skip this replay camera if requested and it is not the last one.
+            // Skip this replay delay if requested and it is not the last camera.
             if (_isSkipRequested && _currentCameraIndex != _replayCameras.Count - 1)
             {
                 break;
