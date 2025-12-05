@@ -124,7 +124,7 @@ public class ReplayCameraManager : MonoBehaviour
             previousCam.gameObject.SetActive(false);
             replayCam.gameObject.SetActive(true);
 
-            // Update UI
+            // Increment camera index and update UI.
             _currentCameraIndex++;
             OnCameraChange?.Invoke(_currentCameraIndex + 1);
 
