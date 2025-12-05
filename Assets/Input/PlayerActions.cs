@@ -504,6 +504,129 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             ]
         },
         {
+            ""name"": ""Spectator"",
+            ""id"": ""cefc154f-3643-4970-85bd-3c2bd6f2c047"",
+            ""actions"": [
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""e6a01ef0-aa9b-42ca-905e-b20dea263178"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""b42a30e0-f718-4c3e-abbb-762bf1fdce83"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""03dc5728-cab7-4a98-aad0-4b0ab4ff5138"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6b389a88-2e15-4c6e-8d27-435db55b6677"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""171ec851-0a12-4c87-8623-9202c0d298cb"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""408f4920-015c-4539-b1ea-7f801539880c"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a10cc591-9d95-4133-8705-0cb8896e2a6c"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c53881b7-f2f5-443e-9ff7-814f327488eb"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2fe38132-0939-46c0-993a-00b13122383f"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1c72c9e1-a560-422b-a199-f1a9c8cb3e5c"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f7d35a0-a68d-43e5-bc17-fcd0ced70a7c"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CycleRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""UI"",
             ""id"": ""dcb33149-746b-4549-95ac-c843973df343"",
             ""actions"": [
@@ -1035,6 +1158,11 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Ingame_PauseMenu = m_Ingame.FindAction("PauseMenu", throwIfNotFound: true);
         m_Ingame_ContextualHelp = m_Ingame.FindAction("ContextualHelp", throwIfNotFound: true);
         m_Ingame_Scroll = m_Ingame.FindAction("Scroll", throwIfNotFound: true);
+        // Spectator
+        m_Spectator = asset.FindActionMap("Spectator", throwIfNotFound: true);
+        m_Spectator_Skip = m_Spectator.FindAction("Skip", throwIfNotFound: true);
+        m_Spectator_CycleLeft = m_Spectator.FindAction("CycleLeft", throwIfNotFound: true);
+        m_Spectator_CycleRight = m_Spectator.FindAction("CycleRight", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1052,6 +1180,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     ~@PlayerActions()
     {
         UnityEngine.Debug.Assert(!m_Ingame.enabled, "This will cause a leak and performance issues, PlayerActions.Ingame.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Spectator.enabled, "This will cause a leak and performance issues, PlayerActions.Spectator.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, PlayerActions.UI.Disable() has not been called.");
     }
 
@@ -1331,6 +1460,124 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     /// </summary>
     public IngameActions @Ingame => new IngameActions(this);
 
+    // Spectator
+    private readonly InputActionMap m_Spectator;
+    private List<ISpectatorActions> m_SpectatorActionsCallbackInterfaces = new List<ISpectatorActions>();
+    private readonly InputAction m_Spectator_Skip;
+    private readonly InputAction m_Spectator_CycleLeft;
+    private readonly InputAction m_Spectator_CycleRight;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Spectator".
+    /// </summary>
+    public struct SpectatorActions
+    {
+        private @PlayerActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public SpectatorActions(@PlayerActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Spectator/Skip".
+        /// </summary>
+        public InputAction @Skip => m_Wrapper.m_Spectator_Skip;
+        /// <summary>
+        /// Provides access to the underlying input action "Spectator/CycleLeft".
+        /// </summary>
+        public InputAction @CycleLeft => m_Wrapper.m_Spectator_CycleLeft;
+        /// <summary>
+        /// Provides access to the underlying input action "Spectator/CycleRight".
+        /// </summary>
+        public InputAction @CycleRight => m_Wrapper.m_Spectator_CycleRight;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Spectator; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="SpectatorActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(SpectatorActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="SpectatorActions" />
+        public void AddCallbacks(ISpectatorActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SpectatorActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpectatorActionsCallbackInterfaces.Add(instance);
+            @Skip.started += instance.OnSkip;
+            @Skip.performed += instance.OnSkip;
+            @Skip.canceled += instance.OnSkip;
+            @CycleLeft.started += instance.OnCycleLeft;
+            @CycleLeft.performed += instance.OnCycleLeft;
+            @CycleLeft.canceled += instance.OnCycleLeft;
+            @CycleRight.started += instance.OnCycleRight;
+            @CycleRight.performed += instance.OnCycleRight;
+            @CycleRight.canceled += instance.OnCycleRight;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="SpectatorActions" />
+        private void UnregisterCallbacks(ISpectatorActions instance)
+        {
+            @Skip.started -= instance.OnSkip;
+            @Skip.performed -= instance.OnSkip;
+            @Skip.canceled -= instance.OnSkip;
+            @CycleLeft.started -= instance.OnCycleLeft;
+            @CycleLeft.performed -= instance.OnCycleLeft;
+            @CycleLeft.canceled -= instance.OnCycleLeft;
+            @CycleRight.started -= instance.OnCycleRight;
+            @CycleRight.performed -= instance.OnCycleRight;
+            @CycleRight.canceled -= instance.OnCycleRight;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SpectatorActions.UnregisterCallbacks(ISpectatorActions)" />.
+        /// </summary>
+        /// <seealso cref="SpectatorActions.UnregisterCallbacks(ISpectatorActions)" />
+        public void RemoveCallbacks(ISpectatorActions instance)
+        {
+            if (m_Wrapper.m_SpectatorActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="SpectatorActions.AddCallbacks(ISpectatorActions)" />
+        /// <seealso cref="SpectatorActions.RemoveCallbacks(ISpectatorActions)" />
+        /// <seealso cref="SpectatorActions.UnregisterCallbacks(ISpectatorActions)" />
+        public void SetCallbacks(ISpectatorActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SpectatorActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SpectatorActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="SpectatorActions" /> instance referencing this action map.
+    /// </summary>
+    public SpectatorActions @Spectator => new SpectatorActions(this);
+
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
@@ -1609,6 +1856,35 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScroll(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Spectator" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="SpectatorActions.AddCallbacks(ISpectatorActions)" />
+    /// <seealso cref="SpectatorActions.RemoveCallbacks(ISpectatorActions)" />
+    public interface ISpectatorActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Skip" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSkip(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CycleLeft" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleLeft(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CycleRight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleRight(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

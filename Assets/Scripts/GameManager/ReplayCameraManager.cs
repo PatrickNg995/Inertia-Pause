@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ReplayCameraManager : MonoBehaviour
 {
@@ -34,18 +35,48 @@ public class ReplayCameraManager : MonoBehaviour
     [Tooltip("How long each camera gets to be active before switching to the next one.")]
     [SerializeField] private float _replayDurationPerCamera = 3.25f;
 
-    // Cached wait times.
+    // Cached wait time.
     private WaitForSeconds _preUnpauseDelayWait;
-    private WaitForSeconds _replayDelayWait;
+
+    // Whether the current replay has received a request to be skipped.
+    private bool _isSkipRequested;
+
+    // Input actions.
+    private PlayerActions _inputActions;
+    private InputAction _skipReplayAction;
+
+    private void Awake()
+    {
+        _inputActions = new PlayerActions();
+        _skipReplayAction = _inputActions.Spectator.Skip;
+    }
 
     private void Start()
     {
         // Ensure only the player camera is active at the start.
         ResetCameras();
 
-        // Cache wait times.
+        // Cache wait time.
         _preUnpauseDelayWait = new WaitForSeconds(_preUnpauseDelay);
-        _replayDelayWait = new WaitForSeconds(_replayDurationPerCamera);
+
+        // Disable skip action at start; only enable during replays.
+        _skipReplayAction.Disable();
+    }
+
+    private void OnEnable()
+    {
+        _skipReplayAction.performed += OnSkipPerformed;
+        _skipReplayAction.Enable();
+    }
+    private void OnDisable()
+    {
+        _skipReplayAction.performed -= OnSkipPerformed;
+        _skipReplayAction.Disable();
+    }
+
+    private void OnSkipPerformed(InputAction.CallbackContext ctx)
+    {
+        _isSkipRequested = true;
     }
 
     public void ResetCameras()
@@ -66,6 +97,9 @@ public class ReplayCameraManager : MonoBehaviour
 
     public IEnumerator StartReplaySequence()
     {
+        // Enable skip action for the duration of the replay.
+        _skipReplayAction.Enable();
+
         OnReplayStart?.Invoke(_replayCameras.Count);
 
         Camera previousCam = _playerCamera;
@@ -88,13 +122,25 @@ public class ReplayCameraManager : MonoBehaviour
             yield return _preUnpauseDelayWait;
             _timePauseUnpause.UnpauseAllObjects();
 
-            // Delay for the duration of this replay camera.
-            yield return _replayDelayWait;
+            // Wait for the replay duration OR until skip is requested.
+            float elapsedDuration = 0f;
+            _isSkipRequested = false;
+            while (elapsedDuration < _replayDurationPerCamera)
+            {
+                // Skip this replay camera if requested and it is not the last one.
+                if (_isSkipRequested && cameraIndex != _replayCameras.Count)
+                {
+                    break;
+                }
+                elapsedDuration += Time.deltaTime;
+                yield return null;
+            }
 
             // Keep this replay cam enabled only for its duration — next loop will disable it.
             previousCam = replayCam;
         }
 
         OnReplayEnd?.Invoke();
+        _skipReplayAction.Disable();
     }
 }
