@@ -113,7 +113,6 @@ public class ReplayCameraManager : MonoBehaviour
         // Start with the player camera as the previous camera, effectively camera index -1.
         Camera previousCam = _playerCamera;
         _currentCameraIndex = -1;
-        int lastIndex = _replayCameras.Count - 1;
 
         foreach (Camera replayCam in _replayCameras)
         {
