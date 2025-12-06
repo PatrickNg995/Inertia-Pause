@@ -428,6 +428,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _view: {fileID: 5591375364736542504}
   _replayCameraManager: {fileID: 0}
+  _skipPromptAvailableAlpha: 1
+  _skipPromptUnavailableAlpha: 0.25
 --- !u!114 &5591375364736542504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,6 +443,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <CameraText>k__BackingField: {fileID: 2482204529481939997}
+  <SkipPrompt>k__BackingField: {fileID: 4695650352453193361}
 --- !u!1001 &1865410222337920146
 PrefabInstance:
   m_ObjectHideFlags: 0
