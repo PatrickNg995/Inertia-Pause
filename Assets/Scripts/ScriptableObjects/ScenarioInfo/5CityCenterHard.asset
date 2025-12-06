@@ -26,10 +26,12 @@ MonoBehaviour:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives: []
-    ActionLimit: 0
-  NumberOfCivilians: 0
-  NumberOfAllies: 0
-  NumberOfEnemies: 0
+    OptionalObjectives:
+    - {fileID: 11400000, guid: 077921132eaffad4b857e2d3f9e3ba5d, type: 2}
+    - {fileID: 11400000, guid: 56cc06b19f13f2c499f61dd2c3f2bfb8, type: 2}
+    ActionLimit: 22
+  NumberOfCivilians: 23
+  NumberOfAllies: 3
+  NumberOfEnemies: 24
   NextEnvironmentSceneName: 
   NextScenarioAssetsSceneName: 
