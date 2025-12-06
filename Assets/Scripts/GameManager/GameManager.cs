@@ -105,8 +105,6 @@ public class GameManager : MonoBehaviour
     private List<NPC> _listOfAllies = new List<NPC>();
     private List<NPC> _listOfCivilians = new List<NPC>();
 
-    private float _openingCutsceneDuration = 2f;
-
     /// <summary>
     /// Whether the level has been won.
     /// </summary>
@@ -227,8 +225,7 @@ public class GameManager : MonoBehaviour
     {
         // Play the opening cutscene then start the level.
         StartCoroutine(PlayOpeningCutscene());
-        OnLevelStart?.Invoke();
-
+        
         // Update last level in saved progress.
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
@@ -236,8 +233,25 @@ public class GameManager : MonoBehaviour
     private IEnumerator PlayOpeningCutscene()
     {
         yield return null;
+
         _timePauseUnpause.SimulateAllPrePauseBehaviours();
-        yield return new WaitForSeconds(_openingCutsceneDuration);
+
+        /*
+        // Ramp time scale down (real-time / unscaled time).
+        float _slowMoRampDuration = 1f;
+        float elapsed = 0f;
+        while (elapsed < _slowMoRampDuration)
+        {
+            Time.timeScale = Math.Max(Time.timeScale - (1f / _slowMoRampDuration) * Time.unscaledDeltaTime, 0f);
+            //Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Debug.Log("Time scale ramped down to " + Time.timeScale);
+        
+        Time.timeScale = 1f;
+        */
+        OnLevelStart?.Invoke();
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)

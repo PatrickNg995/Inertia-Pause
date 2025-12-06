@@ -1,5 +1,7 @@
 ﻿public interface IPausable
 {
+    public const float SIMULATED_PAUSE_TIME = 1f;
+
     public void Pause();
 
     public void Unpause();

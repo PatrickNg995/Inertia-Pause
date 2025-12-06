@@ -167,20 +167,21 @@ public class Bullet : MonoBehaviour, IPausable
         {
             return;
         }
-
         transform.position = _spawnPointTransform.position;
-        StartCoroutine(SimulateBulletMovement(_spawnPointTransform.position, _initialPosition));
+        StartCoroutine(SimulateBulletMovement(transform.position, _initialPosition));
     }
 
     private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint)
     {
+        _trailRenderer.emitting = true;
         float elapsedTime = 0f;
-        while (elapsedTime < 2f)
+        while (elapsedTime < IPausable.SIMULATED_PAUSE_TIME)
         {
-            transform.position = Vector3.Lerp(startPoint, endPoint, elapsedTime / 2f);
+            transform.position = Vector3.MoveTowards(startPoint, endPoint, 10f * elapsedTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         transform.position = endPoint;
+        _trailRenderer.emitting = false;
     }
 }
