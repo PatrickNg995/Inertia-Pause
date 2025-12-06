@@ -54,6 +54,7 @@ public class ResultMenuPresenter : MonoBehaviour
     private void OpenMenu()
     {
         gameObject.SetActive(true);
+        _view.DescriptionText.text = string.Empty;
     }
 
     private void CloseMenu()
