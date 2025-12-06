@@ -131,11 +131,11 @@ public class ReplayCameraManager : MonoBehaviour
             GameManager.Instance.RewindObjects();
 
             // Wait for delay before unpausing OR until skip is requested.
-            yield return StartCoroutine(SkippableReplayDelay(_preUnpauseDelay));
+            yield return SkippableReplayDelay(_preUnpauseDelay);
             _timePauseUnpause.UnpauseAllObjects();
 
             // Wait for the replay duration OR until skip is requested.
-            yield return StartCoroutine(SkippableReplayDelay(_replayDurationPerCamera));
+            yield return SkippableReplayDelay(_replayDurationPerCamera);
 
             // Keep this replay cam enabled only for its duration — next loop will disable it.
             previousCam = replayCam;
