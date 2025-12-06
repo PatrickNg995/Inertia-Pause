@@ -6,11 +6,11 @@ public class ReviewPanelPresenter : MonoBehaviour
     public Action OnMenuClose;
 
     [Header("View")]
-    private ReviewPanelView _view;
+    [SerializeField] private ReviewPanelView _view;
 
     [Header("Models")]
-    private GameManager _gameManager;
-    private ReplayCameraManager _replayCameraManager;
+    [SerializeField] private GameManager _gameManager;
+    [SerializeField] private ReplayCameraManager _replayCameraManager;
 
     private const string CAMERA_NUMBER_FORMAT = "{0}/{1}";
     private int _numberOfCameras;
@@ -18,6 +18,8 @@ public class ReviewPanelPresenter : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _view.gameObject.SetActive(false);
+
         if (_gameManager.ScenarioInfo != null)
         {
             DisplayScenarioInfo(_gameManager.ScenarioInfo);
