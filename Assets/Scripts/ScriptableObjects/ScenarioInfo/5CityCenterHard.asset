@@ -13,22 +13,25 @@ MonoBehaviour:
   m_Name: 5CityCenterHard
   m_EditorClassIdentifier: 
   ScenarioName: City Center (Hard)
-  EnvironmentSceneName: 
-  ScenarioAssetsSceneName: 
+  EnvironmentSceneName: 5-citycenter
+  ScenarioAssetsSceneName: 5-citycenter-hard
   Description: "A large-scale terrorist attack is happening at one of the city\u2019s
     busiest intersections. With only a couple first responders on scene and civilians
     fleeing for their lives, you must stop time and end the chaos."
   Thumbnail: {fileID: 21300000, guid: 49fc9d4a1f67e7e489054d7e4d61e51f, type: 3}
+  OpeningTutorial: {fileID: 0}
   Difficulty: 1
   Objectives:
     MainObjectives:
     - Rescue all civilians
     - Save all allies
     - Eliminate all enemies
-    OptionalObjectives: []
-    ActionLimit: 0
-  NumberOfCivilians: 0
-  NumberOfAllies: 0
-  NumberOfEnemies: 0
+    OptionalObjectives:
+    - {fileID: 11400000, guid: 077921132eaffad4b857e2d3f9e3ba5d, type: 2}
+    - {fileID: 11400000, guid: 56cc06b19f13f2c499f61dd2c3f2bfb8, type: 2}
+    ActionLimit: 22
+  NumberOfCivilians: 23
+  NumberOfAllies: 3
+  NumberOfEnemies: 24
   NextEnvironmentSceneName: 
   NextScenarioAssetsSceneName: 
