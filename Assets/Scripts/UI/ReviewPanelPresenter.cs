@@ -33,12 +33,6 @@ public class ReviewPanelPresenter : MonoBehaviour
         _replayCameraManager.OnCameraChange += OnCameraChange;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OpenMenu()
     {
         _view.gameObject.SetActive(true);
