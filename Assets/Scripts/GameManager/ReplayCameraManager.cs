@@ -44,15 +44,11 @@ public class ReplayCameraManager : MonoBehaviour
     // Input actions.
     private PlayerActions _inputActions;
     private InputAction _skipReplayAction;
-    private InputAction _cycleCameraNextAction;
-    private InputAction _cycleCameraPreviousAction;
 
     private void Awake()
     {
         _inputActions = new PlayerActions();
         _skipReplayAction = _inputActions.Spectator.Skip;
-        _cycleCameraNextAction = _inputActions.Spectator.CycleNext;
-        _cycleCameraPreviousAction = _inputActions.Spectator.CyclePrevious;
     }
 
     private void Start()
@@ -64,18 +60,12 @@ public class ReplayCameraManager : MonoBehaviour
     private void OnEnable()
     {
         _skipReplayAction.performed += OnSkipPerformed;
-        _cycleCameraNextAction.performed += _ => CycleCameraNext();
-        _cycleCameraPreviousAction.performed += _ => CycleCameraPrevious();
     }
     private void OnDisable()
     {
         _skipReplayAction.performed -= OnSkipPerformed;
-        _cycleCameraNextAction.performed -= _ => CycleCameraNext();
-        _cycleCameraPreviousAction.performed -= _ => CycleCameraPrevious();
 
         _skipReplayAction.Disable();
-        _cycleCameraNextAction.Disable();
-        _cycleCameraPreviousAction.Disable();
     }
 
     private void OnSkipPerformed(InputAction.CallbackContext ctx)
@@ -97,10 +87,6 @@ public class ReplayCameraManager : MonoBehaviour
 
             cam.gameObject.SetActive(false);
         }
-
-        // Disable camera cycling actions.
-        _cycleCameraNextAction.Disable();
-        _cycleCameraPreviousAction.Disable();
     }
 
     public IEnumerator StartReplaySequence()
@@ -145,8 +131,6 @@ public class ReplayCameraManager : MonoBehaviour
 
         // Disable skip action and enable cycling actions after the replay.
         _skipReplayAction.Disable();
-        _cycleCameraNextAction.Enable();
-        _cycleCameraPreviousAction.Enable();
     }
 
     public void CycleCameraNext()
