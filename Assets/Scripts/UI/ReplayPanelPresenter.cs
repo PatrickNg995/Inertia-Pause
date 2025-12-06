@@ -8,6 +8,10 @@ public class ReplayPanelPresenter : MonoBehaviour
     [Header("Models")]
     [SerializeField] private ReplayCameraManager _replayCameraManager;
 
+    [Header("Settings")]
+    [SerializeField] private float _skipPromptUnavailableAlpha;
+    [SerializeField] private float _skipPromptAvailableAlpha;
+
     private const string CAMERA_NUMBER_FORMAT = "{0}/{1}";
     private int _numberOfCameras;
 
@@ -35,11 +39,17 @@ public class ReplayPanelPresenter : MonoBehaviour
     {
         _numberOfCameras = numberOfCameras;
         _view.CameraText.text = string.Format(CAMERA_NUMBER_FORMAT, 1, _numberOfCameras);
+        _view.SkipPrompt.alpha = _skipPromptAvailableAlpha;
         OpenMenu();
     }
 
     private void OnCameraChange(int currentCameraIndex)
     {
         _view.CameraText.text = string.Format(CAMERA_NUMBER_FORMAT, currentCameraIndex, _numberOfCameras);
+
+        if (currentCameraIndex == _numberOfCameras)
+        {
+            _view.SkipPrompt.alpha = _skipPromptUnavailableAlpha;
+        }
     }
 }
