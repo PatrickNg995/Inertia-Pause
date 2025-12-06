@@ -64,14 +64,14 @@ public class ReplayCameraManager : MonoBehaviour
     private void OnEnable()
     {
         _skipReplayAction.performed += OnSkipPerformed;
-        _cycleCameraNextAction.performed += CycleCameraNext;
-        _cycleCameraPreviousAction.performed += CycleCameraPrevious;
+        _cycleCameraNextAction.performed += _ => CycleCameraNext();
+        _cycleCameraPreviousAction.performed += _ => CycleCameraPrevious();
     }
     private void OnDisable()
     {
         _skipReplayAction.performed -= OnSkipPerformed;
-        _cycleCameraNextAction.performed -= CycleCameraNext;
-        _cycleCameraPreviousAction.performed -= CycleCameraPrevious;
+        _cycleCameraNextAction.performed -= _ => CycleCameraNext();
+        _cycleCameraPreviousAction.performed -= _ => CycleCameraPrevious();
 
         _skipReplayAction.Disable();
         _cycleCameraNextAction.Disable();
@@ -149,22 +149,7 @@ public class ReplayCameraManager : MonoBehaviour
         _cycleCameraPreviousAction.Enable();
     }
 
-    private IEnumerator SkippableReplayDelay(float duration)
-    {
-        float elapsedDuration = 0f;
-        while (elapsedDuration < duration)
-        {
-            // Skip this replay delay if requested and it is not the last camera.
-            if (_isSkipRequested && _currentCameraIndex != _replayCameras.Count - 1)
-            {
-                break;
-            }
-            elapsedDuration += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private void CycleCameraNext(InputAction.CallbackContext ctx)
+    public void CycleCameraNext()
     {
         // Increment camera index with wrap-around.
         int nextCameraIndex = WrapAroundIndex(_currentCameraIndex + 1, _replayCameras.Count);
@@ -179,7 +164,7 @@ public class ReplayCameraManager : MonoBehaviour
         _currentCameraIndex = nextCameraIndex;
     }
 
-    private void CycleCameraPrevious(InputAction.CallbackContext ctx)
+    public void CycleCameraPrevious()
     {
         // Decrement camera index with wrap-around.
         int nextCameraIndex = WrapAroundIndex(_currentCameraIndex - 1, _replayCameras.Count);
@@ -192,6 +177,21 @@ public class ReplayCameraManager : MonoBehaviour
 
         // Set new camera index.
         _currentCameraIndex = nextCameraIndex;
+    }
+
+    private IEnumerator SkippableReplayDelay(float duration)
+    {
+        float elapsedDuration = 0f;
+        while (elapsedDuration < duration)
+        {
+            // Skip this replay delay if requested and it is not the last camera.
+            if (_isSkipRequested && _currentCameraIndex != _replayCameras.Count - 1)
+            {
+                break;
+            }
+            elapsedDuration += Time.deltaTime;
+            yield return null;
+        }
     }
 
     private int WrapAroundIndex(int index, int maxCount)
