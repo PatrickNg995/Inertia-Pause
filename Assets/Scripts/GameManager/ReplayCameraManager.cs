@@ -162,6 +162,9 @@ public class ReplayCameraManager : MonoBehaviour
 
         // Set new camera index.
         _currentCameraIndex = nextCameraIndex;
+
+        // Update UI.
+        OnCameraChange?.Invoke(_currentCameraIndex + 1);
     }
 
     public void CycleCameraPrevious()
@@ -177,6 +180,9 @@ public class ReplayCameraManager : MonoBehaviour
 
         // Set new camera index.
         _currentCameraIndex = nextCameraIndex;
+
+        // Update UI.
+        OnCameraChange?.Invoke(_currentCameraIndex + 1);
     }
 
     private IEnumerator SkippableReplayDelay(float duration)
