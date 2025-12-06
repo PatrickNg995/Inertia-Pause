@@ -7,6 +7,7 @@ public class ResultMenuPresenter : MonoBehaviour
     [SerializeField] private ResultMenuView _view;
 
     [Header("Models")]
+    [SerializeField] private ReviewPanelPresenter _reviewPresenter;
     [SerializeField] private GameManager _gameManager;
 
     [Header("Settings")]
@@ -30,16 +31,19 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
+        _view.ReviewButton.Button.onClick.AddListener(OnReviewButtonClicked);
         _view.RewindButton.Button.onClick.AddListener(OnRewindButtonClicked);
         _view.RestartButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
         _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
         _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
+        _view.ReviewButton.OnHover += ChangeHint;
         _view.RewindButton.OnHover += ChangeHint;
         _view.RestartButton.OnHover += ChangeHint;
         _view.NextButton.OnHover += ChangeHint;
         _view.MainMenuButton.OnHover += ChangeHint;
 
+        _reviewPresenter.OnMenuClose += OpenMenu;
         _gameManager.OnLevelComplete += OnLevelComplete;
 
         _view.DescriptionText.text = string.Empty;
@@ -157,5 +161,11 @@ public class ResultMenuPresenter : MonoBehaviour
         _gameManager.RewindLevel();
         RemoveObjectiveRows();
         CloseMenu();
+    }
+
+    private void OnReviewButtonClicked()
+    {
+        CloseMenu();
+        _reviewPresenter.OpenMenu();
     }
 }
