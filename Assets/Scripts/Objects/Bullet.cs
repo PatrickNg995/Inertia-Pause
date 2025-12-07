@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour, IPausable
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 10f;
-    private const float UPWARD_FACTOR = 1f;
+    private const float UPWARD_FACTOR = 0.4f;
 
     // Saved velocity.
     private Vector3 _savedVelocity;
