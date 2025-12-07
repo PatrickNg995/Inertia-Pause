@@ -104,7 +104,16 @@ public class Missile : MonoBehaviour, IPausable
 
     public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        transform.position = _spawnPointTransform.position;
+        // If no spawn point, do nothing.
+        if (_spawnPointTransform == null)
+        {
+            return;
+        }
+
+        // Start the simulation halfway between the spawn point and the initial position.
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 2f));
+
         StartCoroutine(SimulateMissileMovement(transform.position, _initialPosition, simulationDuration));
     }
 
