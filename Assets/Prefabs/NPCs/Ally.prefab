@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 6808085814288813340}
-  _enableParticles: 1
+  _isParticlesEnabled: 1
+  _isPrepauseSimulationEnabled: 0
   _useRandomPrePausePlayDuration: 1
   _prePausePlayDurationLowerBound: 0.02
   _prePausePlayDurationUpperBound: 0.04
@@ -143,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].z
-      value: 0.0017417669
+      value: 0.0017418861
       objectReference: {fileID: 0}
     - target: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform

@@ -129,6 +129,6 @@ public class Grenade : MonoBehaviour, IPausable
 
     public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        // No pre-pause behaviour to simulate.
+        // TODO: implement for grenades.
     }
 }
