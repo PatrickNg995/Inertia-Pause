@@ -62,17 +62,20 @@ public class PausableParticles : MonoBehaviour, IPausable
 
     public void SimulatePrePauseBehaviour()
     {
-        StartCoroutine(PlayThenPauseParticles());
+        //StartCoroutine(PlayThenPauseParticles());
     }
 
     private IEnumerator PlayThenPauseParticles()
     {
+        yield return null;
+
         // Start particle system from the beginning.
         _particleSystem.Stop();
+        _particleSystem.Clear();
         _particleSystem.Play();
 
         // Wait for the specified duration
-        yield return new WaitForSeconds(_prePausePlayDuration);
+        yield return new WaitForSeconds(IPausable.SIMULATED_PREPAUSE_DURATION);
 
         // Pause the particle system
         Pause();

@@ -25,7 +25,12 @@ public class Bullet : MonoBehaviour, IPausable
 
     // Force applied to NPCs on hit.
     private const float HIT_FORCE = 10f;
-    private const float UPWARD_FACTOR = 0.4f;
+    private const float UPWARD_FACTOR = 1f;
+
+    // If the distance from spawn point to initial position is greater than this, use this distance as an offset from the initial position
+    // for simulated prepause instead of starting at the spawn point.
+    // If a bullet starts far away from the shooter, that shot was fired earlier and should be simualted further along its path.
+    private const float SIMULATION_BREAKPOINT_DISTANCE = 6f;
 
     // Saved velocity.
     private Vector3 _savedVelocity;
@@ -167,20 +172,36 @@ public class Bullet : MonoBehaviour, IPausable
         {
             return;
         }
-        transform.position = _spawnPointTransform.position;
+
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+
+        if (spawnToInitialDistance < SIMULATION_BREAKPOINT_DISTANCE)
+        {
+            transform.position = _spawnPointTransform.position;
+        }
+        else
+        {
+            transform.position = _initialPosition - transform.forward * SIMULATION_BREAKPOINT_DISTANCE;
+        }
+
         StartCoroutine(SimulateBulletMovement(transform.position, _initialPosition));
     }
 
     private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint)
     {
+        _trailRenderer.Clear();
         _trailRenderer.emitting = true;
+
         float elapsedTime = 0f;
-        while (elapsedTime < IPausable.SIMULATED_PAUSE_TIME)
+        float speed = Vector3.Distance(startPoint, endPoint) / IPausable.SIMULATED_PREPAUSE_DURATION;
+
+        while (elapsedTime < IPausable.SIMULATED_PREPAUSE_DURATION)
         {
-            transform.position = Vector3.MoveTowards(startPoint, endPoint, 10f * elapsedTime);
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
         transform.position = endPoint;
         _trailRenderer.emitting = false;
     }

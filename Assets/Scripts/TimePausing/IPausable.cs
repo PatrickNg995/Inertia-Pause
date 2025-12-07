@@ -1,6 +1,6 @@
 ﻿public interface IPausable
 {
-    public const float SIMULATED_PAUSE_TIME = 1f;
+    public const float SIMULATED_PREPAUSE_DURATION = 3f;
 
     public void Pause();
 
