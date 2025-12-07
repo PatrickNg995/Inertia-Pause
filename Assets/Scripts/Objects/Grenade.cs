@@ -18,6 +18,7 @@ public class Grenade : MonoBehaviour, IPausable
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
     [SerializeField] private TrailRenderer _trailRenderer;
+    [SerializeField] private GameObject _staticTrail;
 
     [Header("References")]
     [SerializeField] private Transform _spawnPointTransform;
@@ -156,6 +157,11 @@ public class Grenade : MonoBehaviour, IPausable
 
     public IEnumerator SimulateLobbingMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
     {
+        // Disable static trail and start emitting dynamic trail.
+        _staticTrail.SetActive(false);
+        _trailRenderer.Clear();
+        _trailRenderer.emitting = true;
+
         float elapsedTime = 0f;
 
         // Move the grenade towards the end point over the simulation duration.
@@ -177,6 +183,11 @@ public class Grenade : MonoBehaviour, IPausable
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        // Stop trail emission and enable static trail.
+        _staticTrail.SetActive(true);
+        _trailRenderer.Clear();
+        _trailRenderer.emitting = false;
 
         // Ensure final position is set accurately.
         transform.position = endPoint;

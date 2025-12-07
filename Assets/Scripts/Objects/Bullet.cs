@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
@@ -167,16 +168,21 @@ public class Bullet : MonoBehaviour, IPausable
             return;
         }
 
-        // Start the simulation halfway between the spawn point and the initial position.
+        // Start the simulation quarterway between the spawn point and the initial position.
         float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 2f));
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
 
+        // Start simulating movement towards the initial position.
+        StartCoroutine(SimulateBulletMovement(simulationDuration));
+    }
+
+    private IEnumerator SimulateBulletMovement(float duration)
+    {
         // Clear the trail and start emitting.
         _trailRenderer.Clear();
         _trailRenderer.emitting = true;
 
-        // Start simulating movement towards the initial position.
-        StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
+        yield return PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, duration);
 
         // After simulation, stop emitting trail.
         _trailRenderer.emitting = false;

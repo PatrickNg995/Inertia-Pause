@@ -28,8 +28,9 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
 
     [Header("Level Settings")]
-    [Tooltip("Duration to simulate pre-pause behaviours for all pausable objects when starting the level.")]
-    [SerializeField] private float _prepauseSimulationDuration = 0.25f;
+    [Tooltip("The amount of pre-pause time to simulate for all pausable objects when starting the level " +
+        "(i.e. simulate 0.5 seconds before the level starts).")]
+    [SerializeField] private float _prepauseSimulationTime = 0.5f;
 
     /// <summary>
     /// Invoked when the level starts for the first time.
@@ -228,22 +229,30 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Play the opening cutscene then start the level.
-        StartCoroutine(PlayOpeningCutscene());
-
-        // Invoke level start event.
-        OnLevelStart?.Invoke();
+        StartCoroutine(PlayOpeningSequence());
 
         // Update last level in saved progress.
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
 
-    private IEnumerator PlayOpeningCutscene()
+    private IEnumerator PlayOpeningSequence()
     {
+        // Invoke blocking menu open event to pause player and disable player inputs.
+        OnAnyBlockingMenuOpen?.Invoke();
+        _inputActions.Disable();
+
         // Wait a frame to ensure all objects are initialized.
         yield return null;
 
         // Simulate pre-pause behaviours for all pausable objects.
-        _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationDuration);
+        yield return _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationTime);
+
+        // Invoke blocking menu close event to resume player and enable player inputs.
+        OnAnyBlockingMenuClose?.Invoke();
+        _inputActions.Enable();
+
+        // Invoke level start event.
+        OnLevelStart?.Invoke();
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)

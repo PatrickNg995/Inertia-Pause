@@ -109,9 +109,9 @@ public class Missile : MonoBehaviour, IPausable
             return;
         }
 
-        // Start the simulation halfway between the spawn point and the initial position.
+        // Start the simulation quarterway between the spawn point and the initial position.
         float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 2f));
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
 
         StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
     }
