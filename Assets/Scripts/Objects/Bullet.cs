@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
@@ -177,27 +176,9 @@ public class Bullet : MonoBehaviour, IPausable
         _trailRenderer.emitting = true;
 
         // Start simulating movement towards the initial position.
-        StartCoroutine(SimulateBulletMovement(transform.position, _initialPosition, simulationDuration));
+        StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
 
         // After simulation, stop emitting trail.
         _trailRenderer.emitting = false;
-    }
-
-    private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
-    {
-        // Calculate speed needed to reach end point in the given duration.
-        float speed = Vector3.Distance(startPoint, endPoint) / simulationDuration;
-        float elapsedTime = 0f;
-
-        // Move the bullet towards the end point over the simulation duration.
-        while (elapsedTime < simulationDuration)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure final position is set accurately.
-        transform.position = endPoint;
     }
 }

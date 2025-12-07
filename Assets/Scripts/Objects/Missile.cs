@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Missile : MonoBehaviour, IPausable
 {
@@ -114,24 +113,6 @@ public class Missile : MonoBehaviour, IPausable
         float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
         transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 2f));
 
-        StartCoroutine(SimulateMissileMovement(transform.position, _initialPosition, simulationDuration));
-    }
-
-    private IEnumerator SimulateMissileMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
-    {
-        // Calculate speed needed to reach end point in the given duration.
-        float speed = Vector3.Distance(startPoint, endPoint) / simulationDuration;
-        float elapsedTime = 0f;
-
-        // Move the bullet towards the end point over the simulation duration.
-        while (elapsedTime < simulationDuration)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure final position is set accurately.
-        transform.position = endPoint;
+        StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
     }
 }
