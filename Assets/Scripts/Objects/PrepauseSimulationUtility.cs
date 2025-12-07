@@ -12,7 +12,7 @@ public static class PrepauseSimulationUtility
         float speed = Vector3.Distance(startPoint, endPoint) / simulationDuration;
         float elapsedTime = 0f;
 
-        // Move the bullet towards the end point over the simulation duration.
+        // Move the projectile towards the end point over the simulation duration.
         while (elapsedTime < simulationDuration)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);

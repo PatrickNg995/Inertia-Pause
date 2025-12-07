@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Grenade : MonoBehaviour, IPausable
 {
@@ -18,6 +19,12 @@ public class Grenade : MonoBehaviour, IPausable
     [SerializeField] private Explosion _explosionScript;
     [SerializeField] private TrailRenderer _trailRenderer;
 
+    [Header("References")]
+    [SerializeField] private Transform _spawnPointTransform;
+
+    // Height of the simulated arc during pre-pause simulation.
+    private const float SIMULATED_ARC_HEIGHT = 0.75f;
+
     // Check if timer can start counting down before exploding grenade.
     private bool _canExplode;
 
@@ -28,6 +35,9 @@ public class Grenade : MonoBehaviour, IPausable
     private Vector3 _pausedPosition;
     private Quaternion _pausedRotation;
 
+    // Initial position at spawn time.
+    private Vector3 _initialPosition;
+
     public void Awake()
     {
         // Stop explosions immediately.
@@ -37,6 +47,8 @@ public class Grenade : MonoBehaviour, IPausable
         _rb.linearVelocity = transform.forward * _grenadeInitialSpeed;
 
         _grenadeCurrentExplosionDelay = _grenadeInitialExplosionDelay;
+
+        _initialPosition = transform.position;
     }
 
     void Update()
@@ -129,6 +141,44 @@ public class Grenade : MonoBehaviour, IPausable
 
     public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        // TODO: implement for grenades.
+        // If no spawn point, do nothing.
+        if (_spawnPointTransform == null)
+        {
+            return;
+        }
+
+        // Start grenade at spawn point.
+        transform.position = _spawnPointTransform.position;
+
+        // Simulate lobbing movement towards the initial position.
+        StartCoroutine(SimulateLobbingMovement(transform.position, _initialPosition, simulationDuration));
+    }
+
+    public IEnumerator SimulateLobbingMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
+    {
+        float elapsedTime = 0f;
+
+        // Move the grenade towards the end point over the simulation duration.
+        while (elapsedTime < simulationDuration)
+        {
+            // Calculate normalized time.
+            float normalizedElapsedTime = elapsedTime / simulationDuration;
+
+            // Calculate position along a straight line between start and end.
+            Vector3 currentPos = Vector3.Lerp(startPoint, endPoint, normalizedElapsedTime);
+
+            // Calculate the upward displacement for the arc.
+            float arcProgress = Mathf.Sin(normalizedElapsedTime * Mathf.PI);
+            Vector3 arcOffset = Vector3.up * arcProgress * SIMULATED_ARC_HEIGHT;
+
+            // Combine straight movement with arc offset.
+            transform.position = currentPos + arcOffset;
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final position is set accurately.
+        transform.position = endPoint;
     }
 }
