@@ -155,7 +155,7 @@ public class NPC : MonoBehaviour, IPausable
         }
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

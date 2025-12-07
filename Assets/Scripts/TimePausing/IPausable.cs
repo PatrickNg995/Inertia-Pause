@@ -1,7 +1,5 @@
 ﻿public interface IPausable
 {
-    public const float SIMULATED_PREPAUSE_DURATION = 3f;
-
     public void Pause();
 
     public void Unpause();
@@ -12,7 +10,7 @@
     public void ResetStateBeforeUnpause();
 
     /// <summary>
-    /// Simulate how the object would have behaved before pausing. Not all objects will need to implement this.
+    /// Simulate how the object would have behaved before the initial level pause. Not all objects will need to implement this.
     /// </summary>
-    public void SimulatePrePauseBehaviour();
+    public void SimulatePrePauseBehaviour(float simulationDuration);
 }

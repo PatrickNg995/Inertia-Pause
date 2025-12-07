@@ -119,7 +119,7 @@ public class PauseableAnimator : MonoBehaviour, IPausable
         _animator.Update(0f);
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

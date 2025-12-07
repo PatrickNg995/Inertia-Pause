@@ -38,6 +38,7 @@ public class Bullet : MonoBehaviour, IPausable
     // Position before unpausing.
     private Vector3 _pausedPosition;
 
+    // Initial position at spawn time.
     private Vector3 _initialPosition;
 
     // Used to toggle hit registration on bullets.
@@ -166,43 +167,52 @@ public class Bullet : MonoBehaviour, IPausable
         Instantiate(_impactEffectPrefab, locationOnImmpact, impactRotation);
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
+        // If no spawn point, do nothing.
         if (_spawnPointTransform == null)
         {
             return;
         }
 
+        // If the distance from spawn point to initial position exceeds the breakpoint distance, start the simulation relative
+        // to the initial position instead.
         float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-
         if (spawnToInitialDistance < SIMULATION_BREAKPOINT_DISTANCE)
         {
             transform.position = _spawnPointTransform.position;
         }
         else
         {
-            transform.position = _initialPosition - transform.forward * SIMULATION_BREAKPOINT_DISTANCE;
+            transform.position = _initialPosition - (transform.forward * SIMULATION_BREAKPOINT_DISTANCE);
         }
 
-        StartCoroutine(SimulateBulletMovement(transform.position, _initialPosition));
-    }
-
-    private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint)
-    {
+        // Clear the trail and start emitting.
         _trailRenderer.Clear();
         _trailRenderer.emitting = true;
 
-        float elapsedTime = 0f;
-        float speed = Vector3.Distance(startPoint, endPoint) / IPausable.SIMULATED_PREPAUSE_DURATION;
+        // Start simulating movement towards the initial position.
+        StartCoroutine(SimulateBulletMovement(transform.position, _initialPosition, simulationDuration));
 
-        while (elapsedTime < IPausable.SIMULATED_PREPAUSE_DURATION)
+        // After simulation, stop emitting trail.
+        _trailRenderer.emitting = false;
+    }
+
+    private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
+    {
+        // Calculate speed needed to reach end point in the given duration.
+        float speed = Vector3.Distance(startPoint, endPoint) / simulationDuration;
+        float elapsedTime = 0f;
+
+        // Move the bullet towards the end point over the simulation duration.
+        while (elapsedTime < simulationDuration)
         {
             transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
+        // Ensure final position is set accurately.
         transform.position = endPoint;
-        _trailRenderer.emitting = false;
     }
 }

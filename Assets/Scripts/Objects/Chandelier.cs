@@ -49,7 +49,7 @@ public class Chandelier : MonoBehaviour, IPausable
         }
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

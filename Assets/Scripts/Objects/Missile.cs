@@ -1,6 +1,5 @@
-﻿using TMPro;
+﻿using System.Collections;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
 public class Missile : MonoBehaviour, IPausable
 {
@@ -8,8 +7,8 @@ public class Missile : MonoBehaviour, IPausable
     // Initial speed at which the missile travels.
     [SerializeField] private float _missileSpeed = 20f;
 
-    // Prevent multiple explosions.
-    private bool _canExplode = false; 
+    [Header("Missile Spawn Point")]
+    [SerializeField] private Transform _spawnPointTransform;
 
     [Header("Components")]
     // Reference components.
@@ -19,11 +18,17 @@ public class Missile : MonoBehaviour, IPausable
     [SerializeField] private Explosion _explosionScript;
     [SerializeField] private ParticleSystem _trail;
 
+    // Prevent multiple explosions.
+    private bool _canExplode = false;
+
     // Saved velocity.
     private Vector3 _savedVelocity;
 
     // Position before unpausing.
     private Vector3 _pausedPosition;
+
+    // Initial position at spawn time.
+    private Vector3 _initialPosition;
 
     public void Awake()
     {
@@ -32,6 +37,8 @@ public class Missile : MonoBehaviour, IPausable
 
         // Set the missile's initial velocity.
         _rb.linearVelocity = transform.forward * _missileSpeed;
+
+        _initialPosition = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,8 +102,27 @@ public class Missile : MonoBehaviour, IPausable
         transform.position = _pausedPosition;
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        // No pre-pause behaviour to simulate.
+        transform.position = _spawnPointTransform.position;
+        StartCoroutine(SimulateMissileMovement(transform.position, _initialPosition, simulationDuration));
+    }
+
+    private IEnumerator SimulateMissileMovement(Vector3 startPoint, Vector3 endPoint, float simulationDuration)
+    {
+        // Calculate speed needed to reach end point in the given duration.
+        float speed = Vector3.Distance(startPoint, endPoint) / simulationDuration;
+        float elapsedTime = 0f;
+
+        // Move the bullet towards the end point over the simulation duration.
+        while (elapsedTime < simulationDuration)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, speed * Time.deltaTime);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure final position is set accurately.
+        transform.position = endPoint;
     }
 }

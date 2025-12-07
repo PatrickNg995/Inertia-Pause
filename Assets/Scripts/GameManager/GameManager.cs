@@ -27,6 +27,10 @@ public class GameManager : MonoBehaviour
     [field: Header("Scenario Information")]
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
 
+    [Header("Level Settings")]
+    [Tooltip("Duration to simulate pre-pause behaviours for all pausable objects when starting the level.")]
+    [SerializeField] private float _prepauseSimulationDuration = 0.25f;
+
     /// <summary>
     /// Invoked when the level starts for the first time.
     /// </summary>
@@ -225,33 +229,21 @@ public class GameManager : MonoBehaviour
     {
         // Play the opening cutscene then start the level.
         StartCoroutine(PlayOpeningCutscene());
-        
+
+        // Invoke level start event.
+        OnLevelStart?.Invoke();
+
         // Update last level in saved progress.
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
 
     private IEnumerator PlayOpeningCutscene()
     {
+        // Wait a frame to ensure all objects are initialized.
         yield return null;
 
-        _timePauseUnpause.SimulateAllPrePauseBehaviours();
-
-        /*
-        // Ramp time scale down (real-time / unscaled time).
-        float _slowMoRampDuration = 1f;
-        float elapsed = 0f;
-        while (elapsed < _slowMoRampDuration)
-        {
-            Time.timeScale = Math.Max(Time.timeScale - (1f / _slowMoRampDuration) * Time.unscaledDeltaTime, 0f);
-            //Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 1f);
-            elapsed += Time.unscaledDeltaTime;
-            yield return null;
-        }
-        Debug.Log("Time scale ramped down to " + Time.timeScale);
-        
-        Time.timeScale = 1f;
-        */
-        OnLevelStart?.Invoke();
+        // Simulate pre-pause behaviours for all pausable objects.
+        _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationDuration);
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)

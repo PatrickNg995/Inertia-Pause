@@ -105,7 +105,7 @@ public class Mine : MonoBehaviour, IPausable
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

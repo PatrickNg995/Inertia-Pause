@@ -80,11 +80,11 @@ public class TimePauseUnpause : MonoBehaviour
         }
     }
 
-    public void SimulateAllPrePauseBehaviours()
+    public void SimulateAllPrePauseBehaviours(float simulationDuration)
     {
         foreach (IPausable pausable in _pausableObjects)
         {
-            pausable.SimulatePrePauseBehaviour();
+            pausable.SimulatePrePauseBehaviour(simulationDuration);
         }
     }
 
