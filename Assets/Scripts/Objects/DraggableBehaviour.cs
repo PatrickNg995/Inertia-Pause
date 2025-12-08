@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +13,7 @@ public class DraggableBehaviour : InteractionObject
     [Header("Component References")]
     [SerializeField] private Collider _collider;
     [SerializeField] private DragBoundary _boundary;
-    [SerializeField] private DragIndicator _indicator;
+    [SerializeField] private Indicator[] _indicators;
 
     [Header("Drag Settings")]
     [SerializeField] private float _dragSpeed = 10f;
@@ -98,10 +97,13 @@ public class DraggableBehaviour : InteractionObject
 
         OptionsManager.Instance.OnShowObjectTrajectoryApplied += OnShowObjectTrajectoryOptionApplied;
 
-        if (_indicator != null && OptionsManager.Instance.Options.IsObjectTrajectoryShown)
+        if (_indicators.Length > 0 && OptionsManager.Instance.Options.IsObjectTrajectoryShown)
         {
-            _indicator.Enable();
-            _indicator.DrawLine();
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Draw();
+                indicator.Enable();
+            }
         }
         _boundary.ShowCircle(true);
     }
@@ -132,9 +134,12 @@ public class DraggableBehaviour : InteractionObject
             transform.position = targetPosition;
         }
 
-        if (_indicator != null)
+        if (_indicators.Length > 0)
         {
-            _indicator.DrawLine();
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Draw();
+            }
         }
     }
 
@@ -157,9 +162,12 @@ public class DraggableBehaviour : InteractionObject
 
         OptionsManager.Instance.OnShowObjectTrajectoryApplied -= OnShowObjectTrajectoryOptionApplied;
 
-        if (_indicator != null) 
+        if (_indicators.Length > 0) 
         { 
-            _indicator.Disable(); 
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Disable(); 
+            }
         }
         _boundary.ShowCircle(false);
     }
@@ -178,9 +186,12 @@ public class DraggableBehaviour : InteractionObject
 
         transform.position = _moveStartPosition;
         
-        if (_indicator != null) 
-        { 
-            _indicator.Disable(); 
+        if (_indicators.Length > 0) 
+        {
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Disable();
+            }
         }
         
         _boundary.ShowCircle(false);
@@ -200,9 +211,12 @@ public class DraggableBehaviour : InteractionObject
         
         HasTakenAction = false;
         
-        if (_indicator != null) 
-        { 
-            _indicator.Disable(); 
+        if (_indicators.Length > 0) 
+        {
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Disable();
+            }
         }
         
         _boundary.ShowCircle(false);
@@ -258,19 +272,51 @@ public class DraggableBehaviour : InteractionObject
 
     private void OnShowObjectTrajectoryOptionApplied(bool isTrajectoryEnabled)
     {
-        if (!_dragging || _indicator == null)
+        if (!_dragging || _indicators.Length == 0)
         {
             return;
         }
 
         if (isTrajectoryEnabled)
         {
-            _indicator.Enable();
-            _indicator.DrawLine();
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Draw();
+                indicator.Enable();
+            }
         }
         else
         {
-            _indicator.Disable();
+            foreach (Indicator indicator in _indicators)
+            {
+                indicator.Disable();
+            }
+        }
+    }
+
+    public override void OnHoverStart()
+    {
+        if (_indicators.Length == 0)
+        {
+            return;
+        }
+        foreach (Indicator indicator in _indicators)
+        {
+            indicator.Draw();
+            indicator.Enable();
+        }
+    }
+
+    public override void OnHoverEnd()
+    {
+        if (_dragging || _indicators.Length == 0)
+        {
+            return;
+        }
+
+        foreach (Indicator indicator in _indicators)
+        {
+            indicator.Disable();
         }
     }
 }

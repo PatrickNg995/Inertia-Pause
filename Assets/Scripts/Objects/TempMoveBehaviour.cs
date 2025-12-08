@@ -61,4 +61,16 @@ public class TempMoveBehaviour : InteractionObject
         gameObject.transform.position = _initialPosition;
         gameObject.transform.rotation = _initialRotation;
     }
+
+    public override void OnHoverStart()
+    {
+        // TODO: delete this class?
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnHoverEnd()
+    {
+        // TODO: delete this class?
+        throw new System.NotImplementedException();
+    }
 }

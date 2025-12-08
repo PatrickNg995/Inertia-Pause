@@ -1267,7 +1267,8 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: fd4a0c15aa85df6459cd2ad287dcd7a1, type: 2}
   _collider: {fileID: 2484033846409333565}
   _boundary: {fileID: 1579455971080954286}
-  _indicator: {fileID: 6585200701695432215}
+  _indicators:
+  - {fileID: 6585200701695432215}
   _dragSpeed: 10
   _maxDragDistance: 1
   _maxDistanceFromCamera: 2
@@ -2172,11 +2173,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
-      value: -0.0044744015
+      value: -0.004474446
       objectReference: {fileID: 0}
     - target: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].z
-      value: 0.001742363
+      value: 0.0017420053
       objectReference: {fileID: 0}
     - target: {fileID: 3514862330302059883, guid: eea75046a24bea747b00facc516eacbc, type: 3}
       propertyPath: m_Sources.Array.data[0].sourceTransform

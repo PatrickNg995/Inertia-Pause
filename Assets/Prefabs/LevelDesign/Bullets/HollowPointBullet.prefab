@@ -382,6 +382,7 @@ MonoBehaviour:
   _trailRenderer: {fileID: 2541597752342738502}
   _impactEffectPrefab: {fileID: 5443217880387909948, guid: 7267261358bbf9f409eae8076bb87e23, type: 3}
   _isPiercing: 0
+  _isUnstoppable: 0
   _bulletSpeed: 20
 --- !u!114 &279202869182709994
 MonoBehaviour:
@@ -398,7 +399,8 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: 232eca9b0195a5d4480217de3143776c, type: 2}
   _collider: {fileID: 359207212320292634}
   _boundary: {fileID: 3242559939302331399}
-  _indicator: {fileID: 3244125522080305272}
+  _indicators:
+  - {fileID: 3244125522080305272}
   _dragSpeed: 10
   _maxDragDistance: 4
   _maxDistanceFromCamera: 2

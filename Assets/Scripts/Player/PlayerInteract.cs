@@ -157,6 +157,7 @@ public class PlayerInteract : MonoBehaviour
             {
                 // Player was looking at an interactable last frame and is not this frame.
                 OnLookAwayFromInteractable?.Invoke();
+                previousTarget.OnHoverEnd();
             }
 
             return;
@@ -169,12 +170,35 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
-        _targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
+            _targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
         // Looking at nothing then looking at an interactable, or switching from one interactable to another.
         if (previousTarget != _targetObject)
         {
+            if (previousTarget != null)
+            {
+                previousTarget.OnHoverEnd();
+            }
+
+            _targetObject.OnHoverStart();
             OnLookAtInteractable?.Invoke(_targetObject.InteractableInfo);
+        }
+    }
+
+    // to handle the case of unpausing when looking at an object, and handling of menus.
+    public void EnableHover()
+    {
+        if (_targetObject != null)
+        {
+            _targetObject.OnHoverStart();
+        }
+    }
+
+    public void DisableHover()
+    {
+        if (_targetObject != null)
+        {
+            _targetObject.OnHoverEnd();
         }
     }
 }

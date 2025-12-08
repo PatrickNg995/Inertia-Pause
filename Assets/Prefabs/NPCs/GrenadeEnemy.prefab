@@ -357,6 +357,7 @@ MonoBehaviour:
   _collider: {fileID: 1466103470878875968}
   _accessoryConstraints: []
   _accessoryRigidbodies: []
+  _isArmoured: 0
 --- !u!114 &1540807389585692197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,7 +388,8 @@ MonoBehaviour:
   _interactableInfo: {fileID: 11400000, guid: 0fc995e1d56fe704c99b17b6ffdb3dec, type: 2}
   _collider: {fileID: 1466103470878875968}
   _boundary: {fileID: 3256043626688577191}
-  _indicator: {fileID: 7104590322763349907}
+  _indicators:
+  - {fileID: 7104590322763349907}
   _dragSpeed: 10
   _maxDragDistance: 1
   _maxDistanceFromCamera: 2

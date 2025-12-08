@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.UI;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ShelfBehaviour : InteractionObject, IPausable
@@ -6,6 +7,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
     [SerializeField] private float _torque = 2000f;
     // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
     [SerializeField] private float _timeToTilt = 0.1f;
+    [SerializeField] private Indicator _indicator;
 
     private Rigidbody _rb;
     private Vector3 _pausedPosition;
@@ -125,5 +127,19 @@ public class ShelfBehaviour : InteractionObject, IPausable
     {
         // Reset position and rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
+    }
+
+    public override void OnHoverStart()
+    {
+        if (_isToppled)
+        {
+            _indicator.Draw();
+            _indicator.Enable();
+        }
+    }
+
+    public override void OnHoverEnd()
+    {
+        _indicator.Disable();
     }
 }

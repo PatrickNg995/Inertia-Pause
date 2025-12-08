@@ -22,6 +22,7 @@ public class PlayerPause : MonoBehaviour
 
     private void DisablePlayerInput()
     {
+        _playerInteract.DisableHover();
         SetComponentEnabled(_playerMovement, false);
         SetComponentEnabled(_playerInteract, false);
         SetComponentEnabled(_playerLook, false);
@@ -30,6 +31,7 @@ public class PlayerPause : MonoBehaviour
 
     private void EnablePlayerInput()
     {
+        _playerInteract.EnableHover();
         SetComponentEnabled(_playerMovement, true);
         SetComponentEnabled(_playerInteract, true);
         SetComponentEnabled(_playerLook, true);
