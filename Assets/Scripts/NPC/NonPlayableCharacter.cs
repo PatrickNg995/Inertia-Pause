@@ -84,6 +84,7 @@ public class NPC : MonoBehaviour, IPausable
         // Check for lethal collisions.
         if (collisionObject.CompareTag("Lethal"))
         {
+            SFXPlayer.Instance.PlayAtPosition(SfxId.NPCBodyHitGround, transform.position);
             Die(collisionObject);
         }
 
@@ -91,6 +92,7 @@ public class NPC : MonoBehaviour, IPausable
         if (fallDistance >= LETHAL_FALL_THRESHOLD)
         {
             // Apply downward hit force to simulate impact.
+            SFXPlayer.Instance.PlayAtPosition(SfxId.NPCBodyHitGround, transform.position);
             ApplyHit(collisionObject, Vector3.down * FALL_HIT_FORCE, transform.position);
         }
     }
