@@ -257,13 +257,9 @@ PrefabInstance:
       value: ArmouredGrenadeEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4299936217185736959, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
-      propertyPath: _indicators.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4299936217185736959, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
-      propertyPath: '_indicators.Array.data[0]'
+      propertyPath: _interactableInfo
       value: 
-      objectReference: {fileID: 2176002809448709847}
+      objectReference: {fileID: 11400000, guid: fd4a0c15aa85df6459cd2ad287dcd7a1, type: 2}
     - target: {fileID: 4959472836344980814, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -312,17 +308,6 @@ PrefabInstance:
       addedObject: {fileID: 2347876598179811309}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
---- !u!114 &2176002809448709847 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7223644520099487235, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}
-  m_PrefabInstance: {fileID: 8794753188156350676}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b6c077bbdd98f4cb490a4ab23705e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &4173770103226609978 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4891200179555570158, guid: 43c2952d057cadf4e86a22c5355e54b0, type: 3}

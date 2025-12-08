@@ -1,5 +1,4 @@
-﻿using UnityEditor.UI;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ShelfBehaviour : InteractionObject, IPausable
@@ -106,7 +105,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public void Pause()
     {
-        // necessity found empirically
+        // Found empirically by necessity.
         if (_rb == null)
         {
             _rb = GetComponent<Rigidbody>();
@@ -153,5 +152,10 @@ public class ShelfBehaviour : InteractionObject, IPausable
     public override void OnHoverEnd()
     {
         _indicator.Disable();
+    }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
     }
 }
