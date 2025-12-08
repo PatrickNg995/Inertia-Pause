@@ -90,6 +90,8 @@ public class PlayerInteract : MonoBehaviour
     {
         if (_targetObject == null) return;
 
+        SFXPlayer.Instance.Play(SfxId.UIClick);
+
         if (_isInteracting)
         {
             _targetObject.OnEndInteract();
@@ -115,7 +117,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (_targetObject == null || _isInteracting) return;  
+        if (_targetObject == null || _isInteracting) return;
+
+        SFXPlayer.Instance.Play(SfxId.UIClick);
 
         _targetObject.OnResetInteract();
 
@@ -127,6 +131,8 @@ public class PlayerInteract : MonoBehaviour
     private void OnCancelInteract(InputAction.CallbackContext _)
     {
         if (_targetObject == null) return;
+
+        SFXPlayer.Instance.Play(SfxId.UIClick);
 
         if (_isInteracting)
         {
@@ -140,6 +146,8 @@ public class PlayerInteract : MonoBehaviour
     private void OnContextualHelpPressed(InputAction.CallbackContext _)
     {
         if (_targetObject == null) return;
+
+        SFXPlayer.Instance.Play(SfxId.UIClick);
 
         OnTutorialOpen?.Invoke(_targetObject.InteractableInfo.TutorialInfo);
     }
