@@ -36,14 +36,13 @@ public class CurvedIndicator : Indicator
             + transform.forward * _lineLength
             - Vector3.up * (_lineLength * _endDrop);
 
-        // Midpoint slightly ABOVE the straight line to make curve concave DOWN
         Vector3 mid = (p0 + p1) / 2;
 
         // Lift is small and relative to the downward drop
-        float lift = Mathf.Abs((p0.y - p1.y)) * _curveLift;
+        float lift = Mathf.Abs(p0.y - p1.y) * _curveLift;
         Vector3 controlPoint = mid + (Vector3.up * lift);
 
-        // Bézier sampling
+        // Bezier sampling
         for (int i = 0; i <= _segments; i++)
         {
             float t = i / (float)_segments;
