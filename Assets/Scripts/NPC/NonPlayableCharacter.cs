@@ -13,6 +13,7 @@ public class NPC : MonoBehaviour, IPausable
     [SerializeField] private Animator _animator;
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Collider _collider;
+    [SerializeField] private BillboardIconController _billboardIconController;
 
     [Header("Accessory References")]
     // Constraints of accessories the NPC may have, used to make the NPC let go of them on death.
@@ -20,6 +21,11 @@ public class NPC : MonoBehaviour, IPausable
 
     // Rigidbodies of accessories the NPC may have, used to include them in ragdoll physics on death.
     [SerializeField] private List<Rigidbody> _accessoryRigidbodies;
+
+    [Header("Armoured Enemies")]
+    // For armoured enemies to take an additional hit from bullets.
+    [SerializeField] private bool _isArmoured = false;
+    private bool _hasArmour = false;
 
     // Distance in meters needed to fall to die.
     private const float LETHAL_FALL_THRESHOLD = 3f;
@@ -41,8 +47,8 @@ public class NPC : MonoBehaviour, IPausable
     // Whether the NPC is alive or dead.
     public bool IsAlive { get; private set; } = true;
 
-    // Tracks the GameObject responsible for the NPC's most recent death (if any).
-    public GameObject LastCauseOfDeath { get; private set; }
+    // Whether the NPC died in the last attempt.
+    public bool HasDiedLastAttempt { get; private set; } = false;
 
     private void Awake()
     {
@@ -63,6 +69,12 @@ public class NPC : MonoBehaviour, IPausable
         if (_lookTarget != null)
         {
             transform.LookAt(_lookTarget.transform);
+        }
+
+        // Armoured enemies get armour.
+        if (_isArmoured)
+        {
+            _hasArmour = true;
         }
     }
 
@@ -111,6 +123,12 @@ public class NPC : MonoBehaviour, IPausable
 
         // Restore rigidbody physics.
         _rb.isKinematic = false;
+
+        // Clear death on last attempt on unpause.
+        HasDiedLastAttempt = false;
+
+        // Disable billboard icon on unpause.
+        _billboardIconController.DisableBillboardIcon();
     }
 
     public void ResetStateBeforeUnpause()
@@ -132,7 +150,16 @@ public class NPC : MonoBehaviour, IPausable
             IsAlive = true;
         }
 
-        LastCauseOfDeath = null;
+        // Give armoured enemies their armour.
+        if (_isArmoured)
+        {
+            _hasArmour = true;
+        }
+    }
+
+    public void UpdateBillboardIconState()
+    {
+        _billboardIconController.UpdateBillboardIconState();
     }
 
     public void Die(GameObject cause)
@@ -148,10 +175,22 @@ public class NPC : MonoBehaviour, IPausable
         SetConstraintState(false);
 
         IsAlive = false;
+        HasDiedLastAttempt = true;
     }
 
     public void ApplyHit(GameObject cause, Vector3 impulse, Vector3 hitPoint)
     {
+        // Remove armour if hit by a bullet.
+        if (_hasArmour)
+        {
+            if(cause.transform.root.CompareTag("Bullets"))
+            {
+                _hasArmour = false;
+                return;
+            }
+        }
+        // Other hits will immediately cause death.
+
         // Enable ragdoll
         Die(cause);
 

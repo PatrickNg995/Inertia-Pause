@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: RestrictBulletObjective
   m_EditorClassIdentifier: 
   Description: Don't move any bullets.
-  _objectTypeTagToRestrict: Bullets
-  _actionsAllowed: 0
+  _objectTypeTagsToRestrict:
+  - Bullets
+  _actionTarget: 0
+  _actionRequirementMode: 0

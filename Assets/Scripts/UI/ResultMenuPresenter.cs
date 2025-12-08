@@ -7,6 +7,7 @@ public class ResultMenuPresenter : MonoBehaviour
     [SerializeField] private ResultMenuView _view;
 
     [Header("Models")]
+    [SerializeField] private ReviewPanelPresenter _reviewPresenter;
     [SerializeField] private GameManager _gameManager;
 
     [Header("Settings")]
@@ -20,8 +21,9 @@ public class ResultMenuPresenter : MonoBehaviour
     private const string CIVILIANS_OBJECTIVE_TEXT = "Civilians Rescued";
     private const string ALLIES_OBJECTIVE_TEXT = "Allies Saved";
     private const string ENEMIES_OBJECTIVE_TEXT = "Enemies Killed";
-    private const string COMPLETE_TEXT = "Complete";
-    private const string MISSED_TEXT = "Missed";
+    private const string OPTIONAL_OBJECTIVE_COMPLETE_TEXT = "Complete";
+    private const string OPTIONAL_OBJECTIVE_MISSED_TEXT = "Missed";
+    private const string OPTIONAL_OBJECTIVE_LEVEL_FAILED_TEXT = "Scenario Incomplete";
     private const string OBJECTIVE_COUNT_FORMAT = "{0}/{1}";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -29,16 +31,19 @@ public class ResultMenuPresenter : MonoBehaviour
     {
         ScenarioInfo scenarioInfo = _gameManager.ScenarioInfo;
 
+        _view.ReviewButton.Button.onClick.AddListener(OnReviewButtonClicked);
         _view.RewindButton.Button.onClick.AddListener(OnRewindButtonClicked);
         _view.RestartButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.ReloadScenario());
         _view.NextButton.Button.onClick.AddListener(() => OnNextButtonClicked(scenarioInfo));
         _view.MainMenuButton.Button.onClick.AddListener(() => AdditiveSceneManager.Instance.LoadMainMenu());
 
+        _view.ReviewButton.OnHover += ChangeHint;
         _view.RewindButton.OnHover += ChangeHint;
         _view.RestartButton.OnHover += ChangeHint;
         _view.NextButton.OnHover += ChangeHint;
         _view.MainMenuButton.OnHover += ChangeHint;
 
+        _reviewPresenter.OnMenuClose += OpenMenu;
         _gameManager.OnLevelComplete += OnLevelComplete;
 
         _view.DescriptionText.text = string.Empty;
@@ -49,6 +54,7 @@ public class ResultMenuPresenter : MonoBehaviour
     private void OpenMenu()
     {
         gameObject.SetActive(true);
+        _view.DescriptionText.text = string.Empty;
     }
 
     private void CloseMenu()
@@ -79,7 +85,6 @@ public class ResultMenuPresenter : MonoBehaviour
 
         _view.NewRecord.SetActive(false);
         _view.NextButton.gameObject.SetActive(isLevelComplete);
-        _view.RewindButton.gameObject.SetActive(!isLevelComplete);
 
         if (scenarioInfo.NumberOfCivilians > 0)
         {
@@ -103,9 +108,17 @@ public class ResultMenuPresenter : MonoBehaviour
         for (int i = 0; i < scenarioInfo.Objectives.OptionalObjectives.Count; i++)
         {
             string objective = scenarioInfo.Objectives.OptionalObjectives[i].Description;
-            bool isComplete = results.OptionalObjectivesComplete[i];
-            string completionText = results.OptionalObjectivesComplete[i] ? COMPLETE_TEXT : MISSED_TEXT;
-            Color textColor = isComplete ? _completeColor : _failedColorOptional;
+            bool isOptionalObjectiveComplete = results.OptionalObjectivesComplete[i];
+            string completionText;
+            if (isLevelComplete)
+            {
+                completionText = isOptionalObjectiveComplete ? OPTIONAL_OBJECTIVE_COMPLETE_TEXT : OPTIONAL_OBJECTIVE_MISSED_TEXT;
+            }
+            else
+            {
+                completionText = OPTIONAL_OBJECTIVE_LEVEL_FAILED_TEXT;
+            }
+            Color textColor = isOptionalObjectiveComplete ? _completeColor : _failedColorOptional;
             AddObjectiveRow(objective, completionText, textColor);
         }
     }
@@ -149,5 +162,11 @@ public class ResultMenuPresenter : MonoBehaviour
         _gameManager.RewindLevel();
         RemoveObjectiveRows();
         CloseMenu();
+    }
+
+    private void OnReviewButtonClicked()
+    {
+        CloseMenu();
+        _reviewPresenter.OpenMenu();
     }
 }

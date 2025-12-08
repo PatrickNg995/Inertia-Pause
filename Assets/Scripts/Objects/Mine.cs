@@ -8,6 +8,7 @@ public class Mine : MonoBehaviour, IPausable
     [SerializeField] private BoxCollider _collisionCollider;
     [SerializeField] private MeshRenderer _meshRenderer;
     [SerializeField] private Explosion _explosionScript;
+    [SerializeField] private GameObject _lightObj;
 
     // Save the layer the mine can interact with.
     [SerializeField] private LayerMask _interactableLayer;
@@ -28,54 +29,50 @@ public class Mine : MonoBehaviour, IPausable
         _triggerCollider.isTrigger = true;
         _collisionCollider.isTrigger = false;
 
-        // Make sure the mine can't explode
+        // Make sure the mine can't explode at start.
         _canExplode = false;
+
+        // Ensure the light object starts enabled.
+        if (_lightObj != null)
+            _lightObj.SetActive(true);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!_canExplode)
-        {
             return;
-        }
 
-        // Get the layer mask of the other object with bitwise left shift.
         LayerMask collisionLayer = 1 << collision.gameObject.layer;
 
-        // Check if the other object is in the correct layer to explode.
         if (collisionLayer == _interactableLayer)
-        {
             TriggerExplosion();
-        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (!_canExplode)
-        {
             return;
-        }
 
-        // Explode on contact with a lethal object.
         if (other.CompareTag("Lethal"))
-        {
             TriggerExplosion();
-        }
     }
 
     private void TriggerExplosion()
     {
-        // Cleanup mine without removing it & start explosion.
         _canExplode = false;
+
         _collisionCollider.enabled = false;
         _triggerCollider.enabled = false;
         _meshRenderer.enabled = false;
+
+        // Disable the child's Light GameObject.
+        if (_lightObj != null)
+            _lightObj.SetActive(false);
 
         _rb.isKinematic = true;
         _explosionScript.StartExplosion();
     }
 
-    // Save velocity & stop movement.
     public void Pause()
     {
         _canExplode = false;
@@ -83,7 +80,6 @@ public class Mine : MonoBehaviour, IPausable
         _savedVelocity = _rb.linearVelocity;
     }
 
-    // Start movement & add back saved velocity
     public void Unpause()
     {
         _pausedPosition = transform.position;
@@ -96,10 +92,14 @@ public class Mine : MonoBehaviour, IPausable
 
     public void ResetStateBeforeUnpause()
     {
-        // Reset the mine.
         _collisionCollider.enabled = true;
         _triggerCollider.enabled = true;
         _meshRenderer.enabled = true;
+
+        // Reactivate light object.
+        if (_lightObj != null)
+            _lightObj.SetActive(true);
+
         _explosionScript.ResetExplosion();
 
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);

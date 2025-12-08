@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 803afbcde9d9d424aab91b2f1d21860b, type: 3}
+  m_Name: UnstoppableBullet
+  m_EditorClassIdentifier: 
+  ObjectName: Unstoppable Bullet
+  Pages:
+  - Content: 'Bullets can be moved in any direction within 4 meters of the starting
+      point, but cannot be rotated.
+
+
+      After time is unpaused, bullets will
+      fly directly toward the direction they are facing. Civilians, enemies, and
+      allies will be killed if they are hit by the bullet. Fragile boxes will be
+      destroyed.
+
+
+      Unstoppable bullets will inflict damage on every object
+      in its trajectory and pass through all objects, including walls and enemy shields.'
+    Image: {fileID: 21300000, guid: 424c0fd1a3de34848af3270e7c6137c7, type: 3}

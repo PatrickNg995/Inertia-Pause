@@ -14,9 +14,11 @@ public class HUDView : MonoBehaviour
     [field: SerializeField] public TMP_Text ScenarioObjectivesText { get; private set; }
     [field: SerializeField] public TMP_Text OptionalObjectivesText { get; private set; }
 
+    [field: Header("Notification")]
+    [field: SerializeField] public TMP_Text NotificationText { get; private set; }
+
     [field: Header("Crosshairs")]
     [field: SerializeField] public List<GameObject> Crosshairs { get; private set; }
-
 
     [field: Header("Interaction Prompts")]
     [field: SerializeField] public TMP_Text InteractableNameText { get; private set; }

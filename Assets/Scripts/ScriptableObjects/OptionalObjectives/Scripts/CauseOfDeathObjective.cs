@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // Used in the editor to select the way the objective should be evaluated.
@@ -13,8 +14,8 @@ public enum KillRequirementMode
 [CreateAssetMenu(fileName = "NewCauseOfDeathObjective", menuName = "Inertia Pause/Cause of Death Objective")]
 public class CauseOfDeathObjective : OptionalObjective
 {
-    [Tooltip("The tag of the object type to require for the objective (the tag should be plural, e.g. 'Bullets').")]
-    [SerializeField] private string _objectTypeTagToRequire;
+    [Tooltip("The tags of the object types to require for the objective (the tag should be plural, e.g. 'Bullets').")]
+    [SerializeField] private List<string> _objectTypeTagsToRequire;
 
     [Tooltip("The number of kills with the specified object type required to complete the objective.")]
     [SerializeField] private int _killNumberRequirement;
@@ -34,7 +35,7 @@ public class CauseOfDeathObjective : OptionalObjective
             // Note: since objectives are only counted as completed if the level is completed, we can assume that
             // all the deaths in ListOfCausesOfDeath are Enemy deaths, so we don't need to check for that here.
             // If any allies are killed, the objective will be counted as failed by the GameManager anyway.
-            if (gameObject.transform.root.CompareTag(_objectTypeTagToRequire))
+            if (_objectTypeTagsToRequire.Contains(gameObject.transform.root.tag))
             {
                 killCount++;
             }

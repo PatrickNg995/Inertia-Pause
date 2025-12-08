@@ -13,6 +13,9 @@ public class Bullet : MonoBehaviour, IPausable
     [Tooltip("Whether this bullet can pierce through NPCs.")]
     [SerializeField] private bool _isPiercing = false;
 
+    [Tooltip("Whether this bullet can pierce through anything, including boxes, shelves, etc.")]
+    [SerializeField] private bool _isUnstoppable = false;
+
     [Tooltip("Speed at which the bullet travels.")]
     [SerializeField] private float _bulletSpeed = 20f;
 
@@ -58,6 +61,13 @@ public class Bullet : MonoBehaviour, IPausable
                 // Play Sound Effect.
                 SFXPlayer.Instance.PlayAtPosition(SfxId.BulletImpactBody, transform.position);
             }
+        }
+
+        // For unstoppable bullets.
+        if (_isUnstoppable)
+        {
+            // Never disable this bullet.
+            return;
         }
 
         // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
