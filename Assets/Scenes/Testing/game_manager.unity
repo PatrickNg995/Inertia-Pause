@@ -1663,6 +1663,18 @@ PrefabInstance:
       value: -0.21500003
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: 7eeabbe9abc0c6a4982960a46aa5ea76, type: 3}
+      propertyPath: m_RotationOffsets.Array.data[0].x
+      value: -2.8404467
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979737315829580218, guid: 7eeabbe9abc0c6a4982960a46aa5ea76, type: 3}
+      propertyPath: m_RotationOffsets.Array.data[0].y
+      value: -0.31122378
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979737315829580218, guid: 7eeabbe9abc0c6a4982960a46aa5ea76, type: 3}
+      propertyPath: m_RotationOffsets.Array.data[0].z
+      value: -0.61642385
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979737315829580218, guid: 7eeabbe9abc0c6a4982960a46aa5ea76, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
       value: -0.00456661
       objectReference: {fileID: 0}
@@ -2180,6 +2192,55 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 1200878801213791300, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
   m_PrefabInstance: {fileID: 1609031645}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1823665789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823665791}
+  - component: {fileID: 1823665790}
+  m_Layer: 0
+  m_Name: SlowMo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1823665790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823665789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 1
+  weight: 0
+  sharedProfile: {fileID: 11400000, guid: a52d338d8e9c4a24996c7eca72ee3fa7, type: 2}
+--- !u!4 &1823665791
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823665789}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.434017, y: -2.8505473, z: 4.9134007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1825207518
 GameObject:
   m_ObjectHideFlags: 0
@@ -2602,6 +2663,10 @@ PrefabInstance:
       propertyPath: _timePauseUnpause
       value: 
       objectReference: {fileID: 1609031647}
+    - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
+      propertyPath: _slowMoEffectVolume
+      value: 
+      objectReference: {fileID: 1823665790}
     - target: {fileID: 5432365308177044001, guid: 4568dcdcbd475644b853ae5112e0a93d, type: 3}
       propertyPath: _prepauseSimulationDuration
       value: 0.5
@@ -3517,3 +3582,4 @@ SceneRoots:
   - {fileID: 8269480457345942857}
   - {fileID: 1202544824}
   - {fileID: 1494394119}
+  - {fileID: 1823665791}

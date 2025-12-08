@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
     [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
     [SerializeField] private ReplayCameraManager _replayCameraManager;
+    [SerializeField] private Volume _slowMoEffectVolume;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -241,6 +243,8 @@ public class GameManager : MonoBehaviour
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
         Cursor.visible = false;
+
+        StartCoroutine(PostProcessEffectManager.FadeInFadOutEffect(_slowMoEffectVolume, _prepauseSimulationTime));
 
         // Wait a frame to ensure all objects are initialized.
         yield return null;
