@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Numerics;
 using UnityEngine;
 
 public class PauseableAnimator : MonoBehaviour, IPausable
@@ -13,12 +14,13 @@ public class PauseableAnimator : MonoBehaviour, IPausable
     [Tooltip("If < 0, start at a random time. If >= 0, start at this frame index of the clip on the start layer.")]
     [SerializeField] private int _frameToLoad = -1;
 
+    [Header("Prepause Simulation Settings")]
     [Tooltip("Whether to halve the offset for the prepause simulation start point for this animation " +
         "(i.e. the simulation will rewind this animation half as much and slow down the animation propotionally to still reach the starting frame).")]
-    [SerializeField] private bool _halvePrePauseSimulationStartTimeOffset = false;
+    [SerializeField] private bool _modifyPrePauseSimulationStartTimeOffset = false;
 
-    // Factor to slow down simulation when changing the offset.
-    private const float SLOW_DOWN_SIMULATION_FACTOR = 0.5f;
+    [Tooltip("Factor to modify the simulation start time offset (i.e. the simulated animation will rewind at half the offset at 0.5).")]
+    [SerializeField] private float _modifiedSimulationStartTimeOffsetFactor = 0.5f;
 
     // Saved pause state per layer.
     private int[] _pausedStateHashes;
@@ -156,13 +158,13 @@ public class PauseableAnimator : MonoBehaviour, IPausable
         // Compute the offset to rewind the animation by for simulation.
         float durationOffsetNormalizedTime;
 
-        if (_halvePrePauseSimulationStartTimeOffset)
+        if (_modifyPrePauseSimulationStartTimeOffset)
         {
             // Halve the offset.
-            durationOffsetNormalizedTime = duration / animationLength * SLOW_DOWN_SIMULATION_FACTOR;
+            durationOffsetNormalizedTime = duration / animationLength * _modifiedSimulationStartTimeOffsetFactor;
 
             // Set animator speed to slow down proportionally to the reduced offset, if it was reduced.
-            _animator.speed = SLOW_DOWN_SIMULATION_FACTOR;
+            _animator.speed = _modifiedSimulationStartTimeOffsetFactor;
         }
         else
         {
