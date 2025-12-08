@@ -78,11 +78,11 @@ public class DraggableBehaviour : InteractionObject
                                    _minDistanceFromCamera, _maxDistanceFromCamera);
     }
 
-    public override void OnStartInteract()
+    public override bool OnStartInteract()
     {
         if (_dragging == true)
         {
-            return;
+            return true;
         }
 
         // Disable time unpause while dragging.
@@ -106,6 +106,7 @@ public class DraggableBehaviour : InteractionObject
             }
         }
         _boundary.ShowCircle(true);
+        return true;
     }
 
     public override void OnHoldInteract()

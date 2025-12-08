@@ -15,8 +15,8 @@ MonoBehaviour:
   ObjectName: Enemy
   Pages:
   - Content: Shielded enemies are a variant of the regular enemy equipped with a
-      ballistic shield. The shield will block all bullets, but the enemy is still
-      vulnerable to explosions.
+      ballistic shield. The shield will block both bullets and penetrating bullets,
+      but the enemy is still vulnerable to unstoppable bullets and explosions.
     Image: {fileID: 21300000, guid: c80c1889556b14342a31c2189e9df68b, type: 3}
   - Content: 'Like regular enemies, shielded enemies can be moved in any direction
       within 1 meter of the starting point, but cannot be rotated.

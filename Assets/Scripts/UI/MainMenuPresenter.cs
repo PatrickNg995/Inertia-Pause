@@ -13,9 +13,9 @@ public class MainMenuPresenter : MonoBehaviour
     [SerializeField] private SavedLevelProgressManager _progressManager;
 
     private const string BUILD_NUMBER_FORMAT = "{0} V{1}";
-    private const string FIRST_LEVEL_ENVIRONMENT = "2-office";
-    private const string NORMAL_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-easy";
-    private const string HARD_FIRST_LEVEL_SCENARIO_ASSETS = "2-office-hard";
+    private const string FIRST_LEVEL_ENVIRONMENT = "1-promenade";
+    private const string NORMAL_FIRST_LEVEL_SCENARIO_ASSETS = "1-promenade-easy";
+    private const string HARD_FIRST_LEVEL_SCENARIO_ASSETS = "1-promenade-hard";
 
     private AdditiveSceneManager _sceneManager;
     private PlayerActions _inputActions;
