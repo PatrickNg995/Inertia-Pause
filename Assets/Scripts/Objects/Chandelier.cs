@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Chandelier : MonoBehaviour, IPausable
 {
@@ -47,5 +47,10 @@ public class Chandelier : MonoBehaviour, IPausable
         {
             transform.GetChild(i).GetComponent<Rigidbody>().freezeRotation = true;
         }
+    }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
     }
 }

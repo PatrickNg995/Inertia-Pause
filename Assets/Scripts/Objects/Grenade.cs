@@ -126,4 +126,9 @@ public class Grenade : MonoBehaviour, IPausable
 
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
     }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
+    }
 }

@@ -105,6 +105,8 @@ public class GameManager : MonoBehaviour
     private List<NPC> _listOfAllies = new List<NPC>();
     private List<NPC> _listOfCivilians = new List<NPC>();
 
+    private float _openingCutsceneDuration = 2f;
+
     /// <summary>
     /// Whether the level has been won.
     /// </summary>
@@ -223,16 +225,19 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Level start called after one frame, though should be after opening cut scene in final game.
-        // Temporary workaround for race condition during opening tutorial.
-        StartCoroutine(DelayedLevelStart());
+        // Play the opening cutscene then start the level.
+        StartCoroutine(PlayOpeningCutscene());
+        OnLevelStart?.Invoke();
+
+        // Update last level in saved progress.
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
 
-    private IEnumerator DelayedLevelStart()
+    private IEnumerator PlayOpeningCutscene()
     {
         yield return null;
-        OnLevelStart?.Invoke();
+        _timePauseUnpause.SimulateAllPrePauseBehaviours();
+        yield return new WaitForSeconds(_openingCutsceneDuration);
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
