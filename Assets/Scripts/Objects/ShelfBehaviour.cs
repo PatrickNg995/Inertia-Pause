@@ -96,7 +96,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public void Pause()
     {
-        // necessity found empirically
+        // Found empirically by necessity.
         if (_rb == null)
         {
             _rb = GetComponent<Rigidbody>();
@@ -129,5 +129,10 @@ public class ShelfBehaviour : InteractionObject, IPausable
     {
         // Reset position and rotation to pre-unpause state.
         transform.SetPositionAndRotation(_pausedPosition, _pausedRotation);
+    }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        // No pre-pause behaviour to simulate.
     }
 }

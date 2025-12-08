@@ -80,6 +80,14 @@ public class TimePauseUnpause : MonoBehaviour
         }
     }
 
+    public void SimulateAllPrePauseBehaviours()
+    {
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.SimulatePrePauseBehaviour();
+        }
+    }
+
     private void UnpauseLevel(InputAction.CallbackContext context)
     {
         if (_isUnpauseEnabled && !_hasUnpaused)
