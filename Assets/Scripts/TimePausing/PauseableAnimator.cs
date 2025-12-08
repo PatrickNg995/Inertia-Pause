@@ -13,6 +13,13 @@ public class PauseableAnimator : MonoBehaviour, IPausable
     [Tooltip("If < 0, start at a random time. If >= 0, start at this frame index of the clip on the start layer.")]
     [SerializeField] private int _frameToLoad = -1;
 
+    [Tooltip("Whether to halve the offset for the prepause simulation start point for this animation " +
+        "(i.e. the simulation will rewind this animation half as much and slow down the animation propotionally to still reach the starting frame).")]
+    [SerializeField] private bool _halvePrePauseSimulationStartTimeOffset = false;
+
+    // Factor to slow down simulation when changing the offset.
+    private const float SLOW_DOWN_SIMULATION_FACTOR = 0.5f;
+
     // Saved pause state per layer.
     private int[] _pausedStateHashes;
     private float[] _pausedNormalizedTimes;
@@ -138,9 +145,6 @@ public class PauseableAnimator : MonoBehaviour, IPausable
 
     private IEnumerator PlayAndStopSimulateAnimation(float duration)
     {
-        // Set animator speed back to normal to play animation.
-        _animator.speed = 1f;
-
         // Get current animation info.
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(_startLayerIndex);
         float animationCurrentTime = stateInfo.normalizedTime;
@@ -149,9 +153,25 @@ public class PauseableAnimator : MonoBehaviour, IPausable
         AnimationClip clip = _animator.GetCurrentAnimatorClipInfo(_startLayerIndex)[0].clip;
         float animationLength = clip.length;
 
-        // Compute start time for simulation.
-        float durationNormalizedTime = duration / animationLength;
-        float simulationNormalizedStartTime = Mathf.Max(animationCurrentTime - durationNormalizedTime, 0f);
+        // Compute the offset to rewind the animation by for simulation.
+        float durationOffsetNormalizedTime;
+
+        if (_halvePrePauseSimulationStartTimeOffset)
+        {
+            // Halve the offset.
+            durationOffsetNormalizedTime = duration / animationLength * SLOW_DOWN_SIMULATION_FACTOR;
+
+            // Set animator speed to slow down proportionally to the reduced offset, if it was reduced.
+            _animator.speed = SLOW_DOWN_SIMULATION_FACTOR;
+        }
+        else
+        {
+            durationOffsetNormalizedTime = duration / animationLength;
+            _animator.speed = 1f;
+        }
+
+        // Rewind animation time by duration offset, clamped to 0.
+        float simulationNormalizedStartTime = Mathf.Max(animationCurrentTime - durationOffsetNormalizedTime, 0f);
 
         // Play animation from simulation start time.
         _animator.Play(stateInfo.fullPathHash, -1, simulationNormalizedStartTime);

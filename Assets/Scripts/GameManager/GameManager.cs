@@ -251,6 +251,7 @@ public class GameManager : MonoBehaviour
         // Invoke blocking menu close event to resume player and enable player inputs.
         OnAnyBlockingMenuClose?.Invoke();
         _inputActions.Enable();
+        Cursor.visible = true;
 
         // Invoke level start event.
         OnLevelStart?.Invoke();
