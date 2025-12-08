@@ -43,7 +43,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
             _rb.isKinematic = true;
             // for the guard position to not modify the velocities
-            _timeSincePause = -1;
+            _timeSincePause = -1f;
         }
     }
 
@@ -64,6 +64,8 @@ public class ShelfBehaviour : InteractionObject, IPausable
         ActionCommand = new ToppleCommand(this, _rb, transform.right, _torque);
         _rb.isKinematic = false;
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
+        _indicator.Draw();
+        _indicator.Enable();
         return true;
     }
 
@@ -79,9 +81,15 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public override void OnResetInteract()
     {
-        if (!HasTakenAction) return;
+        // if the shelf hasn't been interacted with
+        // or isn't finished simulating it's fall
+        if (!HasTakenAction || _timeSincePause != -1f)
+        {
+            return;
+        }
 
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
+        _indicator.Disable();
         _timeSincePause = 0f;
     }
 
