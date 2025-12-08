@@ -240,6 +240,7 @@ public class GameManager : MonoBehaviour
         // Invoke blocking menu open event to pause player and disable player inputs.
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
+        Cursor.visible = false;
 
         // Wait a frame to ensure all objects are initialized.
         yield return null;
