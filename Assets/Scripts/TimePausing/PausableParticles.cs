@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PausableParticles : MonoBehaviour, IPausable
 {
@@ -57,5 +58,23 @@ public class PausableParticles : MonoBehaviour, IPausable
     {
         _particleSystem.Simulate(_prePausePlayDuration, true, true);
 
+    }
+
+    public void SimulatePrePauseBehaviour()
+    {
+        StartCoroutine(PlayThenPauseParticles());
+    }
+
+    private IEnumerator PlayThenPauseParticles()
+    {
+        // Start particle system from the beginning.
+        _particleSystem.Stop();
+        _particleSystem.Play();
+
+        // Wait for the specified duration
+        yield return new WaitForSeconds(_prePausePlayDuration);
+
+        // Pause the particle system
+        Pause();
     }
 }
