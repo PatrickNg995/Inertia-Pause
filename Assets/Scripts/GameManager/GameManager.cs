@@ -257,6 +257,9 @@ public class GameManager : MonoBehaviour
         // Rewind all objects in the level.
         RewindObjects();
 
+        // Reset level win status.
+        LevelWon = false;
+
         // Re-enable player inputs and interaction.
         _inputActions.Enable();
         _playerInteract.enabled = true;
