@@ -82,7 +82,6 @@ public class SFXPlayer : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         BuildLookup();
     }
 
