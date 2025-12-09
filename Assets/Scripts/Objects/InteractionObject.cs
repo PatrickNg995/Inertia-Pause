@@ -35,4 +35,7 @@ public abstract class InteractionObject : MonoBehaviour, IInteractable
     {
         // Explicitly empty
     }
+    public abstract void OnHoverStart();
+
+    public abstract void OnHoverEnd();
 }

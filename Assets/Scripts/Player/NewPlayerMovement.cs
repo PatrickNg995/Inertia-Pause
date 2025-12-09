@@ -4,29 +4,36 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class NewPlayerMovement : MonoBehaviour
 {
-    // Get character controller to move
     [SerializeField] private CharacterController _controller;
-    [Space]
 
-    // Movement variables
+    [Header("Movement")]
     [SerializeField] private float _movementSpeed = 5f;
     [SerializeField] private float _gravity = -0.4f;
     [SerializeField] private float _maxFallSpeed = -0.4f;
     [SerializeField] private float _climbSpeed = 4f;
-    [SerializeField] private float _ladderTopJump = 4f; // seems to be the magic number with movementSpeed 5
-    private float _fallingVelocity = 0f; // Save variable for when player falls
+    [SerializeField] private float _ladderTopJump = 4f;
 
-    // Player input
+    private float _fallingVelocity = 0f;
+
     private PlayerActions _inputActions;
     private InputAction _movement;
 
     private bool _isOnLadder = false;
 
-    // Store initial player position and rotation for resetting level.
     private Vector3 _initialPlayerPosition;
     private Quaternion _initialPlayerRotation;
 
-    // Get character controller & player inputs
+    [Header("Footsteps")]
+    [SerializeField] private float _minStepSpeed = 0.15f;
+    [SerializeField] private float _footstepVolume = 1f;
+
+    [Header("Climbsteps")]
+    [SerializeField] private float _minClimbSpeed = 0.05f;
+    [SerializeField] private float _climbVolume = 1f;
+
+    private AudioSource _footstepAudio;
+    private AudioSource _climbAudio;
+
     private void Awake()
     {
         _initialPlayerPosition = transform.position;
@@ -37,7 +44,11 @@ public class NewPlayerMovement : MonoBehaviour
         _fallingVelocity = 0f;
     }
 
-    // Enable & disable input
+    private void Start()
+    {
+        CreateFootstepSource();
+    }
+
     private void OnEnable()
     {
         _movement = _inputActions.Ingame.Movement;
@@ -49,11 +60,10 @@ public class NewPlayerMovement : MonoBehaviour
         _movement.Disable();
     }
 
-
-    // Always update to move player, regardless of Timescale
-    void Update()
+    private void Update()
     {
         MovePlayer();
+        HandleFootsteps();
     }
 
     public void ResetPlayerPosition()
@@ -65,57 +75,101 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        // Get input & put it into vector 3
         Vector2 v2 = _movement.ReadValue<Vector2>();
+
         if (_isOnLadder)
-        {
             HandleLadderMovement(v2);
-        }
         else
-        {
             HandleGroundMovement(v2);
-        }
     }
 
     private void HandleGroundMovement(Vector2 v2)
     {
-        // Vector 3 without y velocity.
-        Vector3 velocity = new Vector3(v2.x, 0, v2.y);
-
-        // Change velocity based on direction the player is facing.
+        Vector3 velocity = new Vector3(v2.x, 0f, v2.y);
         velocity = transform.TransformDirection(velocity);
 
-        // Add movement speed to x & z velocity.
         velocity.x *= _movementSpeed * Time.unscaledDeltaTime;
         velocity.z *= _movementSpeed * Time.unscaledDeltaTime;
 
-        // Check if player is on the ground.
         if (_controller.isGrounded)
         {
-            // Reset falling velocity & stick player to the ground.
             velocity.y = -0.05f;
             _fallingVelocity = 0f;
         }
         else
         {
-            // Accumulate falling velocity & set the current velocity.
             _fallingVelocity += _gravity * Time.unscaledDeltaTime;
+
             if (_fallingVelocity < _maxFallSpeed)
             {
                 _fallingVelocity = _maxFallSpeed;
             }
+
             velocity.y = _fallingVelocity;
         }
 
-        // Move player
         _controller.Move(velocity);
     }
 
     private void HandleLadderMovement(Vector2 v2)
     {
-        // Move vertically when on ladder
-        Vector3 climbDirection = new Vector3(0, v2.y, 0);
+        Vector3 climbDirection = new Vector3(0f, v2.y, 0f);
         _controller.Move(_climbSpeed * Time.unscaledDeltaTime * climbDirection);
+
+        // Handle Climb Audio.
+        float climbAmount = Mathf.Abs(v2.y);
+
+        if (_climbAudio != null)
+        {
+            if (climbAmount > _minClimbSpeed)
+            {
+                float master = SFXPlayer.Instance != null ? SFXPlayer.Instance.MasterVolume : 1f;
+                _climbAudio.volume = _climbVolume * master;
+            }
+            else
+            {
+                _climbAudio.volume = 0f;
+            }
+        }
+    }
+
+
+    private void CreateFootstepSource()
+    {
+        _footstepAudio = SFXPlayer.Instance.PlayAttached(SfxId.Walking, transform, loop: true);
+
+        if (_footstepAudio != null)
+        {
+            _footstepAudio.volume = 0f;
+            _footstepAudio.spatialBlend = 0f;
+        }
+    }
+
+
+    private void HandleFootsteps()
+    {
+        if (_footstepAudio == null)
+        {
+            return;
+        }
+
+        if (!_controller.isGrounded || _isOnLadder)
+        {
+            _footstepAudio.volume = 0f;
+            return;
+        }
+
+        Vector3 horizontal = new Vector3(_controller.velocity.x, 0f, _controller.velocity.z);
+        float speed = horizontal.magnitude;
+
+        if (speed < _minStepSpeed)
+        {
+            _footstepAudio.volume = 0f;
+            return;
+        }
+
+        float master = SFXPlayer.Instance != null ? SFXPlayer.Instance.MasterVolume : 1f;
+        _footstepAudio.volume = _footstepVolume * master;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -123,6 +177,17 @@ public class NewPlayerMovement : MonoBehaviour
         if (other.CompareTag("Ladder"))
         {
             _isOnLadder = true;
+
+            if (_climbAudio == null)
+            {
+                _climbAudio = SFXPlayer.Instance.PlayAttached(SfxId.ClimbLadder, transform, loop: true);
+
+                if (_climbAudio != null)
+                {
+                    _climbAudio.volume = _footstepVolume;
+                    _climbAudio.spatialBlend = 0f;
+                }
+            }
         }
     }
 
@@ -131,22 +196,32 @@ public class NewPlayerMovement : MonoBehaviour
         if (other.CompareTag("Ladder"))
         {
             _isOnLadder = false;
+
+            if (_climbAudio != null)
+            {
+                Destroy(_climbAudio.gameObject);
+                _climbAudio = null;
+            }
         }
 
-        // assumes that the player isn't grounded when they reach the top of a ladder
-        // this should always be the case with how the ladder logic and collision detection works
         if (!_controller.isGrounded)
         {
-            // Jumps to prevent jittering at the top of the ladder while trying to go from in front of the ladder to above and behind it
             _controller.Move((_ladderTopJump * _movementSpeed * transform.forward + Vector3.up) * Time.unscaledDeltaTime);
         }
     }
+
 
     private void OnControllerColliderHit(ControllerColliderHit _)
     {
         if (_controller.isGrounded && _isOnLadder)
         {
             _isOnLadder = false;
+
+            if (_climbAudio != null)
+            {
+                Destroy(_climbAudio.gameObject);
+                _climbAudio = null;
+            }
         }
     }
 }

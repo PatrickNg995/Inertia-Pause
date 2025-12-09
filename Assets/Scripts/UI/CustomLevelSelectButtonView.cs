@@ -28,5 +28,6 @@ public class CustomLevelSelectButtonView : MonoBehaviour, IPointerEnterHandler, 
     public void OnPointerClick(PointerEventData eventData)
     {
         OnConfirmLevel?.Invoke(_normalScenarioInfo, _hardScenarioInfo);
+        SFXPlayer.Instance.Play(SfxId.UIClick);
     }
 }

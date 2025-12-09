@@ -31,6 +31,7 @@ public class CustomButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public virtual void OnSelect(BaseEventData eventData)
     {
         _text.color = _highlightColor;
+        SFXPlayer.Instance.Play(SfxId.UIClick);
     }
 
     public virtual void OnDeselect(BaseEventData eventData)
