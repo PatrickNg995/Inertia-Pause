@@ -285,6 +285,9 @@ public class GameManager : MonoBehaviour
         // Rewind all objects in the level.
         RewindObjects();
 
+        // Reset level win status.
+        LevelWon = false;
+
         // Re-enable player inputs and interaction.
         _inputActions.Enable();
         _playerInteract.enabled = true;
@@ -391,15 +394,9 @@ public class GameManager : MonoBehaviour
         // Evaluate optional objectives.
         bool[] optionalResults = EvaluateOptionalObjectives();
 
-        // Create results struct.
-        LevelResults results = new()
-        {
-            CiviliansRescued = civiliansAlive,
-            AlliesSaved = alliesAlive,
-            EnemiesKilled = _listOfEnemiesObjects.Count - enemiesAlive,
-            OptionalObjectivesComplete = optionalResults,
-            ActionsTaken = ActionCount
-        };
+        // Check if this attempt uses lower actions than previous attempts.
+        int previousRecord = _savedLevelProgressManager.GetBestRecordActions(ScenarioInfo.ScenarioAssetsSceneName);
+        bool isNewRecord = LevelWon && (previousRecord == -1 || ActionCount < previousRecord);
 
         // Update saved level progress if level was won.
         if (LevelWon)
@@ -408,6 +405,17 @@ public class GameManager : MonoBehaviour
             _savedLevelProgressManager.UpdateLevelProgress(levelInfo);
             _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.NextEnvironmentSceneName, ScenarioInfo.NextScenarioAssetsSceneName);
         }
+
+        // Create results struct.
+        LevelResults results = new()
+        {
+            CiviliansRescued = civiliansAlive,
+            AlliesSaved = alliesAlive,
+            EnemiesKilled = _listOfEnemiesObjects.Count - enemiesAlive,
+            OptionalObjectivesComplete = optionalResults,
+            ActionsTaken = ActionCount,
+            IsNewRecord = isNewRecord,
+        };
 
         // Call level complete after determining victory.
         OnLevelComplete?.Invoke(results);

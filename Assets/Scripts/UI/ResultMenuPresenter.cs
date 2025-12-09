@@ -83,7 +83,7 @@ public class ResultMenuPresenter : MonoBehaviour
         _view.CompletionText.text = isLevelComplete ? LEVEL_COMPLETE_TEXT : LEVEL_FAILED_TEXT;
         _view.ActionCountText.text = results.ActionsTaken.ToString();
 
-        _view.NewRecord.SetActive(false);
+        _view.NewRecord.SetActive(results.IsNewRecord);
         _view.NextButton.gameObject.SetActive(isLevelComplete);
 
         if (scenarioInfo.NumberOfCivilians > 0)
