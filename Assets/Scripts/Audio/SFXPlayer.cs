@@ -5,34 +5,34 @@ using UnityEngine;
 public enum SfxId
 {
     // UI and menus.
-    UIClick = 10,
+    UIClick,
 
     // Time control.
-    TimePauseEnter = 20,
-    TimePauseLoop = 21,
-    TimePauseExit = 22,
-    TimeObjectUnfreeze = 23,
+    TimePauseEnter,
+    TimePauseLoop,
+    TimePauseExit,
+    TimeObjectUnfreeze,
 
     // NPC damage and death.
-    NPCBodyHitGround = 30,
+    NPCBodyHitGround,
 
     // Objects.
-    BulletFire = 40,
-    BulletImpactEnv = 41,
-    BulletImpactBody = 42,
-    ExplosionDefault = 43,
-    GrenadePinPull = 44,
-    GrenadeThrow = 45,
-    GrenadeBounce = 46,
-    GlassShatter = 47,
+    BulletFire,
+    BulletImpactEnv,
+    BulletImpactBody,
+    ExplosionDefault,
+    GrenadePinPull,
+    GrenadeThrow,
+    GrenadeBounce,
+    GlassShatter,
 
     // Player actions.
-    Walking = 50,
-    StartInteract = 51,
-    ConfirmInteract = 52,
-    ResetInteract = 53,
-    CancelInteract = 54,
-    ClimbLadder = 55
+    Walking,
+    StartInteract,
+    ConfirmInteract,
+    ResetInteract,
+    CancelInteract,
+    ClimbLadder
 }
 
 [RequireComponent(typeof(AudioSource))]
