@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class SavedLevelProgressManager : MonoBehaviour
@@ -92,5 +93,20 @@ public class SavedLevelProgressManager : MonoBehaviour
         }
 
         SaveLevelProgress(_currentSavedLevelProgressData);
+    }
+
+    public int GetBestRecordActions(string scenarioAssetsSceneName)
+    {
+        LevelProgressInfo level = _currentSavedLevelProgressData.CompletedLevelProgressInfoArray
+            .Where(level => level.LevelAssetsName == scenarioAssetsSceneName).FirstOrDefault();
+
+        if (level != null)
+        {
+            return level.PersonalBestActionCount;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }
