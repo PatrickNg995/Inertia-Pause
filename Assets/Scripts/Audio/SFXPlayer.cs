@@ -30,7 +30,10 @@ public enum SfxId
 
     // Player actions.
     Walking = 50,
-    Interact = 51
+    StartInteract = 51,
+    ConfirmInteract = 52,
+    ResetInteract = 53,
+    CancelInteract = 54
 }
 
 [RequireComponent(typeof(AudioSource))]
