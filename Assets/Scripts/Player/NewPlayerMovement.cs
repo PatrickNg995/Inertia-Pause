@@ -123,7 +123,8 @@ public class NewPlayerMovement : MonoBehaviour
         {
             if (climbAmount > _minClimbSpeed)
             {
-                _climbAudio.volume = _climbVolume;
+                float master = SFXPlayer.Instance != null ? SFXPlayer.Instance.MasterVolume : 1f;
+                _climbAudio.volume = _climbVolume * master;
             }
             else
             {
@@ -131,6 +132,7 @@ public class NewPlayerMovement : MonoBehaviour
             }
         }
     }
+
 
     private void CreateFootstepSource()
     {
@@ -146,6 +148,11 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void HandleFootsteps()
     {
+        if (_footstepAudio == null)
+        {
+            return;
+        }
+
         if (!_controller.isGrounded || _isOnLadder)
         {
             _footstepAudio.volume = 0f;
@@ -161,7 +168,8 @@ public class NewPlayerMovement : MonoBehaviour
             return;
         }
 
-        _footstepAudio.volume = _footstepVolume;
+        float master = SFXPlayer.Instance != null ? SFXPlayer.Instance.MasterVolume : 1f;
+        _footstepAudio.volume = _footstepVolume * master;
     }
 
     private void OnTriggerEnter(Collider other)

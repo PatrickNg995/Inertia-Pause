@@ -61,17 +61,35 @@ public class SFXPlayer : MonoBehaviour
     [SerializeField] private bool _enableRandomPitch = true;
 
     [SerializeField] private float _minPitch = 0.9f;
-
     [SerializeField] private float _maxPitch = 1.1f;
-
-    private readonly Dictionary<SfxId, SfxDefinition> _lookup = new Dictionary<SfxId, SfxDefinition>();
 
     [SerializeField] private AudioSource _audioSource;
 
+    private readonly Dictionary<SfxId, SfxDefinition> _lookup = new Dictionary<SfxId, SfxDefinition>();
+
+    // Track all 3D/attached AudioSources so we can rescale them when master volume changes.
+    private readonly List<AudioSource> _trackedSources = new List<AudioSource>();
+
     public float MasterVolume
     {
-        get => _masterVolume;
-        set => _masterVolume = Mathf.Clamp01(value);
+        get
+        {
+            return _masterVolume;
+        }
+        set
+        {
+            float clamped = Mathf.Clamp01(value);
+
+            if (Mathf.Approximately(clamped, _masterVolume))
+            {
+                return;
+            }
+
+            float oldValue = _masterVolume;
+            _masterVolume = clamped;
+
+            ApplyMasterScaleToTrackedSources(oldValue, _masterVolume);
+        }
     }
 
     private void Awake()
@@ -83,12 +101,18 @@ public class SFXPlayer : MonoBehaviour
         }
 
         Instance = this;
+
+        if (_audioSource == null)
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+
         BuildLookup();
     }
 
     public AudioClip GetClip(SfxId id)
     {
-        if (_lookup.TryGetValue(id, out var sfx))
+        if (_lookup.TryGetValue(id, out SfxDefinition sfx))
         {
             return sfx.Clip;
         }
@@ -138,6 +162,11 @@ public class SFXPlayer : MonoBehaviour
             return;
         }
 
+        if (_audioSource == null)
+        {
+            return;
+        }
+
         if (!_lookup.TryGetValue(id, out SfxDefinition s))
         {
             return;
@@ -148,11 +177,12 @@ public class SFXPlayer : MonoBehaviour
             return;
         }
 
-        float v = s.Volume * _masterVolume;
+        float clipVolume = Mathf.Clamp01(s.Volume);
+        float finalVolume = clipVolume * _masterVolume;
         float pitch = GetRandomPitch();
 
         _audioSource.pitch = pitch;
-        _audioSource.PlayOneShot(s.Clip, v);
+        _audioSource.PlayOneShot(s.Clip, finalVolume);
     }
 
     public void PlayAtPosition(SfxId id, Vector3 position)
@@ -171,8 +201,10 @@ public class SFXPlayer : MonoBehaviour
         go.transform.position = position;
 
         AudioSource src = go.AddComponent<AudioSource>();
+        float clipVolume = Mathf.Clamp01(s.Volume);
+
         src.clip = s.Clip;
-        src.volume = s.Volume * _masterVolume;
+        src.volume = clipVolume * _masterVolume;
         src.pitch = GetRandomPitch();
         src.spatialBlend = 1f;
         src.minDistance = 1f;
@@ -180,6 +212,8 @@ public class SFXPlayer : MonoBehaviour
         src.rolloffMode = AudioRolloffMode.Linear;
         src.loop = false;
         src.Play();
+
+        RegisterTrackedSource(src);
 
         Destroy(go, s.Clip.length);
     }
@@ -206,8 +240,10 @@ public class SFXPlayer : MonoBehaviour
         go.transform.localPosition = Vector3.zero;
 
         AudioSource src = go.AddComponent<AudioSource>();
+        float clipVolume = Mathf.Clamp01(s.Volume);
+
         src.clip = s.Clip;
-        src.volume = s.Volume * _masterVolume;
+        src.volume = clipVolume * _masterVolume;
         src.pitch = GetRandomPitch();
         src.spatialBlend = 1f;
         src.minDistance = 1f;
@@ -215,6 +251,8 @@ public class SFXPlayer : MonoBehaviour
         src.rolloffMode = AudioRolloffMode.Linear;
         src.loop = loop;
         src.Play();
+
+        RegisterTrackedSource(src);
 
         if (!loop)
         {
@@ -227,5 +265,42 @@ public class SFXPlayer : MonoBehaviour
     public void SetMasterVolume(float value)
     {
         MasterVolume = value;
+    }
+
+    private void RegisterTrackedSource(AudioSource source)
+    {
+        if (source == null)
+        {
+            return;
+        }
+
+        if (!_trackedSources.Contains(source))
+        {
+            _trackedSources.Add(source);
+        }
+    }
+
+    private void ApplyMasterScaleToTrackedSources(float oldValue, float newValue)
+    {
+        // Avoid division by zero; if old is 0, just treat factor as new.
+        if (Mathf.Approximately(oldValue, 0f))
+        {
+            oldValue = 0.0001f;
+        }
+
+        float factor = newValue / oldValue;
+
+        for (int i = _trackedSources.Count - 1; i >= 0; i--)
+        {
+            AudioSource src = _trackedSources[i];
+
+            if (src == null)
+            {
+                _trackedSources.RemoveAt(i);
+                continue;
+            }
+
+            src.volume *= factor;
+        }
     }
 }
