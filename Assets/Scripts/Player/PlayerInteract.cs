@@ -103,7 +103,8 @@ public class PlayerInteract : MonoBehaviour
             Debug.Log($"Ended interaction with {_targetObject.name}");
             _isInteracting = false;
             return;
-        } else
+        } 
+        else
         {
             SFXPlayer.Instance.Play(SfxId.StartInteract);
         }
