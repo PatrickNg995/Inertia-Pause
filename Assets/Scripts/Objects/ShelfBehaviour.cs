@@ -4,17 +4,14 @@
 public class ShelfBehaviour : InteractionObject, IPausable
 {
     [SerializeField] private float _torque = 2000f;
-    // the amount of time to let the shelf to rotate while paused, so the player can see what will happen
-    [SerializeField] private float _timeToTilt = 0.1f;
     [SerializeField] private Indicator _indicator;
+    [SerializeField] private float _deltaForward;
+    [SerializeField] private float _deltaUp;
+    [SerializeField] private float _finalRotationScale = 3f;
 
     private Rigidbody _rb;
     private Vector3 _pausedPosition;
     private Quaternion _pausedRotation;
-    private bool _paused = false;
-    private Vector3 _rotationalVelocity;
-    private Vector3 _velocity;
-    private float _timeSincePause;
     private bool _isToppled;
 
     private void Start()
@@ -22,27 +19,6 @@ public class ShelfBehaviour : InteractionObject, IPausable
         if (_rb == null)
         {
             _rb = GetComponent<Rigidbody>();
-        }
-    }
-
-    private void Update()
-    {
-        if (_paused && HasTakenAction && _timeSincePause >= 0)
-        {
-            _timeSincePause += Time.deltaTime;
-        }
-
-        if (_paused && _timeSincePause >= _timeToTilt)
-        {
-            if (_rotationalVelocity == Vector3.zero || _velocity == Vector3.zero)
-            {
-                _rotationalVelocity = _rb.angularVelocity;
-                _velocity = _rb.linearVelocity;
-            }
-
-            _rb.isKinematic = true;
-            // for the guard position to not modify the velocities
-            _timeSincePause = -1f;
         }
     }
 
@@ -60,8 +36,9 @@ public class ShelfBehaviour : InteractionObject, IPausable
         }
 
         // Set up and execute the topple command, in the right direction.
-        ActionCommand = new ToppleCommand(this, _rb, transform.right, _torque);
-        _rb.isKinematic = false;
+        ActionCommand = new ToppleCommand(this, _rb, transform.right, _deltaForward, _deltaUp, _finalRotationScale);
+        _rb.isKinematic = true;
+        _isToppled = true;
         GameManager.Instance.RecordAndExecuteCommand(ActionCommand);
         _indicator.Draw();
         _indicator.Enable();
@@ -80,16 +57,13 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public override void OnResetInteract()
     {
-        // if the shelf hasn't been interacted with
-        // or isn't finished simulating it's fall
-        if (!HasTakenAction || _timeSincePause != -1f)
+        if (!HasTakenAction)
         {
             return;
         }
 
         GameManager.Instance.UndoSpecificCommand(ActionCommand);
         _indicator.Disable();
-        _timeSincePause = 0f;
     }
 
     public override void OnCommandRedo()
@@ -99,7 +73,6 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
     public override void OnCommandUndo()
     {
-        _timeSincePause = 0f;
         _isToppled = false;
     }
 
@@ -112,10 +85,6 @@ public class ShelfBehaviour : InteractionObject, IPausable
         }
 
         _rb.isKinematic = true;
-
-        _timeSincePause = 0f;
-
-        _paused = true;
     }
 
     public void Unpause()
@@ -125,13 +94,11 @@ public class ShelfBehaviour : InteractionObject, IPausable
 
         _rb.isKinematic = false;
 
+        Debug.Log($"{transform.gameObject.name}: is toppled? {_isToppled}");
         if (_isToppled)
         {
-            _rb.linearVelocity = _velocity;
-            _rb.angularVelocity = _rotationalVelocity;
+            _rb.AddTorque(_torque * transform.right);
         }
-
-        _paused = false;
     }
 
     public void ResetStateBeforeUnpause()

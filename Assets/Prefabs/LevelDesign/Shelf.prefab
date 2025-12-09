@@ -237,8 +237,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactableInfo: {fileID: 11400000, guid: 9ef45f3cba1ef6643b60fafee1b6b694, type: 2}
   _torque: 20000
-  _timeToTilt: 0.1
   _indicator: {fileID: -3686912292521961155}
+  _deltaForward: 0.1
+  _deltaUp: 0.05
+  _finalRotationScale: 3
 --- !u!114 &8677206308350132877
 MonoBehaviour:
   m_ObjectHideFlags: 0
