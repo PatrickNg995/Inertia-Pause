@@ -341,6 +341,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1106191563821888508, guid: 9a489e762475bcc41a680020bd8551ca, type: 3}
   m_PrefabInstance: {fileID: 86611303}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &92269548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+  m_PrefabInstance: {fileID: 352416968}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &108490483 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5667189892609771380, guid: 971f95e7928f19149a247996fba86a97, type: 3}
@@ -982,6 +987,10 @@ PrefabInstance:
       propertyPath: _lookTarget
       value: 
       objectReference: {fileID: 1088035239}
+    - target: {fileID: 3047549855675290043, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 1088035239}
     - target: {fileID: 8613579500300813949, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
       propertyPath: m_Name
       value: Civilian (3)
@@ -1044,6 +1053,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1755956937}
     m_Modifications:
+    - target: {fileID: 155824721500382290, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 1043281619}
     - target: {fileID: 1014819138329672721, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _lookTarget
       value: 
@@ -1164,6 +1177,10 @@ PrefabInstance:
       propertyPath: _lookTarget
       value: 
       objectReference: {fileID: 1494012207}
+    - target: {fileID: 3047549855675290043, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 1494012207}
     - target: {fileID: 8613579500300813949, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
       propertyPath: m_Name
       value: Civilian
@@ -1230,6 +1247,10 @@ PrefabInstance:
       propertyPath: _enableParticles
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 574181398117341843, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: _isParticlesEnabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 913024613232042595, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: _lookTarget
       value: 
@@ -1262,6 +1283,10 @@ PrefabInstance:
       propertyPath: m_TranslationOffsets.Array.data[0].z
       value: 0.001742363
       objectReference: {fileID: 0}
+    - target: {fileID: 6763871321098544468, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 1088035239}
     - target: {fileID: 6809794292035608778, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_LocalPosition.x
       value: 15
@@ -2068,6 +2093,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1755956937}
     m_Modifications:
+    - target: {fileID: 155824721500382290, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 895995120}
     - target: {fileID: 1014819138329672721, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _lookTarget
       value: 
@@ -2245,7 +2274,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2253,11 +2282,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 4.95
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.92387956
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalRotation.x
@@ -2265,7 +2294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.38268343
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalRotation.z
@@ -2277,7 +2306,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 5847679658841637956, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -2352,6 +2381,10 @@ PrefabInstance:
       propertyPath: m_TranslationOffsets.Array.data[0].z
       value: 0.001739502
       objectReference: {fileID: 0}
+    - target: {fileID: 6763871321098544468, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 304676344}
     - target: {fileID: 6809794292035608778, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22
@@ -2457,6 +2490,10 @@ PrefabInstance:
       propertyPath: _lookTarget
       value: 
       objectReference: {fileID: 1088035239}
+    - target: {fileID: 3047549855675290043, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 1088035239}
     - target: {fileID: 8613579500300813949, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
       propertyPath: m_Name
       value: Civilian (2)
@@ -2541,6 +2578,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1755956937}
     m_Modifications:
+    - target: {fileID: 155824721500382290, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 92269548}
     - target: {fileID: 1014819138329672721, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _lookTarget
       value: 
@@ -2822,6 +2863,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1755956937}
     m_Modifications:
+    - target: {fileID: 155824721500382290, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 2005482991}
     - target: {fileID: 1014819138329672721, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _lookTarget
       value: 
@@ -3444,6 +3489,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 86611304}
     m_Modifications:
     - target: {fileID: 2495808979567920882, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
+      propertyPath: _lookTarget
+      value: 
+      objectReference: {fileID: 830123251}
+    - target: {fileID: 3047549855675290043, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
       propertyPath: _lookTarget
       value: 
       objectReference: {fileID: 830123251}
