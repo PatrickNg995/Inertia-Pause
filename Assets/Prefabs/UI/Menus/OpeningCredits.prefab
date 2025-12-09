@@ -489,7 +489,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4592416598646914940}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -717,6 +717,8 @@ GameObject:
   - component: {fileID: 4820887857042278434}
   - component: {fileID: 1553577108557516120}
   - component: {fileID: 6772423119979157431}
+  - component: {fileID: 9072842195888317426}
+  - component: {fileID: 7887211210145637648}
   m_Layer: 5
   m_Name: OpeningCredits
   m_TagString: Untagged
@@ -790,7 +792,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &6772423119979157431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -808,6 +810,36 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &9072842195888317426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319740720455005589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d36c4d9857f38a459af9788885c933f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 7887211210145637648}
+  _showSlideDuration: 3
+  _slideOneWayFadeDuration: 1
+--- !u!114 &7887211210145637648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319740720455005589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aefd1884a887eaf4f9e191332754dc6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Slides>k__BackingField:
+  - {fileID: 4610461935815995688}
+  <BackButton>k__BackingField: {fileID: 0}
 --- !u!1 &6513612174953315377
 GameObject:
   m_ObjectHideFlags: 0

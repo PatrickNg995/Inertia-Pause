@@ -7,23 +7,25 @@ public class CreditsPresenter : MonoBehaviour
     public Action OnCreditsComplete;
     public Action OnMenuClose;
 
+    [Header("View")]
     [SerializeField] private CreditsView _view;
 
-    private const float SHOW_SLIDE_DURATION = 2f;
-    private const float SLIDE_ONE_WAY_FADE_DURATION = 0.5f;
+    [Header("Settings")]
+    [SerializeField] private float _showSlideDuration = 2f;
+    [SerializeField] private float _slideOneWayFadeDuration = 0.5f;
 
     private Coroutine _slideshowCoroutine;
-    private WaitForSeconds _slideDelay = new (SHOW_SLIDE_DURATION);
+    private WaitForSeconds _slideDelay;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _view.gameObject.SetActive(false);
-
         if (_view.BackButton != null)
         {
             _view.BackButton.Button.onClick.AddListener(CloseMenu);
         }
+
+        _slideDelay = new (_showSlideDuration);
     }
 
     public void OpenMenu()
@@ -75,10 +77,10 @@ public class CreditsPresenter : MonoBehaviour
 
         slide.alpha = startingAlpha;
 
-        while (time < SLIDE_ONE_WAY_FADE_DURATION)
+        while (time < _slideOneWayFadeDuration)
         {
             time += Time.deltaTime;
-            slide.alpha = Mathf.Lerp(startingAlpha, endingAlpha, time / SLIDE_ONE_WAY_FADE_DURATION);
+            slide.alpha = Mathf.Lerp(startingAlpha, endingAlpha, time / _slideOneWayFadeDuration);
             yield return null;
         }
 
