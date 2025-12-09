@@ -27,7 +27,12 @@ public class NewPlayerMovement : MonoBehaviour
     [SerializeField] private float _minStepSpeed = 0.15f;
     [SerializeField] private float _footstepVolume = 1f;
 
+    [Header("Climbsteps")]
+    [SerializeField] private float _minClimbSpeed = 0.05f;
+    [SerializeField] private float _climbVolume = 1f;
+
     private AudioSource _footstepAudio;
+    private AudioSource _climbAudio;
 
     private void Awake()
     {
@@ -96,7 +101,9 @@ public class NewPlayerMovement : MonoBehaviour
             _fallingVelocity += _gravity * Time.unscaledDeltaTime;
 
             if (_fallingVelocity < _maxFallSpeed)
+            {
                 _fallingVelocity = _maxFallSpeed;
+            }
 
             velocity.y = _fallingVelocity;
         }
@@ -108,6 +115,21 @@ public class NewPlayerMovement : MonoBehaviour
     {
         Vector3 climbDirection = new Vector3(0f, v2.y, 0f);
         _controller.Move(_climbSpeed * Time.unscaledDeltaTime * climbDirection);
+
+        // Handle Climb Audio.
+        float climbAmount = Mathf.Abs(v2.y);
+
+        if (_climbAudio != null)
+        {
+            if (climbAmount > _minClimbSpeed)
+            {
+                _climbAudio.volume = _climbVolume;
+            }
+            else
+            {
+                _climbAudio.volume = 0f;
+            }
+        }
     }
 
     private void CreateFootstepSource()
@@ -145,21 +167,53 @@ public class NewPlayerMovement : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Ladder"))
+        {
             _isOnLadder = true;
+
+            if (_climbAudio == null)
+            {
+                _climbAudio = SFXPlayer.Instance.PlayAttached(SfxId.ClimbLadder, transform, loop: true);
+
+                if (_climbAudio != null)
+                {
+                    _climbAudio.volume = _footstepVolume;
+                    _climbAudio.spatialBlend = 0f;
+                }
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Ladder"))
+        {
             _isOnLadder = false;
 
+            if (_climbAudio != null)
+            {
+                Destroy(_climbAudio.gameObject);
+                _climbAudio = null;
+            }
+        }
+
         if (!_controller.isGrounded)
+        {
             _controller.Move((_ladderTopJump * _movementSpeed * transform.forward + Vector3.up) * Time.unscaledDeltaTime);
+        }
     }
+
 
     private void OnControllerColliderHit(ControllerColliderHit _)
     {
         if (_controller.isGrounded && _isOnLadder)
+        {
             _isOnLadder = false;
+
+            if (_climbAudio != null)
+            {
+                Destroy(_climbAudio.gameObject);
+                _climbAudio = null;
+            }
+        }
     }
 }

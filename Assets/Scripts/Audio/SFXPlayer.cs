@@ -31,7 +31,8 @@ public enum SfxId
     StartInteract = 51,
     ConfirmInteract = 52,
     ResetInteract = 53,
-    CancelInteract = 54
+    CancelInteract = 54,
+    ClimbLadder = 55
 }
 
 [RequireComponent(typeof(AudioSource))]
