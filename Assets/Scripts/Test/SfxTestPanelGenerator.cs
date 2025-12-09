@@ -85,7 +85,7 @@ public class SfxTestPanelGenerator : MonoBehaviour
             SfxId id = (SfxId)raw;
 
             // Skip None
-            if (id == SfxId.None)
+            if (id == 0)
             {
                 continue;
             }
