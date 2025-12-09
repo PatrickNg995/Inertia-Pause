@@ -146,10 +146,9 @@ public class PlayerInteract : MonoBehaviour
     {
         if (_targetObject == null) return;
 
-        SFXPlayer.Instance.Play(SfxId.CancelInteract);
-
         if (_isInteracting)
         {
+            SFXPlayer.Instance.Play(SfxId.CancelInteract);
             _targetObject.OnCancelInteract();
             _isInteracting = false;
             OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
