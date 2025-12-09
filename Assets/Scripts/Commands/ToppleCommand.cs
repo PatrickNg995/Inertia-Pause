@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class ToppleCommand : ActionCommand
 {
@@ -6,26 +7,27 @@ public class ToppleCommand : ActionCommand
     private Rigidbody _rb;
     private Transform _transform;
 
-    // Torque and direction for the topple action.
-    private float _torque;
+    // final position and rotation, and direction for the topple action.
+    private Vector3 _finalPosition;
+    private Quaternion _finalRotation;
     private Vector3 _direction;
 
     // Initial location and rotation of the object.
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
 
-    private bool _hasFinalRotation;
-    private Vector3 _finalPosition;
-    private Quaternion _finalRotation;
-
     public ToppleCommand(InteractionObject interactionObject, Rigidbody rb,
-                         Vector3 direction, float torque) : base(interactionObject)
+                         Vector3 direction, float deltaForward, float deltaUp, float finalRotationScale) : base(interactionObject)
     {
         _rb = rb;
         _transform = interactionObject.transform;
 
-        _torque = torque;
         _direction = direction;
+        _finalPosition = _rb.transform.position + _rb.transform.forward * deltaForward + _rb.transform.up * deltaUp;
+        //Quaternion rotationDirection = Quaternion.Euler(_direction * finalRotationScale);
+        //_finalRotation = _rb.transform.rotation * rotationDirection;
+        _finalRotation = Quaternion.AngleAxis(finalRotationScale, _direction) * _rb.transform.rotation;
+
 
         _initialPosition = _transform.position;
         _initialRotation = _transform.rotation;
@@ -33,16 +35,9 @@ public class ToppleCommand : ActionCommand
 
     public override void Execute()
     {
-        //Apply torque to the rigidbody to topple the object.
-        if (!_hasFinalRotation)
-        {
-            _rb.AddTorque(_direction * _torque);
-        }
-        else
-        {
-            _transform.position = _finalPosition;
-            _transform.rotation = _finalRotation;
-        }
+        _rb.transform.position = _finalPosition;
+        _rb.transform.rotation = _finalRotation;
+        
 
         // Mark the interaction object as having taken an action.
         ActionObject.HasTakenAction = true;
@@ -52,13 +47,6 @@ public class ToppleCommand : ActionCommand
 
     public override void Undo()
     {
-        if ((_transform.position != _initialPosition || _transform.rotation != _initialRotation) && !_hasFinalRotation)
-        {
-            _hasFinalRotation = true;
-            _finalPosition = _transform.position;
-            _finalRotation = _transform.rotation;
-        }
-
         // Revert the object to its initial location and rotation.
         _transform.position = _initialPosition;
         _transform.rotation = _initialRotation;

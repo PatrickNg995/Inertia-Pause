@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class DragIndicator : MonoBehaviour
+public class DragIndicator : Indicator
 {
     [SerializeField] private LineRenderer _directionalIndicator;
     // intended to be false for things like bullets
@@ -16,17 +16,17 @@ public class DragIndicator : MonoBehaviour
         _directionalIndicator.endWidth = 0;
     }
 
-    public void Enable()
+    public override void Enable()
     {
         _directionalIndicator.enabled = true;
     }
 
-    public void Disable()
+    public override void Disable()
     {
         _directionalIndicator.enabled = false;
     }
 
-    public void DrawLine()
+    public override void Draw()
     {
         Vector3 startPos = transform.position;
         _directionalIndicator.SetPosition(0, startPos);
