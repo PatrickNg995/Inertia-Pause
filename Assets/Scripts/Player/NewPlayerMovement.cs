@@ -112,18 +112,15 @@ public class NewPlayerMovement : MonoBehaviour
 
     private void CreateFootstepSource()
     {
-        GameObject footstepObj = new GameObject("FootstepAudio");
-        footstepObj.transform.SetParent(transform);
-        _footstepAudio = footstepObj.AddComponent<AudioSource>();
+        _footstepAudio = SFXPlayer.Instance.PlayAttached(SfxId.Walking, transform, loop: true);
 
-        _footstepAudio.clip = SFXPlayer.Instance.GetClip(SfxId.Walking);
-        _footstepAudio.loop = true;
-        _footstepAudio.playOnAwake = false;
-        _footstepAudio.spatialBlend = 0f;
-        _footstepAudio.volume = 0f;
-
-        _footstepAudio.Play();
+        if (_footstepAudio != null)
+        {
+            _footstepAudio.volume = 0f;
+            _footstepAudio.spatialBlend = 0f;
+        }
     }
+
 
     private void HandleFootsteps()
     {
