@@ -39,6 +39,7 @@ public class PlayerLook : MonoBehaviour
         _look.performed -= OnLook;
         _look.canceled -= OnLook;
         _look.Disable();
+        _lookInput = Vector2.zero; 
 
         Cursor.lockState = CursorLockMode.None;
     }
