@@ -123,7 +123,7 @@ public class OptionsManager : MonoBehaviour
 
         MusicPlayer.Instance.SetMasterVolume(VolumeOptionToActualVolume(options.MusicVolume));
 
-        // TODO: SFX Volume.
+        SFXPlayer.Instance.SetMasterVolume(VolumeOptionToActualVolume(options.SoundVolume));
     }
 
     private void ApplySensitivityOptions(int horizontalSensitivity, int verticalSensitivity)

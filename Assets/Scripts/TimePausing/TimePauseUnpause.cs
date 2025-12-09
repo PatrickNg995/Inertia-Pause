@@ -110,6 +110,8 @@ public class TimePauseUnpause : MonoBehaviour
             Debug.Log("Time unpause initiated.");
             _hasUnpaused = true;
 
+            SFXPlayer.Instance.Play(SfxId.TimePauseExit);
+
             // Unpause all pausable objects.
             UnpauseAllObjects();
 
