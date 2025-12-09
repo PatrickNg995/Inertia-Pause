@@ -29,7 +29,8 @@ public enum SfxId
     GlassShatter = 47,
 
     // Player actions.
-    Walking = 50
+    Walking = 50,
+    Interact = 51
 }
 
 [RequireComponent(typeof(AudioSource))]
@@ -55,6 +56,16 @@ public class SFXPlayer : MonoBehaviour
     [Range(0f, 1f)]
     [SerializeField]
     private float _masterVolume = 1f;
+
+    [Header("Pitch Randomization")]
+    [SerializeField]
+    private bool _enableRandomPitch = true;
+
+    [SerializeField]
+    private float _minPitch = 0.9f;
+
+    [SerializeField]
+    private float _maxPitch = 1.1f;
 
     private readonly Dictionary<SfxId, SfxDefinition> _lookup =
         new Dictionary<SfxId, SfxDefinition>();
@@ -105,6 +116,17 @@ public class SFXPlayer : MonoBehaviour
         }
     }
 
+    private float GetRandomPitch()
+    {
+        if (!_enableRandomPitch)
+            return 1f;
+
+        if (_minPitch >= _maxPitch)
+            return 1f;
+
+        return UnityEngine.Random.Range(_minPitch, _maxPitch);
+    }
+
     public void Play(SfxId id)
     {
         if (id == SfxId.None)
@@ -117,6 +139,9 @@ public class SFXPlayer : MonoBehaviour
             return;
 
         float v = s.Volume * _masterVolume;
+        float pitch = GetRandomPitch();
+
+        _audioSource.pitch = pitch;
         _audioSource.PlayOneShot(s.Clip, v);
     }
 
@@ -134,6 +159,7 @@ public class SFXPlayer : MonoBehaviour
         AudioSource src = go.AddComponent<AudioSource>();
         src.clip = s.Clip;
         src.volume = s.Volume * _masterVolume;
+        src.pitch = GetRandomPitch();
         src.spatialBlend = 1f;
         src.minDistance = 1f;
         src.maxDistance = 25f;
@@ -162,6 +188,7 @@ public class SFXPlayer : MonoBehaviour
         AudioSource src = go.AddComponent<AudioSource>();
         src.clip = s.Clip;
         src.volume = s.Volume * _masterVolume;
+        src.pitch = GetRandomPitch();
         src.spatialBlend = 1f;
         src.minDistance = 1f;
         src.maxDistance = 25f;
@@ -173,5 +200,10 @@ public class SFXPlayer : MonoBehaviour
             Destroy(go, s.Clip.length);
 
         return src;
+    }
+
+    public void SetMasterVolume(float value)
+    {
+        MasterVolume = value;
     }
 }
