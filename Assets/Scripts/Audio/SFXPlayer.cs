@@ -4,8 +4,6 @@ using UnityEngine;
 
 public enum SfxId
 {
-    None = 0,
-
     // UI and menus.
     UIClick = 10,
 
@@ -23,10 +21,10 @@ public enum SfxId
     BulletImpactEnv = 41,
     BulletImpactBody = 42,
     ExplosionDefault = 43,
-    GrenadePinPull = 44,
-    GrenadeThrow = 45,
-    GrenadeBounce = 46,
-    GlassShatter = 47,
+    GrenadePinPull = 44;
+    GrenadeThrow = 45;
+    GrenadeBounce = 46;
+    GlassShatter = 47;
 
     // Player actions.
     Walking = 50,
@@ -52,29 +50,22 @@ public class SFXPlayer : MonoBehaviour
     public static SFXPlayer Instance { get; private set; }
 
     [Header("Sound Effects")]
-    [SerializeField]
-    private List<SfxDefinition> _soundEffects = new List<SfxDefinition>();
+    [SerializeField] private List<SfxDefinition> _soundEffects = new List<SfxDefinition>();
 
     [Header("Master Volume")]
     [Range(0f, 1f)]
-    [SerializeField]
-    private float _masterVolume = 1f;
+    [SerializeField] private float _masterVolume = 1f;
 
     [Header("Pitch Randomization")]
-    [SerializeField]
-    private bool _enableRandomPitch = true;
+    [SerializeField] private bool _enableRandomPitch = true;
 
-    [SerializeField]
-    private float _minPitch = 0.9f;
+    [SerializeField] private float _minPitch = 0.9f;
 
-    [SerializeField]
-    private float _maxPitch = 1.1f;
+    [SerializeField] private float _maxPitch = 1.1f;
 
-    private readonly Dictionary<SfxId, SfxDefinition> _lookup =
-        new Dictionary<SfxId, SfxDefinition>();
+    private readonly Dictionary<SfxId, SfxDefinition> _lookup = new Dictionary<SfxId, SfxDefinition>();
 
-    [SerializeField]
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource;
 
     public float MasterVolume
     {
@@ -98,7 +89,9 @@ public class SFXPlayer : MonoBehaviour
     public AudioClip GetClip(SfxId id)
     {
         if (_lookup.TryGetValue(id, out var sfx))
+        {
             return sfx.Clip;
+        }
 
         return null;
     }
@@ -111,35 +104,49 @@ public class SFXPlayer : MonoBehaviour
         {
             SfxDefinition s = _soundEffects[i];
 
-            if (s.Id == SfxId.None)
+            if (s.Id == 0)
+            {
                 continue;
+            }
 
             if (!_lookup.ContainsKey(s.Id))
+            {
                 _lookup.Add(s.Id, s);
+            }
         }
     }
 
     private float GetRandomPitch()
     {
         if (!_enableRandomPitch)
+        {
             return 1f;
+        }
 
         if (_minPitch >= _maxPitch)
+        {
             return 1f;
+        }
 
         return UnityEngine.Random.Range(_minPitch, _maxPitch);
     }
 
     public void Play(SfxId id)
     {
-        if (id == SfxId.None)
+        if (id == 0)
+        {
             return;
+        }
 
         if (!_lookup.TryGetValue(id, out SfxDefinition s))
+        {
             return;
+        }
 
         if (s.Clip == null)
+        {
             return;
+        }
 
         float v = s.Volume * _masterVolume;
         float pitch = GetRandomPitch();
@@ -151,10 +158,14 @@ public class SFXPlayer : MonoBehaviour
     public void PlayAtPosition(SfxId id, Vector3 position)
     {
         if (!_lookup.TryGetValue(id, out SfxDefinition s))
+        {
             return;
+        }
 
         if (s.Clip == null)
+        {
             return;
+        }
 
         GameObject go = new GameObject($"SFX_{id}_OneShot");
         go.transform.position = position;
@@ -176,13 +187,19 @@ public class SFXPlayer : MonoBehaviour
     public AudioSource PlayAttached(SfxId id, Transform parent, bool loop = false)
     {
         if (parent == null)
+        {
             return null;
+        }
 
         if (!_lookup.TryGetValue(id, out SfxDefinition s))
+        {
             return null;
+        }
 
         if (s.Clip == null)
+        {
             return null;
+        }
 
         GameObject go = new GameObject($"SFX_{id}");
         go.transform.SetParent(parent);
@@ -200,7 +217,9 @@ public class SFXPlayer : MonoBehaviour
         src.Play();
 
         if (!loop)
+        {
             Destroy(go, s.Clip.length);
+        }
 
         return src;
     }
