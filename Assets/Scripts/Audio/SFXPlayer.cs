@@ -21,10 +21,10 @@ public enum SfxId
     BulletImpactEnv = 41,
     BulletImpactBody = 42,
     ExplosionDefault = 43,
-    GrenadePinPull = 44;
-    GrenadeThrow = 45;
-    GrenadeBounce = 46;
-    GlassShatter = 47;
+    GrenadePinPull = 44,
+    GrenadeThrow = 45,
+    GrenadeBounce = 46,
+    GlassShatter = 47,
 
     // Player actions.
     Walking = 50,
