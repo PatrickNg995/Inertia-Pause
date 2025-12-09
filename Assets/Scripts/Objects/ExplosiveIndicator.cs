@@ -17,7 +17,7 @@ public class ExplosiveIndicator : Indicator
         _lineRenderer.endWidth = 0.01f;
 
         // double segments (horizontal + vertical)
-        _buffer = new Vector3[_segments * 2];
+        _buffer = new Vector3[(_segments + 1) * 2];
     }
 
     public override void Enable()
@@ -35,7 +35,7 @@ public class ExplosiveIndicator : Indicator
         int idx = 0;
 
         // Horizontal circle (XZ plane)
-        for (int i = 0; i < _segments; i++)
+        for (int i = 0; i <= _segments; i++)
         {
             float angle = (float)i / _segments * Mathf.PI * 2f;
             float x = Mathf.Cos(angle) * _radius;
@@ -45,7 +45,7 @@ public class ExplosiveIndicator : Indicator
         }
 
         // Vertical circle (XY plane)
-        for (int i = 0; i < _segments; i++)
+        for (int i = 0; i <= _segments; i++)
         {
             float angle = (float)i / _segments * Mathf.PI * 2f;
             float x = Mathf.Cos(angle) * _radius;
