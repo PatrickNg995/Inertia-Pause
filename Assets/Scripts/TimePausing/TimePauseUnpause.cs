@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -78,6 +79,28 @@ public class TimePauseUnpause : MonoBehaviour
         {
             pausable.ResetStateBeforeUnpause();
         }
+    }
+
+    public IEnumerator SimulateAllPrePauseBehaviours(float simulationDuration)
+    {
+        foreach (IPausable pausable in _pausableObjects)
+        {
+            pausable.SimulatePrePauseBehaviour(simulationDuration);
+        }
+
+        // Gradually slow down time to create a slow-mo effect.
+        float elapsedTime = 0f;
+        while (elapsedTime < simulationDuration)
+        {
+            Time.timeScale = Mathf.Max(0.01f, 1f - (elapsedTime / simulationDuration));
+
+            // Purposely not using Time.unscaledDeltaTime here to drag out the slow-mo.
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure time scale is reset to normal.
+        Time.timeScale = 1f;
     }
 
     private void UnpauseLevel(InputAction.CallbackContext context)

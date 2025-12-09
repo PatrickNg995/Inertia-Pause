@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
 {
     [Header("References")]
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private TrailRenderer _trailRenderer;
+    [SerializeField] private Transform _spawnPointTransform;
 
     [Header("Impact Effect Prefab")]
     [SerializeField] private GameObject _impactEffectPrefab;
@@ -29,11 +31,16 @@ public class Bullet : MonoBehaviour, IPausable
     // Position before unpausing.
     private Vector3 _pausedPosition;
 
+    // Initial position at spawn time.
+    private Vector3 _initialPosition;
+
     // Used to toggle hit registration on bullets.
     private bool _isHitDetecting = true;
 
     public void Awake()
     {
+        _initialPosition = transform.position;
+
         // Set the bullet's velocity to be in the forward direction.
         _rb.linearVelocity = transform.forward * _bulletSpeed;
     }
@@ -156,5 +163,33 @@ public class Bullet : MonoBehaviour, IPausable
         // Create impact effect with a rotation that faces outward from the surface.
         Quaternion impactRotation = transform.rotation * Quaternion.Euler(0, 90, 0);
         Instantiate(_impactEffectPrefab, locationOnImmpact, impactRotation);
+    }
+
+    public void SimulatePrePauseBehaviour(float simulationDuration)
+    {
+        // If no spawn point, do nothing.
+        if (_spawnPointTransform == null)
+        {
+            return;
+        }
+
+        // Start the simulation quarterway between the spawn point and the initial position.
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+
+        // Start simulating movement towards the initial position.
+        StartCoroutine(SimulateBulletMovement(simulationDuration));
+    }
+
+    private IEnumerator SimulateBulletMovement(float duration)
+    {
+        // Clear the trail and start emitting.
+        _trailRenderer.Clear();
+        _trailRenderer.emitting = true;
+
+        yield return PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, duration);
+
+        // After simulation, stop emitting trail.
+        _trailRenderer.emitting = false;
     }
 }

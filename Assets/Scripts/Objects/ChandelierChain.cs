@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChandelierChain : MonoBehaviour, IPausable
 {
@@ -103,5 +103,10 @@ public class ChandelierChain : MonoBehaviour, IPausable
 
         // Wake up rigidbody.
         _rb.WakeUp();
+    }
+
+    public void SimulatePrePauseBehaviour(float simulationDuration)
+    {
+        // No pre-pause behaviour to simulate.
     }
 }

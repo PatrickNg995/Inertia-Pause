@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
     [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
     [SerializeField] private ReplayCameraManager _replayCameraManager;
+    [SerializeField] private Volume _slowMoEffectVolume;
+    [SerializeField] private GameObject _screenBlocker;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -26,6 +29,11 @@ public class GameManager : MonoBehaviour
 
     [field: Header("Scenario Information")]
     [field: SerializeField] public ScenarioInfo ScenarioInfo { get; private set; }
+
+    [Header("Level Settings")]
+    [Tooltip("The amount of pre-pause time to simulate for all pausable objects when starting the level " +
+        "(i.e. simulate 0.5 seconds before the level starts).")]
+    [SerializeField] private float _prepauseSimulationTime = 0.5f;
 
     /// <summary>
     /// Invoked when the level starts for the first time.
@@ -223,15 +231,40 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        // Level start called after one frame, though should be after opening cut scene in final game.
-        // Temporary workaround for race condition during opening tutorial.
-        StartCoroutine(DelayedLevelStart());
+        // Play the opening cutscene then start the level.
+        StartCoroutine(PlayOpeningSequence());
+
+        // Update last level in saved progress.
         _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.EnvironmentSceneName, ScenarioInfo.ScenarioAssetsSceneName);
     }
 
-    private IEnumerator DelayedLevelStart()
+    private IEnumerator PlayOpeningSequence()
     {
+        // Activate screen blocker to hide objects moving into place.
+        _screenBlocker.SetActive(true);
+
+        // Wait a frame to ensure all objects are initialized.
         yield return null;
+
+        // Invoke blocking menu open event to pause player and disable player inputs.
+        OnAnyBlockingMenuOpen?.Invoke();
+        _inputActions.Disable();
+        Cursor.lockState = CursorLockMode.Locked;
+
+        // Disable screen blocker.
+        _screenBlocker.SetActive(false);
+
+        // Fade in/out slow motion post-processing effect.
+        StartCoroutine(PostProcessEffectUtility.FadeInFadOutEffect(_slowMoEffectVolume, _prepauseSimulationTime));
+
+        // Simulate pre-pause behaviours for all pausable objects.
+        yield return _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationTime);
+
+        // Invoke blocking menu close event to resume player and enable player inputs.
+        OnAnyBlockingMenuClose?.Invoke();
+        _inputActions.Enable();
+
+        // Invoke level start event.
         OnLevelStart?.Invoke();
     }
 
@@ -251,6 +284,9 @@ public class GameManager : MonoBehaviour
     {
         // Rewind all objects in the level.
         RewindObjects();
+
+        // Reset level win status.
+        LevelWon = false;
 
         // Re-enable player inputs and interaction.
         _inputActions.Enable();
@@ -358,15 +394,9 @@ public class GameManager : MonoBehaviour
         // Evaluate optional objectives.
         bool[] optionalResults = EvaluateOptionalObjectives();
 
-        // Create results struct.
-        LevelResults results = new()
-        {
-            CiviliansRescued = civiliansAlive,
-            AlliesSaved = alliesAlive,
-            EnemiesKilled = _listOfEnemiesObjects.Count - enemiesAlive,
-            OptionalObjectivesComplete = optionalResults,
-            ActionsTaken = ActionCount
-        };
+        // Check if this attempt uses lower actions than previous attempts.
+        int previousRecord = _savedLevelProgressManager.GetBestRecordActions(ScenarioInfo.ScenarioAssetsSceneName);
+        bool isNewRecord = LevelWon && (previousRecord == -1 || ActionCount < previousRecord);
 
         // Update saved level progress if level was won.
         if (LevelWon)
@@ -375,6 +405,17 @@ public class GameManager : MonoBehaviour
             _savedLevelProgressManager.UpdateLevelProgress(levelInfo);
             _savedLevelProgressManager.UpdateLastLevel(ScenarioInfo.NextEnvironmentSceneName, ScenarioInfo.NextScenarioAssetsSceneName);
         }
+
+        // Create results struct.
+        LevelResults results = new()
+        {
+            CiviliansRescued = civiliansAlive,
+            AlliesSaved = alliesAlive,
+            EnemiesKilled = _listOfEnemiesObjects.Count - enemiesAlive,
+            OptionalObjectivesComplete = optionalResults,
+            ActionsTaken = ActionCount,
+            IsNewRecord = isNewRecord,
+        };
 
         // Call level complete after determining victory.
         OnLevelComplete?.Invoke(results);

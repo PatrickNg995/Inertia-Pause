@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PausableParticles : MonoBehaviour, IPausable
 {
@@ -7,7 +8,10 @@ public class PausableParticles : MonoBehaviour, IPausable
 
     [Header("Particle System Settings")]
     [Tooltip("Enable particle effect or not.")]
-    [SerializeField] private bool _enableParticles = true;
+    [SerializeField] private bool _isParticlesEnabled = true;
+
+    [Tooltip("Enable prepause simulation or not.")]
+    [SerializeField] private bool _isPrepauseSimulationEnabled = true;
 
     [Tooltip("If true, the pre-pause play duration will be randomly chosen between the lower and upper bounds." +
              "If false, the duration will use the lower bound.")]
@@ -26,7 +30,7 @@ public class PausableParticles : MonoBehaviour, IPausable
     {
         // Disable the script and particle system if particles are not enabled. This is mostly to make it easier to disable
         // effects like muzzle flashes without needing to dig into the prefab every timne.
-        if (!_enableParticles)
+        if (!_isParticlesEnabled)
         {
             enabled = false;
             _particleSystem.gameObject.SetActive(false);
@@ -57,5 +61,27 @@ public class PausableParticles : MonoBehaviour, IPausable
     {
         _particleSystem.Simulate(_prePausePlayDuration, true, true);
 
+    }
+
+    public void SimulatePrePauseBehaviour(float simulationDuration)
+    {
+        if (_isPrepauseSimulationEnabled)
+        {
+            StartCoroutine(PlayThenPauseParticles(simulationDuration));
+        }
+    }
+
+    private IEnumerator PlayThenPauseParticles(float simulationDuration)
+    {
+        // Start particle system from the beginning.
+        _particleSystem.Stop();
+        _particleSystem.Clear();
+        _particleSystem.Play();
+
+        // Wait for the specified duration.
+        yield return new WaitForSeconds(simulationDuration);
+
+        // Pause the particle system to set it to the correct state.
+        Pause();
     }
 }

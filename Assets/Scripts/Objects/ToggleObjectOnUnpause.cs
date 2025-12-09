@@ -2,18 +2,23 @@
 
 public class ToggleObjectOnUnpause : MonoBehaviour, IPausable
 {
-    void IPausable.Pause()
+    public void Pause()
     {
         gameObject.SetActive(true);
     }
 
-    void IPausable.Unpause()
+    public void Unpause()
     {
         gameObject.SetActive(false);
     }
 
-    void IPausable.ResetStateBeforeUnpause()
+    public void ResetStateBeforeUnpause()
     {
         gameObject.SetActive(true);
+    }
+
+    public void SimulatePrePauseBehaviour(float simulationDuration)
+    {
+        // No pre-pause behaviour to simulate.
     }
 }
