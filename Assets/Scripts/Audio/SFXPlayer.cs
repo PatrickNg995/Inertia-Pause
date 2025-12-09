@@ -104,7 +104,7 @@ public class SFXPlayer : MonoBehaviour
         {
             SfxDefinition s = _soundEffects[i];
 
-            if (s.Id == 0)
+            if (s.Id < 0)
             {
                 continue;
             }
@@ -133,7 +133,7 @@ public class SFXPlayer : MonoBehaviour
 
     public void Play(SfxId id)
     {
-        if (id == 0)
+        if (id < 0)
         {
             return;
         }
