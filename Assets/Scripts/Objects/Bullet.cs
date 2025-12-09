@@ -64,6 +64,9 @@ public class Bullet : MonoBehaviour, IPausable
             if (npc.IsAlive)
             {
                 HitNPC(npc, other);
+
+                // Play Sound Effect.
+                SFXPlayer.Instance.PlayAtPosition(SfxId.BulletImpactBody, transform.position);
             }
         }
 
@@ -77,6 +80,7 @@ public class Bullet : MonoBehaviour, IPausable
         // Destroy the bullet on impact with anything if it isn't piercing, or if it hits an unpierceable object.
         if (!_isPiercing || other.CompareTag("Unpierceable"))
         {
+            SFXPlayer.Instance.PlayAtPosition(SfxId.BulletImpactEnv, transform.position);
             gameObject.SetActive(false);
         }
 
@@ -85,6 +89,7 @@ public class Bullet : MonoBehaviour, IPausable
         {
             if (tags.HasTag("Unpierceable"))
             {
+                SFXPlayer.Instance.PlayAtPosition(SfxId.BulletImpactEnv, transform.position);
                 gameObject.SetActive(false);
             }
         }

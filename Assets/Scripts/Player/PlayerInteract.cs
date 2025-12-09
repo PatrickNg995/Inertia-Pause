@@ -97,11 +97,16 @@ public class PlayerInteract : MonoBehaviour
 
         if (_isInteracting)
         {
+            SFXPlayer.Instance.Play(SfxId.ConfirmInteract);
             _targetObject.OnEndInteract();
             OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
             Debug.Log($"Ended interaction with {_targetObject.name}");
             _isInteracting = false;
             return;
+        } 
+        else
+        {
+            SFXPlayer.Instance.Play(SfxId.StartInteract);
         }
 
         if (_targetObject.IsContinuousUpdate)
@@ -127,7 +132,9 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnResetInteract(InputAction.CallbackContext _)
     {
-        if (_targetObject == null || _isInteracting) return;  
+        if (_targetObject == null || _isInteracting || !_targetObject.HasTakenAction) return;
+
+        SFXPlayer.Instance.Play(SfxId.ResetInteract);
 
         _targetObject.OnResetInteract();
 
@@ -142,6 +149,7 @@ public class PlayerInteract : MonoBehaviour
 
         if (_isInteracting)
         {
+            SFXPlayer.Instance.Play(SfxId.CancelInteract);
             _targetObject.OnCancelInteract();
             _isInteracting = false;
             OnEndInteraction?.Invoke(_targetObject.InteractableInfo);
@@ -152,6 +160,8 @@ public class PlayerInteract : MonoBehaviour
     private void OnContextualHelpPressed(InputAction.CallbackContext _)
     {
         if (_targetObject == null) return;
+
+        SFXPlayer.Instance.Play(SfxId.UIClick);
 
         OnTutorialOpen?.Invoke(_targetObject.InteractableInfo.TutorialInfo);
     }

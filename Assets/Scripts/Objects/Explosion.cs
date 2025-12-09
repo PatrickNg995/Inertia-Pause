@@ -37,6 +37,7 @@ public class Explosion : MonoBehaviour
         // Enable collider & play particle system effect.
         _sphereCollider.enabled = true;
         _ps.Play();
+        SFXPlayer.Instance.PlayAtPosition(SfxId.ExplosionDefault, transform.position);
     }
 
     public void ResetExplosion()

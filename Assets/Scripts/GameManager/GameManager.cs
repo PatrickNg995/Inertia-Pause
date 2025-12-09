@@ -246,6 +246,10 @@ public class GameManager : MonoBehaviour
         // Wait a frame to ensure all objects are initialized.
         yield return null;
 
+        // Pause music and play time pausing sound.
+        MusicPlayer.Instance.PauseMusic();
+        SFXPlayer.Instance.Play(SfxId.TimePauseEnter);
+
         // Invoke blocking menu open event to pause player and disable player inputs.
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
@@ -266,6 +270,9 @@ public class GameManager : MonoBehaviour
 
         // Invoke level start event.
         OnLevelStart?.Invoke();
+
+        // Unpause music.
+        MusicPlayer.Instance.UnpauseMusic();
     }
 
     private List<GameObject> GetDirectChildrenOfObject(GameObject parentObject)
