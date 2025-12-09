@@ -16,6 +16,7 @@ public class TutorialPanelPresenter : MonoBehaviour
 
     private TutorialInfo _currentTutorial;
     private int _currentPageIndex;
+    private bool _isOpeningTutorial = false;
 
     void Start()
     {
@@ -24,10 +25,11 @@ public class TutorialPanelPresenter : MonoBehaviour
         _gameManager.OnLevelStart += OnLevelStart;
 
         _view.BackButton.onClick.AddListener(OnBackClicked);
+        _view.StartScenarioButton.onClick.AddListener(OnBackClicked);
         _view.PrevPageButton.onClick.AddListener(OnPrevClicked);
         _view.NextPageButton.onClick.AddListener(OnNextClicked);
 
-        _playerInteractModel.OnTutorialOpen += ShowTutorial;
+        _playerInteractModel.OnTutorialOpen += tutorial => ShowTutorial(tutorial);
 
         // UI
         _inputActions = new PlayerActions();
@@ -39,8 +41,12 @@ public class TutorialPanelPresenter : MonoBehaviour
     {
         _view.gameObject.SetActive(true);
         _gameManager.AnyBlockingMenuOpened();
-        _inputActions.UI.Enable();
-        _inputActions.Ingame.ContextualHelp.Enable();
+
+        if (!_isOpeningTutorial)
+        {
+            _inputActions.UI.Enable();
+            _inputActions.Ingame.ContextualHelp.Enable();
+        }
     }
 
     public void CloseMenu()
@@ -52,13 +58,19 @@ public class TutorialPanelPresenter : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
-    public void ShowTutorial(TutorialInfo tutorial)
+    public void ShowTutorial(TutorialInfo tutorial, bool isOpeningTutorial = false)
     {
         if (tutorial == null)
         {
             Debug.LogWarning("This object does not have a tutorial!");
             return;
         }
+
+        _isOpeningTutorial = isOpeningTutorial;
+
+        _view.BackButton.gameObject.SetActive(!_isOpeningTutorial);
+        _view.StartScenarioButton.gameObject.SetActive(false);
+
         SetTutorial(tutorial);
         OpenMenu();
     }
@@ -68,7 +80,7 @@ public class TutorialPanelPresenter : MonoBehaviour
         TutorialInfo openingTutorial = _gameManager.ScenarioInfo.OpeningTutorial;
         if (openingTutorial != null)
         {
-            ShowTutorial(openingTutorial);
+            ShowTutorial(openingTutorial, isOpeningTutorial: true);
         }
     }
 
@@ -91,6 +103,13 @@ public class TutorialPanelPresenter : MonoBehaviour
 
         _view.PrevPageButton.gameObject.SetActive(!isFirstPage);
         _view.NextPageButton.gameObject.SetActive(!isLastPage);
+
+        if (_isOpeningTutorial && isLastPage)
+        {
+            _view.StartScenarioButton.gameObject.SetActive(true);
+            _inputActions.UI.Enable();
+            _inputActions.Ingame.ContextualHelp.Enable();
+        }
 
         if (_currentTutorial.Pages.Count > 1)
         {

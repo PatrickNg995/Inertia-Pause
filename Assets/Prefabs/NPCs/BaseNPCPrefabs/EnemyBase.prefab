@@ -153,7 +153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &842714146261025996
 Transform:
   m_ObjectHideFlags: 0
@@ -311,7 +311,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 515c0e4337b1bba4e9bf9943d1348a07, type: 2}
+  - {fileID: 2100000, guid: 6a9c42aac55e7724dac0ef38d71677df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -333,37 +333,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &6592306210114357484
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 938196139815684640}
-  m_Layer: 6
-  m_Name: BulletSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &938196139815684640
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6592306210114357484}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.3, z: 0.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6950092063613645153}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8824847371296796911
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,9 +809,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8575875495617118170, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7393843819387899270}
-    - targetCorrespondingSourceObject: {fileID: -8575875495617118170, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 938196139815684640}
     - targetCorrespondingSourceObject: {fileID: -229113793236118474, guid: d9cd8eb4a074cd84ab2686c58bcf21d9, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7025587515342404049}
@@ -1929,6 +1895,8 @@ MonoBehaviour:
   _animator: {fileID: 4171851599199636694}
   _startLayerIndex: 0
   _frameToLoad: -1
+  _modifyPrePauseSimulationStartTimeOffset: 1
+  _modifiedSimulationStartTimeOffsetFactor: 0.5
 --- !u!114 &4075777070905915590
 MonoBehaviour:
   m_ObjectHideFlags: 0

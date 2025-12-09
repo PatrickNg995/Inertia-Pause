@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Numerics;
+using UnityEngine;
 
 public class PauseableAnimator : MonoBehaviour, IPausable
 {
@@ -12,7 +14,15 @@ public class PauseableAnimator : MonoBehaviour, IPausable
     [Tooltip("If < 0, start at a random time. If >= 0, start at this frame index of the clip on the start layer.")]
     [SerializeField] private int _frameToLoad = -1;
 
-    // Saved pause state per layer
+    [Header("Prepause Simulation Settings")]
+    [Tooltip("Whether to halve the offset for the prepause simulation start point for this animation " +
+        "(i.e. the simulation will rewind this animation half as much and slow down the animation propotionally to still reach the starting frame).")]
+    [SerializeField] private bool _modifyPrePauseSimulationStartTimeOffset = false;
+
+    [Tooltip("Factor to modify the simulation start time offset (i.e. the simulated animation will rewind at half the offset at 0.5).")]
+    [SerializeField] private float _modifiedSimulationStartTimeOffsetFactor = 0.5f;
+
+    // Saved pause state per layer.
     private int[] _pausedStateHashes;
     private float[] _pausedNormalizedTimes;
 
@@ -21,54 +31,58 @@ public class PauseableAnimator : MonoBehaviour, IPausable
     private void Awake()
     {
         if (_animator == null)
+        {
             _animator = GetComponent<Animator>();
+        }
 
         int layerCount = _animator.layerCount;
         _pausedStateHashes = new int[layerCount];
         _pausedNormalizedTimes = new float[layerCount];
 
-        // Ensure layer index is valid
+        // Ensure layer index is valid.
         _startLayerIndex = Mathf.Clamp(_startLayerIndex, 0, layerCount - 1);
 
-        // First, let the animator enter its default state so the right clip is active
+        // First, let the animator enter its default state so the right clip is active.
         _animator.Play(0, _startLayerIndex, 0f);
         _animator.Update(0f);
 
-        // Decide start time for that layer
+        // Decide start time for that layer.
         float normalizedStartTime;
 
         if (_frameToLoad < 0)
         {
-            // Random point in the current state's timeline
+            // Random point in the current state's timeline.
             normalizedStartTime = Random.value;
         }
         else
         {
-            // Get the clip currently playing on that layer
+            // Get the clip currently playing on that layer.
             AnimatorClipInfo[] clips = _animator.GetCurrentAnimatorClipInfo(_startLayerIndex);
             if (clips.Length > 0)
             {
                 AnimationClip clip = clips[0].clip;
 
-                // Compute total frames from the *actual* clip
+                // Compute total frames from the *actual* clip.
                 float totalFrames = clip.length * clip.frameRate;
-
-                // Map frame index -> [0,1] normalized time (0..N-1)
+                
+                // Map frame index -> [0,1] normalized time (0..N-1).
                 normalizedStartTime = Mathf.Clamp01(_frameToLoad / Mathf.Max(totalFrames - 1f, 1f));
             }
             else
             {
-                // Fallback if no clip info – just use random
+                // Fallback if no clip info – just use random.
                 normalizedStartTime = Random.value;
             }
         }
 
-        // Get current state on that layer so we can reuse its hash
+        // Get current state on that layer so we can reuse its hash.
         AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(_startLayerIndex);
 
-        // Play that state at the computed normalized time
+        // Play that state at the computed normalized time.
         _animator.Play(stateInfo.fullPathHash, _startLayerIndex, normalizedStartTime);
-        _animator.Update(0f);   // force it to this pose immediately
+
+        // Force it to this pose immediately.
+        _animator.Update(0f);   
     }
 
     public void Pause()
@@ -83,12 +97,14 @@ public class PauseableAnimator : MonoBehaviour, IPausable
             _pausedNormalizedTimes = new float[layerCount];
         }
 
-        // Capture current state + time for every layer
+        // Capture current state + time for every layer.
         for (int layer = 0; layer < layerCount; layer++)
         {
             AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(layer);
             _pausedStateHashes[layer] = stateInfo.fullPathHash;
-            _pausedNormalizedTimes[layer] = stateInfo.normalizedTime; // keep exact value
+
+            // Keep exact value.
+            _pausedNormalizedTimes[layer] = stateInfo.normalizedTime; 
         }
 
         _animator.speed = 0f;
@@ -97,7 +113,10 @@ public class PauseableAnimator : MonoBehaviour, IPausable
 
     public void Unpause()
     {
-        if (!_isPaused) return;
+        if (!_isPaused)
+        {
+            return;
+        }
 
         _animator.speed = 1f;
         _isPaused = false;
@@ -113,14 +132,57 @@ public class PauseableAnimator : MonoBehaviour, IPausable
             float t = _pausedNormalizedTimes[layer];
 
             if (hash != 0)
+            {
                 _animator.Play(hash, layer, t);
+            }   
         }
 
         _animator.Update(0f);
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        // No pre-pause behaviour to simulate.
+        StartCoroutine(PlayAndStopSimulateAnimation(simulationDuration));
+    }
+
+    private IEnumerator PlayAndStopSimulateAnimation(float duration)
+    {
+        // Get current animation info.
+        AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(_startLayerIndex);
+        float animationCurrentTime = stateInfo.normalizedTime;
+
+        // Get clip length.
+        AnimationClip clip = _animator.GetCurrentAnimatorClipInfo(_startLayerIndex)[0].clip;
+        float animationLength = clip.length;
+
+        // Compute the offset to rewind the animation by for simulation.
+        float durationOffsetNormalizedTime;
+
+        if (_modifyPrePauseSimulationStartTimeOffset)
+        {
+            // Halve the offset.
+            durationOffsetNormalizedTime = duration / animationLength * _modifiedSimulationStartTimeOffsetFactor;
+
+            // Set animator speed to slow down proportionally to the reduced offset, if it was reduced.
+            _animator.speed = _modifiedSimulationStartTimeOffsetFactor;
+        }
+        else
+        {
+            durationOffsetNormalizedTime = duration / animationLength;
+            _animator.speed = 1f;
+        }
+
+        // Rewind animation time by duration offset, clamped to 0.
+        float simulationNormalizedStartTime = Mathf.Max(animationCurrentTime - durationOffsetNormalizedTime, 0f);
+
+        // Play animation from simulation start time.
+        _animator.Play(stateInfo.fullPathHash, -1, simulationNormalizedStartTime);
+
+        // Wait for the duration of the simulation.
+        yield return new WaitForSeconds(duration);
+
+        // Pause the animator again.
+        _animator.speed = 0f;
+        ResetStateBeforeUnpause();
     }
 }

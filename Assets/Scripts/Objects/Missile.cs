@@ -1,6 +1,4 @@
-﻿using TMPro;
-using UnityEngine;
-using static UnityEngine.ParticleSystem;
+﻿using UnityEngine;
 
 public class Missile : MonoBehaviour, IPausable
 {
@@ -8,8 +6,8 @@ public class Missile : MonoBehaviour, IPausable
     // Initial speed at which the missile travels.
     [SerializeField] private float _missileSpeed = 20f;
 
-    // Prevent multiple explosions.
-    private bool _canExplode = false; 
+    [Header("Missile Spawn Point")]
+    [SerializeField] private Transform _spawnPointTransform;
 
     [Header("Components")]
     // Reference components.
@@ -19,11 +17,17 @@ public class Missile : MonoBehaviour, IPausable
     [SerializeField] private Explosion _explosionScript;
     [SerializeField] private ParticleSystem _trail;
 
+    // Prevent multiple explosions.
+    private bool _canExplode = false;
+
     // Saved velocity.
     private Vector3 _savedVelocity;
 
     // Position before unpausing.
     private Vector3 _pausedPosition;
+
+    // Initial position at spawn time.
+    private Vector3 _initialPosition;
 
     public void Awake()
     {
@@ -32,6 +36,8 @@ public class Missile : MonoBehaviour, IPausable
 
         // Set the missile's initial velocity.
         _rb.linearVelocity = transform.forward * _missileSpeed;
+
+        _initialPosition = transform.position;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,8 +101,18 @@ public class Missile : MonoBehaviour, IPausable
         transform.position = _pausedPosition;
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
-        // No pre-pause behaviour to simulate.
+        // If no spawn point, do nothing.
+        if (_spawnPointTransform == null)
+        {
+            return;
+        }
+
+        // Start the simulation quarterway between the spawn point and the initial position.
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+
+        StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
     }
 }
