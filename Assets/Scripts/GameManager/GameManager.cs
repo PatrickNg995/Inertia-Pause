@@ -243,12 +243,13 @@ public class GameManager : MonoBehaviour
         // Activate screen blocker to hide objects moving into place.
         _screenBlocker.SetActive(true);
 
+        // Wait a frame to ensure all objects are initialized.
+        yield return null;
+
         // Invoke blocking menu open event to pause player and disable player inputs.
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
-
-        // Wait a frame to ensure all objects are initialized.
-        yield return null;
+        Cursor.lockState = CursorLockMode.Locked;
 
         // Disable screen blocker.
         _screenBlocker.SetActive(false);
