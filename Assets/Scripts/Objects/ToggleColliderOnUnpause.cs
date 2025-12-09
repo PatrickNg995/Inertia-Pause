@@ -24,7 +24,7 @@ public class ToggleColliderOnUnpause : MonoBehaviour, IPausable
         _collider.enabled = true;
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

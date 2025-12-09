@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 582827985127986376}
-  _enableParticles: 1
+  _isParticlesEnabled: 1
+  _isPrepauseSimulationEnabled: 0
   _useRandomPrePausePlayDuration: 0
   _prePausePlayDurationLowerBound: 0.04
   _prePausePlayDurationUpperBound: 0.04
@@ -405,7 +406,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5373898114356579605}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6592306210114357484, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}

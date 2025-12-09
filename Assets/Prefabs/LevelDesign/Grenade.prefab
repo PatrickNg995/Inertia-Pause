@@ -163,13 +163,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939479585111520656}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: -0.0091, z: 0.0081}
+  m_LocalRotation: {x: -0, y: 0.9948888, z: 0.100977026, w: 0}
+  m_LocalPosition: {x: 0, y: -0.0022, z: 0.0095}
   m_LocalScale: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8091332060176011902}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -11.591, y: 180, z: 0}
 --- !u!120 &8530794784727474881
 LineRenderer:
   serializedVersion: 2
@@ -466,6 +466,7 @@ MonoBehaviour:
   _maxDragDistance: 4
   _maxDistanceFromCamera: 2
   _minDistanceFromCamera: 1
+  _collisionCheckMethod: 0
 --- !u!114 &5446806269868200148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,6 +486,8 @@ MonoBehaviour:
   _meshRenderer: {fileID: 7251589725680073255}
   _explosionScript: {fileID: 547604313874983789}
   _trailRenderer: {fileID: 8044979655256865690}
+  _staticTrail: {fileID: 939479585111520656}
+  _spawnPointTransform: {fileID: 0}
 --- !u!114 &1226829640102226985
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Net;
-using TMPro;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour, IPausable
@@ -33,6 +31,7 @@ public class Bullet : MonoBehaviour, IPausable
     // Position before unpausing.
     private Vector3 _pausedPosition;
 
+    // Initial position at spawn time.
     private Vector3 _initialPosition;
 
     // Used to toggle hit registration on bullets.
@@ -161,26 +160,31 @@ public class Bullet : MonoBehaviour, IPausable
         Instantiate(_impactEffectPrefab, locationOnImmpact, impactRotation);
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
+        // If no spawn point, do nothing.
         if (_spawnPointTransform == null)
         {
             return;
         }
 
-        transform.position = _spawnPointTransform.position;
-        StartCoroutine(SimulateBulletMovement(_spawnPointTransform.position, _initialPosition));
+        // Start the simulation quarterway between the spawn point and the initial position.
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+
+        // Start simulating movement towards the initial position.
+        StartCoroutine(SimulateBulletMovement(simulationDuration));
     }
 
-    private IEnumerator SimulateBulletMovement(Vector3 startPoint, Vector3 endPoint)
+    private IEnumerator SimulateBulletMovement(float duration)
     {
-        float elapsedTime = 0f;
-        while (elapsedTime < 2f)
-        {
-            transform.position = Vector3.Lerp(startPoint, endPoint, elapsedTime / 2f);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = endPoint;
+        // Clear the trail and start emitting.
+        _trailRenderer.Clear();
+        _trailRenderer.emitting = true;
+
+        yield return PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, duration);
+
+        // After simulation, stop emitting trail.
+        _trailRenderer.emitting = false;
     }
 }
