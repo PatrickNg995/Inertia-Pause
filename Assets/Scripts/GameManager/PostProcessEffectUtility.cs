@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public static class PostProcessEffectManager
+public static class PostProcessEffectUtility
 {
     public static IEnumerator FadeInFadOutEffect(Volume volume, float duration)
     {
@@ -12,17 +12,17 @@ public static class PostProcessEffectManager
         // Fade out.
         yield return FadeEffectWeight(volume, duration, 1f, 0f);
 
-        // Ensure effect is off.
+        // Ensure weight ends at exactly 0.
         volume.weight = 0f;
     }
 
     private static IEnumerator FadeEffectWeight(Volume volume, float duration, float start, float end)
     {
-        //volume.weight = start;
+        volume.weight = start;
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
-            volume.weight = Mathf.Lerp(start, end, elapsedTime / duration);
+            volume.weight = Mathf.MoveTowards(start, end, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

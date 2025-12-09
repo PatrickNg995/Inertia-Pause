@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SavedLevelProgressManager _savedLevelProgressManager;
     [SerializeField] private ReplayCameraManager _replayCameraManager;
     [SerializeField] private Volume _slowMoEffectVolume;
+    [SerializeField] private GameObject _screenBlocker;
 
     [Header("NPC Lists")]
     [SerializeField] private GameObject _enemies;
@@ -239,15 +240,21 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayOpeningSequence()
     {
+        // Activate screen blocker to hide objects moving into place.
+        _screenBlocker.SetActive(true);
+
         // Invoke blocking menu open event to pause player and disable player inputs.
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
-        Cursor.visible = false;
-
-        StartCoroutine(PostProcessEffectManager.FadeInFadOutEffect(_slowMoEffectVolume, _prepauseSimulationTime));
 
         // Wait a frame to ensure all objects are initialized.
         yield return null;
+
+        // Disable screen blocker.
+        _screenBlocker.SetActive(false);
+
+        // Fade in/out slow motion post-processing effect.
+        StartCoroutine(PostProcessEffectUtility.FadeInFadOutEffect(_slowMoEffectVolume, _prepauseSimulationTime));
 
         // Simulate pre-pause behaviours for all pausable objects.
         yield return _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationTime);
@@ -255,7 +262,6 @@ public class GameManager : MonoBehaviour
         // Invoke blocking menu close event to resume player and enable player inputs.
         OnAnyBlockingMenuClose?.Invoke();
         _inputActions.Enable();
-        Cursor.visible = true;
 
         // Invoke level start event.
         OnLevelStart?.Invoke();
