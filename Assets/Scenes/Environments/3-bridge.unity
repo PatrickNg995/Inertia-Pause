@@ -78876,6 +78876,7 @@ GameObject:
   - component: {fileID: 2025750832}
   - component: {fileID: 2025750834}
   - component: {fileID: 2025750833}
+  - component: {fileID: 2025750835}
   m_Layer: 0
   m_Name: Cloud Particles
   m_TagString: Untagged
@@ -83698,6 +83699,24 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &2025750835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025750831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabd4eb12cda7c44fa250491920d6f0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _particleSystem: {fileID: 2025750834}
+  _isParticlesEnabled: 1
+  _isPrepauseSimulationEnabled: 1
+  _useRandomPrePausePlayDuration: 1
+  _prePausePlayDurationLowerBound: 0.05
+  _prePausePlayDurationUpperBound: 0.1
 --- !u!1 &2028657763
 GameObject:
   m_ObjectHideFlags: 0
@@ -89666,5 +89685,5 @@ SceneRoots:
   - {fileID: 111629816}
   - {fileID: 30814946}
   - {fileID: 618267890}
-  - {fileID: 1295889444}
   - {fileID: 423616293}
+  - {fileID: 1295889444}
