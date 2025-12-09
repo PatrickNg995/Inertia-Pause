@@ -11,13 +11,20 @@ public class PlayerPause : MonoBehaviour
     [SerializeField] private PlayerLook _playerLook;
     [SerializeField] private TimePauseUnpause _timePauseUnpause;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnEnable()
     {
         _gameManager.OnAnyBlockingMenuOpen += DisablePlayerInput;
         _gameManager.OnAnyBlockingMenuClose += EnablePlayerInput;
 
         _gameManager.OnLevelComplete += _ => DisablePlayerInput();
+    }
+
+    private void OnDisable()
+    {
+        _gameManager.OnAnyBlockingMenuOpen -= DisablePlayerInput;
+        _gameManager.OnAnyBlockingMenuClose -= EnablePlayerInput;
+
+        _gameManager.OnLevelComplete -= _ => DisablePlayerInput();
     }
 
     private void DisablePlayerInput()
@@ -40,11 +47,6 @@ public class PlayerPause : MonoBehaviour
 
     private void SetComponentEnabled(MonoBehaviour component, bool enabled)
     {
-        // We don't really need a null check here but since some components are missing in testing,
-        // this is only to prevent NREs until the Player prefab is up.
-        if (component != null)
-        {
-            component.enabled = enabled;
-        }
+        component.enabled = enabled;
     }
 }

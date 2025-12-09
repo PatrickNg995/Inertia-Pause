@@ -113,6 +113,10 @@ PrefabInstance:
       propertyPath: _frameToLoad
       value: 58
       objectReference: {fileID: 0}
+    - target: {fileID: 1932462082148908993, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}
+      propertyPath: _halvePrePauseSimulationStartTimeOffset
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2079391931768281352, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -258,7 +262,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6592306210114357484, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2850603234168701248, guid: 879ebb9367424eb4cab308f13d448ccf, type: 3}
       insertIndex: -1

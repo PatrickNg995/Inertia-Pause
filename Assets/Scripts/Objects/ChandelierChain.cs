@@ -105,7 +105,7 @@ public class ChandelierChain : MonoBehaviour, IPausable
         _rb.WakeUp();
     }
 
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }

@@ -120,8 +120,7 @@ public class ShelfBehaviour : InteractionObject, IPausable
     {
         _indicator.Disable();
     }
-
-    public void SimulatePrePauseBehaviour()
+    public void SimulatePrePauseBehaviour(float simulationDuration)
     {
         // No pre-pause behaviour to simulate.
     }
