@@ -90,6 +90,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public Action<LevelResults> OnLevelComplete;
 
+    // Number of frames to wait for initialization before starting the opening sequence.
+    private const int FRAMES_TO_WAIT_FOR_INITIALIZATION = 3;
+
     // Lists of enemies and allies gameObjects in the scene.
     private List<GameObject> _listOfEnemiesObjects = new List<GameObject>();
     private List<GameObject> _listOfAlliesObjects = new List<GameObject>();
@@ -240,27 +243,29 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlayOpeningSequence()
     {
-        // Activate screen blocker to hide objects moving into place.
+        // Activate screen blocker to hide objects initializing and moving into place.
         _screenBlocker.SetActive(true);
-
-        // Wait 2 frames to ensure all objects are initialized.
-        yield return null;
-        yield return null;
-
-        // Pause music and play time pausing sound.
-        MusicPlayer.Instance.PauseMusic();
-        SFXPlayer.Instance.Play(SfxId.TimePauseEnter);
 
         // Invoke blocking menu open event to pause player and disable player inputs.
         OnAnyBlockingMenuOpen?.Invoke();
         _inputActions.Disable();
         Cursor.lockState = CursorLockMode.Locked;
 
+        // Pause music.
+        MusicPlayer.Instance.PauseMusic();
+
+        // Wait a number of frames to ensure all objects are initialized.
+        for (int i = 0; i < FRAMES_TO_WAIT_FOR_INITIALIZATION; i++)
+        {
+            yield return null;
+        }
+
         // Disable screen blocker.
         _screenBlocker.SetActive(false);
 
-        // Fade in/out slow motion post-processing effect.
+        // Fade in/out slow motion post-processing effect and play sound effect.
         StartCoroutine(PostProcessEffectUtility.FadeInFadOutEffect(_slowMoEffectVolume, _prepauseSimulationTime));
+        SFXPlayer.Instance.Play(SfxId.TimePauseEnter);
 
         // Simulate pre-pause behaviours for all pausable objects.
         yield return _timePauseUnpause.SimulateAllPrePauseBehaviours(_prepauseSimulationTime);
