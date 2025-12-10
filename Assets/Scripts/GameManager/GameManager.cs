@@ -243,7 +243,8 @@ public class GameManager : MonoBehaviour
         // Activate screen blocker to hide objects moving into place.
         _screenBlocker.SetActive(true);
 
-        // Wait a frame to ensure all objects are initialized.
+        // Wait 2 frames to ensure all objects are initialized.
+        yield return null;
         yield return null;
 
         // Pause music and play time pausing sound.

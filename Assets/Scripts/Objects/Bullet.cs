@@ -174,8 +174,9 @@ public class Bullet : MonoBehaviour, IPausable
         }
 
         // Start the simulation quarterway between the spawn point and the initial position.
-        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+        //float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        //transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+        transform.position = _spawnPointTransform.position;
 
         // Start simulating movement towards the initial position.
         StartCoroutine(SimulateBulletMovement(simulationDuration));

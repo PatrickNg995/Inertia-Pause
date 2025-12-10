@@ -160,10 +160,10 @@ public class PauseableAnimator : MonoBehaviour, IPausable
 
         if (_modifyPrePauseSimulationStartTimeOffset)
         {
-            // Halve the offset.
+            // Multiply the offset by the modification factor.
             durationOffsetNormalizedTime = duration / animationLength * _modifiedSimulationStartTimeOffsetFactor;
 
-            // Set animator speed to slow down proportionally to the reduced offset, if it was reduced.
+            // Set animator speed to slow down proportionally to the reduced offset.
             _animator.speed = _modifiedSimulationStartTimeOffsetFactor;
         }
         else
@@ -178,11 +178,13 @@ public class PauseableAnimator : MonoBehaviour, IPausable
         // Play animation from simulation start time.
         _animator.Play(stateInfo.fullPathHash, -1, simulationNormalizedStartTime);
 
+        _isPaused = false;
+
         // Wait for the duration of the simulation.
         yield return new WaitForSeconds(duration);
 
         // Pause the animator again.
-        _animator.speed = 0f;
         ResetStateBeforeUnpause();
+        Pause();
     }
 }
