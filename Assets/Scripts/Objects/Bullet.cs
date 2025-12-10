@@ -25,6 +25,9 @@ public class Bullet : MonoBehaviour, IPausable
     private const float HIT_FORCE = 10f;
     private const float UPWARD_FACTOR = 0.4f;
 
+    // Factor to determine how far along the simulation distance the bullet starts when simulating pre-pause behaviour.
+    private const float PREPAUSE_SIMULATION_START_FACTOR = 0.1f;
+
     // Saved velocity.
     private Vector3 _savedVelocity;
 
@@ -173,10 +176,9 @@ public class Bullet : MonoBehaviour, IPausable
             return;
         }
 
-        // Start the simulation quarterway between the spawn point and the initial position.
-        //float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-        //transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
-        transform.position = _spawnPointTransform.position;
+        // Start the simulation partway between the spawn point and the initial position.
+        float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance * PREPAUSE_SIMULATION_START_FACTOR));
 
         // Start simulating movement towards the initial position.
         StartCoroutine(SimulateBulletMovement(simulationDuration));
