@@ -17,6 +17,9 @@ public class Missile : MonoBehaviour, IPausable
     [SerializeField] private Explosion _explosionScript;
     [SerializeField] private ParticleSystem _trail;
 
+    // Factor to determine how far along the simulation distance the missile starts when simulating pre-pause behaviour.
+    private const float PREPAUSE_SIMULATION_START_FACTOR = 0.1f;
+
     // Prevent multiple explosions.
     private bool _canExplode = false;
 
@@ -109,9 +112,9 @@ public class Missile : MonoBehaviour, IPausable
             return;
         }
 
-        // Start the simulation quarterway between the spawn point and the initial position.
+        // Start the simulation partway between the spawn point and the initial position.
         float spawnToInitialDistance = Vector3.Distance(_spawnPointTransform.position, _initialPosition);
-        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance / 4f));
+        transform.position = _spawnPointTransform.position + (transform.forward * (spawnToInitialDistance * PREPAUSE_SIMULATION_START_FACTOR));
 
         StartCoroutine(PrepauseSimulationUtility.SimulateProjectileMovement(transform, transform.position, _initialPosition, simulationDuration));
     }
