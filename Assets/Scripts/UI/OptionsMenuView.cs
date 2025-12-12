@@ -25,6 +25,9 @@ public class OptionsMenuView : MonoBehaviour
     [field: SerializeField] public List<Button> SensitivityOptions { get; private set; }
     [field: SerializeField] public List<Button> VolumeOptions { get; private set; }
 
+    [field: Header("Credits")]
+    [field: SerializeField] public CustomOptionButton ViewCreditsButton { get; private set; }
+
     [field: Header("Bottom Bar")]
     [field: SerializeField] public Button BackButton { get; private set; }
 }
