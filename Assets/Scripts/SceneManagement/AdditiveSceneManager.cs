@@ -27,8 +27,8 @@ public class AdditiveSceneManager : MonoBehaviour
     private const string MAIN_MENU_SCENARIO = "MainMenuScenario";
 
     private const string CREDITS_UI = "Credits";
-    private const string CREDITS_ENVIRONMENT = "2-office";
-    private const string CREDITS_SCENARIO = "MainMenuScenario";
+    private const string CREDITS_ENVIRONMENT = "1-promenade";
+    private const string CREDITS_SCENARIO = "CreditsScenario";
 
     private Scene _additiveScene;
     private string _loadedScenarioAssetsSceneName;
