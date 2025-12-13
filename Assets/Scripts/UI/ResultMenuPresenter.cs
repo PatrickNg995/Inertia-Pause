@@ -152,7 +152,7 @@ public class ResultMenuPresenter : MonoBehaviour
         }
         else
         {
-            AdditiveSceneManager.Instance.LoadMainMenu();
+            AdditiveSceneManager.Instance.LoadCredits();
         }
     }
 

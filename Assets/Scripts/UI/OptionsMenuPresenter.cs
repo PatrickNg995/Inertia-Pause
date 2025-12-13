@@ -45,6 +45,7 @@ public class OptionsMenuPresenter : MonoBehaviour
         }
 
         _view.BackButton.onClick.AddListener(CloseMenu);
+        _view.ViewCreditsButton.Button.onClick.AddListener(GoToCredits);
 
         SetupFoldouts();
         SetupToggles();
@@ -101,6 +102,14 @@ public class OptionsMenuPresenter : MonoBehaviour
     private void ChangeHint(string description)
     {
         _view.DescriptionText.text = description;
+    }
+
+    private void GoToCredits()
+    {
+        _optionsManager.ApplyOptions(_dirtyOptionsModel);
+        _optionsManager.SaveOptions(_dirtyOptionsModel);
+        _inputActions.Disable();
+        AdditiveSceneManager.Instance.LoadCredits();
     }
 
     private void ShowInitialValues(OptionsModel options)

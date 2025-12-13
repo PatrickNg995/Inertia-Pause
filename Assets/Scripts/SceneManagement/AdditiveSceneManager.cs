@@ -26,6 +26,10 @@ public class AdditiveSceneManager : MonoBehaviour
     private const string MAIN_MENU_ENVIRONMENT = "2-office";
     private const string MAIN_MENU_SCENARIO = "MainMenuScenario";
 
+    private const string CREDITS_UI = "Credits";
+    private const string CREDITS_ENVIRONMENT = "1-promenade";
+    private const string CREDITS_SCENARIO = "CreditsScenario";
+
     private Scene _additiveScene;
     private string _loadedScenarioAssetsSceneName;
 
@@ -45,6 +49,16 @@ public class AdditiveSceneManager : MonoBehaviour
         Debug.Log("Loading main menu scenes");
         _loadedScenarioAssetsSceneName = MAIN_MENU_SCENARIO;
         StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(MAIN_MENU_UI, MAIN_MENU_ENVIRONMENT, MAIN_MENU_SCENARIO)));
+    }
+
+    /// <summary>
+    /// Unloads all scenes, then loads the credits and its environment and asset scenes.
+    /// </summary>
+    public void LoadCredits()
+    {
+        Debug.Log("Loading credits scenes");
+        _loadedScenarioAssetsSceneName = CREDITS_SCENARIO;
+        StartCoroutine(WithLoadingScreen(LoadScenesOnlyAsync(CREDITS_UI, CREDITS_ENVIRONMENT, CREDITS_SCENARIO)));
     }
 
     /// <summary>
