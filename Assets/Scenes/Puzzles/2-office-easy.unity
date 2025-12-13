@@ -479,7 +479,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5
+      value: 4.75
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -543,15 +543,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.0045661926
+      value: -0.004566431
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
-      value: -0.00447464
+      value: -0.0044727325
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].z
-      value: 0.0017428398
+      value: 0.001742363
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1167,11 +1167,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7523841
+      value: 0.7414526
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1179,7 +1179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.65872467
+      value: -0.6710053
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1210,28 +1210,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 264946494}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: Weapon
+      value: 
+      objectReference: {fileID: 2067031663}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _bulletDistance
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _weaponDistance
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _isBulletDistanceOn
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _isWeaponDistanceOn
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
-      value: -2.8404422
+      value: -2.8404396
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].y
-      value: -0.3112132
+      value: -0.3112139
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].z
-      value: -0.61642516
+      value: -0.6164335
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.004565954
+      value: -0.0045661926
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
@@ -2314,7 +2326,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 21
+      value: 21.5
       objectReference: {fileID: 0}
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2365,11 +2377,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 264946494}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: Weapon
+      value: 
+      objectReference: {fileID: 1352277455}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _bulletDistance
       value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _weaponDistance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _isBulletDistanceOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: _isWeaponDistanceOn
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
@@ -2386,7 +2410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.0045661926
+      value: -0.004566431
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].y
@@ -2394,7 +2418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8979737315829580218, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_TranslationOffsets.Array.data[0].z
-      value: 0.001742363
+      value: 0.0017428398
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3581,7 +3605,7 @@ PrefabInstance:
       objectReference: {fileID: 1217643224}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.4
+      value: 19.5
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3752,7 +3776,7 @@ PrefabInstance:
       objectReference: {fileID: 408528892}
     - target: {fileID: 2053965373457779075, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20.725
+      value: 22.025
       objectReference: {fileID: 0}
     - target: {fileID: 2053965373457779075, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4845,7 +4869,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _weaponDistance
-      value: 0.65
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: _isBulletDistanceOn
@@ -5656,7 +5680,7 @@ PrefabInstance:
       objectReference: {fileID: 1152560025}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.803947
+      value: 17.701488
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalPosition.y
@@ -5664,11 +5688,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.1594737
+      value: 3.5798512
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7523841
+      value: 0.7414526
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalRotation.x
@@ -5676,7 +5700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6587247
+      value: -0.6710053
       objectReference: {fileID: 0}
     - target: {fileID: 6499672373756325416, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_LocalRotation.z
