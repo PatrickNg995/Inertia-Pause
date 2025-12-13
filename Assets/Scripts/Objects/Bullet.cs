@@ -96,6 +96,12 @@ public class Bullet : MonoBehaviour, IPausable
                 gameObject.SetActive(false);
             }
         }
+
+        // Play glass shatter sound effect if bullet impacts glass.
+        if (other.CompareTag("Glass"))
+        {
+            SFXPlayer.Instance.PlayAtPosition(SfxId.GlassShatter, transform.position);
+        }
     }
 
     public void HitNPC(NPC npc, Collider collider)
