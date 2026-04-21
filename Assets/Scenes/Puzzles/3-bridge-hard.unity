@@ -157,7 +157,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-262774
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -315,6 +315,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &22755223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -366,6 +379,10 @@ PrefabInstance:
     - target: {fileID: 3637457911578877462, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -433,6 +450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCapsule
       objectReference: {fileID: 0}
+    - target: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -494,6 +515,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132133109}
     m_Modifications:
+    - target: {fileID: 5096851234855602756, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6582199744831562563, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
       propertyPath: m_Name
       value: Shelf
@@ -668,6 +693,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
       value: 
@@ -733,7 +778,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-124860
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -891,6 +936,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &187787905 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3655522885577680184, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
@@ -961,6 +1019,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
@@ -1133,6 +1211,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1150,7 +1232,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-124774
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -1308,6 +1390,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &270596234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1368,6 +1463,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1385,7 +1484,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-79220
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -1543,6 +1642,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &332647295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1554,6 +1666,10 @@ PrefabInstance:
     - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: m_Name
       value: Grenade (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
@@ -1841,6 +1957,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodingBarrel (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5712193670465482024, guid: d443eb789b751bd44b576a26f8df6726, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1942,6 +2062,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grenade (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -2004,6 +2128,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1115741504}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -2248,6 +2376,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2269,6 +2401,10 @@ PrefabInstance:
     - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: m_Name
       value: Grenade (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
@@ -2336,6 +2472,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grenade
       objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -2398,6 +2538,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132133109}
     m_Modifications:
+    - target: {fileID: 5096851234855602756, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6582199744831562563, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
       propertyPath: m_Name
       value: Shelf (2)
@@ -2524,6 +2668,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2601,6 +2749,10 @@ PrefabInstance:
     - target: {fileID: 7289215269924413146, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_Name
       value: HollowPointBullet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2692,6 +2844,30 @@ PrefabInstance:
     - target: {fileID: 7401271881566192645, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: _isWeaponDistanceOn
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452529392585451559, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452808066122585127, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453214636161142989, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453264338337432141, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453384020418085111, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587462225044275246, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 9000016358431618930, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2827,6 +3003,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -2979,6 +3175,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3056,6 +3256,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -3196,6 +3416,10 @@ PrefabInstance:
     - target: {fileID: 3637457911578877462, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3488,6 +3712,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132133109}
     m_Modifications:
+    - target: {fileID: 5096851234855602756, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6582199744831562563, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
       propertyPath: m_Name
       value: Shelf (1)
@@ -3557,6 +3785,10 @@ PrefabInstance:
     - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: m_Name
       value: Grenade (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
@@ -3651,6 +3883,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -4367,6 +4619,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4608,6 +4864,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4787,6 +5047,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4804,7 +5068,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-107812
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -4962,6 +5226,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &918382725 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3655522885577680184, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
@@ -5012,6 +5289,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1115741504}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -5142,6 +5423,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShieldEnemy (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7452529392585451559, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452808066122585127, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453214636161142989, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453264338337432141, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453384020418085111, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587462225044275246, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 9000016358431618930, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.49313328
@@ -5236,7 +5541,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335030
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -5394,6 +5699,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!43 &1053420716
 Mesh:
   m_ObjectHideFlags: 0
@@ -5401,7 +5719,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-107972
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -5559,6 +5877,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &1059513506
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5614,6 +5945,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
@@ -5789,7 +6140,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-195192
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -5947,6 +6298,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &1115741503
 GameObject:
   m_ObjectHideFlags: 0
@@ -6082,6 +6446,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodingBarrel
       objectReference: {fileID: 0}
+    - target: {fileID: 5712193670465482024, guid: d443eb789b751bd44b576a26f8df6726, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6099,7 +6467,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335112
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -6257,6 +6625,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &1158004589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6407,6 +6788,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6459,6 +6844,10 @@ PrefabInstance:
     - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: m_Name
       value: Grenade (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766130592141260894, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5446806269868200148, guid: a5b8d0c5eb8dd6f4dacef2c47cc1295b, type: 3}
       propertyPath: _spawnPointTransform
@@ -6618,6 +7007,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodingBarrel (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5712193670465482024, guid: d443eb789b751bd44b576a26f8df6726, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6688,6 +7081,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
@@ -6763,6 +7176,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1115741504}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -6956,6 +7373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodingBarrel (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5712193670465482024, guid: d443eb789b751bd44b576a26f8df6726, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7034,6 +7455,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7084,6 +7509,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -7180,6 +7625,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1132133109}
     m_Modifications:
+    - target: {fileID: 5096851234855602756, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6582199744831562563, guid: 02e4d29d9b09b434ca36be8ae07ea7b1, type: 3}
       propertyPath: m_Name
       value: Shelf (3)
@@ -7572,6 +8021,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1115741504}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -7698,6 +8151,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
       value: 
@@ -7820,6 +8293,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
       value: 
@@ -7893,7 +8386,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-312538
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -8051,6 +8544,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &1744555782 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
@@ -8063,7 +8569,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-107894
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -8221,6 +8727,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &1784035595
 GameObject:
   m_ObjectHideFlags: 0
@@ -8304,6 +8823,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ExplodingBarrel (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5712193670465482024, guid: d443eb789b751bd44b576a26f8df6726, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8321,7 +8844,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-79134
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -8479,6 +9002,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &1824451292 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8613579500300813949, guid: e449583ab5e1d9041bbd83233ad89414, type: 3}
@@ -8543,6 +9079,30 @@ PrefabInstance:
     - target: {fileID: 5087770133357776881, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: m_Name
       value: ShieldEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452529392585451559, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7452808066122585127, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453214636161142989, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453264338337432141, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7453384020418085111, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7587462225044275246, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 9000016358431618930, guid: 82c1ef00a6630d948bbb8484e305982a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8682,6 +9242,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8419410262111168574, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: LookTarget
@@ -8991,6 +9571,10 @@ PrefabInstance:
     - target: {fileID: 7289215269924413146, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_Name
       value: HollowPointBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

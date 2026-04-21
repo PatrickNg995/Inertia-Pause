@@ -269,15 +269,15 @@ public class SFXPlayer : MonoBehaviour
 
     private void RegisterTrackedSource(AudioSource source)
     {
-        if (source == null)
+        if (source == null) return;
+
+        for (int i = _trackedSources.Count - 1; i >= 0; i--)
         {
-            return;
+            if (_trackedSources[i] == null)
+                _trackedSources.RemoveAt(i);
         }
 
-        if (!_trackedSources.Contains(source))
-        {
-            _trackedSources.Add(source);
-        }
+        _trackedSources.Add(source);
     }
 
     private void ApplyMasterScaleToTrackedSources(float oldValue, float newValue)

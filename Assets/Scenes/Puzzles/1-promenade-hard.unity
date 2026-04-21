@@ -127,6 +127,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -201,6 +205,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -330,6 +338,10 @@ PrefabInstance:
     - target: {fileID: 7289215269924413146, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_Name
       value: HollowPointBullet (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1082,7 +1094,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466(Clone)(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -1240,6 +1252,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &304676342
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1299,6 +1324,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
@@ -1448,6 +1493,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -1611,6 +1676,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -1737,6 +1806,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
       value: 
@@ -1795,6 +1884,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -1925,6 +2018,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1942,7 +2039,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -2100,6 +2197,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1 &591640174
 GameObject:
   m_ObjectHideFlags: 0
@@ -2138,7 +2248,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466(Clone)(Clone)(Clone)(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -2296,6 +2406,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &654798076
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2304,6 +2427,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -2476,7 +2603,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335216
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -2634,6 +2761,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &869571451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2665,6 +2805,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -2761,7 +2921,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335216(Clone)(Clone)(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -2919,6 +3079,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!43 &887431717
 Mesh:
   m_ObjectHideFlags: 0
@@ -2926,7 +3099,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -3084,6 +3257,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &890608757
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3143,6 +3329,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
@@ -3269,6 +3475,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
       value: 
@@ -3381,6 +3607,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
@@ -3576,6 +3822,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
       value: 
@@ -3690,6 +3956,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCapsule
       objectReference: {fileID: 0}
+    - target: {fileID: 8660373911842123714, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3726,6 +3996,26 @@ PrefabInstance:
     - target: {fileID: 2679019032158842001, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_Name
       value: Ally
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356630687222517121, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356684236613672705, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3356810066936565563, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357088554971097067, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3357368433280113643, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3926762645982886800, guid: d9b689e0b3c374c4887cd96c8d4d7700, type: 3}
       propertyPath: m_RotationOffsets.Array.data[0].x
@@ -3967,6 +4257,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
       value: 
@@ -4091,6 +4401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4185,7 +4499,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335216(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -4343,6 +4657,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &1368722790
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4402,6 +4729,26 @@ PrefabInstance:
     - target: {fileID: 4175072282359332738, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
@@ -4465,7 +4812,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466(Clone)(Clone)(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -4623,6 +4970,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &1466866451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4773,6 +5133,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7238708098359571729, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238851225330935083, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238942124279887787, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238973521103576513, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239257795269747137, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 8700177248720717073, guid: b3bc5be5263bf63428cf9d6765b99ba7, type: 3}
       propertyPath: Target
       value: 
@@ -4838,7 +5218,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335216(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -4996,6 +5376,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!1001 &1570475920
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5119,6 +5512,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5136,7 +5533,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-344466
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -5294,6 +5691,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!20 &1742753402 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 1200878801213791300, guid: 0c8704b447c021946ab4a7d2cfd958d5, type: 3}
@@ -5351,6 +5761,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4620357878221377322, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5399,7 +5813,7 @@ Mesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: pb_Mesh-335216(Clone)(Clone)(Clone)
-  serializedVersion: 11
+  serializedVersion: 12
   m_SubMeshes:
   - serializedVersion: 2
     firstByte: 0
@@ -5557,6 +5971,19 @@ Mesh:
     offset: 0
     size: 0
     path: 
+  m_MeshLodInfo:
+    serializedVersion: 2
+    m_LodSelectionCurve:
+      serializedVersion: 1
+      m_LodSlope: 0
+      m_LodBias: 0
+    m_NumLevels: 1
+    m_SubMeshes:
+    - serializedVersion: 2
+      m_Levels:
+      - serializedVersion: 1
+        m_IndexStart: 0
+        m_IndexCount: 0
 --- !u!4 &1933470745 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3637457911578877462, guid: feca33977bfe7f54087daa468b377cd9, type: 3}
@@ -5626,6 +6053,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HollowPointBullet (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5644,6 +6075,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 289263583}
     m_Modifications:
+    - target: {fileID: 522962400582586144, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 908637621720205311, guid: b122d50170f15e94c8bc7a7cd024862b, type: 3}
       propertyPath: _spawnPointTransform
       value: 
@@ -5768,6 +6203,10 @@ PrefabInstance:
     - target: {fileID: 7289215269924413146, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
       propertyPath: m_Name
       value: HollowPointBullet (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632022767920663003, guid: bd34dae6d315cbf4eb7fd6acba5458f7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

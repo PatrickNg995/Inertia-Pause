@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2219939702420759983}
   - component: {fileID: 5779090277181126928}
   - component: {fileID: 1159171795542775083}
+  - component: {fileID: 4876543210987654321}
   m_Layer: 0
   m_Name: ReplayCamera
   m_TagString: Untagged
@@ -66,7 +67,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 300
   field of view: 80
   orthographic: 0
   orthographic size: 5
@@ -137,3 +138,17 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &4876543210987654321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4005162556277109664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20c48caf3e117574ea8347d0724fabbe, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _interactionObjectsCullDistance: 50
+  _playerBoundaryCullDistance: 5
