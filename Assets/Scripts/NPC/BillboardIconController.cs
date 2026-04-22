@@ -24,6 +24,7 @@ public class BillboardIconController : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!_iconObject.activeSelf) return;
         transform.LookAt(_mainCamera);
     }
 

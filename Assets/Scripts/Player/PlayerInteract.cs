@@ -168,16 +168,21 @@ public class PlayerInteract : MonoBehaviour
 
     void Update()
     {
+        if (_isInteracting)
+        {
+            _targetObject.OnHoldInteract();
+            return;
+        }
+
         bool lookingAtObj = Physics.Raycast(_pivot.position, _pivot.forward, out RaycastHit hit, _interactionDistance, _layerMask, QueryTriggerInteraction.Collide);
         InteractionObject previousTarget = _targetObject;
 
-        if (!lookingAtObj && !_isInteracting)
+        if (!lookingAtObj)
         {
             _targetObject = null;
 
             if (previousTarget != null)
             {
-                // Player was looking at an interactable last frame and is not this frame.
                 OnLookAwayFromInteractable?.Invoke();
                 previousTarget.OnHoverEnd();
             }
@@ -185,23 +190,11 @@ public class PlayerInteract : MonoBehaviour
             return;
         }
 
-        if (_isInteracting)
-        {
-            // If the player is currently interacting with an object.
-            _targetObject.OnHoldInteract();
-            return;
-        }
+        _targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
 
-            _targetObject = hit.transform.gameObject.GetComponent<InteractionObject>();
-
-        // Looking at nothing then looking at an interactable, or switching from one interactable to another.
         if (previousTarget != _targetObject)
         {
-            if (previousTarget != null)
-            {
-                previousTarget.OnHoverEnd();
-            }
-
+            previousTarget?.OnHoverEnd();
             _targetObject.OnHoverStart();
             OnLookAtInteractable?.Invoke(_targetObject.InteractableInfo);
         }

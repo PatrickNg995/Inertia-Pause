@@ -35,6 +35,8 @@ public class DraggableBehaviour : InteractionObject
     private float _capsuleEndpointOffset;
 
     private Vector3 _colliderExtents;
+    private Vector3 _localCenterOffset;
+    private readonly Collider[] _overlapBuffer = new Collider[16];
 
     private PlayerActions _inputActions;
     private InputAction _scroll;
@@ -56,6 +58,7 @@ public class DraggableBehaviour : InteractionObject
 
             _capsuleCheckRadius = Mathf.Max(_colliderExtents.x, _colliderExtents.z);
             _capsuleEndpointOffset = Mathf.Max(0f, halfHeight - _capsuleCheckRadius);
+            _localCenterOffset = _collider.bounds.center - transform.position;
         }
     }
 
@@ -230,43 +233,28 @@ public class DraggableBehaviour : InteractionObject
             return true;
         }
             
-        // Compute the world-space center for the collider at the target position.
-        Vector3 localCenterOffset = _collider.bounds.center - transform.position;
-        Vector3 center = targetPos + localCenterOffset;
+        Vector3 center = targetPos + _localCenterOffset;
 
-        Collider[] hits = new Collider[0];
+        int hitCount = 0;
 
         switch (_collisionCheckMethod)
         {
             case CollisionCheckMethod.Capsule:
-                // Check for collisions at the target position with a capsule overlap.
                 Vector3 pointA = center + transform.up * _capsuleEndpointOffset;
                 Vector3 pointB = center - transform.up * _capsuleEndpointOffset;
-                hits = Physics.OverlapCapsule(pointA, pointB, _capsuleCheckRadius);
+                hitCount = Physics.OverlapCapsuleNonAlloc(pointA, pointB, _capsuleCheckRadius, _overlapBuffer);
                 break;
             case CollisionCheckMethod.Box:
-                // Check for collisions at the target position with a box overlap.
-                hits = Physics.OverlapBox(center, _colliderExtents, transform.rotation);
+                hitCount = Physics.OverlapBoxNonAlloc(center, _colliderExtents, _overlapBuffer, transform.rotation);
                 break;
         }
 
-        if (hits.Length > 0)
+        for (int i = 0; i < hitCount; i++)
         {
-            foreach (Collider hit in hits)
-            {
-                // Ignore self-collision.
-                if (hit == _collider)
-                {
-                    continue;
-                }
-                // Ignore collisions with mines.
-                if (hit.transform.root.CompareTag("Mines"))
-                {
-                    continue;
-                }
-                // Collision detected with another object.
-                return false;
-            }
+            Collider hit = _overlapBuffer[i];
+            if (hit == _collider) continue;
+            if (hit.transform.root.CompareTag("Mines")) continue;
+            return false;
         }
         return true;
     }

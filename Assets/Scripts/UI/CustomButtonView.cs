@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CustomButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, ISelectHandler, IDeselectHandler
+public class CustomButtonView : MonoBehaviour,
+    IPointerEnterHandler, IPointerExitHandler,
+    ISelectHandler, IDeselectHandler,
+    IPointerDownHandler, ISubmitHandler
 {
     public Action<string> OnHover;
 
@@ -31,11 +34,39 @@ public class CustomButtonView : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public virtual void OnSelect(BaseEventData eventData)
     {
         _text.color = _highlightColor;
-        SFXPlayer.Instance.Play(SfxId.UIClick);
     }
 
     public virtual void OnDeselect(BaseEventData eventData)
     {
         _text.color = _defaultColor;
+    }
+
+    // Fire the click sound on pointer-down and submit. This runs via the
+    // EventSystem pipeline independently of Button.onClick listeners, so the
+    // sound plays even when the click handler deactivates the button's panel
+    // or unloads the scene before onClick listeners finish invoking.
+    public virtual void OnPointerDown(PointerEventData eventData)
+    {
+        if (!IsInteractable()) return;
+        PlayClickSound();
+    }
+
+    public virtual void OnSubmit(BaseEventData eventData)
+    {
+        if (!IsInteractable()) return;
+        PlayClickSound();
+    }
+
+    private bool IsInteractable()
+    {
+        return Button == null || Button.IsInteractable();
+    }
+
+    private void PlayClickSound()
+    {
+        if (SFXPlayer.Instance != null)
+        {
+            SFXPlayer.Instance.Play(SfxId.UIClick);
+        }
     }
 }
