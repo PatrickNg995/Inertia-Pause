@@ -51,7 +51,6 @@ public class CustomOptionButton : CustomButtonView
     {
         base.OnSelect(eventData);
         OptionText.color = _highlightColor;
-        SFXPlayer.Instance.Play(SfxId.UIClick);
     }
 
     public override void OnDeselect(BaseEventData eventData)
